@@ -1,0 +1,15 @@
+<ivysettings>
+    <settings defaultResolver="local"/>
+    <resolvers>
+        <chain name="local">     
+			<filesystem name="default">
+				<ivy pattern="${user.home}/.ivy2/cache/[organisation]/[module]/ivys/ivy-[revision].xml"/>
+        		<artifact pattern="${ivy.lib.dir}/[artifact](-[revision]).[ext]" />
+     	 	</filesystem>        
+            <url name="googlecode">
+                <artifact pattern="http://brainfarm.googlecode.com/svn/dependancies/[artifact](-[revision]).swc" />
+                <artifact pattern="http://paperworld3d.googlecode.com/svn/dependancies/[artifact](-[revision]).swc" />
+            </url>    
+        </chain>
+    </resolvers>
+</ivysettings>
