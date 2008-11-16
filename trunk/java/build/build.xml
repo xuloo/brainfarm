@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build-brainfarm-java" default="jar" basedir=".">
+
+	<target name="compile">
+			<mkdir dir="../bin/classes"/>
+			<javac srcdir="../src" destdir="../bin"/>
+		</target>
+		
+		<target name="jar" depends="compile">
+			<jar jarfile="../jar/actionengine-java.jar" basedir="../bin"/>
+		</target>
+	
+</project>
