@@ -52,7 +52,7 @@ package com.brainfarm.flash.steering
 		public function SteeringOutput(linear : Vector3 = null, angular : Quaternion = null)
 		{
 			this.linear = linear || new Vector3( );
-			this.angular = angular;
+			this.angular = angular || new Quaternion( );
 		}
 
 		/**

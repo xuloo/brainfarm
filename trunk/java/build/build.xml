@@ -7,7 +7,7 @@
 		</target>
 		
 		<target name="jar" depends="compile">
-			<jar jarfile="../jar/actionengine-java.jar" basedir="../bin"/>
+			<jar jarfile="../jar/brainfarm-java.jar" basedir="../bin"/>
 		</target>
 	
 </project>
