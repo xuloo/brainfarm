@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="build-brainfarm-java" default="jar" basedir=".">
+<project name="build-brainfarm-java" default="jar" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
 
+	<taskdef resource="org/apache/ivy/ant/antlib.xml" 
+				 uri="antlib:org.apache.ivy.ant" 
+				 classpath="../lib/ivy-trunk.jar"/>
+	
 	<target name="compile">
-			<mkdir dir="../bin/classes"/>
-			<javac srcdir="../src" destdir="../bin"/>
-		</target>
+		<mkdir dir="../bin/classes"/>
+		<javac srcdir="../src" destdir="../bin"/>
+	</target>
+	
+	<target name="jar" depends="compile">
+		<jar jarfile="../jar/brainfarm-java.jar" basedir="../bin"/>
+	</target>
+	
+	<target name="retrieve" unless="library.installed" description="Retrieves the libraries if needed">
+			
+		<ivy:settings file="ivysettings.xml"/>		
+		<ivy:resolve file="ivy.xml" conf="default"/>
+		<ivy:retrieve pattern="${basedir}/../lib/[artifact].[ext]" conf="default"/>
 		
-		<target name="jar" depends="compile">
-			<jar jarfile="../jar/brainfarm-java.jar" basedir="../bin"/>
-		</target>
+	</target>
 	
 </project>
