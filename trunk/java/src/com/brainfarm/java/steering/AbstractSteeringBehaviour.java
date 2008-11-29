@@ -32,6 +32,8 @@ abstract public class AbstractSteeringBehaviour {
      */
     abstract public void getSteering(SteeringOutput output);
     
+    abstract public void getSteering(SteeringOutput output, Input input);
+    
     public void setCharacter(Kinematic character) {
     	this.character = character;
     }
