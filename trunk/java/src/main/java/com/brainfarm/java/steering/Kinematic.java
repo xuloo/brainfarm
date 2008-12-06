@@ -261,4 +261,8 @@ public class Kinematic extends Location
 	/*public void setBehaviour(IAvatarBehaviour behaviour) {
 		this.behaviour = behaviour;
 	}*/
+	
+	public String toString() {
+		return "[Kinematic: position = " + position + "]";
+	}
 }

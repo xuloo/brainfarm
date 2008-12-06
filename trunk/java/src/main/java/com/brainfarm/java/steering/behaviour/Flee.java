@@ -11,15 +11,16 @@
  */
 package com.brainfarm.java.steering.behaviour;
 
+import com.actionengine.java.data.Input;
 import com.brainfarm.java.steering.AbstractSteeringBehaviour;
 import com.brainfarm.java.steering.SteeringOutput;
 import com.brainfarm.java.util.math.Vector3;
 
 /**
- * The seek steering behaviour takes a target and aims right for it with maximum
- * acceleration.
+ * The seek steering behaviour takes a target and aims in the opposite direction
+ * with maximum acceleration.
  */
-public class Seek extends AbstractSteeringBehaviour
+public class Flee extends AbstractSteeringBehaviour
 {
 	/**
 	 * The target may be any vector (i.e. it might be something that has no
@@ -39,8 +40,8 @@ public class Seek extends AbstractSteeringBehaviour
 	public void getSteering(SteeringOutput output)
 	{
 		// First work out the direction
-		output.linear = target;
-		output.linear.returnSubtraction(character.position);
+		output.linear = character.position;
+		output.linear.returnSubtraction(target);
 		
 		// If there is no direction, do nothing
 		if (output.linear.getSquareMagnitude() > 0)
@@ -48,5 +49,10 @@ public class Seek extends AbstractSteeringBehaviour
 			output.linear.normalise();
 			output.linear.returnScale(maxAcceleration);
 		}
+	}
+	
+	@Override
+	public void getSteering(SteeringOutput output, Input input) {
+
 	}
 }
