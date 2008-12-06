@@ -1,74 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.brainfarm</groupId>
-    <artifactId>brainfarm-flash</artifactId>
-    <packaging>swc</packaging>
-    <version>0.1-SNAPSHOT</version>
-    <url>http://maven.apache.org</url>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.brainfarm</groupId>
+	<artifactId>brainfarm-flash</artifactId>
+	<packaging>swc</packaging>
+	<version>0.1-SNAPSHOT</version>
+	<url>http://maven.apache.org</url>
 
-    <properties>
-     <flex.home>C:/projects/flex_sdk_3</flex.home>
-    </properties>
+	<properties>
+		<flex.home>C:/projects/flex_sdk_3</flex.home>
+	</properties>
 
 	<repositories>
-	    <repository>
-		  <id>project-repo</id>
-		  <url>http://92.48.67.26:8081/artifactory/libs-releases-local</url>
+		<repository>
+			<id>project-repo</id>
+			<url>
+				http://92.48.67.26:8081/artifactory/libs-releases-local
+			</url>
 		</repository>
 	</repositories>
 
-    <dependencies>
+	<dependencies>
 
-        <dependency>
-            <groupId>org.pranaframework</groupId>
-            <artifactId>pranaframework</artifactId>
-            <version>0.5</version>
-            <type>swc</type>
-        </dependency>
-        
-        <dependency>
-            <groupId>com.actionengine</groupId>
-            <artifactId>actionengine-flash</artifactId>
-            <version>0.1.1</version>
-            <type>swc</type>
-        </dependency>
-     
-    </dependencies>
+		<dependency>
+			<groupId>org.pranaframework</groupId>
+			<artifactId>pranaframework</artifactId>
+			<version>0.5</version>
+			<type>swc</type>
+		</dependency>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>apache.org</id>
-            <name>Maven Plugin Snapshots</name>
-            <url>
-                http://people.apache.org/repo/m2-snapshot-repository
-            </url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
+		<dependency>
+			<groupId>com.actionengine</groupId>
+			<artifactId>actionengine-flash</artifactId>
+			<version>0.1.1</version>
+			<type>swc</type>
+		</dependency>
 
-    <build>
-        <finalName>brainfarm</finalName>
+	</dependencies>
 
-        <plugins>
-            <plugin>
-            	<groupId>net.israfil.mojo</groupId> 
-                <artifactId>maven-flex2-plugin</artifactId> 
-                <version>1.3</version> 
-                <extensions>true</extensions> 
-                <configuration> 
-                    <useNetwork>true</useNetwork> 
-                </configuration> 
-            </plugin>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>apache.org</id>
+			<name>Maven Plugin Snapshots</name>
+			<url>
+				http://people.apache.org/repo/m2-snapshot-repository
+			</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
 
-        </plugins>
-    </build>
+	<build>
+		<finalName>brainfarm</finalName>
+
+		<plugins>
+			<plugin>
+				<groupId>net.israfil.mojo</groupId>
+				<artifactId>maven-flex2-plugin</artifactId>
+				<version>1.3</version>
+				<extensions>true</extensions>
+				<configuration>
+					<useNetwork>true</useNetwork>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
 </project>
