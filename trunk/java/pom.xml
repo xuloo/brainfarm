@@ -7,7 +7,7 @@
 	<groupId>com.brainfarm</groupId>
 	<artifactId>brainfarm-java</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.1</version>
 	<url>http://maven.apache.org</url>
 	
 	<repositories>
