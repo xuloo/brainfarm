@@ -12,6 +12,7 @@
 package com.brainfarm.java.steering.behaviour;
 
 import com.actionengine.java.data.Input;
+import com.brainfarm.java.data.State;
 import com.brainfarm.java.steering.AbstractSteeringBehaviour;
 import com.brainfarm.java.steering.SteeringOutput;
 import com.brainfarm.java.util.math.Vector3;
@@ -54,5 +55,10 @@ public class Seek extends AbstractSteeringBehaviour
 	@Override
 	public void getSteering(SteeringOutput output, Input input) {
 
+	}
+	
+	@Override
+	public void getSteering(State state, Input input) {
+		
 	}
 }

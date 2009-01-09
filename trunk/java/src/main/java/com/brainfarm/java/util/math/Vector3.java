@@ -29,7 +29,7 @@ package com.brainfarm.java.util.math;
  * respectively.
  * 
  */
-public class Vector3 /*implements IExternalizable */
+public class Vector3 /* implements IExternalizable */
 {
 	/**
 	 * The horizontal coordinate value.
@@ -173,6 +173,10 @@ public class Vector3 /*implements IExternalizable */
 		return (v.x * w.x + v.y * w.y + w.z * v.z);
 	}
 
+	public double dot(Vector3 w) {
+		return (x * w.x + y * w.y + w.z * z);
+	}
+
 	/**
 	 * Cross product. Now optionally takes a target Number3D to put the change
 	 * into. So we're not constantly making new number3Ds. Maybe make a crossEq
@@ -186,6 +190,10 @@ public class Vector3 /*implements IExternalizable */
 
 	public static Vector3 cross(Vector3 v, Vector3 w) {
 		return cross(v, w, ZERO());
+	}
+
+	public Vector3 cross(Vector3 w) {
+		return cross(this, w, ZERO());
 	}
 
 	/**
@@ -238,6 +246,16 @@ public class Vector3 /*implements IExternalizable */
 		x -= v.x;
 		y -= v.y;
 		z -= v.z;
+	}
+
+	public void negate() {
+		x = -x;
+		y = -y;
+		z = -z;
+	}
+
+	public Vector3 returnNegative() {
+		return new Vector3(-x, -y, -z);
 	}
 
 	// ______________________________________________________________________
@@ -349,34 +367,28 @@ public class Vector3 /*implements IExternalizable */
 	public boolean equals(Vector3 other) {
 		return x == other.x && y == other.y && z == other.z;
 	}
-	
-	public double getX()
-	{
+
+	public double getX() {
 		return x;
 	}
-	
-	public void setX(double x)
-	{
+
+	public void setX(double x) {
 		this.x = x;
 	}
-	
-	public double getY()
-	{
+
+	public double getY() {
 		return y;
 	}
-	
-	public void setY(double y)
-	{
+
+	public void setY(double y) {
 		this.y = y;
 	}
-	
-	public double getZ()
-	{
+
+	public double getZ() {
 		return z;
 	}
-	
-	public void setZ(double z)
-	{
+
+	public void setZ(double z) {
 		this.z = z;
-	}	
+	}
 }

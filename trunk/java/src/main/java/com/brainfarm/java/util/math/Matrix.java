@@ -480,6 +480,18 @@ public class Matrix {
 		v.z = vx * m.n31 + vy * m.n32 + vz * m.n33 + m.n34;
 	}
 
+	public Vector3 multiplyVector( Vector3 v )
+	{
+		double vx = v.x;
+		double vy = v.y;
+		double vz = v.z;
+
+		v.x = vx * n11 + vy * n12 + vz * n13 + n14;
+		v.y = vx * n21 + vy * n22 + vz * n23 + n24;
+		v.z = vx * n31 + vy * n32 + vz * n33 + n34;
+		
+		return v;
+	}
 
 	public static void multiplyVector3x3( Matrix m, Vector3 v )
 	{
@@ -490,6 +502,17 @@ public class Matrix {
 		v.x = vx * m.n11 + vy * m.n12 + vz * m.n13;
 		v.y = vx * m.n21 + vy * m.n22 + vz * m.n23;
 		v.z = vx * m.n31 + vy * m.n32 + vz * m.n33;
+	}
+	
+	public void multiplyVector3x3( Vector3 v )
+	{
+		double vx = v.x;
+		double vy = v.y;
+		double vz = v.z;
+
+		v.x = vx * n11 + vy * n12 + vz * n13;
+		v.y = vx * n21 + vy * n22 + vz * n23;
+		v.z = vx * n31 + vy * n32 + vz * n33;
 	}
 
 	public static void multiplyVector4x4( Matrix m, Vector3 v )

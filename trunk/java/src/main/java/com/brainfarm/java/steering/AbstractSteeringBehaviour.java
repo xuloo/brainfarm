@@ -12,6 +12,7 @@
 package com.brainfarm.java.steering;
 
 import com.actionengine.java.data.Input;
+import com.brainfarm.java.data.State;
 
 
 /**
@@ -33,6 +34,8 @@ abstract public class AbstractSteeringBehaviour {
     abstract public void getSteering(SteeringOutput output);
     
     abstract public void getSteering(SteeringOutput output, Input input);
+    
+    abstract public void getSteering(State state, Input input);
     
     public void setCharacter(Kinematic character) {
     	this.character = character;

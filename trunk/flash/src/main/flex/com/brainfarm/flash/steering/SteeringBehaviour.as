@@ -12,7 +12,8 @@
 package com.brainfarm.flash.steering
 {
 	import com.actionengine.flash.core.BaseClass;
-	import com.actionengine.flash.input.Input;		
+	import com.actionengine.flash.input.Input;
+	import com.brainfarm.flash.data.State;	
 
 	/**
 	 * The steering behaviour is the base class for all dynamic
@@ -26,7 +27,7 @@ package com.brainfarm.flash.steering
 		 * The character who is moving.
 		 */
 		public var character : Kinematic;
-		
+
 		public var input : Input;
 
 		/**
@@ -34,6 +35,10 @@ package com.brainfarm.flash.steering
 		 * steering output structure.
 		 */
 		public function getSteering(output : SteeringOutput) : void
+		{
+		}
+
+		public function getSteeringState(state : State, input : Input) : void
 		{
 		}
 	}
