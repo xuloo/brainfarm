@@ -26,6 +26,9 @@
 			<include-sources dir="${src.dir}">
                  <include name="**/*.as"/>
             </include-sources>
+			<include-sources dir="D:/projects/actionengine/trunk/flash/src">
+				<include name="**/*.as"/>
+			</include-sources>
 			<compiler.source-path path-element="${basedir}/${src.dir}"/>
 			<compiler.external-library-path dir="${FLEX_HOME}/frameworks/libs/player/9">
 				<include name="playerglobal.swc"/>

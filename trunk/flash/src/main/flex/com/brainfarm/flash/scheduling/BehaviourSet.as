@@ -19,7 +19,7 @@ package com.brainfarm.flash.scheduling
 			super();	
 		}
 		
-		override public function initialise():void
+		override public function initialise(...args):void
 		{
 			functionLists = new Map();	
 		}

@@ -83,7 +83,7 @@ package com.brainfarm.flash.steering.pipeline.constraints
 			super( predator );
 		}
 
-		override public function initialise() : void
+		override public function initialise(...args) : void
 		{
 			super.initialise( );
         	

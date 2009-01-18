@@ -62,7 +62,7 @@ package com.brainfarm.flash.learning
 			this.rewards = rewards;
 		}
 
-		override public function initialise() : void
+		override public function initialise(...args) : void
 		{
 			// Create the arrays
 			states = new Array(stateCount);

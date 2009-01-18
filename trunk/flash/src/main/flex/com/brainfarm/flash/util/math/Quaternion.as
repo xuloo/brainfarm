@@ -71,7 +71,7 @@ package com.brainfarm.flash.util.math
 			_matrix = Matrix3D.IDENTITY;
 		}
 
-		override public function initialise() : void 
+		override public function initialise(...args) : void 
 		{
 			registerClassAlias( 'com.brainfarm.flash.util.math.Quaternion', Quaternion );
 		}

@@ -94,7 +94,7 @@ package com.brainfarm.flash.steering.pipeline
         	super();
         }
         
-        override public function initialise():void
+        override public function initialise(...args):void
         {
         	violated = false;
             priority = 0; 

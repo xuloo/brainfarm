@@ -117,7 +117,7 @@ package com.brainfarm.flash.steering.pipeline.constraints
 			this.agent = agent;                
 		}
 
-		override public function initialise() : void
+		override public function initialise(...args) : void
 		{
 			super.initialise( );
         	

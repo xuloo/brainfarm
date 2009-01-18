@@ -85,7 +85,7 @@ package com.brainfarm.flash.steering.pipeline.constraints
 			_collisionDetector = collisionDetector;                
 		}
 
-		override public function initialise() : void
+		override public function initialise(...args) : void
 		{
 			use3dRestitution = true;
 			safetyMargin = 1;

@@ -48,7 +48,7 @@ package com.brainfarm.flash.data
 			super( );
 		}
 
-		override public function initialise() : void
+		override public function initialise(...args) : void
 		{			
 			transform = Matrix3D.IDENTITY;
 			position = new Vector3( );

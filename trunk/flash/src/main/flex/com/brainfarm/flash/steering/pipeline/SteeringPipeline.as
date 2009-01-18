@@ -166,7 +166,7 @@ package com.brainfarm.flash.steering.pipeline
 			setActuator(actuator);
 		}
 
-		override public function initialise() : void
+		override public function initialise(...args) : void
 		{
 			localTargeter = false; 
 			localActor = false;
