@@ -1,6 +1,6 @@
 package org.brainfarm.java.neat.api;
 
-import org.brainfarm.java.neat.api.types.InnovationType;
+import org.brainfarm.java.neat.api.enums.InnovationType;
 
 public interface IInnovation {
 

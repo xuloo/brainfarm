@@ -9,8 +9,8 @@ import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.ILink;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
-import org.brainfarm.java.neat.api.types.ActivationFunction;
-import org.brainfarm.java.neat.api.types.NodeType;
+import org.brainfarm.java.neat.api.enums.ActivationFunction;
+import org.brainfarm.java.neat.api.enums.NodeType;
 import org.brainfarm.java.util.NeatRoutine;
 
 

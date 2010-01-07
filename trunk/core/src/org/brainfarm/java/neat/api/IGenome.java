@@ -2,7 +2,7 @@ package org.brainfarm.java.neat.api;
 
 import java.util.List;
 
-import org.brainfarm.java.neat.api.types.MutationType;
+import org.brainfarm.java.neat.api.enums.MutationType;
 
 public interface IGenome {
 

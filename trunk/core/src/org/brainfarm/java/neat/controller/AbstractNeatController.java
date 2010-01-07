@@ -1,21 +1,14 @@
 package org.brainfarm.java.neat.controller;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.neat.Genome;
 import org.brainfarm.java.neat.Neat;
-import org.brainfarm.java.neat.Population;
-import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.INeatController;
-import org.brainfarm.java.neat.api.IPopulation;
 import org.brainfarm.java.neat.api.context.INeatContext;
+import org.brainfarm.java.neat.api.enums.DataSource;
 import org.brainfarm.java.neat.api.evolution.IEvolutionFitness;
 import org.brainfarm.java.neat.api.evolution.IEvolutionInput;
 import org.brainfarm.java.neat.api.evolution.IEvolutionOutput;
-import org.brainfarm.java.neat.api.types.DataSource;
-import org.brainfarm.java.neat.api.types.StartFrom;
 import org.brainfarm.java.neat.context.IExperiment;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
-import org.springframework.core.io.FileSystemResource;
 import org.xeustechnologies.jcl.JarClassLoader;
 import org.xeustechnologies.jcl.JclObjectFactory;
 import org.xeustechnologies.jcl.JclUtils;

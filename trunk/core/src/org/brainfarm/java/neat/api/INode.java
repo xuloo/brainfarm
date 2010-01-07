@@ -3,9 +3,9 @@ package org.brainfarm.java.neat.api;
 import java.util.List;
 
 import org.brainfarm.java.neat.Network;
-import org.brainfarm.java.neat.NodeLabel;
-import org.brainfarm.java.neat.api.types.ActivationFunction;
-import org.brainfarm.java.neat.api.types.NodeType;
+import org.brainfarm.java.neat.api.enums.ActivationFunction;
+import org.brainfarm.java.neat.api.enums.NodeLabel;
+import org.brainfarm.java.neat.api.enums.NodeType;
 
 public interface INode {
 

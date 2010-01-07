@@ -1,9 +1,8 @@
 package org.brainfarm.java.neat.api.population;
 
-import org.brainfarm.java.neat.GenomePopulationFactory;
-import org.brainfarm.java.neat.api.IPopulationFactory;
-import org.brainfarm.java.neat.api.types.StartFrom;
+import org.brainfarm.java.neat.api.enums.StartFrom;
 import org.brainfarm.java.neat.context.IExperiment;
+import org.brainfarm.java.neat.population.GenomePopulationFactory;
 
 public abstract class PopulationFactory implements IPopulationFactory {
 

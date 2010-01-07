@@ -1,9 +1,8 @@
 package org.brainfarm.java.neat.api.evaluators;
 
-import org.brainfarm.java.neat.ClassEvaluatorFactory;
-import org.brainfarm.java.neat.api.IEvaluatorFactory;
-import org.brainfarm.java.neat.api.types.DataSource;
+import org.brainfarm.java.neat.api.enums.DataSource;
 import org.brainfarm.java.neat.context.IExperiment;
+import org.brainfarm.java.neat.evaluators.ClassEvaluatorFactory;
 
 public abstract class EvaluatorFactory implements IEvaluatorFactory {
 

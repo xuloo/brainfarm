@@ -16,9 +16,10 @@ import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
 import org.brainfarm.java.neat.api.IPopulation;
 import org.brainfarm.java.neat.api.ITrait;
-import org.brainfarm.java.neat.api.types.InnovationType;
-import org.brainfarm.java.neat.api.types.MutationType;
-import org.brainfarm.java.neat.api.types.NodeType;
+import org.brainfarm.java.neat.api.enums.InnovationType;
+import org.brainfarm.java.neat.api.enums.MutationType;
+import org.brainfarm.java.neat.api.enums.NodeLabel;
+import org.brainfarm.java.neat.api.enums.NodeType;
 import org.brainfarm.java.util.RandomUtils;
 
 

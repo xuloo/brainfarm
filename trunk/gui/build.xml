@@ -24,6 +24,7 @@
 	</target>
 	
 	<target name="java-launch">
+		<echo>${java.main.class}</echo>
 		<java classname="${java.main.class}" classpathref="javac.lib.path" classpath="${build.javac.dir}"/>
     </target>
 	

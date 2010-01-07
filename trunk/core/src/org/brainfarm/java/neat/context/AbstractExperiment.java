@@ -1,7 +1,7 @@
 package org.brainfarm.java.neat.context;
 
-import org.brainfarm.java.neat.api.types.DataSource;
-import org.brainfarm.java.neat.api.types.StartFrom;
+import org.brainfarm.java.neat.api.enums.DataSource;
+import org.brainfarm.java.neat.api.enums.StartFrom;
 
 public abstract class AbstractExperiment implements IExperiment {
 	
