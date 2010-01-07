@@ -13,7 +13,7 @@ import org.brainfarm.java.neat.api.IInnovation;
 import org.brainfarm.java.neat.api.IOrganism;
 import org.brainfarm.java.neat.api.IPopulation;
 import org.brainfarm.java.neat.api.ISpecies;
-import org.brainfarm.java.neat.api.types.MutationType;
+import org.brainfarm.java.neat.api.enums.MutationType;
 import org.brainfarm.java.neat.comparators.CompareSpeciesByOriginalFitness;
 import org.brainfarm.java.util.RandomUtils;
 

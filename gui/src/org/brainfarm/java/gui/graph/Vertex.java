@@ -3,7 +3,7 @@ package org.brainfarm.java.gui.graph;
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.brainfarm.java.neat.NodeLabel;
+import org.brainfarm.java.neat.api.enums.NodeLabel;
 
 public class Vertex {
 

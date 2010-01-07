@@ -10,7 +10,7 @@ import java.util.Vector;
 import org.brainfarm.java.neat.Gene;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.INode;
-import org.brainfarm.java.neat.api.types.NodeType;
+import org.brainfarm.java.neat.api.enums.NodeType;
 import org.brainfarm.java.util.CodeConstant;
 import org.brainfarm.java.util.IOseq;
 

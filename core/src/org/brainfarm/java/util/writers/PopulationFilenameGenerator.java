@@ -14,7 +14,7 @@ public class PopulationFilenameGenerator implements IFileNameGenerator {
 	@Override
 	public String generateFileName(IEvolution evolution) {
 		logger.debug("Generating file name from base " + basePath);
-		return new File("experiment").getAbsolutePath() + "/" + evolution.getRun() + "/" + evolution.getEpoch() + ".xml";
+		return new File("experiment").getAbsolutePath() + "/result/" + evolution.getRun() + "/" + evolution.getEpoch() + ".xml";
 	}
 
 	public void setBasePath(String basePath) {
