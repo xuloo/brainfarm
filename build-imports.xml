@@ -9,7 +9,7 @@
 	
 	<property file="${JNEAT2.imports.dir}/build-user.properties" />
 
-    <import file="../antennae/tools/build-common-imports.xml" />
+    <import file="${JNEAT2.imports.dir}/toolchain/antennae/build-common-imports.xml" />
 
     <import file="build-assets.xml" />
 </project>
