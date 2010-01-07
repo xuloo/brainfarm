@@ -1,6 +1,7 @@
-package org.brainfarm.java.neat;
+package org.brainfarm.java.neat.evaluators;
 
 import org.brainfarm.java.neat.api.context.INeatContext;
+import org.brainfarm.java.neat.api.evaluators.EvaluatorFactory;
 import org.brainfarm.java.neat.api.evaluators.IOrganismEvaluator;
 import org.brainfarm.java.neat.evaluators.ClassOrganismEvaluator;
 

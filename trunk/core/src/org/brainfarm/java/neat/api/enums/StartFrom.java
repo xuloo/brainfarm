@@ -1,4 +1,4 @@
-package org.brainfarm.java.neat.api.types;
+package org.brainfarm.java.neat.api.enums;
 
 public enum StartFrom {
 	GENOME,
