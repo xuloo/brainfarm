@@ -1,5 +1,6 @@
-package org.brainfarm.java.neat;
+package org.brainfarm.java.neat.api.population;
 
+import org.brainfarm.java.neat.GenomePopulationFactory;
 import org.brainfarm.java.neat.api.IPopulationFactory;
 import org.brainfarm.java.neat.api.types.StartFrom;
 import org.brainfarm.java.neat.context.IExperiment;
