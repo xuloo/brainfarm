@@ -55,4 +55,8 @@ public class RandomUtils {
 	public static double randomGaussian() {
 		return random.nextGaussian();
 	}
+
+	public static void seedRandom(long seed) {
+		random = new Random(seed);
+	}
 }
