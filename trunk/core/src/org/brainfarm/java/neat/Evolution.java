@@ -1,5 +1,6 @@
 package org.brainfarm.java.neat;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -31,6 +32,8 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	private IOrganismEvaluator evaluator;
 	
 	protected List<IEvolutionListener> listeners = Collections.synchronizedList(new CopyOnWriteArrayList<IEvolutionListener>());
+	
+	private List<Double> maxFitnessEachEpoch = new ArrayList<Double>();
 	
 	public Evolution() {
 		
@@ -74,29 +77,24 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	
 	public boolean epoch(IPopulation population, int generation) {
 
-		
-		
 		boolean esito = false;
 		boolean win = false;
 
 			// Evaluate each organism if exist the winner.........
 			// flag and store only the first winner
 
-			double max_fitness_of_winner = 0.0;
+			double max_fitness_of_epoch = 0.0;
 
 			for (IOrganism organism : population.getOrganisms()) {
 				// Evaluate each organism.
 				esito = evaluator.evaluate(organism);
 
+				if (organism.getFitness() > max_fitness_of_epoch)
+					max_fitness_of_epoch = organism.getFitness();
+				
 				// if is a winner , store a flag
 				if (esito) {
 					win = true;
-
-					if (organism.getFitness() > max_fitness_of_winner) {
-						max_fitness_of_winner = organism.getFitness();
-						//EnvConstant.MAX_WINNER_FITNESS = max_fitness_of_winner;
-					}
-				
 					// store only first organism
 					/*if (EnvConstant.FIRST_ORGANISM_WINNER == null) {
 						EnvConstant.FIRST_ORGANISM_WINNER = _organism;
@@ -104,14 +102,13 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 
 				}
 			}
+			maxFitnessEachEpoch.add(max_fitness_of_epoch);
 			
 			// Compute average and max fitness for each species
 			for (ISpecies specie : population.getSpecies()) {
 				specie.computeAverageFitness();
 				specie.computeMaxFitness();
 			}
-			
-			
 			
 			// Only print to file every print_every generations
 			/*String cause1 = " ";
@@ -157,6 +154,7 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	}
 	
 	protected void onEvolutionStart(IPopulation population) {
+		maxFitnessEachEpoch.clear();
 		for (IEvolutionListener listener : listeners) {
 			listener.onEvolutionStart(this);
 		}
@@ -202,6 +200,10 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	
 	public IPopulation getPopulation() {
 		return population;
+	}
+	
+	public List<Double> getMaxFitnessEachEpoch(){
+		return maxFitnessEachEpoch;
 	}
 	
 	public void setNeat(Neat neat) {

@@ -26,7 +26,7 @@ public class SpringNeatContext extends AbstractNeatContext {
 	}
 	
 	@Override
-	public Runnable getEvolution() {
+	public Evolution getEvolution() {
 		logger.debug("Evolution Bean: " + context.getBean("evolution"));
 		Evolution evolution = (Evolution)context.getBean("evolution");
 		logger.debug("bean cast " + evolution);
