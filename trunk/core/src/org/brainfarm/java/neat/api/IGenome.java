@@ -5,12 +5,6 @@ import java.util.List;
 import org.brainfarm.java.neat.api.enums.MutationType;
 
 public interface IGenome {
-
-	IGenome mateMultipoint(IGenome g, int id, double fitness1, double fitness2);
-	
-	IGenome mateMultipointAverage(IGenome g, int id, double fitness1, double fitness2);
-	
-	IGenome mateSinglepoint(IGenome spouse, int id);
 	
 	boolean mutateAddLink(IPopulation population, int attempts);
 	

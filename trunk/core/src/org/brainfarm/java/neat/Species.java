@@ -414,6 +414,7 @@ public class Species implements ISpecies {
 				mom = _organism;
 				new_genome = mom.getGenome().duplicate(count);
 
+				EvolutionStrategy.getMutationStrategy().mutate(new_genome, pop);
 				// Do the mutation depending on probabilities of
 				// various mutations
 				if (RandomUtils.randomDouble() < Neat.mutate_add_node_prob) {
@@ -509,16 +510,7 @@ public class Species implements ISpecies {
 					_dad = randspecies.getOrganisms().get(0);
 				}
 
-				if (RandomUtils.randomDouble() < Neat.mate_multipoint_prob) {
-					logger.debug("mate multipoint baby: ");
-					new_genome = mom.getGenome().mateMultipoint(_dad.getGenome(), count, mom.getOriginalFitness(), _dad.getOriginalFitness());
-				} else if (RandomUtils.randomDouble() < (Neat.mate_multipoint_avg_prob / (Neat.mate_multipoint_avg_prob + Neat.mate_singlepoint_prob))) {
-					logger.debug("mate multipoint_avg baby: ");
-					new_genome = mom.getGenome().mateMultipointAverage(_dad.getGenome(), count, mom.getOriginalFitness(), _dad.getOriginalFitness());
-				} else {
-					logger.debug("mate siglepoint baby: ");
-					new_genome = mom.getGenome().mateSinglepoint(_dad.getGenome(), count);
-				}
+				new_genome = EvolutionStrategy.getCrossoverStrategy().performCrossover(mom,_dad,count);
 
 				mate_baby = true;
 
