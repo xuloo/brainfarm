@@ -8,19 +8,9 @@ public interface IGenome {
 	
 	boolean mutateAddLink(IPopulation population, int attempts);
 	
-	boolean mutateAddNode(IPopulation population);
-	
-	void mutateGeneReenable();
-	
-	void mutateLinkTrait(int repeats);
-	
 	void mutateLinkWeight(double power, double rate, MutationType mutationType);
 	
 	void mutateNodeTrait(int repeats);
-	
-	void mutateRandomTrait();
-	
-	void mutateToggleEnable(int repeats);
 	
 	INetwork genesis(int genomeId);
 	
