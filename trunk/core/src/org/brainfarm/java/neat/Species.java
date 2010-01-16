@@ -366,11 +366,11 @@ public class Species implements ISpecies {
 				new_genome = mom.getGenome().duplicate(count);
 				if ((thechamp.getSuperChampOffspring()) > 1) {
 					if (RandomUtils.randomDouble() < .8 || Neat.mutate_add_link_prob == 0.0) {
-						new_genome.mutateLinkWeight(Neat.weight_mut_power, 1.0, MutationType.GAUSSIAN);
+						EvolutionStrategy.getMutationStrategy().mutateLinkWeight(new_genome, Neat.weight_mut_power, 1.0, MutationType.GAUSSIAN);
 					} else {
 						// Sometimes we add a link to a superchamp
 						new_genome.genesis(generation);
-						new_genome.mutateAddLink(pop, Neat.newlink_tries);
+						EvolutionStrategy.getMutationStrategy().mutateAddLink(new_genome,pop);
 						mut_struct_baby = true;
 					}
 				}
