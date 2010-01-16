@@ -1,6 +1,9 @@
 package org.brainfarm.neat.experiments.xor;
 
+import static org.junit.Assert.*;
+
 import java.io.File;
+import java.util.List;
 
 import org.brainfarm.java.neat.api.IOrganism;
 import org.brainfarm.java.neat.api.ISpecies;
@@ -13,6 +16,13 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+/**
+ * 
+ * 
+ * 
+ * @author dtuohy
+ *
+ */
 public class TestXOR {
 
 	@BeforeClass
@@ -23,7 +33,7 @@ public class TestXOR {
 	}
 
 	@Test
-	public void testXOR(){
+	public void validateDeterministicXorExperiment(){
 		RandomUtils.seedRandom(1092839);
 		
 		INeatContext context = new SpringNeatContext();
@@ -38,8 +48,13 @@ public class TestXOR {
 		
 		//run experiment
 		controller.startEvolution();
-//		for(ISpecies spec : context.getExperiment().getPopulation(context).getSpecies())
-//			System.out.println(spec);
+		
+		//validate results
+		List<Double> maxFitnesses = context.getEvolution().getMaxFitnessEachEpoch();
+		assertEquals(6.178315187424375, maxFitnesses.get(0),.000001);
+		assertEquals(14.834554047831746, maxFitnesses.get(28),.000001);
+		assertEquals(9.0, maxFitnesses.get(20),.000001);
+		assertEquals(14.886822986159396, maxFitnesses.get(38),.000001);
 	}
 
 	public class TestXorController extends SpringNeatController{
