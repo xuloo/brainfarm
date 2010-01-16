@@ -2,14 +2,11 @@ package org.brainfarm.neat.experiments.xor;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
 import java.util.List;
-
-import org.brainfarm.java.neat.api.IOrganism;
-import org.brainfarm.java.neat.api.ISpecies;
 import org.brainfarm.java.neat.api.context.INeatContext;
 import org.brainfarm.java.neat.context.SpringNeatContext;
 import org.brainfarm.java.neat.controller.SpringNeatController;
+import org.brainfarm.java.util.FileUtils;
 import org.brainfarm.java.util.RandomUtils;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,7 +15,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * 
- * 
+ * Tests for XOR experiments
  * 
  * @author dtuohy
  *
@@ -27,11 +24,16 @@ public class TestXOR {
 
 	@BeforeClass
 	public static void setup(){
-		File dir = new File("experiment");
-		if(dir.exists())
-			deleteDir(dir);
+		//we must delete the experiment directory in order to re-run the experiment
+		FileUtils.deleteDirectory("experiment");
 	}
 
+	/**
+	 * Runs the experiment defined by test/xor-experiment.jar.  Because
+	 * we seed the NEAT Random number generator ahead of time, we can 
+	 * assume the results of evolution to be deterministically 
+	 * reproducible.
+	 */
 	@Test
 	public void validateDeterministicXorExperiment(){
 		RandomUtils.seedRandom(1092839);
@@ -62,22 +64,4 @@ public class TestXOR {
 			this.context = context;
 		}
 	}
-
-	// Deletes all files and subdirectories under dir.
-	// Returns true if all deletions were successful.
-	// If a deletion fails, the method stops attempting to delete and returns false.
-	public static boolean deleteDir(File dir) {
-		if (dir.isDirectory()) {
-			String[] children = dir.list();
-			for (int i=0; i<children.length; i++) {
-				boolean success = deleteDir(new File(dir, children[i]));
-				if (!success) {
-					return false;
-				}
-			}
-		}
-
-		// The directory is now empty so delete it
-		return dir.delete();
-	} 
 }
