@@ -15,6 +15,7 @@ import org.brainfarm.java.neat.api.IOrganism;
 import org.brainfarm.java.neat.api.ITrait;
 import org.brainfarm.java.neat.api.enums.NodeLabel;
 import org.brainfarm.java.neat.api.operators.ICrossoverStrategy;
+import org.brainfarm.java.util.EvolutionUtils;
 import org.brainfarm.java.util.RandomUtils;
 
 /**
@@ -243,7 +244,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 						new_inode = new Node(inode, newtrait);
 
 						// insert in newnodes list
-						nodeInsert(newnodes, new_inode);
+						EvolutionUtils.nodeInsert(newnodes, new_inode);
 					}
 
 					//
@@ -275,7 +276,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 						new_onode = new Node(onode, newtrait);
 
 						// insert in newnodes list
-						nodeInsert(newnodes, new_onode);
+						EvolutionUtils.nodeInsert(newnodes, new_onode);
 					}
 
 				} // end block : inode.node_id < onode.node_id
@@ -308,7 +309,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 						new_onode = new Node(onode, newtrait);
 
 						// insert in newnodes list
-						nodeInsert(newnodes, new_onode);
+						EvolutionUtils.nodeInsert(newnodes, new_onode);
 					}
 
 					//
@@ -339,7 +340,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 						new_inode = new Node(inode, newtrait);
 
 						// insert in newnodes list
-						nodeInsert(newnodes, new_inode);
+						EvolutionUtils.nodeInsert(newnodes, new_inode);
 					}
 
 				}
@@ -713,7 +714,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_inode = new Node(inode, newtrait);
 
 							// insert in newnodes list
-							nodeInsert(newnodes, new_inode);
+							EvolutionUtils.nodeInsert(newnodes, new_inode);
 						}
 
 						//
@@ -741,7 +742,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_onode = new Node(onode, newtrait);
 
 							// insert in newnodes list
-							nodeInsert(newnodes, new_onode);
+							EvolutionUtils.nodeInsert(newnodes, new_onode);
 						}
 					} // end block : inode.node_id < onode.node_id
 
@@ -770,7 +771,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							newtrait = (Trait) newtraits.get(nodetraitnum);
 							new_onode = new Node(onode, newtrait);
 							// insert in newnodes list
-							nodeInsert(newnodes, new_onode);
+							EvolutionUtils.nodeInsert(newnodes, new_onode);
 						}
 						//
 						// search the inode
@@ -799,7 +800,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_inode = new Node(inode, newtrait);
 
 							// insert in newnodes list
-							nodeInsert(newnodes, new_inode);
+							EvolutionUtils.nodeInsert(newnodes, new_inode);
 						}
 					}
 
@@ -1080,7 +1081,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 						new_inode = new Node(inode, newtrait);
 						
 						// insert in newnodes list
-						nodeInsert(newnodes, new_inode);
+						EvolutionUtils.nodeInsert(newnodes, new_inode);
 					}
 
 					//
@@ -1111,7 +1112,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 						new_onode = new Node(onode, newtrait);
 						
 						// insert in newnodes list
-						nodeInsert(newnodes, new_onode);
+						EvolutionUtils.nodeInsert(newnodes, new_onode);
 					}
 
 				} // end block : inode.node_id < onode.node_id
@@ -1146,7 +1147,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 						new_onode = new Node(onode, newtrait);
 						
 						// insert in newnodes list
-						nodeInsert(newnodes, new_onode);
+						EvolutionUtils.nodeInsert(newnodes, new_onode);
 					}
 
 					//
@@ -1177,7 +1178,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 						new_inode = new Node(inode, newtrait);
 						
 						// insert in newnodes list
-						nodeInsert(newnodes, new_inode);
+						EvolutionUtils.nodeInsert(newnodes, new_inode);
 					}
 
 				}
@@ -1200,19 +1201,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 		new_genome = new Genome(id, newtraits, newnodes, newgenes);
 
 		return new_genome;
-	}
-
-	public void nodeInsert(List<INode> nlist, INode n) {
-		int j;
-		int id = n.getId();
-		int sz = nlist.size();
-
-		for (j = 0; j < sz; j++) {
-			if (nlist.get(j).getId() >= id)
-				break;
-		}
-		nlist.add(j, n);
-
 	}
 
 }
