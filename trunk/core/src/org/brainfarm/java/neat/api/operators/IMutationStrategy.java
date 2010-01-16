@@ -5,6 +5,5 @@ import org.brainfarm.java.neat.api.IPopulation;
 
 public interface IMutationStrategy {
 
-	public void mutate(IGenome genome, IPopulation pop);
-	
+	public boolean mutate(IGenome new_genome, IPopulation pop, int generation);
 }

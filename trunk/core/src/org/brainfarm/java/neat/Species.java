@@ -102,12 +102,6 @@ public class Species implements ISpecies {
 		max_fitness = 0;
 		max_fitness_ever = 0;
 	}
-	
-	
-
-	
-
-	
 
 	/**
 	 * add an organism to list of organisms in this specie
@@ -329,8 +323,6 @@ public class Species implements ISpecies {
 		int orgnum = 0;
 		int randspeciesnum = 0;
 
-		// The weight mutation power is species specific depending on its age
-		double mut_power = Neat.weight_mut_power;
 		double randmult = 0.0;
 
 		ISpecies newspecies = null;
@@ -374,7 +366,7 @@ public class Species implements ISpecies {
 				new_genome = mom.getGenome().duplicate(count);
 				if ((thechamp.getSuperChampOffspring()) > 1) {
 					if (RandomUtils.randomDouble() < .8 || Neat.mutate_add_link_prob == 0.0) {
-						new_genome.mutateLinkWeight(mut_power, 1.0, MutationType.GAUSSIAN);
+						new_genome.mutateLinkWeight(Neat.weight_mut_power, 1.0, MutationType.GAUSSIAN);
 					} else {
 						// Sometimes we add a link to a superchamp
 						new_genome.genesis(generation);
@@ -414,51 +406,9 @@ public class Species implements ISpecies {
 				mom = _organism;
 				new_genome = mom.getGenome().duplicate(count);
 
-				EvolutionStrategy.getMutationStrategy().mutate(new_genome, pop);
-				// Do the mutation depending on probabilities of
-				// various mutations
-				if (RandomUtils.randomDouble() < Neat.mutate_add_node_prob) {
-					logger.debug("....species.reproduce.mutate add node");
-					new_genome.mutateAddNode(pop);
-					mut_struct_baby = true;
-				} else if (RandomUtils.randomDouble() < Neat.mutate_add_link_prob) {
-					logger.debug("....mutate add link");
-					new_genome.genesis(generation);
-					new_genome.mutateAddLink(pop, Neat.newlink_tries);
-					mut_struct_baby = true;
-				} else {
-					// If we didn't do a structural mutation, we do the other kinds.
-					if (RandomUtils.randomDouble() < Neat.mutate_random_trait_prob) {
-						logger.debug("...mutate random trait");
-						new_genome.mutateRandomTrait();
-					}
-
-					if (RandomUtils.randomDouble() < Neat.mutate_link_trait_prob) {
-						logger.debug("...mutate linktrait");
-						new_genome.mutateLinkTrait(1);
-					}
-
-					if (RandomUtils.randomDouble() < Neat.mutate_node_trait_prob) {
-						logger.debug("...mutate node trait");
-						new_genome.mutateNodeTrait(1);
-					}
-
-					if (RandomUtils.randomDouble() < Neat.mutate_link_weights_prob) {
-						logger.debug("...mutate link weight");
-						new_genome.mutateLinkWeight(mut_power, 1.0,
-								MutationType.GAUSSIAN);
-					}
-
-					if (RandomUtils.randomDouble() < Neat.mutate_toggle_enable_prob) {
-						logger.debug("...mutate toggle enable");
-						new_genome.mutateToggleEnable(1);
-					}
-
-					if (RandomUtils.randomDouble() < Neat.mutate_gene_reenable_prob) {
-						logger.debug("...mutate gene_reenable:");
-						new_genome.mutateGeneReenable();
-					}
-				} 
+				// Do the mutation depending on probabilities of various mutations
+				boolean mutatedStructure = EvolutionStrategy.getMutationStrategy().mutate(new_genome,pop,generation);
+				mut_struct_baby = (mut_struct_baby || mutatedStructure);
 
 				baby = new Organism(0.0, new_genome, generation);
 			}
@@ -522,47 +472,8 @@ public class Species implements ISpecies {
 					_dad.getGenome().getId() == mom.getGenome().getId() || 
 					_dad.getGenome().compatibility(mom.getGenome()) == 0.0) {
 
-					// Do the mutation depending on probabilities of
-					// various mutations
-					if (RandomUtils.randomDouble() < Neat.mutate_add_node_prob) {
-						logger.debug("....species.mutate add node2");
-						new_genome.mutateAddNode(pop);
-						mut_struct_baby = true;
-					} else if (RandomUtils.randomDouble() < Neat.mutate_add_link_prob) {
-						logger.debug("....mutate add link2");
-						new_genome.genesis(generation);
-						new_genome.mutateAddLink(pop, Neat.newlink_tries);
-						mut_struct_baby = true;
-					} else {
-
-						// If we didn't do a structural mutation, we do the
-						// other kinds
-						if (RandomUtils.randomDouble() < Neat.mutate_random_trait_prob) {
-							logger.debug("...mutate random trait");
-							new_genome.mutateRandomTrait();
-						}
-						if (RandomUtils.randomDouble() < Neat.mutate_link_trait_prob) {
-							logger.debug("...mutate linktrait");
-							new_genome.mutateLinkTrait(1);
-						}
-
-						if (RandomUtils.randomDouble() < Neat.mutate_node_trait_prob) {
-							logger.debug("...mutate node trait");
-							new_genome.mutateNodeTrait(1);
-						}
-						if (RandomUtils.randomDouble() < Neat.mutate_link_weights_prob) {
-							logger.debug("...mutate link weight");
-							new_genome.mutateLinkWeight(mut_power, 1.0, MutationType.GAUSSIAN);
-						}
-						if (RandomUtils.randomDouble() < Neat.mutate_toggle_enable_prob) {
-							logger.debug("...mutate toggle enable");
-							new_genome.mutateToggleEnable(1);
-						}
-						if (RandomUtils.randomDouble() < Neat.mutate_gene_reenable_prob) {
-							logger.debug("...mutate gene_reenable:");
-							new_genome.mutateGeneReenable();
-						}
-					} 
+					boolean mutatedStructure = EvolutionStrategy.getMutationStrategy().mutate(new_genome,pop,generation);
+					mut_struct_baby = (mut_struct_baby || mutatedStructure);
 
 					baby = new Organism(0.0, new_genome, generation);
 
