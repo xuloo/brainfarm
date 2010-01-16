@@ -74,7 +74,6 @@ public class FileUtils {
 				} else {
 					try {
 					boolean success = files[i].delete();
-					System.out.println("Deleting file " + files[i].getName() + " " + success);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
