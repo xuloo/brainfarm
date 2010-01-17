@@ -15,7 +15,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * 
- * Tests for XOR experiments
+ * Tests for XOR experiment.
  * 
  * @author dtuohy
  *
@@ -52,7 +52,7 @@ public class TestXOR {
 		//run experiment
 		controller.startEvolution();
 		
-		//validate results
+		//sample and validate results of evolution
 		List<Double> maxFitnesses = context.getEvolution().getMaxFitnessEachEpoch();
 		assertEquals(6.178315187424375, maxFitnesses.get(0),.000001);
 		assertEquals(14.834554047831746, maxFitnesses.get(28),.000001);

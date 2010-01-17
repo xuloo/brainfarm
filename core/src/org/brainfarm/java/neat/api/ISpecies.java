@@ -34,9 +34,7 @@ public interface ISpecies {
 	
 	boolean isNovel();
 	void setNovel(boolean novel);
-	
-	boolean reproduce(int generation, IPopulation pop, List<ISpecies> sorted_species);
-	
+		
 	void incrementAge();
 	
 	void computeAverageFitness();

@@ -1,6 +1,5 @@
 package org.brainfarm.java.neat.api;
 
-import org.brainfarm.java.neat.Population;
 
 public interface IEvolution {
 
@@ -8,5 +7,5 @@ public interface IEvolution {
 	
 	int getNumberOfEpochs();
 	
-	Population getPopulation();
+	IPopulation getPopulation();
 }
