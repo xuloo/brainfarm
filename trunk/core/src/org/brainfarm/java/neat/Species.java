@@ -366,11 +366,11 @@ public class Species implements ISpecies {
 				new_genome = mom.getGenome().duplicate(count);
 				if ((thechamp.getSuperChampOffspring()) > 1) {
 					if (RandomUtils.randomDouble() < .8 || Neat.mutate_add_link_prob == 0.0) {
-						EvolutionStrategy.getMutationStrategy().mutateLinkWeight(new_genome, Neat.weight_mut_power, 1.0, MutationType.GAUSSIAN);
+						EvolutionStrategy.getInstance().getMutationStrategy().mutateLinkWeight(new_genome, Neat.weight_mut_power, 1.0, MutationType.GAUSSIAN);
 					} else {
 						// Sometimes we add a link to a superchamp
 						new_genome.genesis(generation);
-						EvolutionStrategy.getMutationStrategy().mutateAddLink(new_genome,pop);
+						EvolutionStrategy.getInstance().getMutationStrategy().mutateAddLink(new_genome,pop);
 						mut_struct_baby = true;
 					}
 				}
@@ -407,7 +407,7 @@ public class Species implements ISpecies {
 				new_genome = mom.getGenome().duplicate(count);
 
 				// Do the mutation depending on probabilities of various mutations
-				boolean mutatedStructure = EvolutionStrategy.getMutationStrategy().mutate(new_genome,pop,generation);
+				boolean mutatedStructure = EvolutionStrategy.getInstance().getMutationStrategy().mutate(new_genome,pop,generation);
 				mut_struct_baby = (mut_struct_baby || mutatedStructure);
 
 				baby = new Organism(0.0, new_genome, generation);
@@ -460,7 +460,7 @@ public class Species implements ISpecies {
 					_dad = randspecies.getOrganisms().get(0);
 				}
 
-				new_genome = EvolutionStrategy.getCrossoverStrategy().performCrossover(mom,_dad,count);
+				new_genome = EvolutionStrategy.getInstance().getCrossoverStrategy().performCrossover(mom,_dad,count);
 
 				mate_baby = true;
 
@@ -472,7 +472,7 @@ public class Species implements ISpecies {
 					_dad.getGenome().getId() == mom.getGenome().getId() || 
 					_dad.getGenome().compatibility(mom.getGenome()) == 0.0) {
 
-					boolean mutatedStructure = EvolutionStrategy.getMutationStrategy().mutate(new_genome,pop,generation);
+					boolean mutatedStructure = EvolutionStrategy.getInstance().getMutationStrategy().mutate(new_genome,pop,generation);
 					mut_struct_baby = (mut_struct_baby || mutatedStructure);
 
 					baby = new Organism(0.0, new_genome, generation);

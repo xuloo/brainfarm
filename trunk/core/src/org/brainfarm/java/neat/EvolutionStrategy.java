@@ -9,7 +9,7 @@ import org.brainfarm.java.neat.operators.DefaultCrossoverStrategy;
 import org.brainfarm.java.neat.operators.DefaultMutationStrategy;
 
 /**
- * Statically accessible methods for executing the various
+ * Singleton providing access to methods for executing the various
  * operations required by Evolution.
  * 
  * @author dtuohy
@@ -17,11 +17,23 @@ import org.brainfarm.java.neat.operators.DefaultMutationStrategy;
  */
 public class EvolutionStrategy {
 
-	public static ICrossoverStrategy getCrossoverStrategy() {
+	public static EvolutionStrategy _instance;
+	
+	private EvolutionStrategy(){
+		
+	}
+	
+	public static EvolutionStrategy getInstance(){
+		if(_instance == null)
+			_instance = new EvolutionStrategy();
+		return _instance;
+	}
+	
+	public ICrossoverStrategy getCrossoverStrategy() {
 		return new DefaultCrossoverStrategy();
 	}
 	
-	public static IMutationStrategy getMutationStrategy(){
+	public IMutationStrategy getMutationStrategy(){
 		return new DefaultMutationStrategy();
 	}
 	
