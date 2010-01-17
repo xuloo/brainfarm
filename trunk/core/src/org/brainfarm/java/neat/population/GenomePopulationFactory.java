@@ -15,7 +15,6 @@ public class GenomePopulationFactory extends PopulationFactory {
 	public IPopulation getPopulation(INeatContext context) {
 		XmlBeanFactory factory = new XmlBeanFactory(new FileSystemResource( "experiment/" + context.getExperiment().getGenomeFile()));
 		IGenome genome = (Genome)factory.getBean("genome");
-		
 		return new Population(genome, context.getNeat().pop_size);
 	}
 }

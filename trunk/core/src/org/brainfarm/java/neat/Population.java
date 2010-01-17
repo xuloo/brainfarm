@@ -70,27 +70,8 @@ public class Population implements IPopulation {
 		winnergen = 0;
 		highest_fitness = 0.0;
 		highest_last_changed = 0;
-		spawn(g, size);
-	}
-
-	public void spawn(IGenome genome, int size) {
-		IGenome newgenome = null;
-
-		organisms = new ArrayList<IOrganism>(size);
-		
-		for (int i = 1; i <= size; i++) {
-			newgenome = genome.duplicate(i);
-			EvolutionStrategy.getInstance().getMutationStrategy().mutateLinkWeight(newgenome,1.0, 1.0, MutationType.GAUSSIAN);
-			IOrganism neworganism = new Organism(0.0, newgenome, 1);
-			organisms.add(neworganism);
-		}
-
-		// Keep a record of the innovation and node number we are on
-		cur_node_id = newgenome.getLastNodeId();
-		cur_innov_num = newgenome.getLastGeneInnovationId();
-
-		// Separate the new Population into species
-		speciate();
+		EvolutionStrategy.getInstance().getPopulationInitializationStrategy().initialize(this, g, size);
+//		spawn(g, size);
 	}
 
 	/**
@@ -466,7 +447,8 @@ public class Population implements IPopulation {
 		// System.out.print("\n verifica");
 		// System.out.print("\n this species has "+sorted_species.size()+" elements");
 		for (ISpecies specie : sorted_species) {
-			specie.reproduce(generation, this, sorted_species);
+//			specie.reproduce(generation, this, sorted_species);
+			EvolutionStrategy.getInstance().getReproductionStrategy().reproduce(specie,generation, this, sorted_species);
 		}
 
 		// System.out.print("\n Reproduction completed");
@@ -474,10 +456,10 @@ public class Population implements IPopulation {
 		//
 		// Destroy and remove the old generation from the organisms and species
 		// (because we have pointer to organisms , the new organisms created
-		// are not in organisms and can't br eliminated;
-		// thus are elimate onlyu corrent organisms !)
+		// are not in organisms and can't be eliminated;
+		// thus are eliminate only current organisms !)
 
-		// ------prima---------------------------------------
+		// ------before---------------------------------------
 		/*
 		 * 
 		 * itr_organism = organisms.iterator(); vdel = new
@@ -496,7 +478,7 @@ public class Population implements IPopulation {
 
 		// ---------------------------------------------
 
-		// ------dopo---------------------------------------
+		// ------after---------------------------------------
 		for (IOrganism organism : organisms) {
 			// Remove the organism from its Species
 			organism.getSpecies().removeOrganism(organism);
@@ -559,75 +541,6 @@ public class Population implements IPopulation {
 		}
 	}
 
-	public void speciate() {
-
-		//Iterator itr_organism;
-		//Iterator itr_specie;
-
-		IOrganism compare_org = null; // Organism for comparison
-		ISpecies newspecies = null;
-
-		species = new ArrayList<ISpecies>();
-		int counter = 0; // Species counter
-
-		// for each organism.....
-
-		for (IOrganism organism : organisms) {
-
-			// if list species is empty , create the first species!
-			if (species.isEmpty()) {
-				newspecies = new Species(++counter); // create a new specie
-				species.add(newspecies); // add this species to list of species
-				newspecies.addOrganism(organism);
-				// Add to new spoecies the current organism
-				organism.setSpecies(newspecies); // Point organism to its
-													// species
-
-			} else {
-				// looop in all species.... (each species is a Vector of
-				// organism...)
-				Iterator<ISpecies> itr_specie = species.iterator();
-				boolean done = false;
-
-				while (!done && itr_specie.hasNext()) {
-
-					// point _species-esima
-					ISpecies _specie = itr_specie.next();
-					// point to first organism of this _specie-esima
-					compare_org = _specie.getOrganisms().get(0);
-					// compare _organism-esimo('_organism') with first organism
-					// in current specie('compare_org')
-					double curr_compat = organism.getGenome().compatibility(compare_org.getGenome());
-
-					if (curr_compat < Neat.compat_threshold) {
-						// Found compatible species, so add this organism to it
-						_specie.addOrganism(organism);
-						// update in organism pointer to its species
-						organism.setSpecies(_specie);
-						// force exit from this block ...
-						done = true;
-					}
-				}
-
-				// if no found species compatible , create specie
-				if (!done) {
-					newspecies = new Species(++counter); // create a new specie
-					species.add(newspecies); // add this species to list of
-												// species
-					newspecies.addOrganism(organism);
-					// Add to new species the current organism
-					organism.setSpecies(newspecies); // Point organism to its
-														// species
-
-				}
-
-			}
-
-		}
-
-		lastSpecies = counter; // Keep track of highest species
-	}
-
 	/**
 	 * the increment of cur_node_id must be executed only from a method of
 	 * population for security reason
@@ -678,7 +591,6 @@ public class Population implements IPopulation {
 		
 		for (int count = 0; count < numberOfOrganisms; count++) {
 			IGenome genome = new Genome(count, numberOfInputs, numberOfOutputs, RandomUtils.randomInt(0, maxIndexOfNodes), maxIndexOfNodes, recurrent, linkProbability);
-
 			// backup genome primordial
 			//fname = fname_prefix + fmt4.format(count);
 			//new_genome.print_to_filename(fname);
@@ -691,7 +603,7 @@ public class Population implements IPopulation {
 		// System.out.print("\n  The first  node_id  available is "+cur_node_id);
 		// System.out.print("\n  The first innov_num available is "+cur_innov_num);
 
-		speciate();
+		EvolutionStrategy.getInstance().getSpeciationStrategy().speciate(this);
 
 		// backup of population
 		//fname_prefix = EnvRoutine.getJneatFileData(EnvConstant.NAME_CURR_POPULATION);
