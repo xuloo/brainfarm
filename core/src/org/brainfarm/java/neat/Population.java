@@ -80,7 +80,7 @@ public class Population implements IPopulation {
 		
 		for (int i = 1; i <= size; i++) {
 			newgenome = genome.duplicate(i);
-			EvolutionStrategy.getMutationStrategy().mutateLinkWeight(newgenome,1.0, 1.0, MutationType.GAUSSIAN);
+			EvolutionStrategy.getInstance().getMutationStrategy().mutateLinkWeight(newgenome,1.0, 1.0, MutationType.GAUSSIAN);
 			IOrganism neworganism = new Organism(0.0, newgenome, 1);
 			organisms.add(neworganism);
 		}
