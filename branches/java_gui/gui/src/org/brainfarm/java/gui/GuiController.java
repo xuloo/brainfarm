@@ -6,10 +6,10 @@ import javax.swing.JFrame;
 
 import org.apache.log4j.Logger;
 import org.brainfarm.java.neat.api.context.INeatContext;
+import org.brainfarm.java.neat.context.SpringNeatContext;
+import org.brainfarm.java.neat.controller.SpringNeatController;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.brainfarm.java.neat.controller.SpringNeatController;
-import org.brainfarm.java.neat.context.SpringNeatContext;
 
 public class GuiController extends SpringNeatController implements IGuiController {
 	
