@@ -1,0 +1,7 @@
+<project name="brainfarm.targets">
+   
+   <target name="java-launch" description="Launches Java VM">
+    
+   </target>
+   
+</project>
