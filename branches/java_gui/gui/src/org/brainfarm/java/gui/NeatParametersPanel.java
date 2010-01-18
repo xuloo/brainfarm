@@ -1,7 +1,6 @@
 package org.brainfarm.java.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -15,42 +14,25 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 
 import org.apache.log4j.Logger;
 import org.brainfarm.java.neat.api.context.INeatContext;
-import org.brainfarm.java.neat.params.AbstractNeatParameter;
 
-public class NeatParametersPanel extends AbstractNeatPanel implements TableModelListener {
+public class NeatParametersPanel extends AbstractNeatPanel{
 
-	private static Logger log = Logger.getLogger(NeatParametersPanel.class);
+	private static Logger logger = Logger.getLogger(NeatParametersPanel.class);
+	
+	public static final String LOAD_DEFAULT_BUTTON_LABEL = "Load Default";
+	public static final String LOAD_FILE_BUTTON_LABEL = "Load File";
+	public static final String WRITE_BUTTON_LABEL = "Write";
+	public static final String WRITE_FILE_BUTTON_LABEL = "Write File";
+	public static final String EXIT_BUTTON_LABEL = "Exit";
 	
 	private IGuiController controller;
 	
-	JFrame frame;
-	//JPanel buttonPanel; // pannello comandi
-	// detailPanel; // pannello grafico
+	private JFrame frame;
 
-	//JButton b1;
-	//JButton b2;
-	//JButton b3;
-	//JButton b4;
-	//JButton b5;
-
-	JTextArea textArea;
-
-	NeatParametersTableModel tableModel;
-	JTable parametersTable;
-	//Neat neatInstance;
-	JScrollPane scrollPane;
-	//JScrollPane paneScroll2;
-
-	Container contentPane;
-	//protected HistoryLog logger;
+	private NeatParametersTableModel tableModel;
 
 	/**
 	 * pan1 constructor comment.
@@ -61,201 +43,148 @@ public class NeatParametersPanel extends AbstractNeatPanel implements TableModel
 		
 		context.addListener(this);
 		
-		displayName = "Neat Parameters";
+		displayName = "Neat Parameters";	
+		
+		createPanel(frame);
+	}
+	
+	private void createPanel(JFrame frame) {
+		panel = new JPanel();
+		
+		GridBagLayout layout = new GridBagLayout();
+		panel.setLayout(layout);
+	
+		panel.add(createButtonPanel(frame, layout));		
+		panel.add(createParameterPanel(frame, layout));		
 
-		JPanel buttonPanel = new JPanel();
+		Container contentPane = frame.getContentPane();
+		BorderLayout bl = new BorderLayout();
+		contentPane.setLayout(bl);
+		contentPane.add(panel, BorderLayout.CENTER);
+	}
+	
+	private JPanel createParameterPanel(JFrame frame, GridBagLayout layout) {
+		
 		JPanel detailPanel = new JPanel();
+		
+		detailPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+				.createTitledBorder(" j n e a t    parameter's "),
+				BorderFactory.createEmptyBorder(10, 10, 2, 2)));
+		
+		tableModel = new NeatParametersTableModel();
+		JTable parametersTable = new JTable(tableModel);
+		
+		JScrollPane scrollPane = new JScrollPane(parametersTable);
+		
+		GridBagLayout panelLayout = new GridBagLayout();		
+		detailPanel.setLayout(panelLayout);
 
-		JButton loadDefaultButton = new JButton(" Load default  ");
+		GridBagConstraints scrollPaneConstraints = new GridBagConstraints();
+		buildConstraints(scrollPaneConstraints, 0, 0, 1, 4, 35, 90);
+		scrollPaneConstraints.fill = GridBagConstraints.BOTH;
+		panelLayout.setConstraints(scrollPane, scrollPaneConstraints);
+		detailPanel.add(scrollPane);
+		
+		GridBagConstraints panelConstraints = new GridBagConstraints();
+		buildConstraints(panelConstraints, 1, 0, 2, 5, 100, 0);
+		panelConstraints.anchor = GridBagConstraints.WEST;
+		panelConstraints.fill = GridBagConstraints.BOTH;
+		
+		layout.setConstraints(detailPanel, panelConstraints);
+		
+		return detailPanel;
+	}
+	
+	private JPanel createButtonPanel(JFrame frame, GridBagLayout layout) {
+		JPanel buttonPanel = new JPanel();
+		Font font = new Font("Dialog", Font.BOLD, 12);
+		
+		GridBagLayout panelLayout = new GridBagLayout();
+		GridBagConstraints panelConstraints = new GridBagConstraints();
+		panelConstraints.anchor = GridBagConstraints.NORTH;
+		panelConstraints.fill = GridBagConstraints.BOTH;
+		panelConstraints.gridheight = 2;
+		panelConstraints.gridwidth = 1;
+		panelConstraints.gridx = 0;
+		
+		panelConstraints.insets = new Insets(1, 2, 1, 2);
+		panelConstraints.ipadx = 0;
+		panelConstraints.ipady = 0;
+		panelConstraints.weightx = 0.0;
+		panelConstraints.weighty = .5;
+		
+		buttonPanel.setLayout(panelLayout);
+		
+		JButton loadDefaultButton = new JButton(LOAD_DEFAULT_BUTTON_LABEL);
+		loadDefaultButton.setFont(font);
+		panelConstraints.gridy = 1;
+		buttonPanel.add(loadDefaultButton);
+		panelLayout.setConstraints(loadDefaultButton, panelConstraints);
 		loadDefaultButton.addActionListener(this);
 
-		JButton loadFileButton = new JButton(" Load file.... ");
+		JButton loadFileButton = new JButton(LOAD_FILE_BUTTON_LABEL);
+		loadFileButton.setFont(font);
+		panelConstraints.gridy = 3;
+		buttonPanel.add(loadFileButton);
+		panelLayout.setConstraints(loadFileButton, panelConstraints);
 		loadFileButton.addActionListener(this);
 
-		JButton writeButton = new JButton(" Write         ");
+		JButton writeButton = new JButton(WRITE_BUTTON_LABEL);
+		writeButton.setFont(font);
+		panelConstraints.gridy = 5;
+		buttonPanel.add(writeButton);
+		panelLayout.setConstraints(writeButton, panelConstraints);
 		writeButton.addActionListener(this);
 
-		JButton writeFileButton = new JButton(" Write file... ");
+		JButton writeFileButton = new JButton(WRITE_FILE_BUTTON_LABEL);
+		writeFileButton.setFont(font);
+		panelConstraints.gridy = 7;
+		buttonPanel.add(writeFileButton);
+		panelLayout.setConstraints(writeFileButton, panelConstraints);
 		writeFileButton.addActionListener(this);
 
-		JButton b5 = new JButton(" E X I T ");
-		b5.addActionListener(this);
+		JButton exitButton = new JButton(EXIT_BUTTON_LABEL);
+		exitButton.setFont(font);
+		panelConstraints.anchor = GridBagConstraints.SOUTH;
+		panelConstraints.fill = GridBagConstraints.HORIZONTAL;
 
-		Font fc = new Font("Dialog", Font.BOLD, 12);
-		loadDefaultButton.setFont(fc);
-		loadFileButton.setFont(fc);
-		writeButton.setFont(fc);
-		writeFileButton.setFont(fc);
-		b5.setFont(fc);
+		panelConstraints.gridheight = 2;
+		panelConstraints.gridy = 10;
+		panelConstraints.weighty = 5;
 
-		//
-		// definizione layout del pannello comandi
-		//
-		GridBagLayout gbl_p2 = new GridBagLayout();
-		GridBagConstraints gbc_p2 = new GridBagConstraints();
-		buttonPanel.setLayout(gbl_p2);
+		buttonPanel.add(exitButton);
+		panelLayout.setConstraints(exitButton, panelConstraints);
+		exitButton.addActionListener(this);			
 
 		buttonPanel.setBorder(BorderFactory.createCompoundBorder(
 							  BorderFactory.createTitledBorder("Command options"), 
 							  BorderFactory.createEmptyBorder(10, 10, 2, 2)
 							  ));
 
-		detailPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
-				.createTitledBorder(" j n e a t    parameter's "),
-				BorderFactory.createEmptyBorder(10, 10, 2, 2)));
-
-		gbc_p2.anchor = GridBagConstraints.NORTH;
-		gbc_p2.fill = GridBagConstraints.BOTH;
-		gbc_p2.gridheight = 2;
-		gbc_p2.gridwidth = 1;
-		gbc_p2.gridx = 0;
-		gbc_p2.gridy = 1;
-		gbc_p2.insets = new Insets(1, 2, 1, 2);
-		gbc_p2.ipadx = 0;
-		gbc_p2.ipady = 0;
-		gbc_p2.weightx = 0.0;
-		gbc_p2.weighty = .5;
-		buttonPanel.add(loadDefaultButton);
-		gbl_p2.setConstraints(loadDefaultButton, gbc_p2);
-
-		gbc_p2.gridy = 3;
-		buttonPanel.add(loadFileButton);
-		gbl_p2.setConstraints(loadFileButton, gbc_p2);
-
-		gbc_p2.gridy = 5;
-		buttonPanel.add(writeButton);
-		gbl_p2.setConstraints(writeButton, gbc_p2);
-
-		gbc_p2.gridy = 7;
-		buttonPanel.add(writeFileButton);
-		gbl_p2.setConstraints(writeFileButton, gbc_p2);
-
-		gbc_p2.anchor = GridBagConstraints.SOUTH;
-		gbc_p2.fill = GridBagConstraints.HORIZONTAL;
-
-		gbc_p2.gridheight = 2;
-		gbc_p2.gridy = 10;
-		gbc_p2.weighty = 5;
-
-		buttonPanel.add(b5);
-		gbl_p2.setConstraints(b5, gbc_p2);
-
-		tableModel = new NeatParametersTableModel();
-		parametersTable = new JTable(tableModel);	
-
-		scrollPane = new JScrollPane(parametersTable);
-
-		GridBagLayout gbl_p3 = new GridBagLayout();
-		GridBagConstraints limiti = new GridBagConstraints();
-		detailPanel.setLayout(gbl_p3);
-
-		buildConstraints(limiti, 0, 0, 1, 4, 35, 90);
-		limiti.fill = GridBagConstraints.BOTH;
-		gbl_p3.setConstraints(scrollPane, limiti);
-		detailPanel.add(scrollPane);
-
-		buildConstraints(limiti, 1, 0, 2, 4, 55, 0);
-		limiti.fill = GridBagConstraints.BOTH;
-		limiti.anchor = GridBagConstraints.CENTER;
-
-		textArea = new JTextArea("", 10, 60);
-		textArea.setLineWrap(true);
-		textArea.setEditable(false);
-		textArea.setOpaque(false);
-		textArea.setWrapStyleWord(true);
-		textArea.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-		textArea.setVisible(true);
-
-		textArea.setBackground(new Color(255, 242, 232));
-
-		panel = new JPanel();
-		GridBagLayout gbl = new GridBagLayout();
-		panel.setLayout(gbl);
-
-		limiti = new GridBagConstraints();
-		buildConstraints(limiti, 0, 0, 1, 5, 0, 100);
-		limiti.anchor = GridBagConstraints.WEST;
-		limiti.fill = GridBagConstraints.VERTICAL;
-		panel.add(buttonPanel);
-		gbl.setConstraints(buttonPanel, limiti);
-
-		limiti = new GridBagConstraints();
-		buildConstraints(limiti, 1, 0, 2, 5, 100, 0);
-		limiti.anchor = GridBagConstraints.WEST;
-		limiti.fill = GridBagConstraints.BOTH;
-		panel.add(detailPanel);
-		gbl.setConstraints(detailPanel, limiti);
-
-		contentPane = frame.getContentPane();
-		BorderLayout bl = new BorderLayout();
-		contentPane.setLayout(bl);
-		contentPane.add(panel, BorderLayout.CENTER);
-	}
-
-	public void valueChanged(ListSelectionEvent e) {
+		GridBagConstraints constraints = new GridBagConstraints();
+		buildConstraints(constraints, 0, 0, 1, 5, 0, 100);
+		constraints.anchor = GridBagConstraints.WEST;
+		constraints.fill = GridBagConstraints.VERTICAL;
 		
-		log.debug("List Selection event " + e.getValueIsAdjusting());
+		layout.setConstraints(buttonPanel, constraints);
 		
-		int irow = 0;
-		Object s_descr = null;
-		Object s2 = null;
-		AbstractNeatParameter ox = null;
-		String r2 = null;
-		String r3 = null;
-		String tipo = null;
-
-		if (e.getValueIsAdjusting()) {
-			return;
-		}
-
-		ListSelectionModel lsm = (ListSelectionModel) e.getSource();
-
-		if (!lsm.isSelectionEmpty()) {
-			irow = lsm.getMinSelectionIndex();
-			ox = tableModel.data.get(irow);
-			//s_descr = neatInstance.getDescription((String) ox.o1);
-			/*s2 = ox.getVal();
-
-			if (s2 instanceof Integer) {
-				tipo = new String(" integer ");
-			}
-			if (s2 instanceof Double) {
-				tipo = new String(" double");
-			}
-
-			r2 = "\n Current setting is " + s2;
-			r3 = s_descr + r2 + tipo;
-			textArea.setText(r3);
-
-			paneScroll2.revalidate();
-			paneScroll2.validate();*/
-
-		}
-	}
+		return buttonPanel;
+	}	
 
 	public void actionPerformed(ActionEvent e) {
-		Object o1 = null;
-		Object o2 = null;
-		String xret = null;
-		String name;
-		String tmp1;
-		String tmp2;
-		boolean rc = false;
-
-		JButton Pulsante = (JButton) e.getSource();
 
 		if (e.getActionCommand().equals(" E X I T ")) {
 			System.exit(0);
 		}
 
-		else if (e.getActionCommand().equals(" Load default  ")) {
+		else if (e.getActionCommand().equals(LOAD_DEFAULT_BUTTON_LABEL)) {
 			controller.loadDefaultParameters();
 		}
-		else if (e.getActionCommand().equals(" Load file.... ")) {
+		else if (e.getActionCommand().equals(LOAD_FILE_BUTTON_LABEL)) {
 			controller.loadParameters(frame);
 		}
 
-		else if (e.getActionCommand().equals(" Write         ")) {
+		else if (e.getActionCommand().equals(WRITE_BUTTON_LABEL)) {
 			/*name = EnvRoutine.getDefaultParameterFileName();
 			logger.sendToLog(" writing file parameter " + name + "...");
 			Neat.updateParam(tableModel);
@@ -265,7 +194,7 @@ public class NeatParametersPanel extends AbstractNeatPanel implements TableModel
 */
 		}
 
-		else if (e.getActionCommand().equals(" Write file... ")) {
+		else if (e.getActionCommand().equals(WRITE_FILE_BUTTON_LABEL)) {
 
 			/*FileDialog fd = new FileDialog(f1, "load file parameter",
 					FileDialog.SAVE);
@@ -307,24 +236,6 @@ public class NeatParametersPanel extends AbstractNeatPanel implements TableModel
 		tableModel.data.clear();
 		tableModel.rows = -1;
 		tableModel.setData(context.getNeat().getParameters());
-		parametersTable.getModel().addTableModelListener(this);
-	}
-
-	@Override
-	public void tableChanged(TableModelEvent e) {
-		// TODO Auto-generated method stub
-		int firstRow = e.getFirstRow();
-        int lastRow = e.getLastRow();
-        int mColIndex = e.getColumn();
-        System.out.println("table data changed");
-        log.debug("Table Changed: " + firstRow + " " + lastRow + " " + mColIndex + " " + e.getType());
-        
-        switch (e.getType()) {
-        
-        	default:
-        		break;
-        }
-
 	}
 
 	@Override
