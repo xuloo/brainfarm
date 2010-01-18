@@ -26,20 +26,18 @@ import org.brainfarm.java.neat.api.context.INeatContext;
 import org.brainfarm.java.neat.context.INeatContextListener;
 import org.brainfarm.java.util.log.HistoryLog;
 
-public class ExperimentPanel extends JPanel implements ActionListener, INeatContextListener {
+public class ExperimentPanel extends AbstractNeatPanel {
 
 	private static Logger log = Logger.getLogger(ExperimentPanel.class);
 
 	private IGuiController controller;
 	
 	Container contentPane;
-	protected HistoryLog logger;
+	//protected HistoryLog logger;
 
 	private volatile Thread lookupThread;
 
 	private JFrame f1;
-
-	public JPanel pmain;
 
 	JPanel p2; // pannello comandi
 	JPanel p3; // pannello source
@@ -166,7 +164,7 @@ public class ExperimentPanel extends JPanel implements ActionListener, INeatCont
 		
 		context.addListener(this);
 		
-		logger = new HistoryLog();
+		displayName = "Experiment Settings";
 
 		// Font fc = new Font("Dialog", Font.PLAIN, 12);
 
@@ -375,30 +373,29 @@ public class ExperimentPanel extends JPanel implements ActionListener, INeatCont
 		gbl.setConstraints(paneScroll1, limiti);
 		p3.add(paneScroll1);
 
-		pmain = new JPanel();
+		panel = new JPanel();
 		gbl = new GridBagLayout();
-		pmain.setLayout(gbl);
+		panel.setLayout(gbl);
 
 		limiti = new GridBagConstraints();
 		buildConstraints(limiti, 0, 0, 1, 5, 0, 100);
 		limiti.anchor = GridBagConstraints.WEST;
 		limiti.fill = GridBagConstraints.VERTICAL;
-		pmain.add(p2);
+		panel.add(p2);
 		gbl.setConstraints(p2, limiti);
 
 		limiti = new GridBagConstraints();
 		buildConstraints(limiti, 1, 0, 4, 5, 100, 0);
 		limiti.anchor = GridBagConstraints.WEST;
 		limiti.fill = GridBagConstraints.BOTH;
-		pmain.add(paneScroll1);
+		panel.add(paneScroll1);
 		gbl.setConstraints(paneScroll1, limiti);
 
 		// interface to main method of this class
 		contentPane = f1.getContentPane();
 		BorderLayout bl = new BorderLayout();
 		contentPane.setLayout(bl);
-		contentPane.add(pmain, BorderLayout.CENTER);
-		contentPane.add(logger, BorderLayout.SOUTH);
+		contentPane.add(panel, BorderLayout.CENTER);
 	}
 
 	public void setStyle() {
@@ -785,9 +782,9 @@ public class ExperimentPanel extends JPanel implements ActionListener, INeatCont
 		gbc.weighty = wy;
 	}
 
-	public void setLog(HistoryLog _log) {
+	/*public void setLog(HistoryLog _log) {
 		logger = _log;
-	}
+	}*/
 
 	/*public void createClass(String _filename, String[] sourcecode) {
 		try {

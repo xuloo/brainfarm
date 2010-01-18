@@ -10,7 +10,6 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.WindowEvent;
@@ -29,6 +28,7 @@ import javax.swing.JTextArea;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.apache.log4j.Logger;
 import org.brainfarm.java.gui.graph.ChartXY;
 import org.brainfarm.java.gui.graph.Edge;
 import org.brainfarm.java.gui.graph.Structure;
@@ -39,15 +39,15 @@ import org.brainfarm.java.neat.Organism;
 import org.brainfarm.java.neat.Population;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.IOrganism;
+import org.brainfarm.java.neat.api.context.INeatContext;
 import org.brainfarm.java.util.CodeConstant;
-import org.brainfarm.java.util.log.HistoryLog;
 
-public class Grafi extends JPanel implements ActionListener,
-		ListSelectionListener, ItemListener
-
+public class GraphPanel extends AbstractNeatPanel implements ListSelectionListener, ItemListener
 {
+	private static Logger logger = Logger.getLogger(GraphPanel.class);
+	
 	private JFrame f1;
-	public JPanel pmain;
+	//public JPanel pmain;
 
 	JPanel p2; // pannello comandi
 	JPanel p3; // pannello grafico
@@ -78,7 +78,6 @@ public class Grafi extends JPanel implements ActionListener,
 	JTextArea textArea;
 
 	Container contentPane;
-	protected HistoryLog logger;
 
 	ButtonGroup ck_group;
 	JRadioButton ck1;
@@ -91,12 +90,12 @@ public class Grafi extends JPanel implements ActionListener,
 	/**
    * 
    */
-	public Grafi(JFrame _f) {
+	public GraphPanel(JFrame _f) {
 
+		displayName = "Results Graph";
+		
 		GridBagLayout gbl;
 		GridBagConstraints limiti;
-
-		logger = new HistoryLog();
 
 		GxView = null;
 
@@ -258,15 +257,15 @@ public class Grafi extends JPanel implements ActionListener,
 		p3.add(mappa, BorderLayout.CENTER);
 		p3.add(paneScroll2, BorderLayout.EAST);
 
-		pmain = new JPanel();
+		panel = new JPanel();
 		gbl = new GridBagLayout();
-		pmain.setLayout(gbl);
+		panel.setLayout(gbl);
 
 		limiti = new GridBagConstraints();
 		buildConstraints(limiti, 0, 0, 1, 5, 0, 100);
 		limiti.anchor = GridBagConstraints.WEST;
 		limiti.fill = GridBagConstraints.VERTICAL;
-		pmain.add(p2);
+		panel.add(p2);
 		gbl.setConstraints(p2, limiti);
 
 		limiti = new GridBagConstraints();
@@ -274,25 +273,20 @@ public class Grafi extends JPanel implements ActionListener,
 		limiti.anchor = GridBagConstraints.WEST;
 		limiti.fill = GridBagConstraints.BOTH;
 		// pmain.add(paneSplit1);
-		pmain.add(p3);
+		panel.add(p3);
 		gbl.setConstraints(p3, limiti);
 
 		// interface to main method of this class
 		contentPane = f1.getContentPane();
 		BorderLayout bl = new BorderLayout();
 		contentPane.setLayout(bl);
-		contentPane.add(pmain, BorderLayout.CENTER);
-		contentPane.add(logger, BorderLayout.SOUTH);
+		contentPane.add(panel, BorderLayout.CENTER);
 
 		//EnvConstant.OP_SYSTEM = System.getProperty("os.name");
 		//EnvConstant.OS_VERSION = System.getProperty("os.version");
 		//EnvConstant.JNEAT_DIR = System.getProperty("user.dir");
 		//EnvConstant.OS_FILE_SEP = System.getProperty("file.separator");
 
-	}
-
-	public void setLog(HistoryLog _log) {
-		logger = _log;
 	}
 
 	/**
@@ -304,11 +298,11 @@ public class Grafi extends JPanel implements ActionListener,
 	public static void main(java.lang.String[] args) {
 
 		JFrame jp = null;
-		Grafi pn1 = null;
+		GraphPanel pn1 = null;
 
 		try {
 			jp = new JFrame("  n e a t    view graph of genomes ");
-			pn1 = new Grafi(jp);
+			pn1 = new GraphPanel(jp);
 
 			jp.addWindowListener(new java.awt.event.WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
@@ -546,17 +540,17 @@ public class Grafi extends JPanel implements ActionListener,
 	 */
 	public void execCurrGenome() {
 		textArea.setText("");
-		logger.sendToStatus("Wait please...");
+		logger.debug("Wait please...");
 		/*logger.sendToLog(" grafi: start reading session file ->"
 				+ EnvRoutine.getJneatSession());
 		EnvRoutine.getSession();*/
-		logger.sendToLog(" grafi: end read session file");
+		logger.debug(" grafi: end read session file");
 		Execution expm = new Execution();
 		boolean rc = expm.createNetwork();
 
 		if (!rc) {
-			logger.sendToLog("select a single genome for this request");
-			logger.sendToStatus("READY");
+			logger.debug("select a single genome for this request");
+			logger.debug("READY");
 			return;
 		}
 
@@ -571,7 +565,7 @@ public class Grafi extends JPanel implements ActionListener,
 		}*/
 
 		//ViewGraph((Genome) EnvConstant.CURR_GENOME_RUNNING);
-		logger.sendToStatus("READY");
+		logger.debug("READY");
 	}
 
 	/**
@@ -580,11 +574,11 @@ public class Grafi extends JPanel implements ActionListener,
 	 */
 	public void execCurrGenome(IGenome _genome) {
 		textArea.setText("");
-		logger.sendToStatus("Wait please...");
+		logger.debug("Wait please...");
 		/*logger.sendToLog(" grafi: start reading session file ->"
 				+ EnvRoutine.getJneatSession());
 		EnvRoutine.getSession();*/
-		logger.sendToLog(" grafi: end read session file");
+		logger.debug(" grafi: end read session file");
 		Execution expm = new Execution();
 		expm.createNetwork(_genome);
 
@@ -600,7 +594,7 @@ public class Grafi extends JPanel implements ActionListener,
 		}*/
 
 		//ViewGraph((Genome) EnvConstant.CURR_GENOME_RUNNING);
-		logger.sendToStatus("READY");
+		logger.debug("READY");
 	}
 
 	public void ViewCommonPart(Vector v1, Structure sx) {
@@ -722,5 +716,17 @@ public class Grafi extends JPanel implements ActionListener,
 
 		}
 
+	}
+
+	@Override
+	public void contextChanged(INeatContext arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void experimentChanged(INeatContext arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

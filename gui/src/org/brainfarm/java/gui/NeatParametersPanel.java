@@ -8,11 +8,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.lang.reflect.Field;
-import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,26 +17,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.CellEditorListener;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableColumn;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.neat.Neat;
 import org.brainfarm.java.neat.api.context.INeatContext;
-import org.brainfarm.java.neat.context.INeatContextListener;
 import org.brainfarm.java.neat.params.AbstractNeatParameter;
-import org.brainfarm.java.neat.params.NeatParameter;
-import org.brainfarm.java.util.log.HistoryLog;
 
-public class Parameter extends JPanel implements ActionListener, ListSelectionListener, CellEditorListener, ComponentListener, TableModelListener, INeatContextListener {
+public class NeatParametersPanel extends AbstractNeatPanel implements TableModelListener {
 
-	private static Logger log = Logger.getLogger(Parameter.class);
+	private static Logger log = Logger.getLogger(NeatParametersPanel.class);
 	
 	private IGuiController controller;
 	
@@ -55,31 +41,27 @@ public class Parameter extends JPanel implements ActionListener, ListSelectionLi
 	//JButton b4;
 	//JButton b5;
 
-	public JPanel pmain;
-
 	JTextArea textArea;
 
-	VectorTableModel tableModel;
-	JTable jtable1;
-	Neat neatInstance;
-	JScrollPane paneScroll1;
+	NeatParametersTableModel tableModel;
+	JTable parametersTable;
+	//Neat neatInstance;
+	JScrollPane scrollPane;
 	//JScrollPane paneScroll2;
 
 	Container contentPane;
-	protected HistoryLog logger;
+	//protected HistoryLog logger;
 
 	/**
 	 * pan1 constructor comment.
 	 */
-	public Parameter(JFrame frame, IGuiController controller, INeatContext context) {
+	public NeatParametersPanel(JFrame frame, IGuiController controller, INeatContext context) {
 
 		this.controller = controller;
 		
 		context.addListener(this);
 		
-		logger = new HistoryLog();
-
-		frame = frame;
+		displayName = "Neat Parameters";
 
 		JPanel buttonPanel = new JPanel();
 		JPanel detailPanel = new JPanel();
@@ -158,28 +140,10 @@ public class Parameter extends JPanel implements ActionListener, ListSelectionLi
 		buttonPanel.add(b5);
 		gbl_p2.setConstraints(b5, gbc_p2);
 
-		tableModel = new VectorTableModel(new Vector());
-		jtable1 = new JTable(tableModel);
-		
-		
+		tableModel = new NeatParametersTableModel();
+		parametersTable = new JTable(tableModel);	
 
-		paneScroll1 = new JScrollPane(jtable1);
-
-		/*TableColumn column = null;
-		for (int i = 0; i < 2; i++) {
-			column = jtable1.getColumnModel().getColumn(i);
-			if (i == 0)
-				column.setPreferredWidth(100);
-			if (i == 1) {
-				column.setPreferredWidth(25);
-
-			}
-		}*/
-
-		//jtable1.setCellSelectionEnabled(true);
-
-		//jtable1.setBackground(new Color(255, 252, 242));
-		//jtable1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane = new JScrollPane(parametersTable);
 
 		GridBagLayout gbl_p3 = new GridBagLayout();
 		GridBagConstraints limiti = new GridBagConstraints();
@@ -187,15 +151,14 @@ public class Parameter extends JPanel implements ActionListener, ListSelectionLi
 
 		buildConstraints(limiti, 0, 0, 1, 4, 35, 90);
 		limiti.fill = GridBagConstraints.BOTH;
-		gbl_p3.setConstraints(paneScroll1, limiti);
-		detailPanel.add(paneScroll1);
+		gbl_p3.setConstraints(scrollPane, limiti);
+		detailPanel.add(scrollPane);
 
 		buildConstraints(limiti, 1, 0, 2, 4, 55, 0);
 		limiti.fill = GridBagConstraints.BOTH;
 		limiti.anchor = GridBagConstraints.CENTER;
 
 		textArea = new JTextArea("", 10, 60);
-		textArea.setFont(getFont());
 		textArea.setLineWrap(true);
 		textArea.setEditable(false);
 		textArea.setOpaque(false);
@@ -205,78 +168,29 @@ public class Parameter extends JPanel implements ActionListener, ListSelectionLi
 
 		textArea.setBackground(new Color(255, 242, 232));
 
-		//paneScroll2 = new JScrollPane(textArea);
-		//paneScroll2.setVerticalScrollBarPolicy(paneScroll2.VERTICAL_SCROLLBAR_AS_NEEDED);
-
-		//gbl_p3.setConstraints(paneScroll2, limiti);
-		//p3.add(paneScroll2);
-
-		pmain = new JPanel();
+		panel = new JPanel();
 		GridBagLayout gbl = new GridBagLayout();
-		pmain.setLayout(gbl);
+		panel.setLayout(gbl);
 
 		limiti = new GridBagConstraints();
 		buildConstraints(limiti, 0, 0, 1, 5, 0, 100);
 		limiti.anchor = GridBagConstraints.WEST;
 		limiti.fill = GridBagConstraints.VERTICAL;
-		pmain.add(buttonPanel);
+		panel.add(buttonPanel);
 		gbl.setConstraints(buttonPanel, limiti);
 
 		limiti = new GridBagConstraints();
 		buildConstraints(limiti, 1, 0, 2, 5, 100, 0);
 		limiti.anchor = GridBagConstraints.WEST;
 		limiti.fill = GridBagConstraints.BOTH;
-		pmain.add(detailPanel);
+		panel.add(detailPanel);
 		gbl.setConstraints(detailPanel, limiti);
-
-		// interface to main method of this class
 
 		contentPane = frame.getContentPane();
 		BorderLayout bl = new BorderLayout();
 		contentPane.setLayout(bl);
-		contentPane.add(pmain, BorderLayout.CENTER);
-		contentPane.add(logger, BorderLayout.SOUTH);
-
-		//EnvConstant.OP_SYSTEM = System.getProperty("os.name");
-		//EnvConstant.OS_VERSION = System.getProperty("os.version");
-		//EnvConstant.JNEAT_DIR = System.getProperty("user.dir");
-		//EnvConstant.OS_FILE_SEP = System.getProperty("file.separator");
-
+		contentPane.add(panel, BorderLayout.CENTER);
 	}
-
-	/**
-	 * Starts the application.
-	 * 
-	 * @param args
-	 *            an array of command-line arguments
-	 *//*
-	public static void main(java.lang.String[] args) {
-
-		JFrame jp = null;
-		Parameter pn1 = null;
-
-		try {
-			jp = new JFrame("  experiment ");
-			pn1 = new Parameter(jp);
-
-			// jp.getContentPane().add(pn1);
-			jp.addWindowListener(new java.awt.event.WindowAdapter() {
-				public void windowClosing(WindowEvent e) {
-					System.exit(0);
-				}
-			});
-
-			jp.pack();
-			jp.setSize(800, 600);
-			jp.setVisible(true);
-		}
-
-		catch (Exception ex) {
-			ex.printStackTrace();
-		}
-
-		// Insert code to start the application here.
-	}*/
 
 	public void valueChanged(ListSelectionEvent e) {
 		
@@ -374,10 +288,6 @@ public class Parameter extends JPanel implements ActionListener, ListSelectionLi
 
 	}
 
-	public void setLog(HistoryLog _log) {
-		logger = _log;
-	}
-
 	public void buildConstraints(GridBagConstraints gbc, int gx, int gy,
 			int gw, int gh, int wx, int wy) {
 		gbc.gridx = gx;
@@ -397,44 +307,7 @@ public class Parameter extends JPanel implements ActionListener, ListSelectionLi
 		tableModel.data.clear();
 		tableModel.rows = -1;
 		tableModel.setData(context.getNeat().getParameters());
-		jtable1.getModel().addTableModelListener(this);
-		//jtable1.getSelectionModel().addListSelectionListener(this);
-	}
-
-	@Override
-	public void editingCanceled(ChangeEvent e) {
-		// TODO Auto-generated method stub
-		log.debug("editing cancelled");
-	}
-
-	@Override
-	public void editingStopped(ChangeEvent e) {
-		// TODO Auto-generated method stub
-		log.debug("Editing Stopped");
-	}
-
-	@Override
-	public void componentHidden(ComponentEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void componentMoved(ComponentEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void componentResized(ComponentEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void componentShown(ComponentEvent e) {
-		// TODO Auto-generated method stub
-		
+		parametersTable.getModel().addTableModelListener(this);
 	}
 
 	@Override
@@ -459,5 +332,4 @@ public class Parameter extends JPanel implements ActionListener, ListSelectionLi
 		// TODO Auto-generated method stub
 		
 	}
-
 }
