@@ -1,10 +1,13 @@
 package org.brainfarm.java.neat;
 
+import org.brainfarm.java.neat.api.context.INeatContext;
+import org.brainfarm.java.neat.api.evaluators.IOrganismEvaluator;
 import org.brainfarm.java.neat.api.operators.ICrossoverStrategy;
 import org.brainfarm.java.neat.api.operators.IMutationStrategy;
 import org.brainfarm.java.neat.api.operators.IPopulationInitializationStrategy;
 import org.brainfarm.java.neat.api.operators.IReproductionStrategy;
 import org.brainfarm.java.neat.api.operators.ISpeciationStrategy;
+import org.brainfarm.java.neat.context.IExperiment;
 import org.brainfarm.java.neat.operators.DefaultCrossoverStrategy;
 import org.brainfarm.java.neat.operators.DefaultMutationStrategy;
 import org.brainfarm.java.neat.operators.DefaultPopulationInitializationStrategy;
@@ -22,13 +25,22 @@ public class EvolutionStrategy {
 
 	public static EvolutionStrategy _instance;
 	
+	//evaluator for IOrganisms in the current experiment
+	IOrganismEvaluator organismEvaluator;
+	
+	//strategies for various parts of the NEAT algorithm
 	ICrossoverStrategy crossoverStrategy;
 	IMutationStrategy mutationStrategy;
 	IPopulationInitializationStrategy populationInitializationStrategy;
 	IReproductionStrategy reproductionStrategy;
 	ISpeciationStrategy speciationStrategy;
 	
-	private EvolutionStrategy(){
+	private EvolutionStrategy(){}
+	
+	public void setActiveExperiment(IExperiment experiment, INeatContext context){
+		organismEvaluator = experiment.getEvaluator(context);
+		
+		//TODO: construct these instances using a factory and experiment data
 		crossoverStrategy = new DefaultCrossoverStrategy();
 		mutationStrategy = new DefaultMutationStrategy();
 		populationInitializationStrategy = new DefaultPopulationInitializationStrategy();
@@ -40,6 +52,10 @@ public class EvolutionStrategy {
 		if(_instance == null)
 			_instance = new EvolutionStrategy();
 		return _instance;
+	}
+	
+	public IOrganismEvaluator getOrganismEvaluator(){
+		return organismEvaluator;
 	}
 	
 	public ICrossoverStrategy getCrossoverStrategy() {
@@ -61,4 +77,5 @@ public class EvolutionStrategy {
 	public IPopulationInitializationStrategy getPopulationInitializationStrategy(){
 		return populationInitializationStrategy;
 	}
+	
 }
