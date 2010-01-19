@@ -8,8 +8,6 @@ import org.brainfarm.java.neat.api.enums.NodeLabel;
 import org.brainfarm.java.neat.api.enums.NodeType;
 
 public interface INode {
-
-	ITrait getTrait();
 	
 	NodeType getType();
 	

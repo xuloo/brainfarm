@@ -5,7 +5,6 @@ import java.text.DecimalFormat;
 import org.brainfarm.java.neat.api.IGene;
 import org.brainfarm.java.neat.api.ILink;
 import org.brainfarm.java.neat.api.INode;
-import org.brainfarm.java.neat.api.ITrait;
 
 /** 
  * A genetic codification of gene. 
@@ -46,10 +45,10 @@ public class Gene implements IGene
 	 * @param inputNode
 	 * @param outputNode
 	 */
-	public Gene(IGene gene, ITrait trait, INode inputNode, INode outputNode) {
+	public Gene(IGene gene, INode inputNode, INode outputNode) {
 		
 		// Create a new Link.
-		link = new Link(trait, gene.getLink().getWeight(), inputNode, outputNode, gene.getLink().isRecurrent());
+		link = new Link(gene.getLink().getWeight(), inputNode, outputNode, gene.getLink().isRecurrent());
 		
 		// Copy the supplied gene's properties.
 		setInnovationNumber(gene.getInnovationNumber());
@@ -68,10 +67,10 @@ public class Gene implements IGene
 	 * @param innovationNumber
 	 * @param mutationNumber
 	 */
-	public Gene(ITrait trait, double weight, INode inputNode, INode outputNode, boolean recurrent, double innovationNumber, double mutationNumber) {
+	public Gene(double weight, INode inputNode, INode outputNode, boolean recurrent, double innovationNumber, double mutationNumber) {
 		
 		// Create the Link.
-		link = new Link(trait, weight, inputNode, outputNode, recurrent);
+		link = new Link(weight, inputNode, outputNode, recurrent);
 		
 		// Set the gene properties.
 		setInnovationNumber(innovationNumber);
@@ -96,9 +95,6 @@ public class Gene implements IGene
 		s.append(", mut=" + fmt03.format(getMutationNumber()) + ")");
 		s.append(" Weight " + fmt03.format(link.getWeight()));
 
-		if (link.getTrait() != null)
-			s.append(" Link's trait_id " + link.getTrait().getId());
-
 		if (isEnabled() == false)
 			s.append(" -DISABLED-");
 
@@ -107,38 +103,6 @@ public class Gene implements IGene
 		
 		return s.toString();
 	}
-
-	/*public void print_to_file(IOseq xFile) {
-
-		StringBuffer s2 = new StringBuffer("");
-
-		s2.append("gene ");
-
-		if (link.getTrait() != null)
-			s2.append(" " + link.getTrait().getId());
-		else
-			s2.append(" 0");
-
-		s2.append(" " + link.getInputNode().getId());
-		s2.append(" " + link.getOutputNode().getId());
-		s2.append(" " + link.getWeight());
-
-		if (link.isRecurrent())
-			s2.append(" 1");
-		else
-			s2.append(" 0");
-
-		s2.append(" " + getInnovationNumber());
-		s2.append(" " + getMutationNumber());
-
-		if (isEnabled())
-			s2.append(" 1");
-		else
-			s2.append(" 0");
-
-		xFile.IOseqWrite(s2.toString());
-
-	}*/
 	
 	public ILink getLink() {
 		return link;

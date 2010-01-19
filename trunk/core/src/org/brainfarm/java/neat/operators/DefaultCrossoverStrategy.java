@@ -201,15 +201,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 				INode new_inode = null;
 				INode new_onode = null;
 
-				// Now add the chosen gene to the baby.
-				// First, get the trait pointer.
-				int first_traitnum = momTraits.get(0).getId();
-
-				if (chosengene.getLink().getTrait() == null)
-					traitnum = first_traitnum;
-				else
-					traitnum = chosengene.getLink().getTrait().getId() - first_traitnum;
-
 				// Next check for the nodes, add them if not in the baby Genome already.
 				INode inode = chosengene.getLink().getInputNode();
 				INode onode = chosengene.getLink().getOutputNode();
@@ -235,12 +226,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the inode
 					else {
-						if (inode.getTrait() == null)
-							nodetraitnum = 0;
-						else
-							nodetraitnum = inode.getTrait().getId() - first_traitnum;
-
-						newtrait = newtraits.get(nodetraitnum);
+						newtrait = newtraits.get(0);
 						new_inode = new Node(inode);
 
 						// insert in newnodes list
@@ -266,13 +252,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the onode
 					else {
-						if (onode.getTrait() == null)
-							nodetraitnum = 0;
-						else
-							nodetraitnum = onode.getTrait().getId()
-							- first_traitnum;
-
-						newtrait = (Trait) newtraits.get(nodetraitnum);
+						newtrait = (Trait) newtraits.get(0);
 						new_onode = new Node(onode);
 
 						// insert in newnodes list
@@ -300,12 +280,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the onode
 					else {
-						if (onode.getTrait() == null)
-							nodetraitnum = 0;
-						else
-							nodetraitnum = onode.getTrait().getId() - first_traitnum;
-
-						newtrait = newtraits.get(nodetraitnum);
+						newtrait = newtraits.get(0);
 						new_onode = new Node(onode);
 
 						// insert in newnodes list
@@ -331,12 +306,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the inode
 					else {
-						if (inode.getTrait() == null)
-							nodetraitnum = 0;
-						else
-							nodetraitnum = inode.getTrait().getId() - first_traitnum;
-
-						newtrait = newtraits.get(nodetraitnum);
+						newtrait = newtraits.get(0);
 						new_inode = new Node(inode);
 
 						// insert in newnodes list
@@ -349,7 +319,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 				// Add the Gene
 				newtrait = (Trait) newtraits.get(traitnum);
-				newgene = new Gene(chosengene, newtrait, new_inode, new_onode);
+				newgene = new Gene(chosengene, new_inode, new_onode);
 				if (disable) {
 					newgene.setEnabled(false);
 					disable = false;
@@ -446,7 +416,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 		}
 
 		// Set up the avgene
-		IGene avgene = new Gene(null, 0.0, null, null, false, 0.0, 0.0);
+		IGene avgene = new Gene(0.0, null, null, false, 0.0, 0.0);
 
 		ArrayList<IGene> newgenes = new ArrayList<IGene>(genes.size());
 		ArrayList<INode> newnodes = new ArrayList<INode>(nodes.size());
@@ -551,11 +521,11 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 						chosengene = geneA;
 						genecounter++;
 					} else if (genecounter == crosspoint) {
-						if (RandomUtils.randomDouble() > 0.5)
-							avgene.getLink().setTrait(geneA.getLink().getTrait());
-						else
-							avgene.getLink().setTrait(geneB.getLink().getTrait());
-
+						
+						//TODO: delete this call (only there to preserve use of Random
+						//for tests)
+						RandomUtils.randomDouble();
+						
 						// WEIGHTS AVERAGED HERE
 						avgene.getLink().setWeight((geneA.getLink().getWeight() + geneB
 								.getLink().getWeight()) / 2.0);
@@ -673,11 +643,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 					// First, get the trait pointer
 					int first_traitnum = traits.get(0).getId();
 
-					if (chosengene.getLink().getTrait() == null)
-						traitnum = first_traitnum;
-					else
-						traitnum = chosengene.getLink().getTrait().getId() - first_traitnum;
-
 					// Next check for the nodes, add them if not in the baby
 					// Genome already
 
@@ -705,12 +670,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_inode = curnode;
 						// else create the inode
 						else {
-							if (inode.getTrait() == null)
-								nodetraitnum = 0;
-							else
-								nodetraitnum = inode.getTrait().getId() - first_traitnum;
-
-							newtrait = newtraits.get(nodetraitnum);
+							newtrait = newtraits.get(0);
 							new_inode = new Node(inode);
 
 							// insert in newnodes list
@@ -733,12 +693,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_onode = curnode;
 						// else create the onode
 						else {
-							if (onode.getTrait() == null)
-								nodetraitnum = 0;
-							else
-								nodetraitnum = onode.getTrait().getId() - first_traitnum;
-
-							newtrait = newtraits.get(nodetraitnum);
+							newtrait = newtraits.get(0);
 							new_onode = new Node(onode);
 
 							// insert in newnodes list
@@ -763,12 +718,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_onode = curnode;
 						// else create the onode
 						else {
-							if (onode.getTrait() == null)
-								nodetraitnum = 0;
-							else
-								nodetraitnum = onode.getTrait().getId()
-								- first_traitnum;
-							newtrait = (Trait) newtraits.get(nodetraitnum);
+							newtrait = (Trait) newtraits.get(0);
 							new_onode = new Node(onode);
 							// insert in newnodes list
 							EvolutionUtils.nodeInsert(newnodes, new_onode);
@@ -791,12 +741,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_inode = curnode;
 						// else create the inode
 						else {
-							if (inode.getTrait() == null)
-								nodetraitnum = 0;
-							else
-								nodetraitnum = inode.getTrait().getId() - first_traitnum;
-
-							newtrait = newtraits.get(nodetraitnum);
+							newtrait = newtraits.get(0);
 							new_inode = new Node(inode);
 
 							// insert in newnodes list
@@ -806,7 +751,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// Add the Gene
 					newtrait = newtraits.get(traitnum);
-					newgene = new Gene(chosengene, newtrait, new_inode, new_onode);
+					newgene = new Gene(chosengene,new_inode, new_onode);
 					newgenes.add(newgene);
 
 				} // end of block gene creation if !skip
@@ -861,7 +806,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 		boolean skip = false;
 
 		// Set up the avgene
-		IGene avgene = new Gene(null, 0.0, null, null, false, 0.0, 0.0);
+		IGene avgene = new Gene(0.0, null, null, false, 0.0, 0.0);
 		// First, average the Traits from the 2 parents to form the baby's
 		// Traits
 		// It is assumed that trait vectors are the same length
@@ -933,10 +878,9 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 				p2innov = _p2gene.getInnovationNumber();
 				if (p1innov == p2innov) {
 
-					if (RandomUtils.randomDouble() > 0.5)
-						avgene.getLink().setTrait(_p1gene.getLink().getTrait());
-					else
-						avgene.getLink().setTrait(_p2gene.getLink().getTrait());
+					//TODO: delete this call (only there to preserve use of Random
+					//for tests)
+					RandomUtils.randomDouble();
 
 					// WEIGHTS AVERAGED HERE
 					avgene.getLink().setWeight((_p1gene.getLink().getWeight() + _p2gene
@@ -1150,7 +1094,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 				// --------------------------------------------------------------------------------
 
 				// Add the Gene
-				newgene = new Gene(chosengene, newtrait, new_inode, new_onode);
+				newgene = new Gene(chosengene, new_inode, new_onode);
 				if (disable) {
 					newgene.setEnabled(false);
 					disable = false;

@@ -264,8 +264,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 					// read curr innovation with postincrement
 					double curr_innov = population.getCurrentInnovationNumberAndIncrement();
 					// Create the new gene
-					new_gene = new Gene((Trait) traits.get(traitnum),
-							new_weight, thenode1, thenode2, do_recur,
+					new_gene = new Gene(new_weight, thenode1, thenode2, do_recur,
 							curr_innov, new_weight);
 					// Add the innovation
 					population.getInnovations().add(new Innovation(thenode1.getId(), thenode2.getId(), curr_innov, new_weight, traitnum));
@@ -281,7 +280,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 							&& (_innov.getOutputNodeId() == thenode2.getId())
 							&& (_innov.isRecurrent() == do_recur)) {
 
-						new_gene = new Gene((Trait) traits.get(_innov.getNewTraitId()), _innov.getNewWeight(), thenode1, thenode2, do_recur, _innov.getInnovationNumber1(), 0);
+						new_gene = new Gene(_innov.getNewWeight(), thenode1, thenode2, do_recur, _innov.getInnovationNumber1(), 0);
 						done = true;
 					}
 				}
@@ -384,8 +383,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 			INode in_node = null;
 			INode out_node = null;
 			INode new_node = null;
-			//Iterator itr_innovation;
-			ITrait traitptr = null;
 
 			int j;
 			int genenum = 0;
@@ -444,8 +441,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 			thelink = _gene.getLink();
 			// Extract the weight;
 			oldweight = thelink.getWeight();
-			// Get the old link's trait
-			traitptr = thelink.getTrait();
 
 			// Extract the nodes
 			in_node = thelink.getInputNode();
@@ -473,13 +468,13 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 					gene_innov1 = population.getCurrentInnovationNumberAndIncrement();
 
 					// create gene with the current gene inovation
-					newgene1 = new Gene(traitptr, 1.0, in_node, new_node, thelink.isRecurrent(), gene_innov1, 0);
+					newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), gene_innov1, 0);
 
 					// re-read the current innovation with increment
 					gene_innov2 = population.getCurrentInnovationNumberAndIncrement();
 
 					// create the second gene with this innovation incremented
-					newgene2 = new Gene(traitptr, oldweight, new_node, out_node, false, gene_innov2, 0);
+					newgene2 = new Gene(oldweight, new_node, out_node, false, gene_innov2, 0);
 
 					population.getInnovations().add(new Innovation(in_node.getId(), out_node .getId(), gene_innov1, gene_innov2, new_node.getId(), _gene.getInnovationNumber()));
 					
@@ -497,8 +492,8 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 						// pass this current nodeid to newnode
 						new_node = new Node(NodeType.NEURON, _innov.getNewNodeId(), NodeLabel.HIDDEN);
 
-						newgene1 = new Gene(traitptr, 1.0, in_node, new_node, thelink.isRecurrent(), _innov.getInnovationNumber1(), 0);
-						newgene2 = new Gene(traitptr, oldweight, new_node, out_node, false, _innov.getInnovationNumber2(), 0);
+						newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), _innov.getInnovationNumber1(), 0);
+						newgene2 = new Gene(oldweight, new_node, out_node, false, _innov.getInnovationNumber2(), 0);
 						done = true;
 
 					}
@@ -607,10 +602,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 			// set the link to point to the new trait
 			_gene = genome.getGenes().get(genenum);
 			_trait = genome.getTraits().get(traitnum);
-			_gene.getLink().setTrait(_trait);
-
-			// TRACK INNOVATION- future use
-			// (*thegene)->mutation_num+=randposneg()*randfloat()*linktrait_mut_sig;
 		}
 	}
 	
