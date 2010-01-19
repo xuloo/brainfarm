@@ -1,6 +1,7 @@
 package org.brainfarm.java.neat.evaluators;
 
 import org.brainfarm.java.neat.Neat;
+import org.brainfarm.java.neat.api.INeatNetwork;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.IOrganism;
 import org.brainfarm.java.neat.api.evaluators.IOrganismEvaluator;
@@ -12,7 +13,7 @@ public abstract class AbstractOrganismEvaluator implements IOrganismEvaluator {
 	
 	private IEvolutionFitness fitnessImpl;
 	
-	protected INetwork net;
+	protected INeatNetwork net;
 	
 	protected double[] in;
 	
@@ -63,7 +64,7 @@ public abstract class AbstractOrganismEvaluator implements IOrganismEvaluator {
 
 		tgt = new double[neat.getNumberOfSamples()][neat.getNumberOfOutputUnits()];
 
-		net = organism.getPhenotype();
+		net = (INeatNetwork)organism.getPhenotype();
 		net_depth = net.maxDepth();
 	
 		if (evaluate()) {
