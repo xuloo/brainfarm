@@ -29,8 +29,6 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	
 	private IPopulation population;
 	
-	private IOrganismEvaluator evaluator;
-	
 	protected List<IEvolutionListener> listeners = Collections.synchronizedList(new CopyOnWriteArrayList<IEvolutionListener>());
 	
 	private List<Double> maxFitnessEachEpoch = new ArrayList<Double>();
@@ -39,11 +37,10 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 		
 	}
 	
-	public Evolution(Neat neat, IExperiment experiment, IPopulation population, IOrganismEvaluator evaluator) {
+	public Evolution(Neat neat, IExperiment experiment, IPopulation population) {
 		this.neat = neat;
 		this.experiment = experiment;
 		this.population = population;
-		this.evaluator = evaluator;
 	}
 	
 	@Override
@@ -87,7 +84,7 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 
 			for (IOrganism organism : population.getOrganisms()) {
 				// Evaluate each organism.
-				esito = evaluator.evaluate(organism);
+				esito = EvolutionStrategy.getInstance().getOrganismEvaluator().evaluate(organism);
 
 				if (organism.getFitness() > max_fitness_of_epoch)
 					max_fitness_of_epoch = organism.getFitness();
@@ -216,9 +213,5 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	
 	public void setPopulation(IPopulation population) {
 		this.population = population;
-	}
-	
-	public void setEvaluator(IOrganismEvaluator evaluator) {
-		this.evaluator = evaluator;
 	}
 }
