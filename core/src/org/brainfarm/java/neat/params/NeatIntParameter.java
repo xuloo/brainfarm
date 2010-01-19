@@ -34,4 +34,8 @@ public class NeatIntParameter extends AbstractNeatParameter {
 	public String getVal() {
 		return String.valueOf(value);
 	}
+	
+	public void setVal(String val) {
+		value = Integer.parseInt(val);
+	}
 }

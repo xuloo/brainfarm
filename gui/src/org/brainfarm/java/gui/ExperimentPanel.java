@@ -29,36 +29,31 @@ import org.brainfarm.java.util.log.HistoryLog;
 public class ExperimentPanel extends AbstractNeatPanel {
 
 	private static Logger log = Logger.getLogger(ExperimentPanel.class);
-
+	
+	private static final String LOAD_EXPERIMENT_FILE_LABEL = "Load Experiment";
+	private static final String LOAD_DEFAULT_EXPERIMENT_LABEL = " Load sess default ";
+	private static final String WRITE_EXPERIMENT_LABEL = " Write sess        ";
+	private static final String WRITE_EXPERIMENT_FILE_LABEL = " Write sess file...";
+	private static final String LOAD_FITNESS_CLASS_LABEL = " Load class fitness";
+	private static final String LOAD_DATA_INPUT_CLASS_LABEL = " Load class data input";
+	private static final String LOAD_DATA_TARGET_CLASS_LABEL = " Load class data target";
+	private static final String SET_EXPERIMENT_SKELETON_LABEL = " Set session file  skeleton ";
+	private static final String SET_FITNESS_CLASS_SKELETON_LABEL = " Set fitness class skeleton ";
+	private static final String SET_DATA_INPUT_CLASS_SKELETON_LABEL = " Set data_inp class skeleton ";
+	private static final String SET_DATA_TARGET_CLASS_SKELETON = " Set data_tgt class skeleton ";
+	private static final String CHECK_KEYWORD_LABEL = " C H E C K  keyword ";
+	private static final String COMPILE_LABEL = " C O M P I L E ";	
+	
 	private IGuiController controller;
 	
 	Container contentPane;
-	//protected HistoryLog logger;
 
 	private volatile Thread lookupThread;
 
-	private JFrame f1;
+	private JFrame frame;
 
-	JPanel p2; // pannello comandi
 	JPanel p3; // pannello source
 	JPanel p5; // pannello messaggi output
-
-	JButton b1;
-	JButton b2;
-	JButton b3;
-	JButton b4;
-	JButton b5;
-	JButton b6;
-	JButton b7;
-	JButton b8;
-	JButton b9;
-	JButton b10;
-	JButton b11;
-	JButton b12;
-	JButton b13;
-	// JButton b14;
-
-	JButton b99;
 
 	JScrollPane paneScroll1;
 	JTextPane textPane1;
@@ -66,91 +61,7 @@ public class ExperimentPanel extends AbstractNeatPanel {
 	String curr_fitness_class;
 	String curr_input_data;
 	String curr_output_data;
-
-	/*final static String[] My_keyword = { ";", "activation", "data_from_file",
-			"data_input", "data_target", "data_from_class",
-			"class_compute_fitness", "start_from_genome", "genome_file",
-			"start_from_random_population", "start_from_old_population",
-			"population_file", "maximum_unit", "recursion",
-			"probability_of_connection", "prefix_generation_file",
-			"prefix_winner", "prefix_genome_random", "epoch", "public",
-			"short", "float", "double", "int", "void", "class", "static", "if",
-			"{", "}", "(", ")", "[", "]", "for", "new", "-", "+", "*", ">",
-			"<=", ">=", "=", "<", ">", "/", "//", "%", "+=", "return" };
-*/
-	/*final static String[] default_source = { "; \n",
-			"; example of skeleton file  \n",
-			";  is a XOR simulation with input from file\n",
-			";data_from_file   Y\n", "data_from_class Y\n",
-			"data_input       bin_inp\n", "data_target      xor_out\n",
-			"class_compute_fitness xor_fit\n", "start_from_genome Y\n",
-			"genome_file     genome\n", ";start_from_random_population Y\n",
-			";start_from_old_population Y\n", "population_file primitive\n",
-			";maximum_unit    5\n", ";recursion       N\n",
-			";probability_of_connection 20\n", "epoch 10\n", "activation 0\n",
-			";prefix_genome_random genome.rnd \n",
-			"prefix_generation_file generation\n", "prefix_winner    winner\n" };
-*/
-	/*
-	 * final static String[] My_styles = {"regular", "italic-green", "bold-red",
-	 * "bold-blu", "small", "large"};
-	 */
-	/*final static String[] My_styles = { "normal", "italic", "bold",
-			"bold-italic" };
-*/
-	/*final static String[] initFitness = {
-			"public class xor_fit { \n",
-			" \n",
-			"  public static double getMaxFitness() { return Math.pow (4.0, 2); } \n",
-			" \n",
-			"  public static double[]  computeFitness(int _sample, int _num_nodes, double _out[][], double _tgt[][]) \n",
-			"  {",
-			"     double d[] = new double[3]; \n",
-			"     double errorsum = 0.0; \n",
-			"     double fitness; \n",
-			"     for ( int j = 0; j < _sample; j++) \n",
-			"        { \n",
-			"           errorsum  += ( double ) (Math.abs(_tgt[j][0] - _out[j][0])); \n",
-			"        } \n",
-			"     fitness = Math.pow ( ( 4.0 - errorsum ) , 2 ); \n", " \n",
-			"     d[0] = fitness; \n", "     d[1] = errorsum; \n",
-			"     d[2] = 0.0; \n", " \n",
-			"     if ((_out[0][0] < 0.5) && (_out[1][0] >= 0.5) &&  \n",
-			"            (_out[2][0] >= 0.5) && (_out[3][0] < 0.5)) \n",
-			"        d[2] = 1.0; \n", " \n", "     return d; \n", "  } \n",
-			"} \n"
-
-	};
-*/
-	/*final static String[] initDataClassInput = { "public class bin_inp {\n",
-			" \n", "   public static int getNumSamples() { return 4; } \n",
-			" \n", "   public static int getNumUnit()    { return 2; } \n",
-			" \n", "   public static double getInput( int _plist[])\n",
-			"   { \n", " \n", "      int _index = _plist[0]; \n",
-			"      int _col   = _plist[1]; \n", " \n",
-			"      if ( _index < 0 )  \n", "         _index = - _index; \n",
-			" \n", "      if ( _index >= 4 ) \n",
-			"         _index = _index % 4;  \n", " \n",
-			"      double d[][] = new double[4][2];  \n", " \n",
-			"      d[0][0] = 0; \n", "      d[0][1] = 0; \n", " \n",
-			"      d[1][0] = 1; \n", "      d[1][1] = 0; \n", " \n",
-			"      d[2][0] = 0; \n", "      d[2][1] = 1; \n", " \n",
-			"      d[3][0] = 1; \n", "      d[3][1] = 1; \n", " \n",
-			"      return d[_index][_col]; \n", " \n", "   } \n", " \n", "} \n" };
-*/
-	/*final static String[] initDataClassOutput = { "public class xor_out {\n",
-			" \n", "   public static int getNumUnit() { return 1; } \n", " \n",
-			"   public static double getTarget( int _plist[]) \n", "   { \n",
-			" \n", "      int _index = _plist[0];  \n",
-			"      int _col   = _plist[1];  \n", "  \n",
-			"      if ( _index < 0 ) \n", "         _index = - _index; \n",
-			"  \n", "      if ( _index >= 4 ) \n",
-			"         _index = _index % 4; \n", " \n",
-			"      double d[] = new double[4]; \n", " \n",
-			"      d[0] = 0; \n", "      d[1] = 1; \n", "      d[2] = 1; \n",
-			"      d[3] = 0; \n", " \n", "      return d[_index]; \n", " \n",
-			"   } \n", " \n", "} \n" };
-*/
+	
 	/**
 	 * Session constructor comment.
 	 */
@@ -166,189 +77,25 @@ public class ExperimentPanel extends AbstractNeatPanel {
 		
 		displayName = "Experiment Settings";
 
-		// Font fc = new Font("Dialog", Font.PLAIN, 12);
-
 		GridBagLayout gbl;
 		GridBagConstraints limiti;
 
-		curr_fitness_class = null;
-		curr_input_data = null;
-		curr_output_data = null;
+		this.frame = frame;
 
-		f1 = frame;
-
-		p2 = new JPanel();
+		
 		p3 = new JPanel();
 
-		p5 = new JPanel();
-		p5.setLayout(new BorderLayout());
+		
 
-		b1 = new JButton(" Load sess default ");
-		b1.addActionListener(this);
+		
 
-		b2 = new JButton(" Load sess file....");
-		b2.addActionListener(this);
-
-		b3 = new JButton(" Write sess        ");
-		b3.addActionListener(this);
-
-		b4 = new JButton(" Write sess file...");
-		b4.addActionListener(this);
-
-		b5 = new JButton(" Load class fitness");
-		b5.addActionListener(this);
-
-		b6 = new JButton(" Load class data input");
-		b6.addActionListener(this);
-
-		b7 = new JButton(" Load class data target");
-		b7.addActionListener(this);
-
-		b8 = new JButton(" Set session file  skeleton ");
-		b8.addActionListener(this);
-
-		b9 = new JButton(" Set fitness class skeleton ");
-		b9.addActionListener(this);
-
-		b10 = new JButton(" Set data_inp class skeleton ");
-		b10.addActionListener(this);
-
-		b11 = new JButton(" Set data_tgt class skeleton ");
-		b11.addActionListener(this);
-
-		b12 = new JButton(" C H E C K  keyword ");
-		b12.addActionListener(this);
-
-		b13 = new JButton(" C O M P I L E ");
-		b13.addActionListener(this);
-
-		/*
-		 * b14 = new JButton(" clear log-window"); b14.addActionListener(this);
-		 */
-		b99 = new JButton(" E X I T ");
-		b99.addActionListener(this);
-
-		Font fc = new Font("Dialog", Font.BOLD, 12);
-		b1.setFont(fc);
-		b2.setFont(fc);
-		b3.setFont(fc);
-		b4.setFont(fc);
-		b5.setFont(fc);
-		b6.setFont(fc);
-		b7.setFont(fc);
-		b8.setFont(fc);
-		b9.setFont(fc);
-		b10.setFont(fc);
-		b11.setFont(fc);
-		b12.setFont(fc);
-		b13.setFont(fc);
-		// b14.setFont(fc);
-		b99.setFont(fc);
-
-		p2.setBorder(BorderFactory.createCompoundBorder(BorderFactory
-				.createTitledBorder("Command options"), BorderFactory
-				.createEmptyBorder(10, 2, 2, 2)));
+		
 
 		p3.setBorder(BorderFactory.createCompoundBorder(BorderFactory
 				.createTitledBorder(" Edit session "), BorderFactory
 				.createEmptyBorder(10, 10, 2, 2)));
 
-		p5.setBorder(BorderFactory.createCompoundBorder(BorderFactory
-				.createTitledBorder(" log messages.... "), BorderFactory
-				.createEmptyBorder(10, 10, 2, 2)));
-
-		gbl = new GridBagLayout();
-		limiti = new GridBagConstraints();
-		p2.setLayout(gbl);
-
-		buildConstraints(limiti, 0, 1, 1, 2, 100, 5);
-		limiti.anchor = GridBagConstraints.NORTH;
-		limiti.fill = GridBagConstraints.BOTH;
-		gbl.setConstraints(b1, limiti);
-		p2.add(b1);
-
-		buildConstraints(limiti, 0, 3, 1, 2, 0, 5);
-		limiti.anchor = GridBagConstraints.NORTH;
-		limiti.fill = GridBagConstraints.BOTH;
-		gbl.setConstraints(b2, limiti);
-		p2.add(b2);
-
-		buildConstraints(limiti, 0, 5, 1, 2, 0, 5);
-		limiti.anchor = GridBagConstraints.NORTH;
-		limiti.fill = GridBagConstraints.BOTH;
-		gbl.setConstraints(b3, limiti);
-		p2.add(b3);
-
-		buildConstraints(limiti, 0, 7, 1, 2, 0, 5);
-		limiti.anchor = GridBagConstraints.NORTH;
-		limiti.fill = GridBagConstraints.BOTH;
-		gbl.setConstraints(b4, limiti);
-		p2.add(b4);
-
-		buildConstraints(limiti, 0, 9, 1, 2, 0, 5);
-		limiti.anchor = GridBagConstraints.NORTH;
-		limiti.fill = GridBagConstraints.BOTH;
-		gbl.setConstraints(b5, limiti);
-		p2.add(b5);
-
-		buildConstraints(limiti, 0, 11, 1, 2, 0, 5);
-		limiti.anchor = GridBagConstraints.NORTH;
-		limiti.fill = GridBagConstraints.BOTH;
-		gbl.setConstraints(b6, limiti);
-		p2.add(b6);
-
-		buildConstraints(limiti, 0, 13, 1, 2, 0, 5);
-		limiti.anchor = GridBagConstraints.NORTH;
-		limiti.fill = GridBagConstraints.BOTH;
-		gbl.setConstraints(b7, limiti);
-		p2.add(b7);
-
-		buildConstraints(limiti, 0, 15, 1, 2, 0, 5);
-		limiti.anchor = GridBagConstraints.NORTH;
-		limiti.fill = GridBagConstraints.BOTH;
-		gbl.setConstraints(b8, limiti);
-		p2.add(b8);
-
-		buildConstraints(limiti, 0, 17, 1, 2, 0, 5);
-		limiti.anchor = GridBagConstraints.NORTH;
-		limiti.fill = GridBagConstraints.BOTH;
-		gbl.setConstraints(b9, limiti);
-		p2.add(b9);
-
-		buildConstraints(limiti, 0, 19, 1, 2, 0, 5);
-		limiti.anchor = GridBagConstraints.NORTH;
-		limiti.fill = GridBagConstraints.BOTH;
-		gbl.setConstraints(b10, limiti);
-		p2.add(b10);
-
-		buildConstraints(limiti, 0, 21, 1, 2, 0, 5);
-		limiti.anchor = GridBagConstraints.NORTH;
-		limiti.fill = GridBagConstraints.BOTH;
-		gbl.setConstraints(b11, limiti);
-		p2.add(b11);
-
-		buildConstraints(limiti, 0, 23, 1, 2, 0, 5);
-		limiti.anchor = GridBagConstraints.NORTH;
-		limiti.fill = GridBagConstraints.BOTH;
-		gbl.setConstraints(b12, limiti);
-		p2.add(b12);
-
-		buildConstraints(limiti, 0, 25, 1, 2, 0, 5);
-		limiti.anchor = GridBagConstraints.NORTH;
-		limiti.fill = GridBagConstraints.BOTH;
-		gbl.setConstraints(b13, limiti);
-		p2.add(b13);
-		/*
-		 * buildConstraints(limiti, 0, 27, 1, 2, 0, 5); limiti.anchor =
-		 * GridBagConstraints.NORTH; limiti.fill = GridBagConstraints.BOTH;
-		 * gbl.setConstraints(b14, limiti); p2.add(b14);
-		 */
-		buildConstraints(limiti, 0, 27, 1, 2, 0, 35);
-		limiti.anchor = GridBagConstraints.SOUTH;
-		limiti.fill = GridBagConstraints.HORIZONTAL;
-		limiti.ipady = 20;
-		gbl.setConstraints(b99, limiti);
-		p2.add(b99);
+		
 
 		textPane1 = new JTextPane();
 		textPane1.setEditable(true);
@@ -381,8 +128,10 @@ public class ExperimentPanel extends AbstractNeatPanel {
 		buildConstraints(limiti, 0, 0, 1, 5, 0, 100);
 		limiti.anchor = GridBagConstraints.WEST;
 		limiti.fill = GridBagConstraints.VERTICAL;
-		panel.add(p2);
-		gbl.setConstraints(p2, limiti);
+		
+		JPanel buttonPanel = buildButtonPanel(frame);
+		panel.add(buttonPanel);
+		gbl.setConstraints(buttonPanel, limiti);
 
 		limiti = new GridBagConstraints();
 		buildConstraints(limiti, 1, 0, 4, 5, 100, 0);
@@ -392,10 +141,85 @@ public class ExperimentPanel extends AbstractNeatPanel {
 		gbl.setConstraints(paneScroll1, limiti);
 
 		// interface to main method of this class
-		contentPane = f1.getContentPane();
+		contentPane = frame.getContentPane();
 		BorderLayout bl = new BorderLayout();
 		contentPane.setLayout(bl);
 		contentPane.add(panel, BorderLayout.CENTER);
+	}
+	
+	private JButton buildButton(String label, Font font, GridBagLayout layout, GridBagConstraints constraints) {
+		JButton button = new JButton(label);
+		
+		button.setFont(font);
+		layout.setConstraints(button, constraints);
+		
+		button.addActionListener(this);
+		
+		return button;
+	}
+	
+	private JPanel buildButtonPanel(JFrame frame) {
+		JPanel buttonPanel = new JPanel();
+		
+		buttonPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+				.createTitledBorder("Command options"), BorderFactory
+				.createEmptyBorder(10, 2, 2, 2)));
+		
+		Font font = new Font("Dialog", Font.BOLD, 12);		
+		
+		GridBagLayout layout = new GridBagLayout();
+		GridBagConstraints constraints = new GridBagConstraints();
+		constraints.anchor = GridBagConstraints.NORTH;
+		constraints.fill = GridBagConstraints.BOTH;
+		
+		buttonPanel.setLayout(layout);		
+		
+		buildConstraints(constraints, 0, 1, 1, 2, 100, 5);
+		buttonPanel.add(buildButton(LOAD_DEFAULT_EXPERIMENT_LABEL, font, layout, constraints));
+
+		buildConstraints(constraints, 0, 3, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(LOAD_EXPERIMENT_FILE_LABEL, font, layout, constraints));
+
+		buildConstraints(constraints, 0, 5, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(WRITE_EXPERIMENT_LABEL, font, layout, constraints));
+
+		buildConstraints(constraints, 0, 7, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(WRITE_EXPERIMENT_FILE_LABEL, font, layout, constraints));
+
+		buildConstraints(constraints, 0, 9, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(LOAD_FITNESS_CLASS_LABEL, font, layout, constraints));
+
+		buildConstraints(constraints, 0, 11, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(LOAD_DATA_INPUT_CLASS_LABEL, font, layout, constraints));
+
+		buildConstraints(constraints, 0, 13, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(LOAD_DATA_TARGET_CLASS_LABEL, font, layout, constraints));
+
+		buildConstraints(constraints, 0, 15, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(SET_EXPERIMENT_SKELETON_LABEL, font, layout, constraints));
+
+		buildConstraints(constraints, 0, 17, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(SET_FITNESS_CLASS_SKELETON_LABEL, font, layout, constraints));
+
+		buildConstraints(constraints, 0, 19, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(SET_DATA_INPUT_CLASS_SKELETON_LABEL, font, layout, constraints));
+
+		buildConstraints(constraints, 0, 21, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(SET_DATA_TARGET_CLASS_SKELETON, font, layout, constraints));
+
+		buildConstraints(constraints, 0, 23, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(CHECK_KEYWORD_LABEL, font, layout, constraints));
+
+		buildConstraints(constraints, 0, 25, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(COMPILE_LABEL, font, layout, constraints));
+
+		buildConstraints(constraints, 0, 27, 1, 2, 0, 35);
+		constraints.anchor = GridBagConstraints.SOUTH;
+		constraints.fill = GridBagConstraints.HORIZONTAL;
+		constraints.ipady = 20;
+		buttonPanel.add(buildButton(EXIT_BUTTON_LABEL, font, layout, constraints));
+		
+		return buttonPanel;
 	}
 
 	public void setStyle() {
@@ -446,19 +270,13 @@ public class ExperimentPanel extends AbstractNeatPanel {
 
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		String tmp1;
-		String tmp2;
-		String nomef;
+		// Check for an EXIT event first...
+		super.actionPerformed(e);
 
-		JButton Pulsante = (JButton) e.getSource();
-
-		if (e.getActionCommand().equals(" E X I T ")) {
-			System.exit(0);
-		}
-
-		else if (e.getActionCommand().equals(" Load sess default ")) {
+		if (e.getActionCommand().equals(LOAD_DEFAULT_EXPERIMENT_LABEL)) {
 			/*logger.sendToStatus("wait....");
 			EnvConstant.EDIT_STATUS = 0;
 			nomef = EnvRoutine.getJneatSession();
@@ -504,55 +322,13 @@ public class ExperimentPanel extends AbstractNeatPanel {
 */
 		}
 
-		else if (e.getActionCommand().equals(" Load sess file....")) {
+		else if (e.getActionCommand().equals(LOAD_EXPERIMENT_FILE_LABEL)) {
+			
+			controller.loadExperiment(frame);
+			
+		} else if (e.getActionCommand().equals(WRITE_EXPERIMENT_LABEL)) {
 
-			//EnvConstant.EDIT_STATUS = 0;
-
-			FileDialog fileDialog = new FileDialog(f1, "load session file",
-					FileDialog.LOAD);
-			fileDialog.setVisible(true);
-			tmp1 = fileDialog.getDirectory();
-			tmp2 = fileDialog.getFile();
-
-			if (tmp1 != null && tmp2 != null) {
-				System.out.println("Experiment Location " + tmp1 + " " + tmp2 + " " + fileDialog.getName());
-				controller.loadExperiment(fileDialog.getDirectory() + fileDialog.getFile());
-				/*logger.sendToStatus("wait....");
-				nomef = tmp1 + tmp2;
-				logger.sendToLog(" session: wait loading -> " + nomef);
-				StringTokenizer st;
-				String xline;
-				IOseq xFile;
-
-				xFile = new IOseq(nomef);
-				xFile.IOseqOpenR();
-				StringBuffer sb1 = new StringBuffer("");
-				try {
-					xline = xFile.IOseqRead();
-					while (xline != "EOF") {
-						sb1.append(xline + "\n");
-						xline = xFile.IOseqRead();
-					}
-					textPane1.setText("");
-					String[] source_new = convertToArray(sb1.toString());
-					setSourceNew(source_new);
-					logger.sendToLog(" ok file loaded");
-					logger.sendToStatus("READY");
-				}
-
-				catch (Throwable e1) {
-					logger.sendToStatus("READY");
-					logger.sendToLog(" session: error during read " + e1);
-				}*/
-
-				//xFile.IOseqCloseR();
-			}
-
-		}
-/*
-		else if (e.getActionCommand().equals(" Write sess        ")) {
-
-			EnvConstant.EDIT_STATUS = 0;
+			/*EnvConstant.EDIT_STATUS = 0;
 
 			nomef = EnvRoutine.getJneatSession();
 			logger.sendToStatus("wait....");
@@ -584,12 +360,12 @@ public class ExperimentPanel extends AbstractNeatPanel {
 			}
 
 			xFile.IOseqCloseW();
-			logger.sendToStatus("READY");
+			logger.sendToStatus("READY");*/
 
 		}
 
-		else if (e.getActionCommand().equals(" Write sess file...")) {
-			EnvConstant.EDIT_STATUS = 0;
+		else if (e.getActionCommand().equals(WRITE_EXPERIMENT_FILE_LABEL)) {
+			/*EnvConstant.EDIT_STATUS = 0;
 			FileDialog fd = new FileDialog(f1, "save session file",
 					FileDialog.SAVE);
 			fd.setVisible(true);
@@ -635,59 +411,59 @@ public class ExperimentPanel extends AbstractNeatPanel {
 				logger.sendToStatus("READY");
 
 			}
-
+*/
 		}
 
-		else if (e.getActionCommand().equals(" C H E C K  keyword ")) {
-			logger.sendToStatus("wait...");
+		else if (e.getActionCommand().equals(CHECK_KEYWORD_LABEL)) {
+			/*logger.sendToStatus("wait...");
 			String[] source_new = convertToArray(textPane1.getText());
 			textPane1.setText("");
 			setSourceNew(source_new);
-			logger.sendToStatus("READY");
+			logger.sendToStatus("READY");*/
 		}
 
-		else if (e.getActionCommand().equals(" Set session file  skeleton ")) {
-			logger.sendToStatus("wait...");
+		else if (e.getActionCommand().equals(SET_EXPERIMENT_SKELETON_LABEL)) {
+			/*logger.sendToStatus("wait...");
 			EnvConstant.EDIT_STATUS = 0;
 			textPane1.setText("");
 			setSourceNew(default_source);
 			logger.sendToLog(" session: set to default skeleton for session");
-			logger.sendToStatus("READY");
+			logger.sendToStatus("READY");*/
 		}
 
-		else if (e.getActionCommand().equals(" Set fitness class skeleton ")) {
-			logger.sendToStatus("wait...");
+		else if (e.getActionCommand().equals(SET_FITNESS_CLASS_SKELETON_LABEL)) {
+			/*logger.sendToStatus("wait...");
 			EnvConstant.EDIT_STATUS = EnvConstant.EDIT_CLASS_FIT;
 			textPane1.setText("");
 
 			setSourceNew(initFitness);
 
 			logger.sendToLog(" session: set to default skeleton for fitness");
-			logger.sendToStatus("READY");
+			logger.sendToStatus("READY");*/
 		}
 
-		else if (e.getActionCommand().equals(" Set data_inp class skeleton ")) {
-			logger.sendToStatus("wait...");
+		else if (e.getActionCommand().equals(SET_DATA_INPUT_CLASS_SKELETON_LABEL)) {
+			/*logger.sendToStatus("wait...");
 			EnvConstant.EDIT_STATUS = EnvConstant.EDIT_CLASS_INP;
 			textPane1.setText("");
 			setSourceNew(initDataClassInput);
 			logger
 					.sendToLog(" session: set to default skeleton for  class/dataset generate input");
-			logger.sendToStatus("READY");
+			logger.sendToStatus("READY");*/
 		}
 
-		else if (e.getActionCommand().equals(" Set data_tgt class skeleton ")) {
-			logger.sendToStatus("wait...");
+		else if (e.getActionCommand().equals(SET_DATA_TARGET_CLASS_SKELETON)) {
+			/*logger.sendToStatus("wait...");
 			EnvConstant.EDIT_STATUS = EnvConstant.EDIT_CLASS_OUT;
 			textPane1.setText("");
 			setSourceNew(initDataClassOutput);
 			logger
 					.sendToLog(" session: set to default skeleton for  class/dataset generate output");
-			logger.sendToStatus("READY");
+			logger.sendToStatus("READY");*/
 		}
 
-		else if (e.getActionCommand().equals(" Load class data target")) {
-			logger.sendToStatus("wait...");
+		else if (e.getActionCommand().equals(LOAD_DATA_TARGET_CLASS_LABEL)) {
+			/*logger.sendToStatus("wait...");
 			EnvConstant.EDIT_STATUS = EnvConstant.EDIT_CLASS_OUT;
 			if (curr_output_data != null) {
 				load_from_disk_Class("src/gui/" + curr_output_data, "data");
@@ -695,11 +471,11 @@ public class ExperimentPanel extends AbstractNeatPanel {
 				logger
 						.sendToLog(" session: *warning* before load data-out , load the sesssion !");
 
-			logger.sendToStatus("READY");
+			logger.sendToStatus("READY");*/
 		}
 
-		else if (e.getActionCommand().equals(" Load class fitness")) {
-			logger.sendToStatus("wait...");
+		else if (e.getActionCommand().equals(LOAD_FITNESS_CLASS_LABEL)) {
+			/*logger.sendToStatus("wait...");
 			EnvConstant.EDIT_STATUS = EnvConstant.EDIT_CLASS_FIT;
 			if (curr_fitness_class != null) {
 				load_from_disk_Class("src/gui/" + curr_fitness_class, "fitness");
@@ -707,11 +483,11 @@ public class ExperimentPanel extends AbstractNeatPanel {
 				logger
 						.sendToLog(" session: *warning* before load fitness , load the sesssion !");
 
-			logger.sendToStatus("READY");
+			logger.sendToStatus("READY");*/
 		}
 
-		else if (e.getActionCommand().equals(" Load class data input")) {
-			logger.sendToStatus("wait...");
+		else if (e.getActionCommand().equals(LOAD_DATA_INPUT_CLASS_LABEL)) {
+			/*logger.sendToStatus("wait...");
 			EnvConstant.EDIT_STATUS = EnvConstant.EDIT_CLASS_INP;
 			if (curr_input_data != null) {
 				load_from_disk_Class(curr_input_data, "data");
@@ -719,11 +495,11 @@ public class ExperimentPanel extends AbstractNeatPanel {
 				logger
 						.sendToLog(" session: *warning* before load data-in , load the sesssion !");
 
-			logger.sendToStatus("READY");
+			logger.sendToStatus("READY");*/
 		}
 
-		else if (e.getActionCommand().equals(" C O M P I L E ")) {
-			if (EnvConstant.EDIT_STATUS == EnvConstant.EDIT_CLASS_FIT) {
+		else if (e.getActionCommand().equals(COMPILE_LABEL)) {
+			/*if (EnvConstant.EDIT_STATUS == EnvConstant.EDIT_CLASS_FIT) {
 				if (curr_fitness_class != null) {
 					EnvConstant.CURRENT_CLASS = curr_fitness_class;
 					Async_generationClass();
@@ -766,10 +542,10 @@ public class ExperimentPanel extends AbstractNeatPanel {
 					}
 				}
 
-			}
+			}*/
 
 		}
-*/
+
 	}
 
 	public void buildConstraints(GridBagConstraints gbc, int gx, int gy,
