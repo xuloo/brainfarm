@@ -1,5 +1,6 @@
 package org.brainfarm.java.gui;
 
+import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -31,5 +32,17 @@ public abstract class AbstractNeatPanel implements INeatPanel, INeatContextListe
 		if (e.getActionCommand().equals(EXIT_BUTTON_LABEL)) {
 			System.exit(0);
 		}
+	}
+	
+	protected void buildConstraints(GridBagConstraints constraints, 
+									int gridx, int gridy, 
+									int gridwidth, int gridheight, 
+									int weightx, int weighty) {
+		constraints.gridx = gridx;
+		constraints.gridy = gridy;
+		constraints.gridwidth = gridwidth;
+		constraints.gridheight = gridheight;
+		constraints.weightx = weightx;
+		constraints.weighty = weighty;
 	}
 }

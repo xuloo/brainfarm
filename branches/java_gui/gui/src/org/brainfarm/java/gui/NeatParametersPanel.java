@@ -94,8 +94,19 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 		return detailPanel;
 	}
 	
+	private JButton buildButton(String label, Font font, GridBagLayout layout, GridBagConstraints constraints) {
+		JButton button = new JButton(label);
+		
+		button.setFont(font);
+		layout.setConstraints(button, constraints);
+		button.addActionListener(this);		
+		
+		return button;
+	}
+	
 	private JPanel createButtonPanel(JFrame frame, GridBagLayout layout) {
 		JPanel buttonPanel = new JPanel();
+		
 		Font font = new Font("Dialog", Font.BOLD, 12);
 		
 		GridBagLayout panelLayout = new GridBagLayout();
@@ -104,8 +115,7 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 		panelConstraints.fill = GridBagConstraints.BOTH;
 		panelConstraints.gridheight = 2;
 		panelConstraints.gridwidth = 1;
-		panelConstraints.gridx = 0;
-		
+		panelConstraints.gridx = 0;		
 		panelConstraints.insets = new Insets(1, 2, 1, 2);
 		panelConstraints.ipadx = 0;
 		panelConstraints.ipady = 0;
@@ -114,46 +124,24 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 		
 		buttonPanel.setLayout(panelLayout);
 		
-		JButton loadDefaultButton = new JButton(LOAD_DEFAULT_BUTTON_LABEL);
-		loadDefaultButton.setFont(font);
 		panelConstraints.gridy = 1;
-		buttonPanel.add(loadDefaultButton);
-		panelLayout.setConstraints(loadDefaultButton, panelConstraints);
-		loadDefaultButton.addActionListener(this);
+		buttonPanel.add(buildButton(LOAD_DEFAULT_BUTTON_LABEL, font, panelLayout, panelConstraints));
 
-		JButton loadFileButton = new JButton(LOAD_FILE_BUTTON_LABEL);
-		loadFileButton.setFont(font);
-		panelConstraints.gridy = 3;
-		buttonPanel.add(loadFileButton);
-		panelLayout.setConstraints(loadFileButton, panelConstraints);
-		loadFileButton.addActionListener(this);
+		panelConstraints.gridy = 3;		
+		buttonPanel.add(buildButton(LOAD_FILE_BUTTON_LABEL, font, panelLayout, panelConstraints));
+		
+		panelConstraints.gridy = 5;		
+		buttonPanel.add(buildButton(WRITE_BUTTON_LABEL, font, panelLayout, panelConstraints));
 
-		JButton writeButton = new JButton(WRITE_BUTTON_LABEL);
-		writeButton.setFont(font);
-		panelConstraints.gridy = 5;
-		buttonPanel.add(writeButton);
-		panelLayout.setConstraints(writeButton, panelConstraints);
-		writeButton.addActionListener(this);
-
-		JButton writeFileButton = new JButton(WRITE_FILE_BUTTON_LABEL);
-		writeFileButton.setFont(font);
 		panelConstraints.gridy = 7;
-		buttonPanel.add(writeFileButton);
-		panelLayout.setConstraints(writeFileButton, panelConstraints);
-		writeFileButton.addActionListener(this);
+		buttonPanel.add(buildButton(WRITE_FILE_BUTTON_LABEL, font, panelLayout, panelConstraints));
 
-		JButton exitButton = new JButton(EXIT_BUTTON_LABEL);
-		exitButton.setFont(font);
 		panelConstraints.anchor = GridBagConstraints.SOUTH;
 		panelConstraints.fill = GridBagConstraints.HORIZONTAL;
-
 		panelConstraints.gridheight = 2;
 		panelConstraints.gridy = 10;
 		panelConstraints.weighty = 5;
-
-		buttonPanel.add(exitButton);
-		panelLayout.setConstraints(exitButton, panelConstraints);
-		exitButton.addActionListener(this);			
+		buttonPanel.add(buildButton(EXIT_BUTTON_LABEL, font, panelLayout, panelConstraints));
 
 		buttonPanel.setBorder(BorderFactory.createCompoundBorder(
 							  BorderFactory.createTitledBorder("Command options"), 
@@ -213,17 +201,7 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 			}*/
 		}
 
-	}
-
-	public void buildConstraints(GridBagConstraints gbc, int gx, int gy,
-			int gw, int gh, int wx, int wy) {
-		gbc.gridx = gx;
-		gbc.gridy = gy;
-		gbc.gridwidth = gw;
-		gbc.gridheight = gh;
-		gbc.weightx = wx;
-		gbc.weighty = wy;
-	}
+	}	
 
 	/**
 	 * A new Neat Context has been loaded.
