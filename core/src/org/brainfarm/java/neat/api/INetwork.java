@@ -2,9 +2,16 @@ package org.brainfarm.java.neat.api;
 
 import java.util.List;
 
+/**
+ * The base interface that any FEAT Network must implement.
+ * 
+ * @author dtuohy
+ *
+ */
 public interface INetwork {
 	
 	int getId();
+	
 	void setId(int id);
 
 	boolean pathExists(INode potin, INode potout, int level, int threshold);
@@ -13,23 +20,14 @@ public interface INetwork {
 	
 	int maxDepth();
 	
-	int isStabilised(int period);
-	
 	void setGenotype(IGenome genome);
-	
-	int getStatus();
-	void setStatus(int status);
-	
-	boolean isRecurrent(INode potin_node, INode potout_node, int level, int thresh);
 	
 	List<INode> getAllNodes();
 	
-	boolean activate();
+	//TODO: It would be nice if we could move the following to INeatNetwork
+	int isStabilised(int period);
 	
-	void loadSensors(double[] sensvals);
+	int getStatus();
 	
-	void flush();
-	
-	List<INode> getInputs();
-	List<INode> getOutputs();
+	void setStatus(int status);
 }

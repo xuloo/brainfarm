@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.brainfarm.java.neat.api.ILink;
+import org.brainfarm.java.neat.api.INeatNode;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
 import org.brainfarm.java.neat.api.ITrait;
@@ -20,7 +21,7 @@ import org.brainfarm.java.neat.api.enums.NodeType;
  * with a value for output If it's a neuron, it has a list of its incoming input
  * signals Use an activation count to avoid flushing
  */
-public class Node implements INode {
+public class Node implements INeatNode {
 	/** type is either SIGMOID ..or others that can be added */
 	private ActivationFunction activationFunction;
 
@@ -558,8 +559,8 @@ public class Node implements INode {
 
 				_link.setTraversed(false);
 
-				if (_link.getInputNode().getActivationCount() > 0)
-					_link.getInputNode().flushbackOLD();
+				if (((INeatNode)_link.getInputNode()).getActivationCount() > 0)
+					((INeatNode)_link.getInputNode()).flushbackOLD();
 			}
 		} else {
 			// Flush the SENSOR

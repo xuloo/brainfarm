@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.ILink;
+import org.brainfarm.java.neat.api.INeatNetwork;
+import org.brainfarm.java.neat.api.INeatNode;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
 import org.brainfarm.java.neat.api.enums.ActivationFunction;
@@ -14,7 +16,7 @@ import org.brainfarm.java.neat.api.enums.NodeType;
 import org.brainfarm.java.util.NeatRoutine;
 
 
-public class Network implements INetwork {
+public class Network implements INeatNetwork {
 	/**
 	 * Is a collection of object NNode can be mapped in a Vector container; this
 	 * collection represent a group of references to input nodes;
@@ -151,9 +153,10 @@ public class Network implements INetwork {
 			// For each node, compute the sum of its incoming activation
 			//itr_node = allnodes.iterator();
 			//while (itr_node.hasNext()) {
-			for (INode node : allnodes) {
-				//NNode _node = ((NNode) itr_node.next());
+			for (INode inode : allnodes) {
 
+				INeatNode node = (INeatNode)inode;
+				
 				if (node.getType() != NodeType.SENSOR) {
 
 					node.setActiveSum(0.0); // reset activation value
@@ -186,9 +189,8 @@ public class Network implements INetwork {
 			// activation
 
 			//itr_node = allnodes.iterator();
-			for (INode node : allnodes) {
-			//while (itr_node.hasNext()) {
-				//NNode _node = ((NNode) itr_node.next());
+			for (INode inode : allnodes) {
+				INeatNode node = (INeatNode)inode;
 
 				if (node.getType() != NodeType.SENSOR) {
 					// Only activate if some active input came in
@@ -231,7 +233,8 @@ public class Network implements INetwork {
 	public void loadSensors(double[] sensvals) {
 		int counter = 0;
 		
-		for (INode _node : inputs) {
+		for (INode inode : inputs) {
+			INeatNode _node = (INeatNode)inode;
 			if (_node.getType() == NodeType.SENSOR) {
 				_node.sensorLoad(sensvals[counter++]);
 			}
@@ -274,7 +277,7 @@ public class Network implements INetwork {
 
 		itr_node = outputs.iterator();
 		while (itr_node.hasNext()) {
-			INode _node = itr_node.next();
+			INeatNode _node = (INeatNode)itr_node.next();
 			if (_node.getActivationCount() == 0)
 				return true;
 
@@ -348,10 +351,6 @@ public class Network implements INetwork {
 
 	}
 
-	/**
-   * 
-   * 
-   */
 	public boolean isRecurrent(INode potin_node, INode potout_node, int level, int thresh) {
 
 		//Iterator itr_link = null;
@@ -402,7 +401,8 @@ public class Network implements INetwork {
 
 		// first step : activation of sensor nodes
 		//
-		for (INode _node : inputs) {
+		for (INode inode : inputs) {
+			INeatNode _node = (INeatNode)inode;
 			if (_node.getType() == NodeType.SENSOR) {
 				_node.setLastActivation2(_node.getLastActivation());
 				_node.setLastActivation(_node.getActivation());
@@ -458,7 +458,8 @@ public class Network implements INetwork {
 			//itr_node = allnodes.iterator();
 			//while (itr_node.hasNext()) {
 				//_node = ((NNode) itr_node.next());
-			for (INode node : allnodes) {
+			for (INode inode : allnodes) {
+				INeatNode node = (INeatNode)inode;
 				if (node.getType() != NodeType.SENSOR) {
 					// Only activate if some active input came in
 					if (node.getActiveFlag()) {
@@ -477,7 +478,8 @@ public class Network implements INetwork {
 				// verify is has a changement in any output(j-esimo)
 				//
 				boolean has_changed = false;
-				for (INode _node : outputs) {
+				for (INode inode : outputs) {
+					INeatNode _node = (INeatNode)inode;
 					if (_node.getLastActivation() != _node.getActivation()) {
 						has_changed = true;
 						break;

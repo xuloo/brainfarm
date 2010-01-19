@@ -10,6 +10,7 @@ import org.brainfarm.java.neat.api.enums.NodeType;
 public interface INode {
 
 	ITrait getTrait();
+	
 	void setTrait(ITrait trait);
 	
 	NodeType getType();
@@ -17,9 +18,11 @@ public interface INode {
 	int getId();
 	
 	NodeLabel getGenNodeLabel();
+	
 	void setGenNodeLabel(NodeLabel genNodeLabel);
 	
 	INode getDuplicate();
+	
 	void setDuplicate(INode node);
 	
 	void deriveTrait(ITrait trait);
@@ -57,25 +60,4 @@ public interface INode {
 	boolean mark(int xlevel, INetwork mynet);
 	
 	int depth(int xlevel, Network mynet, int xmax_level);
-	
-	double getActivationCount();
-	void setActivationCount(double activationCount); 
-	
-	void flushbackOLD();
-	
-	double getActivation();
-	void setActivation(double activation);
-	
-	ActivationFunction getActivationFunction();
-	void setActivationFunction(ActivationFunction activationFunction);
-	
-	double getLastActivation();
-	void setLastActivation(double lastActivation);
-	
-	double getLastActivation2();
-	void setLastActivation2(double lastActivation2);
-	
-	boolean sensorLoad(double value);
-	
-	void incrementActivationCount();
 }
