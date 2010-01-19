@@ -32,9 +32,6 @@ public class Genome implements IGenome {
 	 */
 	private List<IGene> genes;
 
-	/** parameter conglomerations :Reserved parameter space for future use */
-	private List<ITrait> traits;
-
 	/** Is a collection of NNode mapped in a Vector; */
 	private List<INode> nodes;
 
@@ -53,11 +50,10 @@ public class Genome implements IGenome {
 	}
 
 	public List<ITrait> getTraits() {
-		return traits;
+		return null;
 	}
 
 	public void setTraits(List<ITrait> traits) {
-		this.traits = traits;
 	}
 
 	public List<INode> getNodes() {
@@ -91,25 +87,16 @@ public class Genome implements IGenome {
 	 * @param nodes
 	 * @param genes
 	 */
-	public Genome(int id, List<ITrait> traits, List<INode> nodes, List<IGene> genes) {
+	public Genome(int id, List<INode> nodes, List<IGene> genes) {
 		this.id = id;
-		this.traits = traits;
 		this.nodes = nodes;
 		this.genes = genes;
 	}
 
 	public Genome duplicate(int new_id) {		
 		
-		ArrayList<ITrait> traits_dup = new ArrayList<ITrait>(traits.size());
 		ArrayList<INode> nodes_dup = new ArrayList<INode>(nodes.size());
 		ArrayList<IGene> genes_dup = new ArrayList<IGene>(genes.size());
-		
-		ITrait assoc_trait = null;
-		int traitId;
-
-		// Duplicate Traits.
-		for (ITrait trait : traits) 
-			traits_dup.add(new Trait(trait));
 
 		// Duplicate Nodes.
 		for (INode _node : nodes) {
@@ -128,7 +115,7 @@ public class Genome implements IGenome {
 		}
 
 		// okay all nodes created, the new genome can be generate
-		return new Genome(new_id, traits_dup, nodes_dup, genes_dup);
+		return new Genome(new_id, nodes_dup, genes_dup);
 	}
 
 	/**
@@ -324,11 +311,6 @@ public class Genome implements IGenome {
 			return false;
 		}
 
-		if (traits.size() == 0) {
-			logger.error("Problem creating random Genome - There are no Traits!");
-			return false;
-		}
-
 		// control if nodes in gene are defined and are the same nodes il nodes list
 		for (IGene gene : genes) {
 
@@ -455,7 +437,6 @@ public class Genome implements IGenome {
 		//
 		totalnodes = i + o + nmax;
 
-		traits = new ArrayList<ITrait>(Neat.num_trait_params);
 		nodes = new ArrayList<INode>(totalnodes);
 		genes = new ArrayList<IGene>(totalnodes);
 
@@ -470,11 +451,6 @@ public class Genome implements IGenome {
 
 		// Assign the id
 		setId(new_id);
-
-		// Create a dummy trait (this is for future expansion of the system)
-
-		newtrait = new Trait(1, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-		traits.add(newtrait);
 
 		// Build the input nodes
 		for (count = 1; count <= i; count++) {
@@ -645,7 +621,6 @@ public class Genome implements IGenome {
 		s.append("GENOME START   id=" + getId());
 		s.append("\n  genes are :" + genes.size());
 		s.append("\n  nodes are :" + nodes.size());
-		s.append("\n  trait are :" + traits.size());
 
 		for (INode _node : nodes) {
 			if (_node.getGenNodeLabel() == NodeLabel.INPUT)
@@ -661,12 +636,6 @@ public class Genome implements IGenome {
 
 		for (IGene _gene : genes) {
 			s.append(_gene.toString());
-		}
-
-		s.append("\n Traits:\n");
-
-		for (ITrait _trait : traits) {
-			s.append(_trait.toString());
 		}
 		
 		return s.toString();
