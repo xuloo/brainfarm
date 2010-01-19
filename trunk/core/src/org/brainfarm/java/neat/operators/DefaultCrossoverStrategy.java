@@ -7,12 +7,10 @@ import org.brainfarm.java.neat.Gene;
 import org.brainfarm.java.neat.Genome;
 import org.brainfarm.java.neat.Neat;
 import org.brainfarm.java.neat.Node;
-import org.brainfarm.java.neat.Trait;
 import org.brainfarm.java.neat.api.IGene;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.INode;
 import org.brainfarm.java.neat.api.IOrganism;
-import org.brainfarm.java.neat.api.ITrait;
 import org.brainfarm.java.neat.api.enums.NodeLabel;
 import org.brainfarm.java.neat.api.operators.ICrossoverStrategy;
 import org.brainfarm.java.util.EvolutionUtils;
@@ -44,48 +42,25 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 	public IGenome mateMultipoint(IGenome mom, IGenome dad, int id, double fitness1, double fitness2) {
 
 		//get fields from mom
-		List<ITrait> momTraits = mom.getTraits();
 		List<IGene> momGenes = mom.getGenes();
 		List<INode> momNodes = mom.getNodes();
 
 		IGenome new_genome = null;
 		boolean disable = false; // Set to true if we want to disabled a chosen gene.
-		int traitnum = 0;
-		int nodetraitnum = 0;
 
 		INode curnode = null;
 
 		IGene chosengene = null;
 		IGene _p1gene = null;
 		IGene _p2gene = null;
-		ITrait newtrait = null;
-		ITrait _trait1 = null;
-		ITrait _trait2 = null;
 		double p1innov = 0;
 		double p2innov = 0;
 
-		int j;
 		int j1;
 		int j2;
 
 		// Tells if the first genome (this one) has better fitness or not
 		boolean skip = false;
-
-		// First, average the Traits from the 2 parents to form the baby's Traits
-		// It is assumed that trait vectors are the same length
-		// In the future, may decide on a different method for trait mating (corrispondenza)
-
-		int len_traits = momTraits.size();
-
-		ArrayList<ITrait> newtraits = new ArrayList<ITrait>(len_traits);
-
-		for (j = 0; j < len_traits; j++) {
-			_trait1 = momTraits.get(j);
-			_trait2 = dad.getTraits().get(j);
-			newtrait = new Trait(_trait1, _trait2);
-			newtraits.add(newtrait);
-
-		}
 
 		// Figure out which genome is better.
 		// The worse genome should not be allowed to add extra structural baggage.
@@ -226,7 +201,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the inode
 					else {
-						newtrait = newtraits.get(0);
 						new_inode = new Node(inode);
 
 						// insert in newnodes list
@@ -252,7 +226,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the onode
 					else {
-						newtrait = (Trait) newtraits.get(0);
 						new_onode = new Node(onode);
 
 						// insert in newnodes list
@@ -280,7 +253,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the onode
 					else {
-						newtrait = newtraits.get(0);
 						new_onode = new Node(onode);
 
 						// insert in newnodes list
@@ -306,7 +278,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the inode
 					else {
-						newtrait = newtraits.get(0);
 						new_inode = new Node(inode);
 
 						// insert in newnodes list
@@ -318,7 +289,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 				// --------------------------------------------------------------------------------
 
 				// Add the Gene
-				newtrait = (Trait) newtraits.get(traitnum);
 				newgene = new Gene(chosengene, new_inode, new_onode);
 				if (disable) {
 					newgene.setEnabled(false);
@@ -329,7 +299,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 		} // end block genome (while)
 
-		new_genome = new Genome(id, newtraits, newnodes, newgenes);
+		new_genome = new Genome(id, newnodes, newgenes);
 
 		// ----------------------------------------------------------------------------------------
 
@@ -361,7 +331,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 	public IGenome mateSinglepoint(IGenome mom, IGenome dad, int id) {
 		
-		List<ITrait> traits = mom.getTraits();
 		List<IGene> genes = mom.getGenes();
 		List<INode> nodes = mom.getNodes();
 		
@@ -369,16 +338,12 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 		//DecimalFormat fmt4 = new DecimalFormat(mask4);
 		IGenome new_genome = null;
 		IGene chosengene = null;
-		ITrait _trait1 = null;
-		ITrait _trait2 = null;
-		ITrait newtrait = null;
 		int stopA = 0;
 		int stopB = 0;
 		int j;
 		int j1;
 		int j2;
 
-		int len_traits = traits.size();
 		int size1 = genes.size();
 		int size2 = dad.getGenes().size();
 		int crosspoint = 0;
@@ -390,10 +355,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 		INode new_inode = null;
 		INode new_onode = null;
 		IGene newgene = null;
-		//boolean disable = false;
-
-		int traitnum = 0;
-		int nodetraitnum = 0;
 
 		List<IGene> genomeA;
 		List<IGene> genomeB;
@@ -402,18 +363,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 		int genecounter = 0; // Ready to count to crosspoint
 		boolean skip = false; // Default to not skip a Gene
-		//boolean done_in = false;
-		//boolean done_out = false;
-
-		ArrayList<ITrait> newtraits = new ArrayList<ITrait>(len_traits);
-
-		for (j = 0; j < len_traits; j++) {
-			_trait1 = traits.get(j);
-			_trait2 = dad.getTraits().get(j);
-			newtrait = new Trait(_trait1, _trait2);
-			newtraits.add(newtrait);
-
-		}
 
 		// Set up the avgene
 		IGene avgene = new Gene(0.0, null, null, false, 0.0, 0.0);
@@ -635,9 +584,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 				} // and else for control of position in gennomeA/B
 
 				if (!skip) {
-					// Now add the chosengene to the baby
-					// First, get the trait pointer
-					int first_traitnum = traits.get(0).getId();
 
 					// Next check for the nodes, add them if not in the baby
 					// Genome already
@@ -666,7 +612,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_inode = curnode;
 						// else create the inode
 						else {
-							newtrait = newtraits.get(0);
 							new_inode = new Node(inode);
 
 							// insert in newnodes list
@@ -689,7 +634,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_onode = curnode;
 						// else create the onode
 						else {
-							newtrait = newtraits.get(0);
 							new_onode = new Node(onode);
 
 							// insert in newnodes list
@@ -714,7 +658,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_onode = curnode;
 						// else create the onode
 						else {
-							newtrait = (Trait) newtraits.get(0);
 							new_onode = new Node(onode);
 							// insert in newnodes list
 							EvolutionUtils.nodeInsert(newnodes, new_onode);
@@ -737,7 +680,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_inode = curnode;
 						// else create the inode
 						else {
-							newtrait = newtraits.get(0);
 							new_inode = new Node(inode);
 
 							// insert in newnodes list
@@ -746,7 +688,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 					}
 
 					// Add the Gene
-					newtrait = newtraits.get(traitnum);
 					newgene = new Gene(chosengene,new_inode, new_onode);
 					newgenes.add(newgene);
 
@@ -757,7 +698,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 		}
 
-		new_genome = new Genome(id, newtraits, newnodes, newgenes);
+		new_genome = new Genome(id, newnodes, newgenes);
 		//
 		// search the existence of output node
 		// if no dump
@@ -770,7 +711,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 	public IGenome mateMultipointAverage(IGenome mom, IGenome g, int id, double fitness1, double fitness2) {
 
 		//get fields from mom
-		List<ITrait> traits = mom.getTraits();
 		List<IGene> genes = mom.getGenes();
 		List<INode> nodes = mom.getNodes();
 		
@@ -790,41 +730,19 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 		IGene _p1gene = null;
 		IGene _p2gene = null;
-		ITrait newtrait = null;
-		ITrait _trait1 = null;
-		ITrait _trait2 = null;
 		double p1innov = 0;
 		double p2innov = 0;
 
-		int j;
 		int j1;
 		int j2;
 		boolean skip = false;
 
 		// Set up the avgene
 		IGene avgene = new Gene(0.0, null, null, false, 0.0, 0.0);
-		// First, average the Traits from the 2 parents to form the baby's
-		// Traits
-		// It is assumed that trait vectors are the same length
-		// In the future, may decide on a different method for
-		// trait mating (corrispondenza)
-		int len_traits = traits.size();
 
-		List<ITrait> newtraits = new ArrayList<ITrait>(len_traits);
-		
-		for (j = 0; j < len_traits; j++) {
-			_trait1 = traits.get(j);
-			_trait2 = g.getTraits().get(j);
-			newtrait = new Trait(_trait1, _trait2);
-			newtraits.add(newtrait);
-
-		}
-
-		// Figure out which genome is better
-		// The worse genome should not be allowed to add extra structural
-		// baggage
-		// If they are the same, use the smaller one's disjoint and excess genes
-		// only
+		// Figure out which genome is better. The worse genome should not be 
+		// allowed to add extra structural baggage. If they are the same, use 
+		// the smaller one's disjoint and excess genes only.
 
 		boolean p1better = false;
 		int size1 = genes.size();
@@ -1097,9 +1015,8 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 		} // end block genome
 
-		new_genome = new Genome(id, newtraits, newnodes, newgenes);
+		new_genome = new Genome(id, newnodes, newgenes);
 
 		return new_genome;
 	}
-
 }
