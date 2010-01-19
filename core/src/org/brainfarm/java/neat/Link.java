@@ -9,12 +9,12 @@ import org.brainfarm.java.neat.api.ITrait;
  * can be marked as recurrent; Its parameters are made public for efficiency.
  */
 public class Link implements ILink {
-	
+
 	/** 
 	 * Weight of connection. 
 	 */
 	private double weight;
-	
+
 	/** 
 	 * Reference to the input node.
 	 */
@@ -36,11 +36,6 @@ public class Link implements ILink {
 	private boolean timeDelayed;
 
 	/**
-	 * Points to a trait of parameters for genetic creation.
-	 */
-	private ITrait trait;
-	
-	/**
 	 * Used during computeDepth(). Flags whether this Link has already been traversed.
 	 */
 	private boolean traversed = false;
@@ -58,6 +53,8 @@ public class Link implements ILink {
 	/**
 	 * Insert the method's description here. Creation date: (12/01/2002
 	 * 10.41.28)
+	 * 
+	 * TODO: eliminate this constructor
 	 * 
 	 * @param trait
 	 *            jneat.Trait
@@ -77,7 +74,6 @@ public class Link implements ILink {
 		setOutputNode(outputNode);
 		setRecurrent(recurrent);
 		setAddedWeight(0.0);
-		setTrait(trait);
 		setTimeDelayed(false);
 	}
 
@@ -85,7 +81,7 @@ public class Link implements ILink {
 	 * Insert the method's description here. Creation date: (15/01/2002 7.53.27)
 	 * 
 	 * @param c
-	 *            int
+	 * 
 	 */
 	public Link(double weight, INode inputNode, INode outputNode, boolean recurrent) {
 		setWeight(weight);
@@ -93,30 +89,14 @@ public class Link implements ILink {
 		setOutputNode(outputNode);
 		setRecurrent(recurrent);
 		setAddedWeight(0.0);
-		setTrait(null);
 		setTimeDelayed(false);
 
 	}
 
-	/**
-	 * Insert the method's description here. Creation date: (15/01/2002 8.05.44)
-	 */
-	public void deriveTrait(ITrait trait) {
-		if (trait != null) {
-			for (int count = 0; count < Neat.num_trait_params; count++) {
-				params[count] = trait.getParam(count);
-			}
-		} else {
-			for (int count = 0; count < Neat.num_trait_params; count++) {
-				params[count] = 0.0;
-			}
-		}
-	}
-
 	public String toString() {
-		
+
 		StringBuilder s = new StringBuilder();
-		
+
 		s.append("\n +LINK : ");
 		s.append("weight=" + getWeight());
 		s.append(", weight-add=" + getAddedWeight());
@@ -125,16 +105,11 @@ public class Link implements ILink {
 		s.append(getOutputNode().getId() + ")");
 		s.append(", recurrent=" + isRecurrent());
 		s.append(", tapped=" + isTimeDelayed());
+		s.append("\n         *warning* linktrait for this gene is null ");
 
-		if (getTrait() != null) {
-			s.append(getTrait().toString());
-		} else {
-			s.append("\n         *warning* linktrait for this gene is null ");
-		}
-		
 		return s.toString();
 	}
-	
+
 	public double getWeight() {
 		return weight;
 	}
@@ -149,14 +124,6 @@ public class Link implements ILink {
 
 	public void setParams(double[] params) {
 		this.params = params;
-	}
-
-	public ITrait getTrait() {
-		return trait;
-	}
-
-	public void setTrait(ITrait trait) {
-		this.trait = trait;
 	}
 
 	public void setInputNode(INode inputNode) {

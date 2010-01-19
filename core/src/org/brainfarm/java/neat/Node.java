@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.brainfarm.java.neat.api.ILink;
+import org.brainfarm.java.neat.api.ITrait;
 import org.brainfarm.java.neat.api.INeatNode;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
-import org.brainfarm.java.neat.api.ITrait;
 import org.brainfarm.java.neat.api.enums.ActivationFunction;
 import org.brainfarm.java.neat.api.enums.NodeLabel;
 import org.brainfarm.java.neat.api.enums.NodeType;
@@ -76,9 +76,6 @@ public class Node implements INeatNode {
 	 * previous step's
 	 */
 	private double lastActivation2;
-
-	/** Points to a trait of parameters */
-	private ITrait trait;
 
 	/**
 	 * Is a reference to a Node ; Has used for generate and point from a genetic
@@ -230,9 +227,6 @@ public class Node implements INeatNode {
 		id = nodeid; // id del nodo
 		activationFunction = ActivationFunction.SIGMOID; // funt act : signmoide
 		genNodeLabel = NodeLabel.HIDDEN;
-		setTrait(null);
-		// incoming = new Vector(1, 0);
-		// outgoing = new Vector(1, 0);
 		setDuplicate(null);
 		setAnalogue(null);
 		setTraversed(false);
@@ -251,7 +245,6 @@ public class Node implements INeatNode {
 		id = nodeid; // id del nodo
 		activationFunction = ActivationFunction.SIGMOID; // funt act : signmoide
 		genNodeLabel = placement;
-		setTrait(null);
 		// incoming = new Vector(1, 0);
 		// outgoing = new Vector(1, 0);
 		setDuplicate(null);
@@ -367,7 +360,6 @@ public class Node implements INeatNode {
 		newNode.type = type;
 		newNode.id = id;
 		newNode.genNodeLabel = genNodeLabel;
-		newNode.setTrait(trait.clone());
 		
 		return newNode;
 	}
@@ -572,13 +564,7 @@ public class Node implements INeatNode {
 
 	}
 
-	public void setTrait(ITrait trait) {
-		this.trait = trait;
-	}
-
-	public ITrait getTrait() {
-		return trait;
-	}
+	public void setTrait(ITrait trait) {}
 
 	private void setDuplicate(INode duplicate) {
 		this.duplicate = duplicate;

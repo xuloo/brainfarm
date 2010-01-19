@@ -1,9 +1,6 @@
 package org.brainfarm.java.neat.api;
 
 public interface ILink {
-
-	ITrait getTrait();
-	void setTrait(ITrait trait);
 	
 	INode getInputNode();
 	void setInputNode(INode node);
@@ -16,8 +13,6 @@ public interface ILink {
 	
 	boolean isRecurrent();
 	void setRecurrent(boolean recurrent);
-	
-	void deriveTrait(ITrait trait);
 	
 	boolean isTimeDelayed();
 	

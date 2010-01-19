@@ -122,21 +122,9 @@ public class Genome implements IGenome {
 			// point to news nodes created at precedent step
 			INode inode = gene.getLink().getInputNode().getCachedDuplicate();
 			INode onode = gene.getLink().getOutputNode().getCachedDuplicate();
-			ITrait traitptr = gene.getLink().getTrait();
-
-			assoc_trait = null;
-			if (traitptr != null) {
-				traitId = traitptr.getId();
-				for (ITrait trait : traits) {
-					if (trait.getId() == traitId) {
-						assoc_trait = trait;
-						break;
-					}
-				}
-			}
 
 			// creation of new gene with a pointer to new node
-			genes_dup.add(new Gene(gene, assoc_trait, inode, onode));
+			genes_dup.add(new Gene(gene, inode, onode));
 		}
 
 		// okay all nodes created, the new genome can be generate
@@ -600,7 +588,7 @@ public class Genome implements IGenome {
 							
 							// Create the gene + link
 							new_weight = RandomUtils.randomBinomial() * RandomUtils.randomDouble();
-							newgene = new Gene(newtrait, new_weight, in_node, out_node, flag_recurrent, innov_number, new_weight);
+							newgene = new Gene(new_weight, in_node, out_node, flag_recurrent, innov_number, new_weight);
 							
 							// Add the gene to the genome
 							genes.add(newgene);
