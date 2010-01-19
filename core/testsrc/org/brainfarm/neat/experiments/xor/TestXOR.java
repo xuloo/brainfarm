@@ -39,7 +39,7 @@ public class TestXOR {
 	 */
 	@Test
 	public void validateDeterministicXorExperiment(){
-		RandomUtils.seedRandom(11094839);
+		RandomUtils.seedRandom(28930);
 
 		INeatContext context = new SpringNeatContext();
 
@@ -67,8 +67,8 @@ public class TestXOR {
 		for(double d : maxFitnesses)
 			System.out.print(d + ", ");
 		assertEquals(6.178315187424375, maxFitnesses.get(0),.000001);
-		assertEquals(11.227959638003021, maxFitnesses.get(28),.000001);
-		assertEquals(15.999996364879863, maxFitnesses.get(39),.000001);
+		assertEquals(15.999766675576327, maxFitnesses.get(28),.000001);
+		assertEquals(10.043538023300911, maxFitnesses.get(35),.000001);
 	}
 
 	public class TestXorController extends SpringNeatController{

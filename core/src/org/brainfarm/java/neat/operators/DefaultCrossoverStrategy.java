@@ -522,10 +522,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 						genecounter++;
 					} else if (genecounter == crosspoint) {
 						
-						//TODO: delete this call (only there to preserve use of Random
-						//for tests)
-						RandomUtils.randomDouble();
-						
 						// WEIGHTS AVERAGED HERE
 						avgene.getLink().setWeight((geneA.getLink().getWeight() + geneB
 								.getLink().getWeight()) / 2.0);
@@ -877,10 +873,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 				p1innov = _p1gene.getInnovationNumber();
 				p2innov = _p2gene.getInnovationNumber();
 				if (p1innov == p2innov) {
-
-					//TODO: delete this call (only there to preserve use of Random
-					//for tests)
-					RandomUtils.randomDouble();
 
 					// WEIGHTS AVERAGED HERE
 					avgene.getLink().setWeight((_p1gene.getLink().getWeight() + _p2gene

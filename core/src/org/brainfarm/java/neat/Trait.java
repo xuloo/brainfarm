@@ -119,10 +119,8 @@ public class Trait implements ITrait {
 	public void mutate() {
 		for (int count = 0; count < Neat.num_trait_params; count++) {
 			if (RandomUtils.randomDouble()  > Neat.trait_param_mut_prob) {
-				params[count] += (RandomUtils.randomBinomial() * RandomUtils.randomDouble() )
+				 double i = (RandomUtils.randomBinomial() * RandomUtils.randomDouble() )
 						* Neat.trait_mutation_power;
-				if (params[count] < 0)
-					params[count] = 0;
 			}
 		}
 	}

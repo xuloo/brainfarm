@@ -7,7 +7,6 @@ import org.brainfarm.java.neat.Gene;
 import org.brainfarm.java.neat.Innovation;
 import org.brainfarm.java.neat.Neat;
 import org.brainfarm.java.neat.Node;
-import org.brainfarm.java.neat.Trait;
 import org.brainfarm.java.neat.api.IGene;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.IInnovation;
@@ -15,7 +14,6 @@ import org.brainfarm.java.neat.api.ILink;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
 import org.brainfarm.java.neat.api.IPopulation;
-import org.brainfarm.java.neat.api.ITrait;
 import org.brainfarm.java.neat.api.enums.InnovationType;
 import org.brainfarm.java.neat.api.enums.MutationType;
 import org.brainfarm.java.neat.api.enums.NodeLabel;
@@ -50,19 +48,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 			mutateAddLink(genome, pop);
 			mutatedStructure = true;
 		} else {
-			// If we didn't do a structural mutation, we do the other kinds.
-			if (RandomUtils.randomDouble() < Neat.mutate_random_trait_prob) {
-//				logger.debug("...mutate random trait");
-				mutateRandomTrait(genome);
-			}
-			if (RandomUtils.randomDouble() < Neat.mutate_link_trait_prob) {
-//				logger.debug("...mutate linktrait");
-				mutateLinkTrait(genome,1);
-			}
-			if (RandomUtils.randomDouble() < Neat.mutate_node_trait_prob) {
-//				logger.debug("...mutate node trait");
-				mutateNodeTrait(genome,1);
-			}
 			if (RandomUtils.randomDouble() < Neat.mutate_link_weights_prob) {
 //				logger.debug("...mutate link weight");
 				mutateLinkWeight(genome, mut_power, 1.0,MutationType.GAUSSIAN);
@@ -87,7 +72,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 		List<INode> nodes = genome.getNodes();
 		List<IGene> genes = genome.getGenes();
 		INetwork phenotype = genome.getPhenotype();
-		List<ITrait> traits = genome.getTraits();
 		
 		boolean done = false;
 		boolean do_recur = false;
@@ -253,7 +237,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 					}
 
 					// Choose a random trait
-					traitnum = RandomUtils.randomInt(0, traits.size() - 1);
+					traitnum = RandomUtils.randomInt(0, 0);
 
 					// Choose the new weight
 					// newweight=(gaussrand())/1.5; //Could use a gaussian
@@ -371,7 +355,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 	public boolean mutateAddNode(IGenome genome, IPopulation population) {
 
 			List<IGene> genes = genome.getGenes();
-			List<ITrait> traits = genome.getTraits();
 		
 			IGene _gene = null;
 
@@ -564,77 +547,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 
 			} else
 				_gene.setEnabled(true);
-		}
-
-	}
-	
-	/**
-	 * Insert the method's description here. Creation date: (24/01/2002 9.03.36)
-	 */
-	public void mutateRandomTrait(IGenome genome) {
-		
-		// Choose a random traitnum
-		int traitnum = RandomUtils.randomInt(0, genome.getTraits().size() - 1);
-		// Retrieve the trait and mutate it
-		genome.getTraits().get(traitnum).mutate();
-
-		// TRACK INNOVATION? (future possibility)
-	}
-	
-	/**
-	 * This chooses a random gene, extracts the link from it, and repoints the
-	 * link to a random trait
-	 */
-	public void mutateLinkTrait(IGenome genome, int repeats) {
-		int traitnum;
-		int genenum;
-		//int count;
-		int loop;
-		IGene _gene = null;
-		ITrait _trait = null;
-
-		for (loop = 1; loop <= repeats; loop++) {
-
-			// Choose a random traitnum
-			traitnum = RandomUtils.randomInt(0, genome.getTraits().size() - 1);
-			// Choose a random linknum
-			genenum = RandomUtils.randomInt(0, genome.getGenes().size() - 1);
-			// set the link to point to the new trait
-			_gene = genome.getGenes().get(genenum);
-			_trait = genome.getTraits().get(traitnum);
-		}
-	}
-	
-	//TODO: remove this code, we don't have traits
-	/**
-	 * This chooses a random node and repoints the node to a random trait
-	 */
-	public void mutateNodeTrait(IGenome genome, int repeats) {
-		int traitnum;
-		int nodenum;
-		//int count;
-		int loop;
-		INode _node = null;
-		//ITrait _trait = null;
-
-		for (loop = 1; loop <= repeats; loop++) {
-
-			// Choose a random traitnum
-			traitnum = RandomUtils.randomInt(0, (genome.getTraits().size()) - 1);
-			// Choose a random nodenum
-			nodenum = RandomUtils.randomInt(0, genome.getNodes().size() - 1);
-			// set the link to point to the new trait
-			_node = genome.getNodes().get(nodenum);
-
-			// TRACK INNOVATION! - possible future use
-			// for any gene involving the mutated node, perturb that gene's
-			// mutation number
-			// for(thegene=genes.begin();thegene!=genes.end();++thegene) {
-			// if (((((*thegene)->lnk)->in_node)==(*thenode))
-			// ||
-			// ((((*thegene)->lnk)->out_node)==(*thenode)))
-			// (*thegene)->mutation_num+=randposneg()*randfloat()*nodetrait_mut_sig;
-			// }
 		}
 
 	}
