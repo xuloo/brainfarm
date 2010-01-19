@@ -108,33 +108,20 @@ public class Genome implements IGenome {
 		int traitId;
 
 		// Duplicate Traits.
-		for (ITrait trait : traits) {
+		for (ITrait trait : traits) 
 			traits_dup.add(new Trait(trait));
-		}
 
 		// Duplicate Nodes.
 		for (INode _node : nodes) {
-			if (_node.getTrait() != null) {
-				traitId = _node.getTrait().getId();
-				for (ITrait _trait : traits_dup) {
-					if (_trait.getId() == traitId) {
-						assoc_trait = _trait;
-						break;
-					}
-				}
-			}
-
-			INode newnode = new Node(_node, assoc_trait);
-
-			_node.setDuplicate(newnode);
+			INode newnode = _node.generateDuplicate(traits_dup);
 			nodes_dup.add(newnode);
 		}
 
 		// Duplicate Genes.
 		for (IGene gene : genes) {
 			// point to news nodes created at precedent step
-			INode inode = gene.getLink().getInputNode().getDuplicate();
-			INode onode = gene.getLink().getOutputNode().getDuplicate();
+			INode inode = gene.getLink().getInputNode().getCachedDuplicate();
+			INode onode = gene.getLink().getOutputNode().getCachedDuplicate();
 			ITrait traitptr = gene.getLink().getTrait();
 
 			assoc_trait = null;
@@ -184,12 +171,8 @@ public class Genome implements IGenome {
 			// Derive link's parameters from its Trait.
 			curtrait = _node.getTrait();
 			newnode.deriveTrait(curtrait);
-			newnode.setInnerLevel(0);
 
 			newnode.setGenNodeLabel(_node.getGenNodeLabel());
-
-			// new field
-			newnode.setTraversed(false);
 			
 			if (_node.getGenNodeLabel() == NodeLabel.INPUT)
 				inlist.add(newnode);
