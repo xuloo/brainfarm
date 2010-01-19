@@ -1,5 +1,6 @@
 package org.brainfarm.java.gui;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
@@ -9,6 +10,8 @@ import org.brainfarm.java.neat.context.INeatContextListener;
 
 public abstract class AbstractNeatPanel implements INeatPanel, INeatContextListener, ActionListener {
 
+	public static final String EXIT_BUTTON_LABEL = " E X I T ";
+	
 	protected String displayName = "";
 	
 	protected JPanel panel;
@@ -21,5 +24,12 @@ public abstract class AbstractNeatPanel implements INeatPanel, INeatContextListe
 	@Override
 	public JPanel getPanel() {
 		return panel;
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+
+		if (e.getActionCommand().equals(EXIT_BUTTON_LABEL)) {
+			System.exit(0);
+		}
 	}
 }

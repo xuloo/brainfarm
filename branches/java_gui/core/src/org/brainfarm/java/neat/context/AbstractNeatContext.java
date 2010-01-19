@@ -3,6 +3,7 @@ package org.brainfarm.java.neat.context;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.brainfarm.java.neat.Neat;
 import org.brainfarm.java.neat.api.context.INeatContext;
 import org.brainfarm.java.neat.api.evolution.IEvolutionFitness;
@@ -10,6 +11,8 @@ import org.brainfarm.java.neat.api.evolution.IEvolutionInput;
 import org.brainfarm.java.neat.api.evolution.IEvolutionOutput;
 
 public abstract class AbstractNeatContext implements INeatContext {
+	
+	private static Logger logger = Logger.getLogger(AbstractNeatContext.class);
 	
 	private List<INeatContextListener> listeners = new ArrayList<INeatContextListener>();
 	
@@ -51,6 +54,8 @@ public abstract class AbstractNeatContext implements INeatContext {
 	@Override
 	public void setExperiment(IExperiment experiment) {
 		this.experiment = experiment;
+		
+		experimentChanged();
 	}
 
 	@Override
@@ -82,6 +87,24 @@ public abstract class AbstractNeatContext implements INeatContext {
 	public void removeListener(INeatContextListener listener) {
 		if (listeners.contains(listener)) {
 			listeners.remove(listener);
+		}
+	}
+	
+	public void contextChanged() {
+		
+		logger.debug("informing " + listeners.size() + " listeners of context change");
+		
+		for (INeatContextListener listener : listeners) {
+			listener.contextChanged(this);
+		}
+	}
+	
+	public void experimentChanged() {
+		
+		logger.debug("informing " + listeners.size() + " listeners of experiment change");
+		
+		for (INeatContextListener listener : listeners) {
+			listener.experimentChanged(this);
 		}
 	}
 }

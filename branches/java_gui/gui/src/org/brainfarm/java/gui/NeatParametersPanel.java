@@ -22,11 +22,10 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 
 	private static Logger logger = Logger.getLogger(NeatParametersPanel.class);
 	
-	public static final String LOAD_DEFAULT_BUTTON_LABEL = "Load Default";
-	public static final String LOAD_FILE_BUTTON_LABEL = "Load File";
-	public static final String WRITE_BUTTON_LABEL = "Write";
-	public static final String WRITE_FILE_BUTTON_LABEL = "Write File";
-	public static final String EXIT_BUTTON_LABEL = "Exit";
+	public static final String LOAD_DEFAULT_BUTTON_LABEL 	= "Load Default";
+	public static final String LOAD_FILE_BUTTON_LABEL 		= "Load File";
+	public static final String WRITE_BUTTON_LABEL 			= "Write";
+	public static final String WRITE_FILE_BUTTON_LABEL 		= "Write File";
 	
 	private IGuiController controller;
 	
@@ -171,20 +170,21 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 		return buttonPanel;
 	}	
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
+		
+		// Check for an EXIT event first...
+		super.actionPerformed(e);
 
-		if (e.getActionCommand().equals(" E X I T ")) {
-			System.exit(0);
-		}
-
-		else if (e.getActionCommand().equals(LOAD_DEFAULT_BUTTON_LABEL)) {
+		if (e.getActionCommand().equals(LOAD_DEFAULT_BUTTON_LABEL)) {
+			
 			controller.loadDefaultParameters();
-		}
-		else if (e.getActionCommand().equals(LOAD_FILE_BUTTON_LABEL)) {
+			
+		} else if (e.getActionCommand().equals(LOAD_FILE_BUTTON_LABEL)) {
+			
 			controller.loadParameters(frame);
-		}
-
-		else if (e.getActionCommand().equals(WRITE_BUTTON_LABEL)) {
+			
+		} else if (e.getActionCommand().equals(WRITE_BUTTON_LABEL)) {
 			/*name = EnvRoutine.getDefaultParameterFileName();
 			logger.sendToLog(" writing file parameter " + name + "...");
 			Neat.updateParam(tableModel);
@@ -192,9 +192,7 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 			logger.sendToLog(" okay : file writed");
 			logger.sendToStatus("READY");
 */
-		}
-
-		else if (e.getActionCommand().equals(WRITE_FILE_BUTTON_LABEL)) {
+		} else if (e.getActionCommand().equals(WRITE_FILE_BUTTON_LABEL)) {
 
 			/*FileDialog fd = new FileDialog(f1, "load file parameter",
 					FileDialog.SAVE);
