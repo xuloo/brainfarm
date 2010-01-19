@@ -169,16 +169,16 @@ public class Network implements INeatNetwork {
 					for (ILink _link : node.getIncoming()) {
 						if (!_link.isTimeDelayed()) {
 
-							add_amount = _link.getWeight() * _link.getInputNode().getActiveOut();
+							add_amount = _link.getWeight() * ((INeatNode)_link.getInputNode()).getActiveOut();
 							
-							if (_link.getInputNode().getActiveFlag() || 
+							if (((INeatNode)_link.getInputNode()).getActiveFlag() || 
 								_link.getInputNode().getType() == NodeType.SENSOR) {
 								node.setActiveFlag(true);
 							}
 							
 							node.incrementActiveSum(add_amount);
 						} else {
-							add_amount = _link.getWeight() * _link.getInputNode().getActiveOutTimeDelayed();
+							add_amount = _link.getWeight() * ((INeatNode)_link.getInputNode()).getActiveOutTimeDelayed();
 							node.incrementActiveSum(add_amount);
 						}
 					} // End for over incoming links
@@ -223,10 +223,8 @@ public class Network implements INeatNetwork {
 		// thus is good to reset all nodes without respect connection
 		//itr_node = allnodes.iterator();
 		//while (itr_node.hasNext()) {
-		for (INode node : allnodes) {
-			//NNode _node = ((NNode) itr_node.next());
-			node.resetNNode();
-		}
+		for (INode node : allnodes)
+			((INeatNode)node).resetNNode();
 
 	}
 
@@ -255,9 +253,8 @@ public class Network implements INeatNetwork {
 
 		//for (int j = 0; j < allnodes.size(); j++) {
 		for (INode node : allnodes) {
-			//_node = (NNode) allnodes.elementAt(j);
 			node.setInnerLevel(0);
-			node.setTraversed(false);
+			((INeatNode)node).setTraversed(false);
 		}
 
 		itr_node = outputs.iterator();
@@ -296,10 +293,8 @@ public class Network implements INeatNetwork {
 
 		// reset all link to state no traversed
 		//for (int j = 0; j < allnodes.size(); j++) {
-		for (INode node : allnodes) {
-			//_node = (NNode) allnodes.elementAt(j);
-			node.setTraversed(false);
-		}
+		for (INode node : allnodes)
+			((INeatNode)node).setTraversed(false);
 
 		// call the control if has a link intra node potin , potout
 		return isRecurrent(potin, potout, level, threshold);
@@ -320,16 +315,14 @@ public class Network implements INeatNetwork {
 		// reset all pending situation
 		//itr_node = allnodes.iterator();
 		//while (itr_node.hasNext()) {
-		for (INode node : allnodes) {
-			//_node = ((NNode) itr_node.next());
-			node.setTraversed(false);
-		}
+		for (INode node : allnodes)
+			((INeatNode)node).setTraversed(false);
 
 		// attempted to excite all sensor
 		itr_node = outputs.iterator();
 		while (itr_node.hasNext()) {
 			_node = itr_node.next();
-			rc = _node.mark(0, this);
+			rc = ((INeatNode)_node).mark(0, this);
 			// the false conditions is for a net with loop
 			// or an output without connection direct or indirect
 			// 
@@ -343,7 +336,7 @@ public class Network implements INeatNetwork {
 		itr_node = inputs.iterator();
 		while (itr_node.hasNext()) {
 			_node = ((Node) itr_node.next());
-			if (!_node.isTraversed())
+			if (!((INeatNode)_node).isTraversed())
 				ret_code = false;
 		}
 
@@ -368,14 +361,14 @@ public class Network implements INeatNetwork {
 			for (ILink _link : potin_node.getIncoming()) {
 				if (!_link.isRecurrent()) {
 
-					if (!_link.getInputNode().isTraversed()) {
-						_link.getInputNode().setTraversed(true);
+					if (!((INeatNode)_link.getInputNode()).isTraversed()) {
+						((INeatNode)_link.getInputNode()).setTraversed(true);
 						if (isRecurrent(_link.getInputNode(), potout_node, level, thresh))
 							return true;
 					}
 				}
 			}
-			potin_node.setTraversed(true);
+			((INeatNode)potin_node).setTraversed(true);
 			return false;
 		}
 	}
@@ -429,8 +422,8 @@ public class Network implements INeatNetwork {
 			// For each node, compute the sum of its incoming activation
 			//itr_node = allnodes.iterator();
 			//while (itr_node.hasNext()) {
-			for (INode node : allnodes) {
-				//_node = ((NNode) itr_node.next());
+			for (INode inode : allnodes) {
+				INeatNode node = (INeatNode)inode;
 				if (node.getType() != NodeType.SENSOR) {
 
 					node.setActiveSum(0.0);
@@ -438,14 +431,14 @@ public class Network implements INeatNetwork {
 
 					for (ILink _link : node.getIncoming()) {
 						if (!_link.isTimeDelayed()) {
-							add_amount = _link.getInputNode().getActiveOut();
-							if (_link.getInputNode().getActiveFlag()
+							add_amount = ((INeatNode)_link.getInputNode()).getActiveOut();
+							if (((INeatNode)_link.getInputNode()).getActiveFlag()
 									|| _link.getInputNode().getType() == NodeType.SENSOR) {
 								node.setActiveFlag(true);
 							}
 							node.incrementActiveSum(add_amount);
 						} else {
-							add_amount = _link.getInputNode().getActiveOutTimeDelayed();
+							add_amount = ((INeatNode)_link.getInputNode()).getActiveOutTimeDelayed();
 							node.incrementActiveSum(add_amount);
 						}
 					} // End for over incoming links

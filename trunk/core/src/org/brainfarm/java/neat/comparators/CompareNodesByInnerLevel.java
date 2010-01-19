@@ -2,11 +2,6 @@ package org.brainfarm.java.neat.comparators;
 
 import org.brainfarm.java.neat.api.INode;
 
-/**
- * 
- * 
- * 
- */
 public class CompareNodesByInnerLevel implements java.util.Comparator<INode> {
 	/**
 	 * order_inner constructor comment.

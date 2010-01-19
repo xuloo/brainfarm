@@ -218,10 +218,6 @@ public class Node implements INeatNode {
 		this.analogue = analogue;
 	}
 
-	public void setDup(Node dup) {
-		this.setDuplicate(dup);
-	}
-
 	public Node(NodeType ntype, int nodeid) {
 		activeFlag = false;
 		activeSum = 0;
@@ -422,8 +418,8 @@ public class Node implements INeatNode {
 		for (ILink _link : incoming) {
 			INode _ynode = _link.getInputNode();
 
-			if (!_ynode.isTraversed()) {
-				_ynode.setTraversed(true);
+			if (!((INeatNode)_ynode).isTraversed()) {
+				((INeatNode)_ynode).setTraversed(true);
 				cur_depth = _ynode.depth(xlevel, mynet, xmax_level);
 				_ynode.setInnerLevel(cur_depth - xlevel);
 			} else
@@ -509,9 +505,7 @@ public class Node implements INeatNode {
 	 * 
 	 */
 	public boolean mark(int xlevel, INetwork mynet) {
-
-		//Iterator itr_link;
-
+		
 		// loop control
 		if (xlevel > 100) {
 			// System.out.print("\n ** DEPTH NOT DETERMINED FOR NETWORK WITH LOOP ");
@@ -531,9 +525,9 @@ public class Node implements INeatNode {
 		boolean rc = false;
 
 		for (ILink _link : incoming) {
-			if (!_link.getInputNode().isTraversed()) {
-				_link.getInputNode().setTraversed(true);
-				rc = _link.getInputNode().mark(xlevel + 1, mynet);
+			if (!((INeatNode)_link.getInputNode()).isTraversed()) {
+				((INeatNode)_link.getInputNode()).setTraversed(true);
+				rc = ((INeatNode)_link.getInputNode()).mark(xlevel + 1, mynet);
 				if (rc == false)
 					return false;
 			}
@@ -601,11 +595,27 @@ public class Node implements INeatNode {
 		return trait;
 	}
 
-	public void setDuplicate(INode duplicate) {
+	private void setDuplicate(INode duplicate) {
 		this.duplicate = duplicate;
 	}
+	
+	public INode generateDuplicate(ArrayList<ITrait> traitsDup){
+		ITrait assoc_trait = null;
+		if (getTrait() != null) {
+			int traitId = getTrait().getId();
+			for (ITrait _trait : traitsDup) {
+				if (_trait.getId() == traitId) {
+					assoc_trait = _trait;
+					break;
+				}
+			}
+		}
+		INode newnode = new Node(this, assoc_trait);
+		setDuplicate(newnode);
+		return newnode;
+	}
 
-	public INode getDuplicate() {
+	public INode getCachedDuplicate() {
 		return duplicate;
 	}
 
