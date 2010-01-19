@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.brainfarm.java.neat.api.IOrganism;
 import org.brainfarm.java.neat.api.IPopulation;
 import org.brainfarm.java.neat.api.ISpecies;
-import org.brainfarm.java.neat.api.evaluators.IOrganismEvaluator;
 import org.brainfarm.java.neat.api.evolution.IEvolution;
 import org.brainfarm.java.neat.api.evolution.IEvolutionListener;
 import org.brainfarm.java.neat.context.IExperiment;
