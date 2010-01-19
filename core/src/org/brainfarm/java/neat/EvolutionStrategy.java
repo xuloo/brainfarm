@@ -22,7 +22,19 @@ public class EvolutionStrategy {
 
 	public static EvolutionStrategy _instance;
 	
-	private EvolutionStrategy(){}
+	ICrossoverStrategy crossoverStrategy;
+	IMutationStrategy mutationStrategy;
+	IPopulationInitializationStrategy populationInitializationStrategy;
+	IReproductionStrategy reproductionStrategy;
+	ISpeciationStrategy speciationStrategy;
+	
+	private EvolutionStrategy(){
+		crossoverStrategy = new DefaultCrossoverStrategy();
+		mutationStrategy = new DefaultMutationStrategy();
+		populationInitializationStrategy = new DefaultPopulationInitializationStrategy();
+		reproductionStrategy = new DefaultReproductionStrategy();
+		speciationStrategy = new DefaultSpeciationStrategy();
+	}
 	
 	public static EvolutionStrategy getInstance(){
 		if(_instance == null)
@@ -31,22 +43,22 @@ public class EvolutionStrategy {
 	}
 	
 	public ICrossoverStrategy getCrossoverStrategy() {
-		return new DefaultCrossoverStrategy();
+		return crossoverStrategy;
 	}
 	
 	public IMutationStrategy getMutationStrategy(){
-		return new DefaultMutationStrategy();
+		return mutationStrategy;
 	}
 	
 	public IReproductionStrategy getReproductionStrategy(){
-		return new DefaultReproductionStrategy();
+		return reproductionStrategy;
 	}
 	
 	public ISpeciationStrategy getSpeciationStrategy(){
-		return new DefaultSpeciationStrategy();
+		return speciationStrategy;
 	}
 	
 	public IPopulationInitializationStrategy getPopulationInitializationStrategy(){
-		return new DefaultPopulationInitializationStrategy();
+		return populationInitializationStrategy;
 	}
 }
