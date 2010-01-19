@@ -15,6 +15,7 @@ import javax.swing.JTextArea;
 import org.brainfarm.java.neat.Genome;
 import org.brainfarm.java.neat.Node;
 import org.brainfarm.java.neat.api.IGenome;
+import org.brainfarm.java.neat.api.INeatNetwork;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.util.IOseq;
 
@@ -44,7 +45,7 @@ public class Execution {
    
    
 	  public int     Xdepth; 
-	  public INetwork Xnet;
+	  public INeatNetwork Xnet;
 
 
 
@@ -194,7 +195,7 @@ public void createNetwork(IGenome _genome) {
 	Xgenome.genesis(_genome.getId());
 
 	// net phenotype
-	Xnet = Xgenome.getPhenotype();
+	Xnet = (INeatNetwork)Xgenome.getPhenotype();
 
 	// compute first the 'teorical' depth
 	int lx = Xnet.maxDepth();

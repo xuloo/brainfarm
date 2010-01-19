@@ -36,9 +36,9 @@ import org.brainfarm.java.gui.graph.Vertex;
 import org.brainfarm.java.gui.graph.code;
 import org.brainfarm.java.neat.Genome;
 import org.brainfarm.java.neat.Organism;
-import org.brainfarm.java.neat.Population;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.IOrganism;
+import org.brainfarm.java.neat.api.IPopulation;
 import org.brainfarm.java.util.CodeConstant;
 import org.brainfarm.java.util.log.HistoryLog;
 
@@ -71,7 +71,7 @@ public class Grafi extends JPanel implements ActionListener,
 	 * chartXY mappaFirst;
 	 */int quadro_x;
 	int quadro_y;
-	Population Popx;
+	IPopulation Popx;
 
 	Genome GxView;
 
