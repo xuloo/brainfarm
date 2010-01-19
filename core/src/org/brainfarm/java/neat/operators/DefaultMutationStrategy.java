@@ -468,7 +468,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 
 					// pass this current nodeid to newnode and create the new node
 					new_node = new Node(NodeType.NEURON, curnode_id, NodeLabel.HIDDEN);
-					new_node.setTrait(traits.get(0));
 
 					// get the current gene inovation with post increment
 					gene_innov1 = population.getCurrentInnovationNumberAndIncrement();
@@ -497,7 +496,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 						// Create the new Genes
 						// pass this current nodeid to newnode
 						new_node = new Node(NodeType.NEURON, _innov.getNewNodeId(), NodeLabel.HIDDEN);
-						new_node.setTrait(traits.get(0));
 
 						newgene1 = new Gene(traitptr, 1.0, in_node, new_node, thelink.isRecurrent(), _innov.getInnovationNumber1(), 0);
 						newgene2 = new Gene(traitptr, oldweight, new_node, out_node, false, _innov.getInnovationNumber2(), 0);
@@ -616,6 +614,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 		}
 	}
 	
+	//TODO: remove this code, we don't have traits
 	/**
 	 * This chooses a random node and repoints the node to a random trait
 	 */
@@ -635,8 +634,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 			nodenum = RandomUtils.randomInt(0, genome.getNodes().size() - 1);
 			// set the link to point to the new trait
 			_node = genome.getNodes().get(nodenum);
-			//_trait = traits.get(traitnum);
-			_node.setTrait(genome.getTraits().get(traitnum));
 
 			// TRACK INNOVATION! - possible future use
 			// for any gene involving the mutated node, perturb that gene's

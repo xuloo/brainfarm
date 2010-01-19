@@ -328,7 +328,7 @@ public class Node implements INeatNode {
 		
 	}
 
-	public Node(INode n, ITrait t) {
+	public Node(INode n) {
 		activeFlag = false;
 		activeSum = 0;
 		activation = 0;
@@ -340,7 +340,6 @@ public class Node implements INeatNode {
 		id = n.getId(); // id del nodo
 		activationFunction = ActivationFunction.SIGMOID; // funt act : sigmoid
 		genNodeLabel = n.getGenNodeLabel();
-		setTrait(t);
 		setDuplicate(null);
 		setAnalogue(null);
 		setTraversed(false);
@@ -373,20 +372,6 @@ public class Node implements INeatNode {
 		return newNode;
 	}
 
-	public void deriveTrait(ITrait trait) {
-		if (trait != null) {
-			for (int count = 0; count < Neat.num_trait_params; count++)
-				params[count] = trait.getParams()[count];
-		} else {
-			for (int count = 0; count < Neat.num_trait_params; count++)
-				params[count] = 0;
-		}
-	}
-
-	/**
-   * 
-   * 
-   */
 	public int depth(int xlevel, Network mynet, int xmax_level) {
 
 		//Iterator itr_link;
@@ -599,18 +584,8 @@ public class Node implements INeatNode {
 		this.duplicate = duplicate;
 	}
 	
-	public INode generateDuplicate(ArrayList<ITrait> traitsDup){
-		ITrait assoc_trait = null;
-		if (getTrait() != null) {
-			int traitId = getTrait().getId();
-			for (ITrait _trait : traitsDup) {
-				if (_trait.getId() == traitId) {
-					assoc_trait = _trait;
-					break;
-				}
-			}
-		}
-		INode newnode = new Node(this, assoc_trait);
+	public INode generateDuplicate(){
+		INode newnode = new Node(this);
 		setDuplicate(newnode);
 		return newnode;
 	}
