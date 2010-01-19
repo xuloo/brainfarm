@@ -83,13 +83,7 @@ public class ExperimentPanel extends AbstractNeatPanel {
 		this.frame = frame;
 
 		
-		p3 = new JPanel();
-
-		
-
-		
-
-		
+		p3 = new JPanel();		
 
 		p3.setBorder(BorderFactory.createCompoundBorder(BorderFactory
 				.createTitledBorder(" Edit session "), BorderFactory
@@ -546,16 +540,6 @@ public class ExperimentPanel extends AbstractNeatPanel {
 
 		}
 
-	}
-
-	public void buildConstraints(GridBagConstraints gbc, int gx, int gy,
-			int gw, int gh, int wx, int wy) {
-		gbc.gridx = gx;
-		gbc.gridy = gy;
-		gbc.gridwidth = gw;
-		gbc.gridheight = gh;
-		gbc.weightx = wx;
-		gbc.weighty = wy;
 	}
 
 	/*public void setLog(HistoryLog _log) {
@@ -1025,15 +1009,14 @@ System.out.println("prev_word " + prev_word);
 	}
 
 	@Override
-	public void contextChanged(INeatContext arg0) {
+	public void contextChanged(INeatContext context) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void experimentChanged(INeatContext arg0) {
-		// TODO Auto-generated method stub
-		
+	public void experimentChanged(INeatContext context) {
+		log.debug("A New Experiment has been loaded - reload the view");
 	}
 
 }
