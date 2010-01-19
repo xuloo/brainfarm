@@ -113,7 +113,7 @@ public class Genome implements IGenome {
 
 		// Duplicate Nodes.
 		for (INode _node : nodes) {
-			INode newnode = _node.generateDuplicate(traits_dup);
+			INode newnode = _node.generateDuplicate();
 			nodes_dup.add(newnode);
 		}
 
@@ -152,7 +152,6 @@ public class Genome implements IGenome {
 	public INetwork genesis(int id) {
 
 		INetwork newnet = null;
-		ITrait curtrait = null;
 		// Vector nodes_dup = new Vector(1, 0);
 		INode newnode = null;
 		List<INode> inlist = new ArrayList<INode>(1);
@@ -167,10 +166,6 @@ public class Genome implements IGenome {
 		for (INode _node : nodes) {
 			// create a copy of gene node for phenotype.
 			newnode = new Node(_node.getType(), _node.getId());
-
-			// Derive link's parameters from its Trait.
-			curtrait = _node.getTrait();
-			newnode.deriveTrait(curtrait);
 
 			newnode.setGenNodeLabel(_node.getGenNodeLabel());
 			
@@ -209,10 +204,6 @@ public class Genome implements IGenome {
 				newlink = new Link(curlink.getWeight(), inode, onode, curlink.isRecurrent());
 				onode.getIncoming().add(newlink);
 				inode.getOutgoing().add(newlink);
-
-				// Derive link's parameters from its Trait.
-				curtrait = curlink.getTrait();
-				curlink.deriveTrait(curtrait);
 			}
 
 		}
@@ -504,7 +495,6 @@ public class Genome implements IGenome {
 			else
 				newnode = new Node(NodeType.SENSOR, count, NodeLabel.BIAS);
 
-			newnode.setTrait(newtrait);
 			// Add the node to the list of nodes
 			nodes.add(newnode);
 		}
@@ -512,7 +502,6 @@ public class Genome implements IGenome {
 		// Build the hidden nodes
 		for (count = i + 1; count <= i + n; count++) {
 			newnode = new Node(NodeType.NEURON, count, NodeLabel.HIDDEN);
-			newnode.setTrait(newtrait);
 
 			// Add the node to the list of nodes
 			nodes.add(newnode);
@@ -521,7 +510,6 @@ public class Genome implements IGenome {
 		// Build the output nodes
 		for (count = first_output; count <= totalnodes; count++) {
 			newnode = new Node(NodeType.NEURON, count, NodeLabel.OUTPUT);
-			newnode.setTrait(newtrait);
 
 			// Add the node to the list of nodes
 			nodes.add(newnode);

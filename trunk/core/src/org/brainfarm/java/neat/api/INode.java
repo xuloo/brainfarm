@@ -11,8 +11,6 @@ public interface INode {
 
 	ITrait getTrait();
 	
-	void setTrait(ITrait trait);
-	
 	NodeType getType();
 	
 	int getId();
@@ -23,10 +21,7 @@ public interface INode {
 	
 	INode getCachedDuplicate();
 	
-	//TODO: Eliminate requirement that duplicated traits be passed in
-	INode generateDuplicate(ArrayList<ITrait> traitsDup);
-	
-	void deriveTrait(ITrait trait);
+	INode generateDuplicate();
 	
 	void setInnerLevel(int innerLevel);
 	

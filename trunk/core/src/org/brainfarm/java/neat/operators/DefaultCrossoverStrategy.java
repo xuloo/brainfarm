@@ -241,7 +241,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							nodetraitnum = inode.getTrait().getId() - first_traitnum;
 
 						newtrait = newtraits.get(nodetraitnum);
-						new_inode = new Node(inode, newtrait);
+						new_inode = new Node(inode);
 
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_inode);
@@ -273,7 +273,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							- first_traitnum;
 
 						newtrait = (Trait) newtraits.get(nodetraitnum);
-						new_onode = new Node(onode, newtrait);
+						new_onode = new Node(onode);
 
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_onode);
@@ -306,7 +306,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							nodetraitnum = onode.getTrait().getId() - first_traitnum;
 
 						newtrait = newtraits.get(nodetraitnum);
-						new_onode = new Node(onode, newtrait);
+						new_onode = new Node(onode);
 
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_onode);
@@ -337,7 +337,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							nodetraitnum = inode.getTrait().getId() - first_traitnum;
 
 						newtrait = newtraits.get(nodetraitnum);
-						new_inode = new Node(inode, newtrait);
+						new_inode = new Node(inode);
 
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_inode);
@@ -711,7 +711,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 								nodetraitnum = inode.getTrait().getId() - first_traitnum;
 
 							newtrait = newtraits.get(nodetraitnum);
-							new_inode = new Node(inode, newtrait);
+							new_inode = new Node(inode);
 
 							// insert in newnodes list
 							EvolutionUtils.nodeInsert(newnodes, new_inode);
@@ -739,7 +739,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 								nodetraitnum = onode.getTrait().getId() - first_traitnum;
 
 							newtrait = newtraits.get(nodetraitnum);
-							new_onode = new Node(onode, newtrait);
+							new_onode = new Node(onode);
 
 							// insert in newnodes list
 							EvolutionUtils.nodeInsert(newnodes, new_onode);
@@ -769,7 +769,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 								nodetraitnum = onode.getTrait().getId()
 								- first_traitnum;
 							newtrait = (Trait) newtraits.get(nodetraitnum);
-							new_onode = new Node(onode, newtrait);
+							new_onode = new Node(onode);
 							// insert in newnodes list
 							EvolutionUtils.nodeInsert(newnodes, new_onode);
 						}
@@ -797,7 +797,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 								nodetraitnum = inode.getTrait().getId() - first_traitnum;
 
 							newtrait = newtraits.get(nodetraitnum);
-							new_inode = new Node(inode, newtrait);
+							new_inode = new Node(inode);
 
 							// insert in newnodes list
 							EvolutionUtils.nodeInsert(newnodes, new_inode);
@@ -835,9 +835,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 		
 		IGenome new_genome = null;
 		boolean disable = false; // Set to true if we want to disabled a chosen gene.
-
-		int traitnum = 0;
-		int nodetraitnum = 0;
 
 		int control_disable = 0;
 		int exist_disable = 0;
@@ -1032,14 +1029,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 			if (!skip) {
 				// Now add the chosengene to the baby
-				// First, get the trait pointer
-				int first_traitnum = traits.get(0).getId();
-
-				if (chosengene.getLink().getTrait() == null)
-					traitnum = first_traitnum;
-				else
-					traitnum = chosengene.getLink().getTrait().getId()
-							- first_traitnum;
 
 				// Next check for the nodes, add them if not in the baby Genome
 				// already
@@ -1071,14 +1060,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the inode
 					else {
-						if (inode.getTrait() == null)
-							nodetraitnum = 0;
-						else
-							nodetraitnum = inode.getTrait().getId()
-									- first_traitnum;
-
-						newtrait = newtraits.get(nodetraitnum);
-						new_inode = new Node(inode, newtrait);
+						new_inode = new Node(inode);
 						
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_inode);
@@ -1103,13 +1085,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the onode
 					else {
-						if (onode.getTrait() == null)
-							nodetraitnum = 0;
-						else
-							nodetraitnum = onode.getTrait().getId() - first_traitnum;
-
-						newtrait = newtraits.get(nodetraitnum);
-						new_onode = new Node(onode, newtrait);
+						new_onode = new Node(onode);
 						
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_onode);
@@ -1138,13 +1114,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the onode
 					else {
-						if (onode.getTrait() == null)
-							nodetraitnum = 0;
-						else
-							nodetraitnum = onode.getTrait().getId() - first_traitnum;
-
-						newtrait = newtraits.get(nodetraitnum);
-						new_onode = new Node(onode, newtrait);
+						new_onode = new Node(onode);
 						
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_onode);
@@ -1169,13 +1139,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the inode
 					else {
-						if (inode.getTrait() == null)
-							nodetraitnum = 0;
-						else
-							nodetraitnum = inode.getTrait().getId() - first_traitnum;
-
-						newtrait = newtraits.get(nodetraitnum);
-						new_inode = new Node(inode, newtrait);
+						new_inode = new Node(inode);
 						
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_inode);
@@ -1186,7 +1150,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 				// --------------------------------------------------------------------------------
 
 				// Add the Gene
-				newtrait = newtraits.get(traitnum);
 				newgene = new Gene(chosengene, newtrait, new_inode, new_onode);
 				if (disable) {
 					newgene.setEnabled(false);
