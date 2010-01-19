@@ -185,7 +185,7 @@ public void createNetwork(IGenome _genome) {
 	Xnet = null;
 
 	//generate genome from file
-	Xgenome = new Genome(_genome.getId(), _genome.getTraits(), _genome.getNodes(), _genome.getGenes()); 
+	Xgenome = new Genome(_genome.getId(), _genome.getNodes(), _genome.getGenes()); 
 
 	//setting the pointer of global genome
 
