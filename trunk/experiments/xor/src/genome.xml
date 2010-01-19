@@ -4,13 +4,6 @@
 		xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
  
  	<bean id="genome" class="org.brainfarm.java.neat.Genome">
- 		<property name="traits">
- 			<list value-type="org.brainfarm.java.neat.Trait">
-				<ref bean="trait_1"/>
-				<ref bean="trait_2"/>
-				<ref bean="trait_3"/>
- 			</list>
- 		</property>
  		<property name="nodes">
  			<list value-type="org.brainfarm.java.neat.Node">
  				<ref bean="node_1"/>
@@ -27,79 +20,27 @@
  			</list>
  		</property>
  	</bean>
- 
- 	<bean id="trait_1" class="org.brainfarm.java.neat.Trait" lazy-init="false">
-		<property name="id" value="1"/>
-		<property name="params">
-			<list value-type="double">
-				<value>0.1</value>
-				<value>0.0</value>
-				<value>0.0</value>
-				<value>0.0</value>
-				<value>0.0</value>
-				<value>0.0</value>
-				<value>0.0</value>
-				<value>0.0</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="trait_2" class="org.brainfarm.java.neat.Trait">
-		<property name="id" value="2"/>
-		<property name="params">
-			<list value-type="double">
-				<value>0.2</value>
-				<value>0.0</value>
-				<value>0.0</value>
-				<value>0.0</value>
-				<value>0.0</value>
-				<value>0.0</value>
-				<value>0.0</value>
-				<value>0.0</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean id="trait_3" class="org.brainfarm.java.neat.Trait">
-		<property name="id" value="3"/>
-		<property name="params">
-			<list value-type="double">
-				<value>0.3</value>
-				<value>0.0</value>
-				<value>0.0</value>
-				<value>0.0</value>
-				<value>0.0</value>
-				<value>0.0</value>
-				<value>0.0</value>
-				<value>0.0</value>
-			</list>
-		</property>
-	</bean>
 	
 	<bean id="node_1" class="org.brainfarm.java.neat.Node">
 		<property name="id" value="1"/>
-		<property name="trait" ref="trait_1"/>
 		<property name="type" value="SENSOR"/>
 		<property name="genNodeLabel" value="INPUT"/>
 	</bean>
 	
 	<bean id="node_2" class="org.brainfarm.java.neat.Node">
 		<property name="id" value="2"/>
-		<property name="trait" ref="trait_1"/>
 		<property name="type" value="SENSOR"/>
 		<property name="genNodeLabel" value="INPUT"/>
 	</bean>
 	
 	<bean id="node_3" class="org.brainfarm.java.neat.Node">
 		<property name="id" value="3"/>
-		<property name="trait" ref="trait_1"/>
 		<property name="type" value="SENSOR"/>
 		<property name="genNodeLabel" value="BIAS"/>
 	</bean>
 	
 	<bean id="node_4" class="org.brainfarm.java.neat.Node">
 		<property name="id" value="4"/>
-		<property name="trait" ref="trait_1"/>
 		<property name="type" value="NEURON"/>
 		<property name="genNodeLabel" value="OUTPUT"/>
 	</bean>
@@ -110,7 +51,6 @@
 		<property name="enabled" value="true"/>
 		<property name="link">
 			<bean class="org.brainfarm.java.neat.Link">
-				<constructor-arg ref="trait_1"/>
 				<constructor-arg value="0"/>
 				<constructor-arg ref="node_1"/>
 				<constructor-arg ref="node_4"/>
@@ -125,7 +65,6 @@
 		<property name="enabled" value="true"/>
 		<property name="link">
 			<bean class="org.brainfarm.java.neat.Link">
-				<constructor-arg ref="trait_2"/>
 				<constructor-arg value="0"/>
 				<constructor-arg ref="node_2"/>
 				<constructor-arg ref="node_4"/>
@@ -140,7 +79,6 @@
 		<property name="enabled" value="true"/>
 		<property name="link">
 			<bean class="org.brainfarm.java.neat.Link">
-				<constructor-arg ref="trait_3"/>
 				<constructor-arg value="0"/>
 				<constructor-arg ref="node_3"/>
 				<constructor-arg ref="node_4"/>
@@ -150,25 +88,3 @@
 	</bean>
 				
  </beans>
- <!-- 
-<genomes>
-	<genome>
-		<traits>
-			<trait>1,0.1,0,0,0,0,0,0,0</trait>
-			<trait>2,0.2,0,0,0,0,0,0,0</trait>
-			<trait>3,0.3,0,0,0,0,0,0,0</trait>
-		</traits>
-		<nodes>
-			<node id="1" trait="0" type="1" label="1"/>
-			<node id="2" trait="0" type="1" label="1"/>
-			<node id="3" trait="0" type="1" label="3"/>
-			<node id="4" trait="0" type="0" label="2"/>
-		</nodes>
-		<genes>
-			<gene>1,1,4,0,0,1,0,1</gene>
-			<gene>2,2,4,0,0,2,0,1</gene>
-			<gene>3,3,4,0,0,3,0,1</gene>
-		</genes>
-	</genome>
-</genomes>
- -->
