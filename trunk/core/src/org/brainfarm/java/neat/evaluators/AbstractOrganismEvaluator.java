@@ -1,9 +1,9 @@
 package org.brainfarm.java.neat.evaluators;
 
 import org.brainfarm.java.neat.Neat;
-import org.brainfarm.java.neat.api.INeatNetwork;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.IOrganism;
+import org.brainfarm.java.neat.api.ann.INeatNetwork;
 import org.brainfarm.java.neat.api.evaluators.IOrganismEvaluator;
 import org.brainfarm.java.neat.api.evolution.IEvolutionFitness;
 

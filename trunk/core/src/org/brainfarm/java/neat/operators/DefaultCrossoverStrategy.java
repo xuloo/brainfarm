@@ -6,7 +6,7 @@ import java.util.List;
 import org.brainfarm.java.neat.Gene;
 import org.brainfarm.java.neat.Genome;
 import org.brainfarm.java.neat.Neat;
-import org.brainfarm.java.neat.Node;
+import org.brainfarm.java.neat.ann.NeatNode;
 import org.brainfarm.java.neat.api.IGene;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.INode;
@@ -201,7 +201,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the inode
 					else {
-						new_inode = new Node(inode);
+						new_inode = new NeatNode(inode);
 
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_inode);
@@ -212,7 +212,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 					// 
 					found = false;
 					for (int ix = 0; ix < newnodes.size(); ix++) {
-						curnode = (Node) newnodes.get(ix);
+						curnode = (NeatNode) newnodes.get(ix);
 						if (curnode.getId() == onode.getId()) {
 							found = true;
 							break;
@@ -226,7 +226,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the onode
 					else {
-						new_onode = new Node(onode);
+						new_onode = new NeatNode(onode);
 
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_onode);
@@ -239,7 +239,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 					// search the onode
 					found = false;
 					for (int ix = 0; ix < newnodes.size(); ix++) {
-						curnode = (Node) newnodes.get(ix);
+						curnode = (NeatNode) newnodes.get(ix);
 						if (curnode.getId() == onode.getId()) {
 							found = true;
 							break;
@@ -253,7 +253,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the onode
 					else {
-						new_onode = new Node(onode);
+						new_onode = new NeatNode(onode);
 
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_onode);
@@ -264,7 +264,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 					// 
 					found = false;
 					for (int ix = 0; ix < newnodes.size(); ix++) {
-						curnode = (Node) newnodes.get(ix);
+						curnode = (NeatNode) newnodes.get(ix);
 						if (curnode.getId() == inode.getId()) {
 							found = true;
 							break;
@@ -278,7 +278,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the inode
 					else {
-						new_inode = new Node(inode);
+						new_inode = new NeatNode(inode);
 
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_inode);
@@ -612,7 +612,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_inode = curnode;
 						// else create the inode
 						else {
-							new_inode = new Node(inode);
+							new_inode = new NeatNode(inode);
 
 							// insert in newnodes list
 							EvolutionUtils.nodeInsert(newnodes, new_inode);
@@ -634,7 +634,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_onode = curnode;
 						// else create the onode
 						else {
-							new_onode = new Node(onode);
+							new_onode = new NeatNode(onode);
 
 							// insert in newnodes list
 							EvolutionUtils.nodeInsert(newnodes, new_onode);
@@ -647,7 +647,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 						// 
 						found = false;
 						for (int ix = 0; ix < newnodes.size(); ix++) {
-							curnode = (Node) newnodes.get(ix);
+							curnode = (NeatNode) newnodes.get(ix);
 							if (curnode.getId() == onode.getId()) {
 								found = true;
 								break;
@@ -658,7 +658,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_onode = curnode;
 						// else create the onode
 						else {
-							new_onode = new Node(onode);
+							new_onode = new NeatNode(onode);
 							// insert in newnodes list
 							EvolutionUtils.nodeInsert(newnodes, new_onode);
 						}
@@ -667,7 +667,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 						// 
 						found = false;
 						for (int ix = 0; ix < newnodes.size(); ix++) {
-							curnode = (Node) newnodes.get(ix);
+							curnode = (NeatNode) newnodes.get(ix);
 							if (curnode.getId() == inode.getId()) {
 								found = true;
 								break;
@@ -680,7 +680,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_inode = curnode;
 						// else create the inode
 						else {
-							new_inode = new Node(inode);
+							new_inode = new NeatNode(inode);
 
 							// insert in newnodes list
 							EvolutionUtils.nodeInsert(newnodes, new_inode);
@@ -914,7 +914,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the inode
 					else {
-						new_inode = new Node(inode);
+						new_inode = new NeatNode(inode);
 						
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_inode);
@@ -939,7 +939,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the onode
 					else {
-						new_onode = new Node(onode);
+						new_onode = new NeatNode(onode);
 						
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_onode);
@@ -968,7 +968,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the onode
 					else {
-						new_onode = new Node(onode);
+						new_onode = new NeatNode(onode);
 						
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_onode);
@@ -993,7 +993,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the inode
 					else {
-						new_inode = new Node(inode);
+						new_inode = new NeatNode(inode);
 						
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_inode);

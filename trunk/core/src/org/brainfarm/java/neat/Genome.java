@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.brainfarm.java.neat.ann.NeatNetwork;
+import org.brainfarm.java.neat.ann.NeatNode;
 import org.brainfarm.java.neat.api.IGene;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.ILink;
@@ -131,7 +133,7 @@ public class Genome implements IGenome {
 		
 		for (INode _node : nodes) {
 			// create a copy of gene node for phenotype.
-			newnode = new Node(_node.getType(), _node.getId());
+			newnode = new NeatNode(_node.getType(), _node.getId());
 
 			newnode.setGenNodeLabel(_node.getGenNodeLabel());
 			
@@ -175,7 +177,7 @@ public class Genome implements IGenome {
 		}
 		
 		// Create the new network
-		newnet = new Network(inlist, outlist, all_list, id);
+		newnet = new NeatNetwork(inlist, outlist, all_list, id);
 		// Attach genotype and phenotype together:
 		// newnet point to owner genotype (this)
 		newnet.setGenotype(this);
@@ -441,9 +443,9 @@ public class Genome implements IGenome {
 		// Build the input nodes
 		for (count = 1; count <= i; count++) {
 			if (count < i)
-				newnode = new Node(NodeType.SENSOR, count, NodeLabel.INPUT);
+				newnode = new NeatNode(NodeType.SENSOR, count, NodeLabel.INPUT);
 			else
-				newnode = new Node(NodeType.SENSOR, count, NodeLabel.BIAS);
+				newnode = new NeatNode(NodeType.SENSOR, count, NodeLabel.BIAS);
 
 			// Add the node to the list of nodes
 			nodes.add(newnode);
@@ -451,7 +453,7 @@ public class Genome implements IGenome {
 
 		// Build the hidden nodes
 		for (count = i + 1; count <= i + n; count++) {
-			newnode = new Node(NodeType.NEURON, count, NodeLabel.HIDDEN);
+			newnode = new NeatNode(NodeType.NEURON, count, NodeLabel.HIDDEN);
 
 			// Add the node to the list of nodes
 			nodes.add(newnode);
@@ -459,7 +461,7 @@ public class Genome implements IGenome {
 
 		// Build the output nodes
 		for (count = first_output; count <= totalnodes; count++) {
-			newnode = new Node(NodeType.NEURON, count, NodeLabel.OUTPUT);
+			newnode = new NeatNode(NodeType.NEURON, count, NodeLabel.OUTPUT);
 
 			// Add the node to the list of nodes
 			nodes.add(newnode);
