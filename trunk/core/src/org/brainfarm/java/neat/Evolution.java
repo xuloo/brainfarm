@@ -13,7 +13,12 @@ import org.brainfarm.java.neat.api.evolution.IEvolution;
 import org.brainfarm.java.neat.api.evolution.IEvolutionListener;
 import org.brainfarm.java.neat.context.IExperiment;
 import org.brainfarm.java.util.ThreadedCommand;
-
+/**
+ * The central class from which Evolution is run.
+ * 
+ * @author dtuohy
+ *
+ */
 public class Evolution extends ThreadedCommand implements IEvolution {
 	
 	private static Logger logger = Logger.getLogger(Evolution.class);

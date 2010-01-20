@@ -188,16 +188,8 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 			}
 
 			if (!bypass) {
-
-				phenotype.setStatus(0);
 				recurflag = phenotype.pathExists(((INeatNode)thenode1).getAnalogue(),
 						((INeatNode)thenode2).getAnalogue(), 0, thresh);
-
-				if (phenotype.getStatus() == 8) {
-					System.out
-							.println("\n  network.mutate_add_link : LOOP DETECTED DURING A RECURRENCY CHECK");
-					return false;
-				}
 
 				if ((!recurflag && do_recur) || (recurflag && !do_recur))
 					trycount++;

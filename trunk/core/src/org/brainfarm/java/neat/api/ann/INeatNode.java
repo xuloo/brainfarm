@@ -15,9 +15,6 @@ import org.brainfarm.java.neat.api.enums.NodeType;
 public interface INeatNode extends INode {
 
 	void flushbackOLD();
-
-	boolean isTraversed();
-	void setTraversed(boolean traversed);
 	
 	boolean mark(int xlevel, INetwork mynet);
 	

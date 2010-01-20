@@ -7,8 +7,8 @@ import org.brainfarm.java.neat.api.ILink;
 import org.brainfarm.java.neat.api.INode;
 
 /**
- * Must be implemented by *all* nodes to be used in a 
- * FEAT experiment.
+ * The base Node implementation that implements
+ * the bare essentials required for a FEAT experiment.
  * 
  * @author dtuohy
  *
@@ -23,6 +23,9 @@ public class Node implements INode {
 	
 	/** Numeric identification of node */
 	private int id;
+
+	/** used fleetingly by network traversing algorithms */
+	private boolean traversed;
 	
 	public int getId() {
 		return id;
@@ -47,5 +50,12 @@ public class Node implements INode {
 	public void setOutgoing(List<ILink> outgoing) {
 		this.outgoing = outgoing;
 	}
+	
+	public void setTraversed(boolean traversed) {
+		this.traversed = traversed;
+	}
 
+	public boolean isTraversed() {
+		return traversed;
+	}
 }

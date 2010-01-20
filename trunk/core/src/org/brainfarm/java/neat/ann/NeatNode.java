@@ -365,8 +365,6 @@ public class NeatNode extends Node implements INeatNode {
 	}
 
 	private int innerLevel;
-	
-	private boolean traversed;
 
 	public boolean mark(int xlevel, INetwork mynet) {
 		
@@ -471,13 +469,5 @@ public class NeatNode extends Node implements INeatNode {
 
 	public int getInnerLevel() {
 		return innerLevel;
-	}
-
-	public void setTraversed(boolean traversed) {
-		this.traversed = traversed;
-	}
-
-	public boolean isTraversed() {
-		return traversed;
 	}
 }

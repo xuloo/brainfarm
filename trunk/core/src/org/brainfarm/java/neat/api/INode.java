@@ -18,4 +18,12 @@ public interface INode {
 	
 	List<ILink> getOutgoing();
 	
+	/*****************************************
+	 *   Helper methods used by FEAT logic.  *
+	 *****************************************/
+	
+	boolean isTraversed();
+	
+	void setTraversed(boolean traversed);
+	
 }

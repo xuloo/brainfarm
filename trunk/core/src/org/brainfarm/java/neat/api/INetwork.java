@@ -13,21 +13,22 @@ public interface INetwork {
 	int getId();
 	
 	void setId(int id);
-
-	boolean pathExists(INode potin, INode potout, int level, int threshold);
 	
-	boolean isMinimal();
+	String getName();
 	
-	int maxDepth();
+	void setName(String name);
 	
 	void setGenotype(IGenome genome);
 	
 	List<INode> getAllNodes();
 	
-	//TODO: It would be nice if we could move the following to INeatNetwork
-	int isStabilised(int period);
+	void setAllNodes(List<INode> allNodes);
+
+	/*****************************************
+	 *   Helper methods used by FEAT logic.  *
+	 *****************************************/
 	
-	int getStatus();
+	boolean pathExists(INode potin, INode potout, int level, int threshold);
 	
-	void setStatus(int status);
+	int maxDepth();	
 }

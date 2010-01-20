@@ -6,38 +6,62 @@ import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
 
+/**
+ * This is the base implementation of Network, it contains
+ * the bare essentials required for a FEAT experiment.
+ * 
+ * @author dtuohy
+ *
+ */
 public class Network implements INetwork {
 
-	@Override
-	public List<INode> getAllNodes() {
-		// TODO Auto-generated method stub
-		return null;
+	/** Is a name of this network */
+	private String name;
+
+	/** Numeric identification of this network */
+	private int id;
+	
+	/**
+	 * Is a collection of object NNode can be mapped in a Vector container; this
+	 * collection represent a group of references to all nodes of this net;
+	 */
+	private List<INode> allNodes;
+	
+	/** is a reference to genotype can has originate this phenotype */
+	private IGenome genotype;
+	
+	public String getName() {
+		return name;
 	}
 
-	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public int getId() {
-		// TODO Auto-generated method stub
-		return 0;
+		return id;
 	}
 
-	@Override
-	public int getStatus() {
-		// TODO Auto-generated method stub
-		return 0;
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public List<INode> getAllNodes() {
+		return allNodes;
 	}
 
-	@Override
-	public boolean isMinimal() {
-		// TODO Auto-generated method stub
-		return false;
+	public void setAllNodes(List<INode> allnodes) {
+		this.allNodes = allnodes;
+	}
+	
+	public IGenome getGenotype() {
+		return genotype;
 	}
 
-	@Override
-	public int isStabilised(int period) {
-		// TODO Auto-generated method stub
-		return 0;
+	public void setGenotype(IGenome genotype) {
+		this.genotype = genotype;
 	}
-
+	
 	@Override
 	public int maxDepth() {
 		// TODO Auto-generated method stub
@@ -50,23 +74,4 @@ public class Network implements INetwork {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	@Override
-	public void setGenotype(IGenome genome) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setId(int id) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setStatus(int status) {
-		// TODO Auto-generated method stub
-
-	}
-
 }
