@@ -1,6 +1,7 @@
 package org.brainfarm.java.neat.evaluators;
 
 import org.brainfarm.java.neat.Neat;
+import org.brainfarm.java.neat.api.ann.INeatNode;
 import org.brainfarm.java.neat.api.evolution.IEvolutionFitness;
 import org.brainfarm.java.neat.api.evolution.IEvolutionInput;
 import org.brainfarm.java.neat.api.evolution.IEvolutionOutput;
@@ -53,7 +54,7 @@ public class ClassOrganismEvaluator extends AbstractOrganismEvaluator {
 
 			// for each sample save each output
 			for (int j = 0; j < neat.getNumberOfOutputUnits(); j++) {
-				out[count][j] = net.getOutputs().get(j).getActivation();
+				out[count][j] = ((INeatNode)net.getOutputs().get(j)).getActivation();
 			}
 			
 			// clear net

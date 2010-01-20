@@ -13,9 +13,11 @@ import java.util.StringTokenizer;
 import javax.swing.JTextArea;
 
 import org.brainfarm.java.neat.Genome;
-import org.brainfarm.java.neat.Node;
+import org.brainfarm.java.neat.ann.NeatGenome;
+import org.brainfarm.java.neat.ann.NeatNode;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.INetwork;
+import org.brainfarm.java.neat.api.ann.INeatNetwork;
 import org.brainfarm.java.util.IOseq;
 
 public class Execution {
@@ -44,7 +46,7 @@ public class Execution {
    
    
 	  public int     Xdepth; 
-	  public INetwork Xnet;
+	  public INeatNetwork Xnet;
 
 
 
@@ -184,17 +186,17 @@ public void createNetwork(IGenome _genome) {
 	Xnet = null;
 
 	//generate genome from file
-	Xgenome = new Genome(_genome.getId(), _genome.getTraits(), _genome.getNodes(), _genome.getGenes()); 
+	Xgenome = new NeatGenome(_genome.getId(), _genome.getNodes(), _genome.getGenes()); 
 
 	//setting the pointer of global genome
 
 	//EnvConstant.CURR_GENOME_RUNNING = Xgenome;
 
 	//generate network
-	Xgenome.genesis(_genome.getId());
+	Xgenome.generatePhenotype(_genome.getId());
 
 	// net phenotype
-	Xnet = Xgenome.getPhenotype();
+	Xnet = (INeatNetwork)Xgenome.getPhenotype();
 
 	// compute first the 'teorical' depth
 	int lx = Xnet.maxDepth();
@@ -696,7 +698,7 @@ public void executeForClass(JTextArea _textArea)
 		//
 		for (int j = 0; j < nr_output; j++) 
 		{
-			double v1 = ((Node) Xnet.getOutputs().get(j)).getActivation();
+			double v1 = ((NeatNode) Xnet.getOutputs().get(j)).getActivation();
 			out[count][j] = v1;
 		}
 

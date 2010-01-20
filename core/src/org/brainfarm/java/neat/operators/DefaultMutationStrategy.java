@@ -6,8 +6,7 @@ import java.util.List;
 import org.brainfarm.java.neat.Gene;
 import org.brainfarm.java.neat.Innovation;
 import org.brainfarm.java.neat.Neat;
-import org.brainfarm.java.neat.Node;
-import org.brainfarm.java.neat.Trait;
+import org.brainfarm.java.neat.ann.NeatNode;
 import org.brainfarm.java.neat.api.IGene;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.IInnovation;
@@ -15,7 +14,7 @@ import org.brainfarm.java.neat.api.ILink;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
 import org.brainfarm.java.neat.api.IPopulation;
-import org.brainfarm.java.neat.api.ITrait;
+import org.brainfarm.java.neat.api.ann.INeatNode;
 import org.brainfarm.java.neat.api.enums.InnovationType;
 import org.brainfarm.java.neat.api.enums.MutationType;
 import org.brainfarm.java.neat.api.enums.NodeLabel;
@@ -46,23 +45,10 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 			mutatedStructure = true;
 		} else if (RandomUtils.randomDouble() < Neat.mutate_add_link_prob) {
 //			logger.debug("....mutate add link");
-			genome.genesis(generation);
+			genome.generatePhenotype(generation);
 			mutateAddLink(genome, pop);
 			mutatedStructure = true;
 		} else {
-			// If we didn't do a structural mutation, we do the other kinds.
-			if (RandomUtils.randomDouble() < Neat.mutate_random_trait_prob) {
-//				logger.debug("...mutate random trait");
-				mutateRandomTrait(genome);
-			}
-			if (RandomUtils.randomDouble() < Neat.mutate_link_trait_prob) {
-//				logger.debug("...mutate linktrait");
-				mutateLinkTrait(genome,1);
-			}
-			if (RandomUtils.randomDouble() < Neat.mutate_node_trait_prob) {
-//				logger.debug("...mutate node trait");
-				mutateNodeTrait(genome,1);
-			}
 			if (RandomUtils.randomDouble() < Neat.mutate_link_weights_prob) {
 //				logger.debug("...mutate link weight");
 				mutateLinkWeight(genome, mut_power, 1.0,MutationType.GAUSSIAN);
@@ -87,7 +73,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 		List<INode> nodes = genome.getNodes();
 		List<IGene> genes = genome.getGenes();
 		INetwork phenotype = genome.getPhenotype();
-		List<ITrait> traits = genome.getTraits();
 		
 		boolean done = false;
 		boolean do_recur = false;
@@ -102,7 +87,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 		int thresh = nodes.size() * nodes.size();
 		int nodenum1;
 		int nodenum2;
-		int traitnum;
 		double new_weight;
 
 		INode thenode1 = null;
@@ -129,7 +113,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 
 		while (nodeIterator.hasNext()) {
 			thenode1 = nodeIterator.next();
-			if (thenode1.getType() != NodeType.SENSOR) {
+			if (((INeatNode)thenode1).getType() != NodeType.SENSOR) {
 				break;
 			}
 			first_nonsensor++;
@@ -183,7 +167,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 			bypass = false;
 			for (int j = 0; j < genes.size(); j++) {
 				_gene = genes.get(j);
-				if (thenode2.getType() == NodeType.SENSOR) {
+				if (((INeatNode)thenode2).getType() == NodeType.SENSOR) {
 					bypass = true;
 					break;
 				}
@@ -206,8 +190,8 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 			if (!bypass) {
 
 				phenotype.setStatus(0);
-				recurflag = phenotype.pathExists(thenode1.getAnalogue(),
-						thenode2.getAnalogue(), 0, thresh);
+				recurflag = phenotype.pathExists(((INeatNode)thenode1).getAnalogue(),
+						((INeatNode)thenode2).getAnalogue(), 0, thresh);
 
 				if (phenotype.getStatus() == 8) {
 					System.out
@@ -252,8 +236,9 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 						return false;
 					}
 
-					// Choose a random trait
-					traitnum = RandomUtils.randomInt(0, traits.size() - 1);
+					// TODO: delete this invocation, it's only here to preserve 
+					// consistent interaction with Random
+					RandomUtils.randomInt(0, 0);
 
 					// Choose the new weight
 					// newweight=(gaussrand())/1.5; //Could use a gaussian
@@ -264,11 +249,10 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 					// read curr innovation with postincrement
 					double curr_innov = population.getCurrentInnovationNumberAndIncrement();
 					// Create the new gene
-					new_gene = new Gene((Trait) traits.get(traitnum),
-							new_weight, thenode1, thenode2, do_recur,
+					new_gene = new Gene(new_weight, thenode1, thenode2, do_recur,
 							curr_innov, new_weight);
 					// Add the innovation
-					population.getInnovations().add(new Innovation(thenode1.getId(), thenode2.getId(), curr_innov, new_weight, traitnum));
+					population.getInnovations().add(new Innovation(thenode1.getId(), thenode2.getId(), curr_innov, new_weight));
 					done = true;
 
 				}
@@ -281,7 +265,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 							&& (_innov.getOutputNodeId() == thenode2.getId())
 							&& (_innov.isRecurrent() == do_recur)) {
 
-						new_gene = new Gene((Trait) traits.get(_innov.getNewTraitId()), _innov.getNewWeight(), thenode1, thenode2, do_recur, _innov.getInnovationNumber1(), 0);
+						new_gene = new Gene(_innov.getNewWeight(), thenode1, thenode2, do_recur, _innov.getInnovationNumber1(), 0);
 						done = true;
 					}
 				}
@@ -372,7 +356,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 	public boolean mutateAddNode(IGenome genome, IPopulation population) {
 
 			List<IGene> genes = genome.getGenes();
-			List<ITrait> traits = genome.getTraits();
 		
 			IGene _gene = null;
 
@@ -384,8 +367,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 			INode in_node = null;
 			INode out_node = null;
 			INode new_node = null;
-			//Iterator itr_innovation;
-			ITrait traitptr = null;
 
 			int j;
 			int genenum = 0;
@@ -404,14 +385,14 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 				for (j = 0; j < genes.size(); j++) {
 					_gene = genes.get(j);
 					if (_gene.isEnabled()
-							&& (_gene.getLink().getInputNode().getGenNodeLabel() != NodeLabel.BIAS))
+							&& (((INeatNode)_gene.getLink().getInputNode()).getGenNodeLabel() != NodeLabel.BIAS))
 						break;
 				}
 
 				for (; j < genes.size(); j++) {
 					_gene = genes.get(j);
 					if ((RandomUtils.randomDouble() >= 0.3)
-							&& (_gene.getLink().getInputNode().getGenNodeLabel() != NodeLabel.BIAS)) {
+							&& (((INeatNode)_gene.getLink().getInputNode()).getGenNodeLabel() != NodeLabel.BIAS)) {
 						step2 = true;
 						break;
 					}
@@ -428,7 +409,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 					genenum = RandomUtils.randomInt(0, genes.size() - 1);
 					_gene = genes.get(genenum);
 					if (_gene.isEnabled()
-							&& (_gene.getLink().getInputNode().getGenNodeLabel() != NodeLabel.BIAS))
+							&& (((INeatNode)_gene.getLink().getInputNode()).getGenNodeLabel() != NodeLabel.BIAS))
 						found = true;
 					++trycount;
 
@@ -444,8 +425,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 			thelink = _gene.getLink();
 			// Extract the weight;
 			oldweight = thelink.getWeight();
-			// Get the old link's trait
-			traitptr = thelink.getTrait();
 
 			// Extract the nodes
 			in_node = thelink.getInputNode();
@@ -461,26 +440,24 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 					// The innovation is totally novel
 					// Create the new Genes
 					// Create the new NNode
-					// By convention, it will point to the first trait
 					// get the current node id with postincrement
 
 					int curnode_id = population.getCurrentNodeIdAndIncrement();
 
 					// pass this current nodeid to newnode and create the new node
-					new_node = new Node(NodeType.NEURON, curnode_id, NodeLabel.HIDDEN);
-					new_node.setTrait(traits.get(0));
+					new_node = new NeatNode(NodeType.NEURON, curnode_id, NodeLabel.HIDDEN);
 
 					// get the current gene inovation with post increment
 					gene_innov1 = population.getCurrentInnovationNumberAndIncrement();
 
 					// create gene with the current gene inovation
-					newgene1 = new Gene(traitptr, 1.0, in_node, new_node, thelink.isRecurrent(), gene_innov1, 0);
+					newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), gene_innov1, 0);
 
 					// re-read the current innovation with increment
 					gene_innov2 = population.getCurrentInnovationNumberAndIncrement();
 
 					// create the second gene with this innovation incremented
-					newgene2 = new Gene(traitptr, oldweight, new_node, out_node, false, gene_innov2, 0);
+					newgene2 = new Gene(oldweight, new_node, out_node, false, gene_innov2, 0);
 
 					population.getInnovations().add(new Innovation(in_node.getId(), out_node .getId(), gene_innov1, gene_innov2, new_node.getId(), _gene.getInnovationNumber()));
 					
@@ -496,11 +473,10 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 							&& (_innov.getOldInnovationNumber() == _gene.getInnovationNumber())) {
 						// Create the new Genes
 						// pass this current nodeid to newnode
-						new_node = new Node(NodeType.NEURON, _innov.getNewNodeId(), NodeLabel.HIDDEN);
-						new_node.setTrait(traits.get(0));
+						new_node = new NeatNode(NodeType.NEURON, _innov.getNewNodeId(), NodeLabel.HIDDEN);
 
-						newgene1 = new Gene(traitptr, 1.0, in_node, new_node, thelink.isRecurrent(), _innov.getInnovationNumber1(), 0);
-						newgene2 = new Gene(traitptr, oldweight, new_node, out_node, false, _innov.getInnovationNumber2(), 0);
+						newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), _innov.getInnovationNumber1(), 0);
+						newgene2 = new Gene(oldweight, new_node, out_node, false, _innov.getInnovationNumber2(), 0);
 						done = true;
 
 					}
@@ -571,82 +547,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 
 			} else
 				_gene.setEnabled(true);
-		}
-
-	}
-	
-	/**
-	 * Insert the method's description here. Creation date: (24/01/2002 9.03.36)
-	 */
-	public void mutateRandomTrait(IGenome genome) {
-		
-		// Choose a random traitnum
-		int traitnum = RandomUtils.randomInt(0, genome.getTraits().size() - 1);
-		// Retrieve the trait and mutate it
-		genome.getTraits().get(traitnum).mutate();
-
-		// TRACK INNOVATION? (future possibility)
-	}
-	
-	/**
-	 * This chooses a random gene, extracts the link from it, and repoints the
-	 * link to a random trait
-	 */
-	public void mutateLinkTrait(IGenome genome, int repeats) {
-		int traitnum;
-		int genenum;
-		//int count;
-		int loop;
-		IGene _gene = null;
-		ITrait _trait = null;
-
-		for (loop = 1; loop <= repeats; loop++) {
-
-			// Choose a random traitnum
-			traitnum = RandomUtils.randomInt(0, genome.getTraits().size() - 1);
-			// Choose a random linknum
-			genenum = RandomUtils.randomInt(0, genome.getGenes().size() - 1);
-			// set the link to point to the new trait
-			_gene = genome.getGenes().get(genenum);
-			_trait = genome.getTraits().get(traitnum);
-			_gene.getLink().setTrait(_trait);
-
-			// TRACK INNOVATION- future use
-			// (*thegene)->mutation_num+=randposneg()*randfloat()*linktrait_mut_sig;
-		}
-	}
-	
-	/**
-	 * This chooses a random node and repoints the node to a random trait
-	 */
-	public void mutateNodeTrait(IGenome genome, int repeats) {
-		int traitnum;
-		int nodenum;
-		//int count;
-		int loop;
-		INode _node = null;
-		//ITrait _trait = null;
-
-		for (loop = 1; loop <= repeats; loop++) {
-
-			// Choose a random traitnum
-			traitnum = RandomUtils.randomInt(0, (genome.getTraits().size()) - 1);
-			// Choose a random nodenum
-			nodenum = RandomUtils.randomInt(0, genome.getNodes().size() - 1);
-			// set the link to point to the new trait
-			_node = genome.getNodes().get(nodenum);
-			//_trait = traits.get(traitnum);
-			_node.setTrait(genome.getTraits().get(traitnum));
-
-			// TRACK INNOVATION! - possible future use
-			// for any gene involving the mutated node, perturb that gene's
-			// mutation number
-			// for(thegene=genes.begin();thegene!=genes.end();++thegene) {
-			// if (((((*thegene)->lnk)->in_node)==(*thenode))
-			// ||
-			// ((((*thegene)->lnk)->out_node)==(*thenode)))
-			// (*thegene)->mutation_num+=randposneg()*randfloat()*nodetrait_mut_sig;
-			// }
 		}
 
 	}

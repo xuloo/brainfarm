@@ -10,6 +10,7 @@ import java.util.Vector;
 import org.brainfarm.java.neat.Gene;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.INode;
+import org.brainfarm.java.neat.api.ann.INeatNode;
 import org.brainfarm.java.neat.api.enums.NodeType;
 import org.brainfarm.java.util.CodeConstant;
 import org.brainfarm.java.util.IOseq;
@@ -1795,7 +1796,7 @@ public class Structure {
 		for (INode node : _g.getNodes()) {
 			//NNode _node = ((NNode) itr_node.next());
 			_id = node.getId();
-			NodeType type1 = node.getType();
+			NodeType type1 = ((INeatNode)node).getType();
 			/*int type2 = node.getGen_node_label();
 
 			if (type1 == NeatConstant.SENSOR) {

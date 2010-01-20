@@ -48,11 +48,6 @@ public class Innovation implements IInnovation {
 	private double newWeight;
 
 	/**
-	 * If a link is added, this is its connected trait
-	 */
-	private int newTraitId;
-
-	/**
 	 * If a new node was created, this is its node_id
 	 */
 	private int newNodeId;
@@ -77,13 +72,12 @@ public class Innovation implements IInnovation {
 	/**
 	 * Insert the method's description here. Creation date: (23/01/2002 9.04.02)
 	 */
-	public Innovation(int nin, int nout, double num1, double w, int t) {
+	public Innovation(int nin, int nout, double num1, double w) {
 		innovationType = InnovationType.NEW_LINK;
 		inputNodeId = nin;
 		outputNodeId = nout;
 		innovationNumber1 = num1;
 		newWeight = w;
-		newTraitId = t;
 
 		// Unused parameters set to zero
 		innovationNumber2 = 0;
@@ -106,7 +100,6 @@ public class Innovation implements IInnovation {
 
 		// Unused parameters set to zero
 		newWeight = 0;
-		newTraitId = 0;
 		recurrent = false;
 	}
 
@@ -156,14 +149,6 @@ public class Innovation implements IInnovation {
 
 	public void setNewWeight(double newWeight) {
 		this.newWeight = newWeight;
-	}
-
-	public int getNewTraitId() {
-		return newTraitId;
-	}
-
-	public void setNewTraitId(int newTraitId) {
-		this.newTraitId = newTraitId;
 	}
 
 	public int getNewNodeId() {

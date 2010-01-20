@@ -1,13 +1,8 @@
 package org.brainfarm.java.neat.comparators;
 
-import org.brainfarm.java.neat.api.INode;
+import org.brainfarm.java.neat.api.ann.INeatNode;
 
-/**
- * 
- * 
- * 
- */
-public class CompareNodesByInnerLevel implements java.util.Comparator<INode> {
+public class CompareNodesByInnerLevel implements java.util.Comparator<INeatNode> {
 	/**
 	 * order_inner constructor comment.
 	 */
@@ -15,7 +10,7 @@ public class CompareNodesByInnerLevel implements java.util.Comparator<INode> {
 		super();
 	}
 
-	public int compare(INode o1, INode o2) {
+	public int compare(INeatNode o1, INeatNode o2) {
 		
 		if (o1.getInnerLevel() < o2.getInnerLevel()) {
 			return -1;

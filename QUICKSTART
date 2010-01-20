@@ -7,17 +7,17 @@ Follow the instructions in the README for building brainfarm and running the Jav
 
 When the Java Gui starts click the 
 
-'Load Default Parameters' 
+'Load Default' 
 
 button. This will load the default settings in and initialize the Neat context that experiments will use.
 
 Now, click on the 
 
-'Session Parameters'
+'Session Parameter'
 
 tab and click
 
-'Load Session File…'
+'Load Sess File'
 
 button. This will bring up a file dialog. To load an experiment you must load the JAR that contains the experiment's files.
 
