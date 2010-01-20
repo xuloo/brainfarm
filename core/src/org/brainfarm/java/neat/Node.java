@@ -3,12 +3,16 @@ package org.brainfarm.java.neat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.brainfarm.java.neat.ann.NeatNetwork;
 import org.brainfarm.java.neat.api.ILink;
 import org.brainfarm.java.neat.api.INode;
-import org.brainfarm.java.neat.api.enums.NodeLabel;
-import org.brainfarm.java.neat.api.enums.NodeType;
 
+/**
+ * Must be implemented by *all* nodes to be used in a 
+ * FEAT experiment.
+ * 
+ * @author dtuohy
+ *
+ */
 public class Node implements INode {
 
 	/** A list of pointers to incoming weighted signals from other nodes */
@@ -19,66 +23,6 @@ public class Node implements INode {
 	
 	/** Numeric identification of node */
 	private int id;
-	
-	@Override
-	public int depth(int xlevel, NeatNetwork mynet, int xmaxLevel) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public INode generateDuplicate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public INode getAnalogue() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public INode getCachedDuplicate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public NodeLabel getGenNodeLabel() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getInnerLevel() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public NodeType getType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setAnalogue(INode analogue) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setGenNodeLabel(NodeLabel genNodeLabel) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setInnerLevel(int innerLevel) {
-		// TODO Auto-generated method stub
-
-	}
 	
 	public int getId() {
 		return id;

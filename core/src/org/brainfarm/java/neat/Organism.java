@@ -67,7 +67,7 @@ public class Organism implements IOrganism {
 		fitness = xfitness;
 		originalFitness = xfitness;
 		genome = xgenome;
-		phenotype = genome.genesis(xgenome.getId());
+		phenotype = genome.generatePhenotype(xgenome.getId());
 		species = null;
 		expectedOffspring = 0;
 		generation = xgeneration;

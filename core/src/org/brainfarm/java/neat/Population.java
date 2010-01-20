@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.brainfarm.java.neat.ann.NeatGenome;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.IInnovation;
 import org.brainfarm.java.neat.api.IOrganism;
@@ -42,8 +43,8 @@ public class Population implements IPopulation {
 
 	/** The last generation played */
 	private int final_gen;
+	
 	// Fitness Statistics
-
 	/** the mean of fitness in current epoch */
 	private double mean_fitness;
 
@@ -103,18 +104,13 @@ public class Population implements IPopulation {
 	 */
 	public void epoch(int generation) {
 
-		//Iterator<ISpecies> itr_specie;
-		//Iterator<IOrganism> itr_organism;
 		double total = 0.0;
-		// double total_expected=0.0;
-		//int orgcount = 0;
 		int max_expected;
 		int total_expected; // precision checking
 		int final_expected;
 		int half_pop = 0;
 		double overall_average = 0.0;
 		int total_organisms = 0;
-		//double tmpd = 0.0;
 		double skim = 0.0;
 		int tmpi = 0;
 		int best_species_num = 0;
@@ -589,25 +585,14 @@ public class Population implements IPopulation {
 		organisms = new ArrayList<IOrganism>(numberOfOrganisms);
 		
 		for (int count = 0; count < numberOfOrganisms; count++) {
-			IGenome genome = new Genome(count, numberOfInputs, numberOfOutputs, RandomUtils.randomInt(0, maxIndexOfNodes), maxIndexOfNodes, recurrent, linkProbability);
-			// backup genome primordial
-			//fname = fname_prefix + fmt4.format(count);
-			//new_genome.print_to_filename(fname);
+			IGenome genome = new NeatGenome(count, numberOfInputs, numberOfOutputs, RandomUtils.randomInt(0, maxIndexOfNodes), maxIndexOfNodes, recurrent, linkProbability);
 			organisms.add(new Organism(0, genome, 1));
 		}
 
 		cur_node_id = numberOfInputs + numberOfOutputs + maxIndexOfNodes + 1;
 		cur_innov_num = (numberOfInputs + numberOfOutputs + maxIndexOfNodes) * (numberOfInputs + numberOfOutputs + maxIndexOfNodes) + 1;
 
-		// System.out.print("\n  The first  node_id  available is "+cur_node_id);
-		// System.out.print("\n  The first innov_num available is "+cur_innov_num);
-
 		EvolutionStrategy.getInstance().getSpeciationStrategy().speciate(this);
-
-		// backup of population
-		//fname_prefix = EnvRoutine.getJneatFileData(EnvConstant.NAME_CURR_POPULATION);
-		//print_to_filename(fname_prefix);
-
 	}
 
 	/**

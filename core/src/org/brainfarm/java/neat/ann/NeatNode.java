@@ -6,6 +6,7 @@ import org.brainfarm.java.neat.Node;
 import org.brainfarm.java.neat.api.ILink;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
+import org.brainfarm.java.neat.api.ann.INeatNetwork;
 import org.brainfarm.java.neat.api.ann.INeatNode;
 import org.brainfarm.java.neat.api.enums.ActivationFunction;
 import org.brainfarm.java.neat.api.enums.NodeLabel;
@@ -223,11 +224,11 @@ public class NeatNode extends Node implements INeatNode {
 		output = 0;
 		lastActivation = 0;
 		lastActivation2 = 0;
-		type = n.getType(); // NEURON or SENSOR type
+		type = ((INeatNode)n).getType(); // NEURON or SENSOR type
 		activationCount = 0; // Inactive upon creation
 		setId(n.getId()); // id del nodo
 		activationFunction = ActivationFunction.SIGMOID; // funt act : sigmoid
-		genNodeLabel = n.getGenNodeLabel();
+		genNodeLabel = ((INeatNode)n).getGenNodeLabel();
 		setDuplicate(null);
 		setAnalogue(null);
 		setTraversed(false);
@@ -259,7 +260,7 @@ public class NeatNode extends Node implements INeatNode {
 		return newNode;
 	}
 
-	public int depth(int xlevel, NeatNetwork mynet, int xmax_level) {
+	public int depth(int xlevel, INeatNetwork mynet, int xmax_level) {
 
 		// control for loop
 		if (xlevel > 100) {
@@ -283,7 +284,7 @@ public class NeatNode extends Node implements INeatNode {
 		int cur_depth = 0; // The depth of the current node
 
 		for (ILink _link : getIncoming()) {
-			INode _ynode = _link.getInputNode();
+			INeatNode _ynode = (INeatNode)_link.getInputNode();
 
 			if (!((INeatNode)_ynode).isTraversed()) {
 				((INeatNode)_ynode).setTraversed(true);

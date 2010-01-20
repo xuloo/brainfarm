@@ -14,6 +14,7 @@ import org.brainfarm.java.neat.api.ILink;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
 import org.brainfarm.java.neat.api.IPopulation;
+import org.brainfarm.java.neat.api.ann.INeatNode;
 import org.brainfarm.java.neat.api.enums.InnovationType;
 import org.brainfarm.java.neat.api.enums.MutationType;
 import org.brainfarm.java.neat.api.enums.NodeLabel;
@@ -44,7 +45,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 			mutatedStructure = true;
 		} else if (RandomUtils.randomDouble() < Neat.mutate_add_link_prob) {
 //			logger.debug("....mutate add link");
-			genome.genesis(generation);
+			genome.generatePhenotype(generation);
 			mutateAddLink(genome, pop);
 			mutatedStructure = true;
 		} else {
@@ -112,7 +113,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 
 		while (nodeIterator.hasNext()) {
 			thenode1 = nodeIterator.next();
-			if (thenode1.getType() != NodeType.SENSOR) {
+			if (((INeatNode)thenode1).getType() != NodeType.SENSOR) {
 				break;
 			}
 			first_nonsensor++;
@@ -166,7 +167,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 			bypass = false;
 			for (int j = 0; j < genes.size(); j++) {
 				_gene = genes.get(j);
-				if (thenode2.getType() == NodeType.SENSOR) {
+				if (((INeatNode)thenode2).getType() == NodeType.SENSOR) {
 					bypass = true;
 					break;
 				}
@@ -189,8 +190,8 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 			if (!bypass) {
 
 				phenotype.setStatus(0);
-				recurflag = phenotype.pathExists(thenode1.getAnalogue(),
-						thenode2.getAnalogue(), 0, thresh);
+				recurflag = phenotype.pathExists(((INeatNode)thenode1).getAnalogue(),
+						((INeatNode)thenode2).getAnalogue(), 0, thresh);
 
 				if (phenotype.getStatus() == 8) {
 					System.out
@@ -384,14 +385,14 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 				for (j = 0; j < genes.size(); j++) {
 					_gene = genes.get(j);
 					if (_gene.isEnabled()
-							&& (_gene.getLink().getInputNode().getGenNodeLabel() != NodeLabel.BIAS))
+							&& (((INeatNode)_gene.getLink().getInputNode()).getGenNodeLabel() != NodeLabel.BIAS))
 						break;
 				}
 
 				for (; j < genes.size(); j++) {
 					_gene = genes.get(j);
 					if ((RandomUtils.randomDouble() >= 0.3)
-							&& (_gene.getLink().getInputNode().getGenNodeLabel() != NodeLabel.BIAS)) {
+							&& (((INeatNode)_gene.getLink().getInputNode()).getGenNodeLabel() != NodeLabel.BIAS)) {
 						step2 = true;
 						break;
 					}
@@ -408,7 +409,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 					genenum = RandomUtils.randomInt(0, genes.size() - 1);
 					_gene = genes.get(genenum);
 					if (_gene.isEnabled()
-							&& (_gene.getLink().getInputNode().getGenNodeLabel() != NodeLabel.BIAS))
+							&& (((INeatNode)_gene.getLink().getInputNode()).getGenNodeLabel() != NodeLabel.BIAS))
 						found = true;
 					++trycount;
 
