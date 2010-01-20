@@ -10,38 +10,7 @@ import org.brainfarm.java.neat.params.NeatParameter;
  * Definition of all parameters , threshold and other values.
  */
 public class Neat {
-	/** 
-	 * Probability of mutating a single trait param 
-	 */
-	public static final String TRAIT_PARAM_MUT_PROB = "trait_param_mut_prob";
-	
-	@NeatParameter
-	public static double trait_param_mut_prob;
-	
-	/**
-	 * Power of mutation on a signle trait param
-	 */
-	public static final String TRAIT_MUTATION_POWER = "trait_mutation_power";
-	
-	@NeatParameter
-	public static double trait_mutation_power;
 
-	/** 
-	 * Amount that mutation_num changes for a trait change inside a link 
-	 */
-	public static final String LINKTRAIT_MUT_SIG = "linktrait_mut_sig";
-	
-	@NeatParameter
-	public static double linktrait_mut_sig;
-	
-	/**
-	 * Amount a mutation_num changes on a link connecting a node that changed its trait
-	 */
-	public static final String NODETRAIT_MUT_SIG = "nodetrait_mut_sig";
-	
-	@NeatParameter
-	public static double nodetrait_mut_sig;
-	
 	/** 
 	 * The power of a linkweight mutation 
 	 */
@@ -113,30 +82,6 @@ public class Neat {
 	
 	@NeatParameter
 	public static double mutate_only_prob;
-	
-	/** 
-	 * Probability of mutate trait 
-	 */
-	public static final String MUTATE_RANDOM_TRAIT_PROB = "mutate_random_trait_prob";
-	
-	@NeatParameter
-	public static double mutate_random_trait_prob;
-	
-	/** 
-	 * Probability of mutate link trait 
-	 */
-	public static final String MUTATE_LINK_TRAIT_PROB = "mutate_link_trait_prob";
-	
-	@NeatParameter
-	public static double mutate_link_trait_prob;
-
-	/** 
-	 * Probability of mutate node trait 
-	 */
-	public static final String MUTATE_NODE_TRAIT_PROB = "mutate_node_trait_prob";
-	
-	@NeatParameter
-	public static double mutate_node_trait_prob;
 	
 	/** 
 	 * Probability of mutate link weight 
@@ -274,13 +219,6 @@ public class Neat {
 	@NeatParameter
 	public int num_runs;
 	
-	/** 
-	 * number of a trait 
-	 */
-	public static final String NUM_TRAIT_PARAMS = "num_trait_params";
-	
-	@NeatParameter
-	public static int num_trait_params;
 	
 	///////////////////////////////////////
 	// NOT SURE IF THESE ARE NEEDED HERE //

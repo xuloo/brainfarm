@@ -13,8 +13,6 @@ public interface IGenome {
 	
 	List<INode> getNodes();
 	
-	List<ITrait> getTraits();
-	
 	IGenome duplicate(int count);
 	
 	int getLastNodeId();

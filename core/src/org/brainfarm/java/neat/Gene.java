@@ -41,7 +41,6 @@ public class Gene implements IGene
 	 * Creates a new Gene from references to the Trait and Input/Output Nodes.
 	 * 
 	 * @param gene
-	 * @param trait
 	 * @param inputNode
 	 * @param outputNode
 	 */
@@ -59,7 +58,6 @@ public class Gene implements IGene
 	/**
 	 * Creates a new Gene from the supplied Input/Output nodes and gene properties.
 	 * 
-	 * @param trait
 	 * @param weight
 	 * @param inputNode
 	 * @param outputNode
