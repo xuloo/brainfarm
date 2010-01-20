@@ -11,7 +11,6 @@ public interface IInnovation {
 	int getOutputNodeId();
 	
 	int getNewNodeId();
-	int getNewTraitId();
 	
 	double getNewWeight();
 	

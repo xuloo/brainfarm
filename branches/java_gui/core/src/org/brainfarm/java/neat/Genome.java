@@ -5,19 +5,18 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.brainfarm.java.neat.ann.NeatNode;
 import org.brainfarm.java.neat.api.IGene;
 import org.brainfarm.java.neat.api.IGenome;
-import org.brainfarm.java.neat.api.ILink;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
-import org.brainfarm.java.neat.api.ITrait;
 import org.brainfarm.java.neat.api.enums.NodeLabel;
 import org.brainfarm.java.neat.api.enums.NodeType;
 import org.brainfarm.java.util.RandomUtils;
 
-public class Genome implements IGenome {
+public abstract class Genome implements IGenome {
 
-	private static Logger logger = Logger.getLogger(Genome.class);
+	protected static Logger logger = Logger.getLogger(Genome.class);
 	
 	/** Is a reference from this genotype to phenotype */
 	private INetwork phenotype;
@@ -31,9 +30,6 @@ public class Genome implements IGenome {
 	 * provide an evolutionary history of innovation and link-building
 	 */
 	private List<IGene> genes;
-
-	/** parameter conglomerations :Reserved parameter space for future use */
-	private List<ITrait> traits;
 
 	/** Is a collection of NNode mapped in a Vector; */
 	private List<INode> nodes;
@@ -50,14 +46,6 @@ public class Genome implements IGenome {
 
 	public void setGenes(List<IGene> genes) {
 		this.genes = genes;
-	}
-
-	public List<ITrait> getTraits() {
-		return traits;
-	}
-
-	public void setTraits(List<ITrait> traits) {
-		this.traits = traits;
 	}
 
 	public List<INode> getNodes() {
@@ -84,166 +72,16 @@ public class Genome implements IGenome {
 	}
 	
 	/**
-	 * Creates a new Genome using the supplied traits, nodes and genes and with the supplied id.
+	 * Creates a new Genome using the supplied nodes and genes and with the supplied id.
 	 * 
 	 * @param id
-	 * @param traits
 	 * @param nodes
 	 * @param genes
 	 */
-	public Genome(int id, List<ITrait> traits, List<INode> nodes, List<IGene> genes) {
+	public Genome(int id, List<INode> nodes, List<IGene> genes) {
 		this.id = id;
-		this.traits = traits;
 		this.nodes = nodes;
 		this.genes = genes;
-	}
-
-	public Genome duplicate(int new_id) {		
-		
-		ArrayList<ITrait> traits_dup = new ArrayList<ITrait>(traits.size());
-		ArrayList<INode> nodes_dup = new ArrayList<INode>(nodes.size());
-		ArrayList<IGene> genes_dup = new ArrayList<IGene>(genes.size());
-		
-		ITrait assoc_trait = null;
-		int traitId;
-
-		// Duplicate Traits.
-		for (ITrait trait : traits) {
-			traits_dup.add(new Trait(trait));
-		}
-
-		// Duplicate Nodes.
-		for (INode _node : nodes) {
-			if (_node.getTrait() != null) {
-				traitId = _node.getTrait().getId();
-				for (ITrait _trait : traits_dup) {
-					if (_trait.getId() == traitId) {
-						assoc_trait = _trait;
-						break;
-					}
-				}
-			}
-
-			INode newnode = new Node(_node, assoc_trait);
-
-			_node.setDuplicate(newnode);
-			nodes_dup.add(newnode);
-		}
-
-		// Duplicate Genes.
-		for (IGene gene : genes) {
-			// point to news nodes created at precedent step
-			INode inode = gene.getLink().getInputNode().getDuplicate();
-			INode onode = gene.getLink().getOutputNode().getDuplicate();
-			ITrait traitptr = gene.getLink().getTrait();
-
-			assoc_trait = null;
-			if (traitptr != null) {
-				traitId = traitptr.getId();
-				for (ITrait trait : traits) {
-					if (trait.getId() == traitId) {
-						assoc_trait = trait;
-						break;
-					}
-				}
-			}
-
-			// creation of new gene with a pointer to new node
-			genes_dup.add(new Gene(gene, assoc_trait, inode, onode));
-		}
-
-		// okay all nodes created, the new genome can be generate
-		return new Genome(new_id, traits_dup, nodes_dup, genes_dup);
-	}
-
-	/**
-	 * Generates a Network (Phenotype) from this Genome (Genotype).
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public INetwork genesis(int id) {
-
-		INetwork newnet = null;
-		ITrait curtrait = null;
-		// Vector nodes_dup = new Vector(1, 0);
-		INode newnode = null;
-		List<INode> inlist = new ArrayList<INode>(1);
-		List<INode> outlist = new ArrayList<INode>(1);
-		List<INode> all_list = new ArrayList<INode>(nodes.size());
-
-		ILink curlink = null;
-		ILink newlink = null;
-		INode inode = null;
-		INode onode = null;
-		
-		for (INode _node : nodes) {
-			// create a copy of gene node for phenotype.
-			newnode = new Node(_node.getType(), _node.getId());
-
-			// Derive link's parameters from its Trait.
-			curtrait = _node.getTrait();
-			newnode.deriveTrait(curtrait);
-			newnode.setInnerLevel(0);
-
-			newnode.setGenNodeLabel(_node.getGenNodeLabel());
-
-			// new field
-			newnode.setTraversed(false);
-			
-			if (_node.getGenNodeLabel() == NodeLabel.INPUT)
-				inlist.add(newnode);
-			if (_node.getGenNodeLabel() == NodeLabel.BIAS)
-				inlist.add(newnode);
-			if (_node.getGenNodeLabel() == NodeLabel.OUTPUT)
-				outlist.add(newnode);
-
-			// add to genotype the pointer to phenotype node
-			all_list.add(newnode);
-			_node.setAnalogue(newnode);
-		}
-
-		if (genes.size() == 0) {
-			logger.error("Network has no GENES - results will be unpredictable");
-		}
-
-		if (outlist.size() == 0) {
-			logger.error("Network has no OUTPUTS - results will be unpredictable");
-			logger.debug(toString());
-		}
-
-		for (IGene _gene : genes) {
-			
-			// Only create the link if the gene is enabled
-			if (_gene.isEnabled()) {
-
-				curlink = _gene.getLink();
-
-				inode = curlink.getInputNode().getAnalogue();
-				onode = curlink.getOutputNode().getAnalogue();
-				// NOTE: This line could be run through a recurrency check if desired
-				// (no need to in the current implementation of NEAT)
-				newlink = new Link(curlink.getWeight(), inode, onode, curlink.isRecurrent());
-				onode.getIncoming().add(newlink);
-				inode.getOutgoing().add(newlink);
-
-				// Derive link's parameters from its Trait.
-				curtrait = curlink.getTrait();
-				curlink.deriveTrait(curtrait);
-			}
-
-		}
-		
-		// Create the new network
-		newnet = new Network(inlist, outlist, all_list, id);
-		// Attach genotype and phenotype together:
-		// newnet point to owner genotype (this)
-		newnet.setGenotype(this);
-		// genotype point to owner phenotype (newnet)
-
-		phenotype = newnet;
-		
-		return newnet;
 	}
 
 	/**
@@ -340,8 +178,6 @@ public class Genome implements IGenome {
 		return nodes.get(genes.size() - 1).getId() + 1;
 	}
 
-	
-
 	public boolean verify() {
 
 		INode inputNode = null;
@@ -359,11 +195,6 @@ public class Genome implements IGenome {
 
 		if (nodes.size() == 0) {
 			logger.error("Problem creating random Genome - There are no Nodes!");
-			return false;
-		}
-
-		if (traits.size() == 0) {
-			logger.error("Problem creating random Genome - There are no Traits!");
 			return false;
 		}
 
@@ -462,23 +293,16 @@ public class Genome implements IGenome {
 		int col = 0;
 		int row = 0;
 		int fnd = 0;
-		//int pointer = 0;
-		//int gene_number = 0;
 
 		boolean flag_recurrent = false;
 		boolean create_gene = false;
 
 		double new_weight = 0.0;
 
-		Trait newtrait = null;
 		INode newnode = null;
 		INode in_node = null;
 		INode out_node = null;
 		IGene newgene = null;
-
-		//notes = null;
-
-		//Iterator itr_node;
 
 		//
 		// i i i n n n n n n n n n n n n n n n n . . . . . . . . o o o o
@@ -493,7 +317,6 @@ public class Genome implements IGenome {
 		//
 		totalnodes = i + o + nmax;
 
-		traits = new ArrayList<ITrait>(Neat.num_trait_params);
 		nodes = new ArrayList<INode>(totalnodes);
 		genes = new ArrayList<IGene>(totalnodes);
 
@@ -509,27 +332,20 @@ public class Genome implements IGenome {
 		// Assign the id
 		setId(new_id);
 
-		// Create a dummy trait (this is for future expansion of the system)
-
-		newtrait = new Trait(1, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-		traits.add(newtrait);
-
 		// Build the input nodes
 		for (count = 1; count <= i; count++) {
 			if (count < i)
-				newnode = new Node(NodeType.SENSOR, count, NodeLabel.INPUT);
+				newnode = new NeatNode(NodeType.SENSOR, count, NodeLabel.INPUT);
 			else
-				newnode = new Node(NodeType.SENSOR, count, NodeLabel.BIAS);
+				newnode = new NeatNode(NodeType.SENSOR, count, NodeLabel.BIAS);
 
-			newnode.setTrait(newtrait);
 			// Add the node to the list of nodes
 			nodes.add(newnode);
 		}
 
 		// Build the hidden nodes
 		for (count = i + 1; count <= i + n; count++) {
-			newnode = new Node(NodeType.NEURON, count, NodeLabel.HIDDEN);
-			newnode.setTrait(newtrait);
+			newnode = new NeatNode(NodeType.NEURON, count, NodeLabel.HIDDEN);
 
 			// Add the node to the list of nodes
 			nodes.add(newnode);
@@ -537,8 +353,7 @@ public class Genome implements IGenome {
 
 		// Build the output nodes
 		for (count = first_output; count <= totalnodes; count++) {
-			newnode = new Node(NodeType.NEURON, count, NodeLabel.OUTPUT);
-			newnode.setTrait(newtrait);
+			newnode = new NeatNode(NodeType.NEURON, count, NodeLabel.OUTPUT);
 
 			// Add the node to the list of nodes
 			nodes.add(newnode);
@@ -629,7 +444,7 @@ public class Genome implements IGenome {
 							
 							// Create the gene + link
 							new_weight = RandomUtils.randomBinomial() * RandomUtils.randomDouble();
-							newgene = new Gene(newtrait, new_weight, in_node, out_node, flag_recurrent, innov_number, new_weight);
+							newgene = new Gene(new_weight, in_node, out_node, flag_recurrent, innov_number, new_weight);
 							
 							// Add the gene to the genome
 							genes.add(newgene);
@@ -644,7 +459,7 @@ public class Genome implements IGenome {
 			// System.out.print("\n      -> +rc1 = "+rc1);
 
 			if (rc1) {
-				INetwork net = genesis(getId());
+				INetwork net = generatePhenotype(getId());
 				rc2 = net.isMinimal();
 
 				// System.out.print("\n         -> +rc2 = "+rc2);
@@ -652,9 +467,6 @@ public class Genome implements IGenome {
 				if (rc2) {
 					int lx = net.maxDepth();
 					int dx = net.isStabilised(lx);
-
-					// System.out.print("\n        lx = " + lx);
-					// System.out.print(", dx = " + dx);
 
 					if (((dx == lx) && (!r)) || ((lx > 0) && (r) && (dx == 0)))
 						done = true;
@@ -665,8 +477,6 @@ public class Genome implements IGenome {
 			}
 			if (!done)
 				genes.clear();
-			// else
-			// System.out.print("\n * CREATION Genome #"+genome_id+" okay");
 		}
 
 	}
@@ -686,28 +496,12 @@ public class Genome implements IGenome {
 		s.append("GENOME START   id=" + getId());
 		s.append("\n  genes are :" + genes.size());
 		s.append("\n  nodes are :" + nodes.size());
-		s.append("\n  trait are :" + traits.size());
 
-		for (INode _node : nodes) {
-			if (_node.getGenNodeLabel() == NodeLabel.INPUT)
-				s.append("\n Input ");
-			if (_node.getGenNodeLabel() == NodeLabel.OUTPUT)
-				s.append("\n Output");
-			if (_node.getGenNodeLabel() == NodeLabel.HIDDEN)
-				s.append("\n Hidden");
-			if (_node.getGenNodeLabel() == NodeLabel.BIAS)
-				s.append("\n Bias  ");
+		for (INode _node : nodes) 
 			s.append(_node.toString());
-		}
 
 		for (IGene _gene : genes) {
 			s.append(_gene.toString());
-		}
-
-		s.append("\n Traits:\n");
-
-		for (ITrait _trait : traits) {
-			s.append(_trait.toString());
 		}
 		
 		return s.toString();

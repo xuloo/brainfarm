@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface IGenome {
 		
-	INetwork genesis(int genomeId);
+	INetwork generatePhenotype(int genomeId);
 	
 	int getId();
 	void setId(int id);
@@ -12,8 +12,6 @@ public interface IGenome {
 	List<IGene> getGenes();
 	
 	List<INode> getNodes();
-	
-	List<ITrait> getTraits();
 	
 	IGenome duplicate(int count);
 	

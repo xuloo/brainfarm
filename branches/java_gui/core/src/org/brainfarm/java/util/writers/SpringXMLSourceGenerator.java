@@ -16,7 +16,6 @@ import org.brainfarm.java.neat.api.INode;
 import org.brainfarm.java.neat.api.IOrganism;
 import org.brainfarm.java.neat.api.IPopulation;
 import org.brainfarm.java.neat.api.ISpecies;
-import org.brainfarm.java.neat.api.ITrait;
 import org.brainfarm.java.neat.api.evolution.IEvolution;
 import org.brainfarm.java.util.XMLUtils;
 import org.w3c.dom.Document;
@@ -194,10 +193,9 @@ public class SpringXMLSourceGenerator implements ISourceGenerator {
 		classNode.setAttribute(CLASS_ATTRIBUTE_NAME, Genome.class.getName());
 		classNode.setAttribute(ID_ATTRIBUTE_NAME, id);
 			
-		// Now loop through the genes, nodes and traits.
+		// Now loop through the genes and nodes
 		generateGenesXML(genome.getGenes(), id, classNode, xml);
 		generateNodeXML(genome.getNodes(), id, xml);
-		generateTraitXML(genome.getTraits(), id, xml);
 	}
 	
 	private void generateGenesXML(List<IGene> genes, String id, Element parent, Document xml) {
@@ -232,10 +230,6 @@ public class SpringXMLSourceGenerator implements ISourceGenerator {
 	}
 	
 	private void generateNodeXML(List<INode> nodes, String id, Document xml) {
-		
-	}
-	
-	private void generateTraitXML(List<ITrait> traits, String id, Document xml) {
 		
 	}
 }

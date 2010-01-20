@@ -14,10 +14,6 @@
 			</list>
 		</property>
 	</bean>
-
-	<!-- bean id="neat.context" class="org.brainfarm.java.neat.context.SpringNeatContext">
-		<property name="neat" ref="neat" />
-	</bean> -->
 	
 	<bean id="evolution" class="org.brainfarm.java.neat.Evolution">
 		<property name="listeners">
@@ -54,56 +50,6 @@
 		class="org.springframework.beans.factory.config.ListFactoryBean">
 		<property name="sourceList">
 			<list>
-				<bean class="org.brainfarm.java.neat.params.NeatDoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${trait.mutation.probablity.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${trait.mutation.probablity.value}" />
-					<property name="description" value="${trait.mutation.probablity.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.neat.params.NeatDoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${trait.mutation.power.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${trait.mutation.power.value}" />
-					<property name="description" value="${trait.mutation.power.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.neat.params.NeatDoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${trait.mutation.power.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${trait.mutation.power.value}" />
-					<property name="description" value="${trait.mutation.power.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.neat.params.NeatDoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${linktrait.mut.sig.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${linktrait.mut.sig.value}" />
-					<property name="description" value="${linktrait.mut.sig.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.neat.params.NeatDoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${nodetrait.mut.sig.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${nodetrait.mut.sig.value}" />
-					<property name="description" value="${nodetrait.mut.sig.description}" />
-				</bean>
 				<bean class="org.brainfarm.java.neat.params.NeatDoubleParameter">
 					<property name="name">
 						<bean
@@ -193,36 +139,6 @@
 					</property>
 					<property name="value" value="${mutate.only.prob.value}" />
 					<property name="description" value="${mutate.only.prob.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.neat.params.NeatDoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${mutate.random.trait.prob.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${mutate.random.trait.prob.value}" />
-					<property name="description" value="${mutate.random.trait.prob.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.neat.params.NeatDoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${mutate.link.trait.prob.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${mutate.link.trait.prob.value}" />
-					<property name="description" value="${mutate.link.trait.prob.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.neat.params.NeatDoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${mutate.node.trait.prob.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${mutate.node.trait.prob.value}" />
-					<property name="description" value="${mutate.node.trait.prob.description}" />
 				</bean>
 				<bean class="org.brainfarm.java.neat.params.NeatDoubleParameter">
 					<property name="name">
@@ -393,16 +309,6 @@
 					</property>
 					<property name="value" value="${num.runs.value}" />
 					<property name="description" value="${num.runs.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.neat.params.NeatIntParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${num.trait.params.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${num.trait.params.value}" />
-					<property name="description" value="${num.trait.params.description}" />
 				</bean>
 			</list>
 		</property>

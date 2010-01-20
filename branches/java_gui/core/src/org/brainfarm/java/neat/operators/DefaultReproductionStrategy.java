@@ -87,7 +87,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 						EvolutionStrategy.getInstance().getMutationStrategy().mutateLinkWeight(new_genome, Neat.weight_mut_power, 1.0, MutationType.GAUSSIAN);
 					} else {
 						// Sometimes we add a link to a superchamp
-						new_genome.genesis(generation);
+						new_genome.generatePhenotype(generation);
 						EvolutionStrategy.getInstance().getMutationStrategy().mutateAddLink(new_genome,pop);
 						mut_struct_baby = true;
 					}
