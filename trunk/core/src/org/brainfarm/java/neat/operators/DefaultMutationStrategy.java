@@ -86,7 +86,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 		int thresh = nodes.size() * nodes.size();
 		int nodenum1;
 		int nodenum2;
-		int traitnum;
 		double new_weight;
 
 		INode thenode1 = null;
@@ -236,8 +235,9 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 						return false;
 					}
 
-					// Choose a random trait
-					traitnum = RandomUtils.randomInt(0, 0);
+					// TODO: delete this invocation, it's only here to preserve 
+					// consistent interaction with Random
+					RandomUtils.randomInt(0, 0);
 
 					// Choose the new weight
 					// newweight=(gaussrand())/1.5; //Could use a gaussian
@@ -251,7 +251,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 					new_gene = new Gene(new_weight, thenode1, thenode2, do_recur,
 							curr_innov, new_weight);
 					// Add the innovation
-					population.getInnovations().add(new Innovation(thenode1.getId(), thenode2.getId(), curr_innov, new_weight, traitnum));
+					population.getInnovations().add(new Innovation(thenode1.getId(), thenode2.getId(), curr_innov, new_weight));
 					done = true;
 
 				}
@@ -439,7 +439,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 					// The innovation is totally novel
 					// Create the new Genes
 					// Create the new NNode
-					// By convention, it will point to the first trait
 					// get the current node id with postincrement
 
 					int curnode_id = population.getCurrentNodeIdAndIncrement();

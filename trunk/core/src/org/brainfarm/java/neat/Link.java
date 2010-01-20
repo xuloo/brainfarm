@@ -2,7 +2,6 @@ package org.brainfarm.java.neat;
 
 import org.brainfarm.java.neat.api.ILink;
 import org.brainfarm.java.neat.api.INode;
-import org.brainfarm.java.neat.api.ITrait;
 
 /**
  * Link is a connection from one node to another with an associated weight; It
@@ -45,19 +44,10 @@ public class Link implements ILink {
 	 */
 	private double addedWeight;
 
-	/** 
-	 * Link-related parameters that change during Hebbian type learning. 
-	 */
-	private double[] params = new double[Neat.num_trait_params];
-
 	/**
 	 * Insert the method's description here. Creation date: (12/01/2002
 	 * 10.41.28)
 	 * 
-	 * TODO: eliminate this constructor
-	 * 
-	 * @param trait
-	 *            jneat.Trait
 	 * @param weight
 	 *            double
 	 * @param inputNode
@@ -67,22 +57,6 @@ public class Link implements ILink {
 	 * @param recurrent
 	 *            boolean
 	 */
-	public Link(ITrait trait, double weight, INode inputNode, INode outputNode, boolean recurrent) {
-
-		setWeight(weight);
-		setInputNode(inputNode);
-		setOutputNode(outputNode);
-		setRecurrent(recurrent);
-		setAddedWeight(0.0);
-		setTimeDelayed(false);
-	}
-
-	/**
-	 * Insert the method's description here. Creation date: (15/01/2002 7.53.27)
-	 * 
-	 * @param c
-	 * 
-	 */
 	public Link(double weight, INode inputNode, INode outputNode, boolean recurrent) {
 		setWeight(weight);
 		setInputNode(inputNode);
@@ -90,7 +64,6 @@ public class Link implements ILink {
 		setRecurrent(recurrent);
 		setAddedWeight(0.0);
 		setTimeDelayed(false);
-
 	}
 
 	public String toString() {
@@ -105,7 +78,6 @@ public class Link implements ILink {
 		s.append(getOutputNode().getId() + ")");
 		s.append(", recurrent=" + isRecurrent());
 		s.append(", tapped=" + isTimeDelayed());
-		s.append("\n         *warning* linktrait for this gene is null ");
 
 		return s.toString();
 	}
@@ -116,14 +88,6 @@ public class Link implements ILink {
 
 	public void setWeight(double weight) {
 		this.weight = weight;
-	}
-
-	public double[] getParams() {
-		return params;
-	}
-
-	public void setParams(double[] params) {
-		this.params = params;
 	}
 
 	public void setInputNode(INode inputNode) {

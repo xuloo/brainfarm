@@ -10,7 +10,6 @@ import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.ILink;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
-import org.brainfarm.java.neat.api.ITrait;
 import org.brainfarm.java.neat.api.enums.NodeLabel;
 import org.brainfarm.java.neat.api.enums.NodeType;
 import org.brainfarm.java.util.RandomUtils;
@@ -49,13 +48,6 @@ public class Genome implements IGenome {
 		this.genes = genes;
 	}
 
-	public List<ITrait> getTraits() {
-		return null;
-	}
-
-	public void setTraits(List<ITrait> traits) {
-	}
-
 	public List<INode> getNodes() {
 		return nodes;
 	}
@@ -80,10 +72,9 @@ public class Genome implements IGenome {
 	}
 	
 	/**
-	 * Creates a new Genome using the supplied traits, nodes and genes and with the supplied id.
+	 * Creates a new Genome using the supplied nodes and genes and with the supplied id.
 	 * 
 	 * @param id
-	 * @param traits
 	 * @param nodes
 	 * @param genes
 	 */
@@ -414,15 +405,10 @@ public class Genome implements IGenome {
 
 		double new_weight = 0.0;
 
-		Trait newtrait = null;
 		INode newnode = null;
 		INode in_node = null;
 		INode out_node = null;
 		IGene newgene = null;
-
-		//notes = null;
-
-		//Iterator itr_node;
 
 		//
 		// i i i n n n n n n n n n n n n n n n n . . . . . . . . o o o o
