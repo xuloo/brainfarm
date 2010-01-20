@@ -1,7 +1,7 @@
 package org.brainfarm.java.neat.evaluators;
 
 import org.brainfarm.java.neat.Neat;
-import org.brainfarm.java.neat.api.INeatNode;
+import org.brainfarm.java.neat.api.ann.INeatNode;
 import org.brainfarm.java.neat.api.evolution.IEvolutionFitness;
 import org.brainfarm.java.neat.api.evolution.IEvolutionInput;
 import org.brainfarm.java.neat.api.evolution.IEvolutionOutput;

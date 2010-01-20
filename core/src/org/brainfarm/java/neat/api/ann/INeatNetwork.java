@@ -1,6 +1,9 @@
-package org.brainfarm.java.neat.api;
+package org.brainfarm.java.neat.api.ann;
 
 import java.util.List;
+
+import org.brainfarm.java.neat.api.INetwork;
+import org.brainfarm.java.neat.api.INode;
 
 /**
  * This interface adds methods required by networks representing

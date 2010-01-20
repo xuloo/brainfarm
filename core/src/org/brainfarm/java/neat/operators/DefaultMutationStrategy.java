@@ -6,7 +6,7 @@ import java.util.List;
 import org.brainfarm.java.neat.Gene;
 import org.brainfarm.java.neat.Innovation;
 import org.brainfarm.java.neat.Neat;
-import org.brainfarm.java.neat.Node;
+import org.brainfarm.java.neat.ann.NeatNode;
 import org.brainfarm.java.neat.api.IGene;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.IInnovation;
@@ -444,7 +444,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 					int curnode_id = population.getCurrentNodeIdAndIncrement();
 
 					// pass this current nodeid to newnode and create the new node
-					new_node = new Node(NodeType.NEURON, curnode_id, NodeLabel.HIDDEN);
+					new_node = new NeatNode(NodeType.NEURON, curnode_id, NodeLabel.HIDDEN);
 
 					// get the current gene inovation with post increment
 					gene_innov1 = population.getCurrentInnovationNumberAndIncrement();
@@ -472,7 +472,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 							&& (_innov.getOldInnovationNumber() == _gene.getInnovationNumber())) {
 						// Create the new Genes
 						// pass this current nodeid to newnode
-						new_node = new Node(NodeType.NEURON, _innov.getNewNodeId(), NodeLabel.HIDDEN);
+						new_node = new NeatNode(NodeType.NEURON, _innov.getNewNodeId(), NodeLabel.HIDDEN);
 
 						newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), _innov.getInnovationNumber1(), 0);
 						newgene2 = new Gene(oldweight, new_node, out_node, false, _innov.getInnovationNumber2(), 0);

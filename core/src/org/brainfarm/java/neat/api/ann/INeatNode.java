@@ -1,5 +1,7 @@
-package org.brainfarm.java.neat.api;
+package org.brainfarm.java.neat.api.ann;
 
+import org.brainfarm.java.neat.api.INetwork;
+import org.brainfarm.java.neat.api.INode;
 import org.brainfarm.java.neat.api.enums.ActivationFunction;
 
 public interface INeatNode extends INode {
