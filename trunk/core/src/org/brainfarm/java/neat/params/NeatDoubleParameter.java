@@ -34,4 +34,8 @@ public class NeatDoubleParameter extends AbstractNeatParameter {
 	public String getVal() {
 		return String.valueOf(value);
 	}
+	
+	public void setVal(String val) {
+		value = Double.parseDouble(val);
+	}
 }

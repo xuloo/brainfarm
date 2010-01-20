@@ -10,5 +10,5 @@ public interface IGuiController extends INeatController {
 	
 	void loadParameters(JFrame frame);
 	
-	void loadExperiment(String location);
+	void loadExperiment(JFrame frame);
 }

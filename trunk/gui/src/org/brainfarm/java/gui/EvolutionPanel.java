@@ -48,9 +48,9 @@ import org.brainfarm.java.util.CodeConstant;
 import org.brainfarm.java.util.IOseq;
 import org.brainfarm.java.util.log.HistoryLog;
 
-public class Generation extends JPanel implements ActionListener, ItemListener, INeatContextListener {
+public class EvolutionPanel extends AbstractNeatPanel implements ItemListener {
 
-	private static Logger logger = Logger.getLogger(Generation.class);
+	private static Logger logger = Logger.getLogger(EvolutionPanel.class);
 	
 	private JFrame f1;
 	
@@ -59,7 +59,7 @@ public class Generation extends JPanel implements ActionListener, ItemListener, 
 	Container contentPane;
 	//protected HistoryLog logger;
 
-	JPanel pmain;
+	//JPanel pmain;
 
 	JPanel p2; // pannello comandi
 	JPanel p3; // pannello grafico
@@ -97,27 +97,27 @@ public class Generation extends JPanel implements ActionListener, ItemListener, 
 	JSplitPane paneSplit2;
 
 	// dynamic definition for fitness
-	private IEvolutionFitness fitnessClass;
+	//private IEvolutionFitness fitnessClass;
 	/*Class Class_fit;
 	Object ObjClass_fit;
 	Method Method_fit;
 	Object ObjRet_fit;*/
 
 	// dynamic definition for input class
-	private IEvolutionInput inputClass;
+	//private IEvolutionInput inputClass;
 	/*Class Class_inp;
 	Object ObjClass_inp;
 	Method Method_inp;
 	Object ObjRet_inp;*/
 
 	// dynamic definition for target class
-	private IEvolutionOutput outputClass;
+	//private IEvolutionOutput outputClass;
 	/*Class Class_tgt;
 	Object ObjClass_tgt;
 	Method Method_tgt;
 	Object ObjRet_tgt;*/
 
-	private volatile Thread lookupThread;
+	//private volatile Thread lookupThread;
 
 	final static String[] My_styles = { "normal", "italic", "bold",
 			"bold-italic" };
@@ -125,12 +125,17 @@ public class Generation extends JPanel implements ActionListener, ItemListener, 
 	/**
 	 * pan1 constructor comment.
 	 */
-	public Generation(JFrame frame, IGuiController controller, INeatContext context) {
+	public EvolutionPanel(JFrame frame, IGuiController controller, INeatContext context) {
 
-		this.controller = controller;
+		super(frame, controller, context);
 		
-		context.addListener(this);
+		displayName = "Evolution Monitor";
 		
+		
+	}
+	
+	@Override
+	protected void buildInterface(JFrame frame) {
 		GridBagLayout gbl;
 		GridBagConstraints limiti;
 
@@ -273,29 +278,29 @@ public class Generation extends JPanel implements ActionListener, ItemListener, 
 		p3.validate();
 		p3.repaint();
 
-		pmain = new JPanel();
+		panel = new JPanel();
 		gbl = new GridBagLayout();
-		pmain.setLayout(gbl);
+		panel.setLayout(gbl);
 
 		limiti = new GridBagConstraints();
 		buildConstraints(limiti, 0, 0, 1, 5, 0, 100);
 		limiti.anchor = GridBagConstraints.WEST;
 		limiti.fill = GridBagConstraints.VERTICAL;
-		pmain.add(p2);
+		panel.add(p2);
 		gbl.setConstraints(p2, limiti);
 
 		limiti = new GridBagConstraints();
 		buildConstraints(limiti, 1, 1, 2, 5, 100, 0);
 		limiti.anchor = GridBagConstraints.WEST;
 		limiti.fill = GridBagConstraints.BOTH;
-		pmain.add(p3);
+		panel.add(p3);
 		gbl.setConstraints(p3, limiti);
 
 		// interface to main method of this class
 		Container contentPane = f1.getContentPane();
 		BorderLayout bl = new BorderLayout();
 		contentPane.setLayout(bl);
-		contentPane.add(pmain, BorderLayout.CENTER);
+		contentPane.add(panel, BorderLayout.CENTER);
 		//contentPane.add(logger, BorderLayout.SOUTH);
 
 		//EnvConstant.OP_SYSTEM = System.getProperty("os.name");

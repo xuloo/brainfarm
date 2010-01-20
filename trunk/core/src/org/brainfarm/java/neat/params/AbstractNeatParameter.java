@@ -29,5 +29,7 @@ public abstract class AbstractNeatParameter {
 	
 	public abstract String getVal();
 	
+	public abstract void setVal(String val);
+	
 	public abstract void set(Neat neat);
 }
