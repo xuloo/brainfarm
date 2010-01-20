@@ -5,7 +5,7 @@
  
  	<bean id="genome" class="org.brainfarm.java.neat.Genome">
  		<property name="nodes">
- 			<list value-type="org.brainfarm.java.neat.Node">
+ 			<list value-type="org.brainfarm.java.neat.ann.NeatNode">
  				<ref bean="node_1"/>
  				<ref bean="node_2"/>
  				<ref bean="node_3"/>
@@ -21,25 +21,25 @@
  		</property>
  	</bean>
 	
-	<bean id="node_1" class="org.brainfarm.java.neat.Node">
+	<bean id="node_1" class="org.brainfarm.java.neat.ann.NeatNode">
 		<property name="id" value="1"/>
 		<property name="type" value="SENSOR"/>
 		<property name="genNodeLabel" value="INPUT"/>
 	</bean>
 	
-	<bean id="node_2" class="org.brainfarm.java.neat.Node">
+	<bean id="node_2" class="org.brainfarm.java.neat.ann.NeatNode">
 		<property name="id" value="2"/>
 		<property name="type" value="SENSOR"/>
 		<property name="genNodeLabel" value="INPUT"/>
 	</bean>
 	
-	<bean id="node_3" class="org.brainfarm.java.neat.Node">
+	<bean id="node_3" class="org.brainfarm.java.neat.ann.NeatNode">
 		<property name="id" value="3"/>
 		<property name="type" value="SENSOR"/>
 		<property name="genNodeLabel" value="BIAS"/>
 	</bean>
 	
-	<bean id="node_4" class="org.brainfarm.java.neat.Node">
+	<bean id="node_4" class="org.brainfarm.java.neat.ann.NeatNode">
 		<property name="id" value="4"/>
 		<property name="type" value="NEURON"/>
 		<property name="genNodeLabel" value="OUTPUT"/>
