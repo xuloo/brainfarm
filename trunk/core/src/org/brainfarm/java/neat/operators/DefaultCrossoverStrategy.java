@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.brainfarm.java.neat.Gene;
-import org.brainfarm.java.neat.Genome;
 import org.brainfarm.java.neat.Neat;
+import org.brainfarm.java.neat.ann.NeatGenome;
 import org.brainfarm.java.neat.ann.NeatNode;
 import org.brainfarm.java.neat.api.IGene;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.INode;
 import org.brainfarm.java.neat.api.IOrganism;
+import org.brainfarm.java.neat.api.ann.INeatNode;
 import org.brainfarm.java.neat.api.enums.NodeLabel;
 import org.brainfarm.java.neat.api.operators.ICrossoverStrategy;
 import org.brainfarm.java.util.EvolutionUtils;
@@ -299,7 +300,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 		} // end block genome (while)
 
-		new_genome = new Genome(id, newnodes, newgenes);
+		new_genome = new NeatGenome(id, newnodes, newgenes);
 
 		// ----------------------------------------------------------------------------------------
 
@@ -307,7 +308,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 		boolean found = false;
 		for (int ix = 0; ix < newnodes.size(); ix++) {
 			curnode = newnodes.get(ix);
-			if (curnode.getGenNodeLabel() == NodeLabel.OUTPUT) {
+			if (((INeatNode)curnode).getGenNodeLabel() == NodeLabel.OUTPUT) {
 				found = true;
 				break;
 			}
@@ -698,7 +699,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 		}
 
-		new_genome = new Genome(id, newnodes, newgenes);
+		new_genome = new NeatGenome(id, newnodes, newgenes);
 		//
 		// search the existence of output node
 		// if no dump
@@ -1015,7 +1016,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 		} // end block genome
 
-		new_genome = new Genome(id, newnodes, newgenes);
+		new_genome = new NeatGenome(id, newnodes, newgenes);
 
 		return new_genome;
 	}

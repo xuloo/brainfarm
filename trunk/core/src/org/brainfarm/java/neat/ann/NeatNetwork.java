@@ -172,7 +172,7 @@ public class NeatNetwork implements INeatNetwork {
 							add_amount = _link.getWeight() * ((INeatNode)_link.getInputNode()).getActiveOut();
 							
 							if (((INeatNode)_link.getInputNode()).getActiveFlag() || 
-								_link.getInputNode().getType() == NodeType.SENSOR) {
+								((INeatNode)_link.getInputNode()).getType() == NodeType.SENSOR) {
 								node.setActiveFlag(true);
 							}
 							
@@ -245,21 +245,20 @@ public class NeatNetwork implements INeatNetwork {
 	 */
 	public int maxDepth() {
 
-		INode _node;
+		INeatNode _node;
 		Iterator<INode> itr_node;
 
 		int cur_depth = 0;
 		int max = 0;
 
-		//for (int j = 0; j < allnodes.size(); j++) {
 		for (INode node : allnodes) {
-			node.setInnerLevel(0);
+			((INeatNode)node).setInnerLevel(0);
 			((INeatNode)node).setTraversed(false);
 		}
 
 		itr_node = outputs.iterator();
 		while (itr_node.hasNext()) {
-			_node = ((NeatNode) itr_node.next());
+			_node = ((INeatNode) itr_node.next());
 			cur_depth = _node.depth(0, this, max);
 			if (cur_depth > max)
 				max = cur_depth;
@@ -433,7 +432,7 @@ public class NeatNetwork implements INeatNetwork {
 						if (!_link.isTimeDelayed()) {
 							add_amount = ((INeatNode)_link.getInputNode()).getActiveOut();
 							if (((INeatNode)_link.getInputNode()).getActiveFlag()
-									|| _link.getInputNode().getType() == NodeType.SENSOR) {
+									|| ((INeatNode)_link.getInputNode()).getType() == NodeType.SENSOR) {
 								node.setActiveFlag(true);
 							}
 							node.incrementActiveSum(add_amount);

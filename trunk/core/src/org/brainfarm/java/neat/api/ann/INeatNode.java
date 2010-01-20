@@ -3,7 +3,15 @@ package org.brainfarm.java.neat.api.ann;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
 import org.brainfarm.java.neat.api.enums.ActivationFunction;
+import org.brainfarm.java.neat.api.enums.NodeLabel;
+import org.brainfarm.java.neat.api.enums.NodeType;
 
+/**
+ * Implemented by nodes which constitute INeatNetworks.
+ * 
+ * @author dtuohy
+ *
+ */
 public interface INeatNode extends INode {
 
 	void flushbackOLD();
@@ -45,4 +53,25 @@ public interface INeatNode extends INode {
 	boolean sensorLoad(double value);
 	
 	void incrementActivationCount();
+	
+	NodeLabel getGenNodeLabel();
+	
+	void setGenNodeLabel(NodeLabel genNodeLabel);
+	
+	NodeType getType();
+	
+	int getInnerLevel();
+	
+	void setInnerLevel(int innerLevel);
+	
+	int depth(int xlevel, INeatNetwork mynet, int xmax_level);
+	
+	INode getAnalogue();
+	
+	void setAnalogue(INode analogue);
+	
+	INode getCachedDuplicate();
+	
+	INode generateDuplicate();
+
 }
