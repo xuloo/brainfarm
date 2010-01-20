@@ -2,21 +2,21 @@ package org.brainfarm.java.gui;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
-import org.apache.log4j.Logger;
 import org.brainfarm.java.neat.params.AbstractNeatParameter;
 
 public class NeatParametersTableModel extends AbstractTableModel {
 	
-	private static Logger logger = Logger.getLogger(NeatParametersTableModel.class);
+	/**
+	 * Default generated serial id.
+	 */
+	private static final long serialVersionUID = -968848652196505963L;
 
 	public List<AbstractNeatParameter> data = new ArrayList<AbstractNeatParameter>();
-	public int rows;
-
-	public static final String columnNames[] = { " Parameter ", " Value ", " Description " };
+	
+	public static final String columnNames[] = { "Parameter", "Value", "Description" };
 
 	public int getColumnCount() {
 		return columnNames.length;

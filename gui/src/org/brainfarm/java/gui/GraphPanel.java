@@ -90,16 +90,21 @@ public class GraphPanel extends AbstractNeatPanel implements ListSelectionListen
 	/**
    * 
    */
-	public GraphPanel(JFrame _f) {
+	public GraphPanel(JFrame _f, IGuiController controller, INeatContext context) {
 
-		displayName = "Results Graph";
+		super(_f, controller, context);
 		
+		displayName = "Results Graph";
+	}
+	
+	@Override 
+	protected void buildInterface(JFrame frame) {
 		GridBagLayout gbl;
 		GridBagConstraints limiti;
 
 		GxView = null;
 
-		f1 = _f;
+		f1 = frame;
 
 		quadro_x = 450;
 		quadro_y = 450;
@@ -286,7 +291,6 @@ public class GraphPanel extends AbstractNeatPanel implements ListSelectionListen
 		//EnvConstant.OS_VERSION = System.getProperty("os.version");
 		//EnvConstant.JNEAT_DIR = System.getProperty("user.dir");
 		//EnvConstant.OS_FILE_SEP = System.getProperty("file.separator");
-
 	}
 
 	/**
@@ -294,7 +298,7 @@ public class GraphPanel extends AbstractNeatPanel implements ListSelectionListen
 	 * 
 	 * @param args
 	 *            an array of command-line arguments
-	 */
+	 *//*
 	public static void main(java.lang.String[] args) {
 
 		JFrame jp = null;
@@ -320,7 +324,7 @@ public class GraphPanel extends AbstractNeatPanel implements ListSelectionListen
 		}
 
 		// Insert code to start the application here.
-	}
+	}*/
 
 	public void actionPerformed(ActionEvent e) {
 		Object o1 = null;

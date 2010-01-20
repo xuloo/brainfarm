@@ -26,10 +26,6 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 	public static final String LOAD_FILE_BUTTON_LABEL 		= "Load File";
 	public static final String WRITE_BUTTON_LABEL 			= "Write";
 	public static final String WRITE_FILE_BUTTON_LABEL 		= "Write File";
-	
-	private IGuiController controller;
-	
-	private JFrame frame;
 
 	private NeatParametersTableModel tableModel;
 
@@ -38,17 +34,15 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 	 */
 	public NeatParametersPanel(JFrame frame, IGuiController controller, INeatContext context) {
 
-		this.controller = controller;
-		
-		context.addListener(this);
+		super(frame, controller, context);
 		
 		displayName = "Neat Parameters";	
-		
-		createPanel(frame);
 	}
 	
-	private void createPanel(JFrame frame) {
-		panel = new JPanel();
+	@Override
+	protected void buildInterface(JFrame frame) {
+		
+		super.buildInterface(frame);
 		
 		GridBagLayout layout = new GridBagLayout();
 		panel.setLayout(layout);
@@ -64,9 +58,9 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 	
 	private JPanel createParameterPanel(JFrame frame, GridBagLayout layout) {
 		
-		JPanel detailPanel = new JPanel();
+		JPanel parameterPanel = new JPanel();
 		
-		detailPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+		parameterPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
 				.createTitledBorder(" j n e a t    parameter's "),
 				BorderFactory.createEmptyBorder(10, 10, 2, 2)));
 		
@@ -76,22 +70,22 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 		JScrollPane scrollPane = new JScrollPane(parametersTable);
 		
 		GridBagLayout panelLayout = new GridBagLayout();		
-		detailPanel.setLayout(panelLayout);
+		parameterPanel.setLayout(panelLayout);
 
 		GridBagConstraints scrollPaneConstraints = new GridBagConstraints();
 		buildConstraints(scrollPaneConstraints, 0, 0, 1, 4, 35, 90);
 		scrollPaneConstraints.fill = GridBagConstraints.BOTH;
 		panelLayout.setConstraints(scrollPane, scrollPaneConstraints);
-		detailPanel.add(scrollPane);
+		parameterPanel.add(scrollPane);
 		
 		GridBagConstraints panelConstraints = new GridBagConstraints();
 		buildConstraints(panelConstraints, 1, 0, 2, 5, 100, 0);
 		panelConstraints.anchor = GridBagConstraints.WEST;
 		panelConstraints.fill = GridBagConstraints.BOTH;
 		
-		layout.setConstraints(detailPanel, panelConstraints);
+		layout.setConstraints(parameterPanel, panelConstraints);
 		
-		return detailPanel;
+		return parameterPanel;
 	}
 	
 	private JButton buildButton(String label, Font font, GridBagLayout layout, GridBagConstraints constraints) {
@@ -165,14 +159,15 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 		super.actionPerformed(e);
 
 		if (e.getActionCommand().equals(LOAD_DEFAULT_BUTTON_LABEL)) {
-			
+			// Load the default NEAT parameters.
 			controller.loadDefaultParameters();
 			
 		} else if (e.getActionCommand().equals(LOAD_FILE_BUTTON_LABEL)) {
-			
+			// Load the NEAT parameters from an external file.
 			controller.loadParameters(frame);
 			
 		} else if (e.getActionCommand().equals(WRITE_BUTTON_LABEL)) {
+			// Write the current NEAT parameters as default settings.
 			/*name = EnvRoutine.getDefaultParameterFileName();
 			logger.sendToLog(" writing file parameter " + name + "...");
 			Neat.updateParam(tableModel);
@@ -181,7 +176,7 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 			logger.sendToStatus("READY");
 */
 		} else if (e.getActionCommand().equals(WRITE_FILE_BUTTON_LABEL)) {
-
+			// Write the current NEAT parameters to an external file.
 			/*FileDialog fd = new FileDialog(f1, "load file parameter",
 					FileDialog.SAVE);
 			fd.setVisible(true);
@@ -209,14 +204,9 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 	 */
 	@Override
 	public void contextChanged(INeatContext context) {
-		tableModel.data.clear();
-		tableModel.rows = -1;
 		tableModel.setData(context.getNeat().getParameters());
 	}
 
 	@Override
-	public void experimentChanged(INeatContext context) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void experimentChanged(INeatContext context) {}
 }

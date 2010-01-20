@@ -97,27 +97,27 @@ public class EvolutionPanel extends AbstractNeatPanel implements ItemListener {
 	JSplitPane paneSplit2;
 
 	// dynamic definition for fitness
-	private IEvolutionFitness fitnessClass;
+	//private IEvolutionFitness fitnessClass;
 	/*Class Class_fit;
 	Object ObjClass_fit;
 	Method Method_fit;
 	Object ObjRet_fit;*/
 
 	// dynamic definition for input class
-	private IEvolutionInput inputClass;
+	//private IEvolutionInput inputClass;
 	/*Class Class_inp;
 	Object ObjClass_inp;
 	Method Method_inp;
 	Object ObjRet_inp;*/
 
 	// dynamic definition for target class
-	private IEvolutionOutput outputClass;
+	//private IEvolutionOutput outputClass;
 	/*Class Class_tgt;
 	Object ObjClass_tgt;
 	Method Method_tgt;
 	Object ObjRet_tgt;*/
 
-	private volatile Thread lookupThread;
+	//private volatile Thread lookupThread;
 
 	final static String[] My_styles = { "normal", "italic", "bold",
 			"bold-italic" };
@@ -127,12 +127,15 @@ public class EvolutionPanel extends AbstractNeatPanel implements ItemListener {
 	 */
 	public EvolutionPanel(JFrame frame, IGuiController controller, INeatContext context) {
 
-		this.controller = controller;
-		
-		context.addListener(this);
+		super(frame, controller, context);
 		
 		displayName = "Evolution Monitor";
 		
+		
+	}
+	
+	@Override
+	protected void buildInterface(JFrame frame) {
 		GridBagLayout gbl;
 		GridBagConstraints limiti;
 
