@@ -3,12 +3,10 @@ package org.brainfarm.java.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.FileDialog;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.StringTokenizer;
 
 import javax.swing.BorderFactory;
@@ -16,19 +14,19 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextPane;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
-import javax.swing.text.StyleContext;
+import javax.swing.table.AbstractTableModel;
 
 import org.apache.log4j.Logger;
 import org.brainfarm.java.neat.api.context.INeatContext;
-import org.brainfarm.java.neat.context.INeatContextListener;
-import org.brainfarm.java.util.log.HistoryLog;
 
 public class ExperimentPanel extends AbstractNeatPanel {
 
-	private static Logger log = Logger.getLogger(ExperimentPanel.class);
+	/**
+	 * Logger instance.
+	 */
+	private static Logger logger = Logger.getLogger(ExperimentPanel.class);
 	
 	private static final String LOAD_EXPERIMENT_FILE_LABEL = "Load Experiment";
 	private static final String LOAD_DEFAULT_EXPERIMENT_LABEL = " Load sess default ";
@@ -43,102 +41,132 @@ public class ExperimentPanel extends AbstractNeatPanel {
 	private static final String SET_DATA_TARGET_CLASS_SKELETON = " Set data_tgt class skeleton ";
 	private static final String CHECK_KEYWORD_LABEL = " C H E C K  keyword ";
 	private static final String COMPILE_LABEL = " C O M P I L E ";	
-	
-	private IGuiController controller;
-	
-	Container contentPane;
 
-	private volatile Thread lookupThread;
-
-	private JFrame frame;
-
-	JPanel p3; // pannello source
-	JPanel p5; // pannello messaggi output
-
-	JScrollPane paneScroll1;
-	JTextPane textPane1;
-
-	String curr_fitness_class;
-	String curr_input_data;
-	String curr_output_data;
+	/**
+	 * Panel used to display contents of .java files loaded by the user.
+	 */
+	private JPanel textOutputPanel;
 	
 	/**
-	 * Session constructor comment.
+	 * Panel used to display the parameters for the current experiment.
 	 */
-	public ExperimentPanel() {
-		super();
-	}
-
+	private JPanel experimentParametersPanel;
+	
+	/**
+	 * The JTextPane object that's used to render text.
+	 */
+	private JTextPane textPane;
+	
+	/**
+	 * The TableModel used to hold the data for the experiment parameters.
+	 */
+	private AbstractTableModel tableModel;
+	
+	/**
+	 * Constructor. Creates a new ExperimentPanel.
+	 * 
+	 * @param frame
+	 * @param controller
+	 * @param context
+	 */
 	public ExperimentPanel(JFrame frame, IGuiController controller, INeatContext context) {
 
-		this.controller = controller;
-		
-		context.addListener(this);
+		super(frame, controller, context);
 		
 		displayName = "Experiment Settings";
-
-		GridBagLayout gbl;
-		GridBagConstraints limiti;
-
-		this.frame = frame;
-
+	}
+	
+	@Override
+	protected void buildInterface(JFrame frame) {
+		super.buildInterface(frame);
 		
-		p3 = new JPanel();		
+		GridBagLayout layout = new GridBagLayout();
+		panel.setLayout(layout);
 
-		p3.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+		// Add the button panel.
+		panel.add(buildButtonPanel(frame, layout));
+		
+		// Create the output panels - hold a reference to them
+		// as we'll be swapping them depending on user selections.
+		textOutputPanel = buildTextOutputPanel(frame, layout);	
+		experimentParametersPanel = buildTablePanel(frame, layout);
+		
+		// Start the app showing the empty parameters table.
+		panel.add(experimentParametersPanel);		
+
+		// interface to main method of this class
+		Container contentPane = frame.getContentPane();
+		contentPane.setLayout(new BorderLayout());
+		contentPane.add(panel, BorderLayout.CENTER);
+	}
+	
+	private JPanel buildTablePanel(JFrame frame, GridBagLayout layout) {
+		JPanel parameterPanel = new JPanel();
+		
+		parameterPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+				.createTitledBorder("Experiment Parameters"),
+				BorderFactory.createEmptyBorder(10, 10, 2, 2)));
+		
+		tableModel = new NeatParametersTableModel();
+		JTable parametersTable = new JTable(tableModel);
+		
+		JScrollPane scrollPane = new JScrollPane(parametersTable);
+		
+		GridBagLayout panelLayout = new GridBagLayout();		
+		parameterPanel.setLayout(panelLayout);
+
+		GridBagConstraints scrollPaneConstraints = new GridBagConstraints();
+		buildConstraints(scrollPaneConstraints, 0, 0, 1, 4, 35, 90);
+		scrollPaneConstraints.fill = GridBagConstraints.BOTH;
+		panelLayout.setConstraints(scrollPane, scrollPaneConstraints);
+		parameterPanel.add(scrollPane);
+		
+		GridBagConstraints panelConstraints = new GridBagConstraints();
+		buildConstraints(panelConstraints, 1, 0, 2, 5, 100, 0);
+		panelConstraints.anchor = GridBagConstraints.WEST;
+		panelConstraints.fill = GridBagConstraints.BOTH;
+		
+		layout.setConstraints(parameterPanel, panelConstraints);
+		
+		return parameterPanel;
+	}
+	
+	private JPanel buildTextOutputPanel(JFrame frame, GridBagLayout layout) {
+		JPanel textPanel = new JPanel();
+		
+		
+		textPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
 				.createTitledBorder(" Edit session "), BorderFactory
-				.createEmptyBorder(10, 10, 2, 2)));
+				.createEmptyBorder(10, 10, 2, 2)));		
 
-		
+		textPane = new JTextPane();
+		textPane.setEditable(true);
+		textPane.setBackground(new Color(255, 252, 242));
 
-		textPane1 = new JTextPane();
-		textPane1.setEditable(true);
-		textPane1.setBackground(new Color(255, 252, 242));
-
-		paneScroll1 = new JScrollPane(textPane1);
-		paneScroll1.setVerticalScrollBarPolicy(paneScroll1.VERTICAL_SCROLLBAR_ALWAYS);
-		paneScroll1.setBorder(BorderFactory.createCompoundBorder(BorderFactory
+		JScrollPane scrollPane = new JScrollPane(textPane);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBorder(BorderFactory.createCompoundBorder(BorderFactory
 				.createEmptyBorder(2, 2, 2, 2), BorderFactory
 				.createEtchedBorder()));
 
-		setStyleNew();
-		//setSourceNew(default_source);
+		GridBagLayout textLayout = new GridBagLayout();
+		GridBagConstraints textConstraints = new GridBagConstraints();
+		textPanel.setLayout(textLayout);
 
-		gbl = new GridBagLayout();
-		limiti = new GridBagConstraints();
-		p3.setLayout(gbl);
-
-		buildConstraints(limiti, 0, 0, 1, 1, 100, 100);
-		limiti.anchor = GridBagConstraints.NORTH;
-		limiti.fill = GridBagConstraints.BOTH;
-		gbl.setConstraints(paneScroll1, limiti);
-		p3.add(paneScroll1);
-
-		panel = new JPanel();
-		gbl = new GridBagLayout();
-		panel.setLayout(gbl);
-
-		limiti = new GridBagConstraints();
-		buildConstraints(limiti, 0, 0, 1, 5, 0, 100);
-		limiti.anchor = GridBagConstraints.WEST;
-		limiti.fill = GridBagConstraints.VERTICAL;
+		buildConstraints(textConstraints, 0, 0, 1, 1, 100, 100);
+		textConstraints.anchor = GridBagConstraints.NORTH;
+		textConstraints.fill = GridBagConstraints.BOTH;
+		textLayout.setConstraints(scrollPane, textConstraints);
+		textPanel.add(scrollPane);
 		
-		JPanel buttonPanel = buildButtonPanel(frame);
-		panel.add(buttonPanel);
-		gbl.setConstraints(buttonPanel, limiti);
-
-		limiti = new GridBagConstraints();
-		buildConstraints(limiti, 1, 0, 4, 5, 100, 0);
-		limiti.anchor = GridBagConstraints.WEST;
-		limiti.fill = GridBagConstraints.BOTH;
-		panel.add(paneScroll1);
-		gbl.setConstraints(paneScroll1, limiti);
-
-		// interface to main method of this class
-		contentPane = frame.getContentPane();
-		BorderLayout bl = new BorderLayout();
-		contentPane.setLayout(bl);
-		contentPane.add(panel, BorderLayout.CENTER);
+		GridBagConstraints constraints = new GridBagConstraints();
+		buildConstraints(constraints, 1, 0, 4, 5, 100, 0);
+		constraints.anchor = GridBagConstraints.WEST;
+		constraints.fill = GridBagConstraints.BOTH;
+		
+		layout.setConstraints(textPanel, constraints);
+		
+		return textPanel;
 	}
 	
 	private JButton buildButton(String label, Font font, GridBagLayout layout, GridBagConstraints constraints) {
@@ -152,7 +180,7 @@ public class ExperimentPanel extends AbstractNeatPanel {
 		return button;
 	}
 	
-	private JPanel buildButtonPanel(JFrame frame) {
+	private JPanel buildButtonPanel(JFrame frame, GridBagLayout layout) {
 		JPanel buttonPanel = new JPanel();
 		
 		buttonPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
@@ -161,88 +189,66 @@ public class ExperimentPanel extends AbstractNeatPanel {
 		
 		Font font = new Font("Dialog", Font.BOLD, 12);		
 		
-		GridBagLayout layout = new GridBagLayout();
+		GridBagLayout buttonLayout = new GridBagLayout();
+		GridBagConstraints buttonConstraints = new GridBagConstraints();
+		buttonConstraints.anchor = GridBagConstraints.NORTH;
+		buttonConstraints.fill = GridBagConstraints.BOTH;
+		
+		buttonPanel.setLayout(buttonLayout);		
+		
+		buildConstraints(buttonConstraints, 0, 1, 1, 2, 100, 5);
+		buttonPanel.add(buildButton(LOAD_DEFAULT_EXPERIMENT_LABEL, font, buttonLayout, buttonConstraints));
+
+		buildConstraints(buttonConstraints, 0, 3, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(LOAD_EXPERIMENT_FILE_LABEL, font, buttonLayout, buttonConstraints));
+
+		buildConstraints(buttonConstraints, 0, 5, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(WRITE_EXPERIMENT_LABEL, font, buttonLayout, buttonConstraints));
+
+		buildConstraints(buttonConstraints, 0, 7, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(WRITE_EXPERIMENT_FILE_LABEL, font, buttonLayout, buttonConstraints));
+
+		buildConstraints(buttonConstraints, 0, 9, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(LOAD_FITNESS_CLASS_LABEL, font, buttonLayout, buttonConstraints));
+
+		buildConstraints(buttonConstraints, 0, 11, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(LOAD_DATA_INPUT_CLASS_LABEL, font, buttonLayout, buttonConstraints));
+
+		buildConstraints(buttonConstraints, 0, 13, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(LOAD_DATA_TARGET_CLASS_LABEL, font, buttonLayout, buttonConstraints));
+
+		buildConstraints(buttonConstraints, 0, 15, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(SET_EXPERIMENT_SKELETON_LABEL, font, buttonLayout, buttonConstraints));
+
+		buildConstraints(buttonConstraints, 0, 17, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(SET_FITNESS_CLASS_SKELETON_LABEL, font, buttonLayout, buttonConstraints));
+
+		buildConstraints(buttonConstraints, 0, 19, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(SET_DATA_INPUT_CLASS_SKELETON_LABEL, font, buttonLayout, buttonConstraints));
+
+		buildConstraints(buttonConstraints, 0, 21, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(SET_DATA_TARGET_CLASS_SKELETON, font, buttonLayout, buttonConstraints));
+
+		buildConstraints(buttonConstraints, 0, 23, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(CHECK_KEYWORD_LABEL, font, buttonLayout, buttonConstraints));
+
+		buildConstraints(buttonConstraints, 0, 25, 1, 2, 0, 5);
+		buttonPanel.add(buildButton(COMPILE_LABEL, font, buttonLayout, buttonConstraints));
+
+		buildConstraints(buttonConstraints, 0, 27, 1, 2, 0, 35);
+		buttonConstraints.anchor = GridBagConstraints.SOUTH;
+		buttonConstraints.fill = GridBagConstraints.HORIZONTAL;
+		buttonConstraints.ipady = 20;
+		buttonPanel.add(buildButton(EXIT_BUTTON_LABEL, font, buttonLayout, buttonConstraints));
+		
 		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.anchor = GridBagConstraints.NORTH;
-		constraints.fill = GridBagConstraints.BOTH;
+		buildConstraints(constraints, 0, 0, 1, 5, 0, 100);
+		constraints.anchor = GridBagConstraints.WEST;
+		constraints.fill = GridBagConstraints.VERTICAL;
 		
-		buttonPanel.setLayout(layout);		
-		
-		buildConstraints(constraints, 0, 1, 1, 2, 100, 5);
-		buttonPanel.add(buildButton(LOAD_DEFAULT_EXPERIMENT_LABEL, font, layout, constraints));
-
-		buildConstraints(constraints, 0, 3, 1, 2, 0, 5);
-		buttonPanel.add(buildButton(LOAD_EXPERIMENT_FILE_LABEL, font, layout, constraints));
-
-		buildConstraints(constraints, 0, 5, 1, 2, 0, 5);
-		buttonPanel.add(buildButton(WRITE_EXPERIMENT_LABEL, font, layout, constraints));
-
-		buildConstraints(constraints, 0, 7, 1, 2, 0, 5);
-		buttonPanel.add(buildButton(WRITE_EXPERIMENT_FILE_LABEL, font, layout, constraints));
-
-		buildConstraints(constraints, 0, 9, 1, 2, 0, 5);
-		buttonPanel.add(buildButton(LOAD_FITNESS_CLASS_LABEL, font, layout, constraints));
-
-		buildConstraints(constraints, 0, 11, 1, 2, 0, 5);
-		buttonPanel.add(buildButton(LOAD_DATA_INPUT_CLASS_LABEL, font, layout, constraints));
-
-		buildConstraints(constraints, 0, 13, 1, 2, 0, 5);
-		buttonPanel.add(buildButton(LOAD_DATA_TARGET_CLASS_LABEL, font, layout, constraints));
-
-		buildConstraints(constraints, 0, 15, 1, 2, 0, 5);
-		buttonPanel.add(buildButton(SET_EXPERIMENT_SKELETON_LABEL, font, layout, constraints));
-
-		buildConstraints(constraints, 0, 17, 1, 2, 0, 5);
-		buttonPanel.add(buildButton(SET_FITNESS_CLASS_SKELETON_LABEL, font, layout, constraints));
-
-		buildConstraints(constraints, 0, 19, 1, 2, 0, 5);
-		buttonPanel.add(buildButton(SET_DATA_INPUT_CLASS_SKELETON_LABEL, font, layout, constraints));
-
-		buildConstraints(constraints, 0, 21, 1, 2, 0, 5);
-		buttonPanel.add(buildButton(SET_DATA_TARGET_CLASS_SKELETON, font, layout, constraints));
-
-		buildConstraints(constraints, 0, 23, 1, 2, 0, 5);
-		buttonPanel.add(buildButton(CHECK_KEYWORD_LABEL, font, layout, constraints));
-
-		buildConstraints(constraints, 0, 25, 1, 2, 0, 5);
-		buttonPanel.add(buildButton(COMPILE_LABEL, font, layout, constraints));
-
-		buildConstraints(constraints, 0, 27, 1, 2, 0, 35);
-		constraints.anchor = GridBagConstraints.SOUTH;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		constraints.ipady = 20;
-		buttonPanel.add(buildButton(EXIT_BUTTON_LABEL, font, layout, constraints));
+		layout.setConstraints(buttonPanel, constraints);
 		
 		return buttonPanel;
-	}
-
-	public void setStyle() {
-
-		Style def = StyleContext.getDefaultStyleContext().getStyle(
-				StyleContext.DEFAULT_STYLE);
-
-		Style regular = textPane1.addStyle("regular", def);
-		StyleConstants.setFontFamily(def, "Verdana");
-
-		Style s = textPane1.addStyle("italic-green", regular);
-		StyleConstants.setItalic(s, true);
-
-		s = textPane1.addStyle("bold-red", regular);
-		StyleConstants.setBold(s, true);
-		StyleConstants.setForeground(s, Color.red);
-
-		s = textPane1.addStyle("bold-blu", regular);
-		StyleConstants.setBold(s, true);
-		StyleConstants.setForeground(s, Color.black);
-
-		s = textPane1.addStyle("small", regular);
-		StyleConstants.setFontSize(s, 10);
-
-		s = textPane1.addStyle("large", regular);
-		StyleConstants.setFontSize(s, 16);
-
-		int nr = def.getAttributeCount();
-
 	}
 
 	public String[] convertToArray(String _text) {
@@ -982,32 +988,6 @@ System.out.println("prev_word " + prev_word);
 
 	}*/
 
-	public void setStyleNew() {
-
-		StyleContext stylecontext = StyleContext.getDefaultStyleContext();
-		Style defstyle = stylecontext.getStyle(StyleContext.DEFAULT_STYLE);
-
-		Style style = textPane1.addStyle("normal", defstyle);
-		StyleConstants.setFontFamily(style, "Verdana ");
-		StyleConstants.setFontSize(style, 12);
-
-		style = textPane1.addStyle("italic", defstyle);
-		// StyleConstants.setForeground(style, new Color(24, 35, 87));
-		StyleConstants.setItalic(style, true);
-		StyleConstants.setFontSize(style, 11);
-
-		style = textPane1.addStyle("bold", defstyle);
-		// StyleConstants.setForeground(style, new Color(24, 35, 87));
-		StyleConstants.setBold(style, true);
-		StyleConstants.setFontSize(style, 13);
-
-		style = textPane1.addStyle("bold-italic", defstyle);
-		StyleConstants.setItalic(style, false);
-		StyleConstants.setBold(style, false);
-		StyleConstants.setFontSize(style, 12);
-
-	}
-
 	@Override
 	public void contextChanged(INeatContext context) {
 		// TODO Auto-generated method stub
@@ -1016,7 +996,7 @@ System.out.println("prev_word " + prev_word);
 
 	@Override
 	public void experimentChanged(INeatContext context) {
-		log.debug("A New Experiment has been loaded - reload the view");
+		logger.debug("A New Experiment has been loaded - reload the view");
 	}
 
 }

@@ -72,7 +72,7 @@ public class MainGui {
 		tabbedPane.addTab(evolutionPanel.getDisplayName(), evolutionPanel.getPanel());
 		
 		// Add the Graph Panel.
-		INeatPanel graphPanel = new GraphPanel(frame);
+		INeatPanel graphPanel = new GraphPanel(frame, controller, context);
 		tabbedPane.addTab(graphPanel.getDisplayName(), graphPanel.getPanel());
 		
 		// We want to start the app looking at the neat parameters panel.
