@@ -23,8 +23,11 @@ public interface INeatNetwork extends INetwork{
 	
 	boolean isRecurrent(INode potin_node, INode potout_node, int level, int thresh);
 
+	boolean isMinimal();
+	
 	List<INode> getInputs();
 	
 	List<INode> getOutputs();
 	
+	int isStabilised(int period);
 }
