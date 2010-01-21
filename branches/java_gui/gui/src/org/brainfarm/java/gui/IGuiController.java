@@ -8,7 +8,11 @@ public interface IGuiController extends INeatController {
 
 	void loadDefaultParameters();
 	
+	void saveParameters();
+	
 	void loadParameters(JFrame frame);
+	
+	void saveParameters(JFrame frame);
 	
 	void loadExperiment(JFrame frame);
 }

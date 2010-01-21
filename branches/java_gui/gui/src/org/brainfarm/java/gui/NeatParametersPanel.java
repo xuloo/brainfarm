@@ -15,17 +15,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import org.apache.log4j.Logger;
 import org.brainfarm.java.neat.api.context.INeatContext;
 
 public class NeatParametersPanel extends AbstractNeatPanel{
 
-	private static Logger logger = Logger.getLogger(NeatParametersPanel.class);
+	//private static Logger logger = Logger.getLogger(NeatParametersPanel.class);
 	
 	public static final String LOAD_DEFAULT_BUTTON_LABEL 	= "Load Default";
 	public static final String LOAD_FILE_BUTTON_LABEL 		= "Load File";
-	public static final String WRITE_BUTTON_LABEL 			= "Write";
-	public static final String WRITE_FILE_BUTTON_LABEL 		= "Write File";
+	public static final String SAVE_BUTTON_LABEL 			= "Save";
+	public static final String SAVE_AS_BUTTON_LABEL 		= "Save As...";
 
 	private NeatParametersTableModel tableModel;
 
@@ -125,10 +124,10 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 		buttonPanel.add(buildButton(LOAD_FILE_BUTTON_LABEL, font, panelLayout, panelConstraints));
 		
 		panelConstraints.gridy = 5;		
-		buttonPanel.add(buildButton(WRITE_BUTTON_LABEL, font, panelLayout, panelConstraints));
+		buttonPanel.add(buildButton(SAVE_BUTTON_LABEL, font, panelLayout, panelConstraints));
 
 		panelConstraints.gridy = 7;
-		buttonPanel.add(buildButton(WRITE_FILE_BUTTON_LABEL, font, panelLayout, panelConstraints));
+		buttonPanel.add(buildButton(SAVE_AS_BUTTON_LABEL, font, panelLayout, panelConstraints));
 
 		panelConstraints.anchor = GridBagConstraints.SOUTH;
 		panelConstraints.fill = GridBagConstraints.HORIZONTAL;
@@ -166,36 +165,14 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 			// Load the NEAT parameters from an external file.
 			controller.loadParameters(frame);
 			
-		} else if (e.getActionCommand().equals(WRITE_BUTTON_LABEL)) {
-			// Write the current NEAT parameters as default settings.
-			/*name = EnvRoutine.getDefaultParameterFileName();
-			logger.sendToLog(" writing file parameter " + name + "...");
-			Neat.updateParam(tableModel);
-			Neat.writeParam(name);
-			logger.sendToLog(" okay : file writed");
-			logger.sendToStatus("READY");
-*/
-		} else if (e.getActionCommand().equals(WRITE_FILE_BUTTON_LABEL)) {
+		} else if (e.getActionCommand().equals(SAVE_BUTTON_LABEL)) {
+			// Save out the current NEAT parameters.
+			controller.saveParameters();
+
+		} else if (e.getActionCommand().equals(SAVE_AS_BUTTON_LABEL)) {
 			// Write the current NEAT parameters to an external file.
-			/*FileDialog fd = new FileDialog(f1, "load file parameter",
-					FileDialog.SAVE);
-			fd.setVisible(true);
-
-			tmp1 = fd.getDirectory();
-			tmp2 = fd.getFile();
-
-			if (tmp1 != null && tmp2 != null) {
-
-				name = tmp1 + tmp2;
-				logger.sendToLog(" writing file parameter " + name + "...");
-				neatInstance.updateParam(tableModel);
-				neatInstance.writeParam(name);
-				logger.sendToLog(" okay : file writed");
-				logger.sendToStatus("READY");
-
-			}*/
+			controller.saveParameters(frame);
 		}
-
 	}	
 
 	/**
