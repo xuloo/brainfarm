@@ -30,4 +30,8 @@ public interface INeatContext {
 	public abstract void addListener(INeatContextListener listener);
 	
 	public abstract void removeListener(INeatContextListener listener);
+	
+	public abstract void contextChanged();
+	
+	public abstract void experimentChanged();
 }

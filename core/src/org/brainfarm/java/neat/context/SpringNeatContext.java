@@ -28,6 +28,10 @@ public class SpringNeatContext extends AbstractNeatContext {
 		contextChanged();
 	}
 	
+	public ApplicationContext getApplicationContext() {
+		return context;
+	}
+	
 	@Override
 	public Evolution getEvolution() {
 		logger.debug("Evolution Bean: " + context.getBean("evolution"));
