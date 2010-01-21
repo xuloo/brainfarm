@@ -2,8 +2,10 @@ package org.brainfarm.java.gui;
 
 import java.awt.FileDialog;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
@@ -22,6 +24,14 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class GuiController extends SpringNeatController implements IGuiController {
 	
 	private static Logger logger = Logger.getLogger(GuiController.class);
+	
+	/**
+	 * Flag to indicate whether the user is currently using 
+	 * the default properties.
+	 */
+	private boolean defaultProperties = true;
+	
+	private String currentParametersFile;
 	
 	public GuiController(INeatContext context) {
 		this.context = context;
@@ -69,6 +79,9 @@ public class GuiController extends SpringNeatController implements IGuiControlle
 			    	neat.setParameter(key, value);
 			    }
 			    
+			    defaultProperties = false;
+			    currentParametersFile = directory + "/" + file;
+			    
 			    context.contextChanged();
 			}
 		}
@@ -80,7 +93,56 @@ public class GuiController extends SpringNeatController implements IGuiControlle
 		List<AbstractNeatParameter> defaultParameters = (List<AbstractNeatParameter>)getSpringNeatContext().getApplicationContext().getBean("default.parameters");
 		context.getNeat().setParameters(defaultParameters);
 		
+		defaultProperties = true;
 		context.contextChanged();
+	}
+	
+	/**
+	 * If the user has loaded NEAT parameters from an external properties file
+	 * then the current NEAT parameters are saved out to that file.
+	 */
+	public void saveParameters() {
+		if (!defaultProperties && currentParametersFile != null) {
+			saveParameters(currentParametersFile);
+		}
+	}
+	
+	/**
+	 * Prompt the user to choose a location to save the current NEAT parameters to.
+	 */
+	public void saveParameters(JFrame frame) {
+		FileDialog fileDialog = new FileDialog(frame, "Save Neat Parameters", FileDialog.SAVE);
+		fileDialog.setVisible(true);
+		
+		String directory = fileDialog.getDirectory();
+		String file = fileDialog.getFile();
+
+		if (directory != null && file != null) {
+			saveParameters(directory + "/" + file);
+		}
+	}
+	
+	/**
+	 * Does the actual saving of the file as a java.util.Properties file.
+	 * 
+	 * @param file
+	 */
+	protected void saveParameters(String file) {
+		logger.debug("Saving current NEAT parameters to " + file);
+		
+		Properties properties = new Properties();
+		
+		for (AbstractNeatParameter parameter : context.getNeat().getParameters()) {
+			properties.setProperty(parameter.getName(), parameter.getVal());
+		}
+		
+		try {
+			OutputStream out = new FileOutputStream(file);
+			properties.store(out, null);
+			out.close();
+		} catch (IOException e) {
+			logger.error("Problem saving NEAT properties \n" + e.getMessage());
+		}
 	}
 	
 	public void loadExperiment(JFrame frame) {
