@@ -132,8 +132,7 @@ public class ExperimentPanel extends AbstractNeatPanel {
 	}
 	
 	private JPanel buildTextOutputPanel(JFrame frame, GridBagLayout layout) {
-		JPanel textPanel = new JPanel();
-		
+		JPanel textPanel = new JPanel();		
 		
 		textPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
 				.createTitledBorder(" Edit session "), BorderFactory
@@ -251,7 +250,7 @@ public class ExperimentPanel extends AbstractNeatPanel {
 		return buttonPanel;
 	}
 
-	public String[] convertToArray(String _text) {
+	/*public String[] convertToArray(String _text) {
 
 		String s1 = _text;
 		StringTokenizer riga;
@@ -268,7 +267,7 @@ public class ExperimentPanel extends AbstractNeatPanel {
 		}
 		return source_new;
 
-	}
+	}*/
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

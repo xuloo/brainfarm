@@ -284,4 +284,13 @@ public class Neat {
 	public void setParameter(AbstractNeatParameter parameter) {
 		parameter.set(this);
 	}
+	
+	public void setParameter(String key, String value) {
+		for (AbstractNeatParameter parameter : parameters) {
+			if (parameter.getName().equals(key)) {
+				parameter.setVal(value);
+				parameter.set(this);
+			}
+		}
+	}
 }

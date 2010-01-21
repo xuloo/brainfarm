@@ -47,7 +47,8 @@
 	</bean>
 
 	<bean id="default.parameters"
-		class="org.springframework.beans.factory.config.ListFactoryBean">
+		class="org.springframework.beans.factory.config.ListFactoryBean"
+		scope="prototype">
 		<property name="sourceList">
 			<list>
 				<bean class="org.brainfarm.java.neat.params.NeatDoubleParameter">
