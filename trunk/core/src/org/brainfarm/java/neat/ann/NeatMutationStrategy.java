@@ -1,4 +1,4 @@
-package org.brainfarm.java.neat.operators;
+package org.brainfarm.java.neat.ann;
 
 import java.util.Iterator;
 import java.util.List;
@@ -6,7 +6,6 @@ import java.util.List;
 import org.brainfarm.java.neat.Gene;
 import org.brainfarm.java.neat.Innovation;
 import org.brainfarm.java.neat.Neat;
-import org.brainfarm.java.neat.ann.NeatNode;
 import org.brainfarm.java.neat.api.IGene;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.IInnovation;
@@ -30,7 +29,7 @@ import org.brainfarm.java.util.RandomUtils;
  * @author dtuohy, orig. Ugo Vierucci
  *
  */
-public class DefaultMutationStrategy implements IMutationStrategy {
+public class NeatMutationStrategy implements IMutationStrategy {
 
 	// The weight mutation power is species specific depending on its age
 	double mut_power = Neat.weight_mut_power;

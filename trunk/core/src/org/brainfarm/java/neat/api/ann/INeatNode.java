@@ -56,19 +56,9 @@ public interface INeatNode extends INode {
 	void setGenNodeLabel(NodeLabel genNodeLabel);
 	
 	NodeType getType();
-	
-	int getInnerLevel();
-	
-	void setInnerLevel(int innerLevel);
-	
-	int depth(int xlevel, INeatNetwork mynet, int xmax_level);
-	
+		
 	INode getAnalogue();
 	
 	void setAnalogue(INode analogue);
-	
-	INode getCachedDuplicate();
-	
-	INode generateDuplicate();
 
 }

@@ -225,18 +225,6 @@ public class NeatNetwork extends Network implements INeatNetwork {
 
 	}
 
-	public boolean pathExists(INode potin, INode potout, int level, int threshold) {
-
-		// reset all link to state no traversed
-		//for (int j = 0; j < allnodes.size(); j++) {
-		for (INode node : getAllNodes())
-			((INeatNode)node).setTraversed(false);
-
-		// call the control if has a link intra node potin , potout
-		return isRecurrent(potin, potout, level, threshold);
-
-	}
-
 	/**
 	 * This module control if has at leat one link from out and all sensor It
 	 * flow in all link and if at end are one sensor not 'marked' , return false
@@ -278,33 +266,6 @@ public class NeatNetwork extends Network implements INeatNetwork {
 
 		return ret_code;
 
-	}
-
-	public boolean isRecurrent(INode potin_node, INode potout_node, int level, int thresh) {
-
-		//Iterator itr_link = null;
-		level++;
-
-		if (level > thresh)
-			return false;
-
-		if (potin_node == potout_node)
-			return true;
-
-		else {
-			for (ILink _link : potin_node.getIncoming()) {
-				if (!_link.isRecurrent()) {
-
-					if (!((INeatNode)_link.getInputNode()).isTraversed()) {
-						((INeatNode)_link.getInputNode()).setTraversed(true);
-						if (isRecurrent(_link.getInputNode(), potout_node, level, thresh))
-							return true;
-					}
-				}
-			}
-			((INeatNode)potin_node).setTraversed(true);
-			return false;
-		}
 	}
 
 	/**

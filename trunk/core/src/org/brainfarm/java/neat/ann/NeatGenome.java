@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.brainfarm.java.neat.EvolutionStrategy;
 import org.brainfarm.java.neat.Gene;
 import org.brainfarm.java.neat.Genome;
 import org.brainfarm.java.neat.Link;
@@ -310,32 +311,6 @@ public class NeatGenome extends Genome {
 		setPhenotype(newnet);
 		
 		return newnet;
-	}
-
-	@Override
-	public Genome duplicate(int new_id) {		
-		
-		ArrayList<INode> nodes_dup = new ArrayList<INode>(getNodes().size());
-		ArrayList<IGene> genes_dup = new ArrayList<IGene>(getGenes().size());
-
-		// Duplicate Nodes.
-		for (INode _node : getNodes()) {
-			INode newnode = ((INeatNode)_node).generateDuplicate();
-			nodes_dup.add(newnode);
-		}
-
-		// Duplicate Genes.
-		for (IGene gene : getGenes()) {
-			// point to news nodes created at precedent step
-			INode inode = ((INeatNode)gene.getLink().getInputNode()).getCachedDuplicate();
-			INode onode = ((INeatNode)gene.getLink().getOutputNode()).getCachedDuplicate();
-
-			// creation of new gene with a pointer to new node
-			genes_dup.add(new Gene(gene, inode, onode));
-		}
-
-		// okay all nodes created, the new genome can be generate
-		return new NeatGenome(new_id, nodes_dup, genes_dup);
 	}
 
 	public String toString() {

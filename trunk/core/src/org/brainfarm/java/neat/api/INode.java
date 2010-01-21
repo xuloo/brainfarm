@@ -18,6 +18,10 @@ public interface INode {
 	
 	List<ILink> getOutgoing();
 	
+	INode getCachedDuplicate();
+	
+	INode generateDuplicate();
+	
 	/*****************************************
 	 *   Helper methods used by FEAT logic.  *
 	 *****************************************/
@@ -26,4 +30,9 @@ public interface INode {
 	
 	void setTraversed(boolean traversed);
 	
+	int getInnerLevel();
+	
+	void setInnerLevel(int innerLevel);
+	
+	int depth(int xlevel, INetwork mynet, int xmax_level);	
 }
