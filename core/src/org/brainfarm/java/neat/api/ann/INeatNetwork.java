@@ -21,8 +21,6 @@ public interface INeatNetwork extends INetwork{
 	
 	void flush();
 	
-	boolean isRecurrent(INode potin_node, INode potout_node, int level, int thresh);
-
 	boolean isMinimal();
 	
 	List<INode> getInputs();

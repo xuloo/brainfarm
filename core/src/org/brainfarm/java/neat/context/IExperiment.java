@@ -8,6 +8,10 @@ import org.brainfarm.java.neat.api.enums.StartFrom;
 
 public interface IExperiment {
 
+	public abstract String getFeatCustomizationsPackage();
+	
+	public abstract void setFeatCustomizationsPackage(String packageName);
+	
 	public abstract DataSource getDataSource();
 
 	public abstract void setDataSource(DataSource dataSource);

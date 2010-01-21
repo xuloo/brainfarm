@@ -1,14 +1,24 @@
 package org.brainfarm.java.neat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.brainfarm.java.neat.ann.NeatGenome;
 import org.brainfarm.java.neat.api.IGene;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
+import org.brainfarm.java.neat.api.ann.INeatNode;
 
-public abstract class Genome implements IGenome {
+/**
+ * The base implementation of a Genome, it contains
+ * everything required by the FEAT everything.
+ * 
+ * @author dtuohy
+ *
+ */
+public class Genome implements IGenome {
 
 	protected static Logger logger = Logger.getLogger(Genome.class);
 	
@@ -172,6 +182,37 @@ public abstract class Genome implements IGenome {
 		return nodes.get(genes.size() - 1).getId() + 1;
 	}
 
+	@Override
+	public IGenome duplicate(int new_id) {
+		ArrayList<INode> nodes_dup = new ArrayList<INode>(getNodes().size());
+		ArrayList<IGene> genes_dup = new ArrayList<IGene>(getGenes().size());
+
+		// Duplicate Nodes.
+		for (INode _node : getNodes()) {
+			INode newnode = _node.generateDuplicate();
+			nodes_dup.add(newnode);
+		}
+
+		// Duplicate Genes.
+		for (IGene gene : getGenes()) {
+			// point to news nodes created at precedent step
+			INode inode = gene.getLink().getInputNode().getCachedDuplicate();
+			INode onode = gene.getLink().getOutputNode().getCachedDuplicate();
+
+			// creation of new gene with a pointer to new node
+			genes_dup.add(new Gene(gene, inode, onode));
+		}
+
+		// okay all nodes created, the new genome can be generate
+		return EvolutionStrategy.getInstance().getOffspringFactory().createOffspringGenome(new_id, nodes_dup, genes_dup);
+	}
+
+	@Override
+	public INetwork generatePhenotype(int genomeId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	public boolean verify() {
 
 		INode inputNode = null;

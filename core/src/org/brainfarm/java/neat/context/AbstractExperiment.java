@@ -9,7 +9,18 @@ public abstract class AbstractExperiment implements IExperiment {
 		
 	}
 	
+	private String featCustomizationsPackage;
+	
 	private DataSource dataSource;
+	
+	public String getFeatCustomizationsPackage(){
+		return featCustomizationsPackage;
+	}
+	
+	public void setFeatCustomizationsPackage(String packageName){
+		featCustomizationsPackage = packageName;
+	}
+
 	
 	/* (non-Javadoc)
 	 * @see org.brainfarm.java.neat.context.IExperiment#getDataSource()

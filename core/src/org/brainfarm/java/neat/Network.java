@@ -3,6 +3,7 @@ package org.brainfarm.java.neat;
 import java.util.List;
 
 import org.brainfarm.java.neat.api.IGenome;
+import org.brainfarm.java.neat.api.ILink;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
 
@@ -62,16 +63,49 @@ public class Network implements INetwork {
 		this.genotype = genotype;
 	}
 	
+	/*****************************************
+	 *   Helper methods used by FEAT logic.  *
+	 *****************************************/
+	
 	@Override
 	public int maxDepth() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
-	public boolean pathExists(INode potin, INode potout, int level,
-			int threshold) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean pathExists(INode potin, INode potout, int level, int threshold) {
+
+		// reset all link to state no traversed
+		//for (int j = 0; j < allnodes.size(); j++) {
+		for (INode node : getAllNodes())
+			node.setTraversed(false);
+
+		// call the control if has a link intra node potin , potout
+		return isRecurrent(potin, potout, level, threshold);
+	}
+	
+	public boolean isRecurrent(INode potin_node, INode potout_node, int level, int thresh) {
+		level++;
+
+		if (level > thresh)
+			return false;
+
+		if (potin_node == potout_node)
+			return true;
+
+		else {
+			for (ILink _link : potin_node.getIncoming()) {
+				if (!_link.isRecurrent()) {
+
+					if (!_link.getInputNode().isTraversed()) {
+						_link.getInputNode().setTraversed(true);
+						if (isRecurrent(_link.getInputNode(), potout_node, level, thresh))
+							return true;
+					}
+				}
+			}
+			potin_node.setTraversed(true);
+			return false;
+		}
 	}
 }

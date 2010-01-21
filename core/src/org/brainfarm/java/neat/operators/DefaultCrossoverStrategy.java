@@ -3,17 +3,15 @@ package org.brainfarm.java.neat.operators;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.brainfarm.java.neat.EvolutionStrategy;
 import org.brainfarm.java.neat.Gene;
 import org.brainfarm.java.neat.Neat;
-import org.brainfarm.java.neat.ann.NeatGenome;
-import org.brainfarm.java.neat.ann.NeatNode;
 import org.brainfarm.java.neat.api.IGene;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.INode;
 import org.brainfarm.java.neat.api.IOrganism;
-import org.brainfarm.java.neat.api.ann.INeatNode;
-import org.brainfarm.java.neat.api.enums.NodeLabel;
 import org.brainfarm.java.neat.api.operators.ICrossoverStrategy;
+import org.brainfarm.java.neat.api.operators.IOffspringFactory;
 import org.brainfarm.java.util.EvolutionUtils;
 import org.brainfarm.java.util.RandomUtils;
 
@@ -25,7 +23,10 @@ import org.brainfarm.java.util.RandomUtils;
  */
 public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
+	IOffspringFactory offspringFact;
+	
 	public IGenome performCrossover(IOrganism mom, IOrganism dad, int count) {
+		offspringFact = EvolutionStrategy.getInstance().getOffspringFactory();
 		IGenome new_genome;
 		if (RandomUtils.randomDouble() < Neat.mate_multipoint_prob) {
 			//			logger.debug("mate multipoint baby: ");
@@ -202,7 +203,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the inode
 					else {
-						new_inode = new NeatNode(inode);
+						new_inode = offspringFact.createOffspringNodeFrom(inode);
 
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_inode);
@@ -213,7 +214,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 					// 
 					found = false;
 					for (int ix = 0; ix < newnodes.size(); ix++) {
-						curnode = (NeatNode) newnodes.get(ix);
+						curnode = newnodes.get(ix);
 						if (curnode.getId() == onode.getId()) {
 							found = true;
 							break;
@@ -227,7 +228,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the onode
 					else {
-						new_onode = new NeatNode(onode);
+						new_onode = offspringFact.createOffspringNodeFrom(onode);
 
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_onode);
@@ -240,7 +241,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 					// search the onode
 					found = false;
 					for (int ix = 0; ix < newnodes.size(); ix++) {
-						curnode = (NeatNode) newnodes.get(ix);
+						curnode = newnodes.get(ix);
 						if (curnode.getId() == onode.getId()) {
 							found = true;
 							break;
@@ -254,7 +255,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the onode
 					else {
-						new_onode = new NeatNode(onode);
+						new_onode = offspringFact.createOffspringNodeFrom(onode);
 
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_onode);
@@ -265,7 +266,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 					// 
 					found = false;
 					for (int ix = 0; ix < newnodes.size(); ix++) {
-						curnode = (NeatNode) newnodes.get(ix);
+						curnode = newnodes.get(ix);
 						if (curnode.getId() == inode.getId()) {
 							found = true;
 							break;
@@ -279,7 +280,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the inode
 					else {
-						new_inode = new NeatNode(inode);
+						new_inode = offspringFact.createOffspringNodeFrom(inode);
 
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_inode);
@@ -300,32 +301,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 		} // end block genome (while)
 
-		new_genome = new NeatGenome(id, newnodes, newgenes);
-
-		// ----------------------------------------------------------------------------------------
-
-		// boolean h = new_genome.verify();
-		boolean found = false;
-		for (int ix = 0; ix < newnodes.size(); ix++) {
-			curnode = newnodes.get(ix);
-			if (((INeatNode)curnode).getGenNodeLabel() == NodeLabel.OUTPUT) {
-				found = true;
-				break;
-			}
-		}
-
-		if (!found) {
-			System.out .print("\n *--------------- not found output node ----------------------------");
-			System.out .print("\n * during mate_multipoint : please control the following's *********");
-			System.out.print("\n * control block : ");
-			System.out.print("\n Genome A = " + toString());
-			System.out.print("\n Genome B = " + dad.toString());
-			System.out.print("\n Result = " + new_genome.toString());
-
-			System.exit(0);
-		}
-		// ----------------------------------------------------------------------------------------
-
+		new_genome = offspringFact.createOffspringGenome(id, newnodes, newgenes);
 		return new_genome;
 	}
 
@@ -335,8 +311,6 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 		List<IGene> genes = mom.getGenes();
 		List<INode> nodes = mom.getNodes();
 		
-		//String mask4 = " 0000";
-		//DecimalFormat fmt4 = new DecimalFormat(mask4);
 		IGenome new_genome = null;
 		IGene chosengene = null;
 		int stopA = 0;
@@ -613,7 +587,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_inode = curnode;
 						// else create the inode
 						else {
-							new_inode = new NeatNode(inode);
+							new_inode = offspringFact.createOffspringNodeFrom(inode);
 
 							// insert in newnodes list
 							EvolutionUtils.nodeInsert(newnodes, new_inode);
@@ -635,7 +609,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_onode = curnode;
 						// else create the onode
 						else {
-							new_onode = new NeatNode(onode);
+							new_onode = offspringFact.createOffspringNodeFrom(onode);
 
 							// insert in newnodes list
 							EvolutionUtils.nodeInsert(newnodes, new_onode);
@@ -648,7 +622,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 						// 
 						found = false;
 						for (int ix = 0; ix < newnodes.size(); ix++) {
-							curnode = (NeatNode) newnodes.get(ix);
+							curnode = newnodes.get(ix);
 							if (curnode.getId() == onode.getId()) {
 								found = true;
 								break;
@@ -659,7 +633,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_onode = curnode;
 						// else create the onode
 						else {
-							new_onode = new NeatNode(onode);
+							new_onode = offspringFact.createOffspringNodeFrom(onode);
 							// insert in newnodes list
 							EvolutionUtils.nodeInsert(newnodes, new_onode);
 						}
@@ -668,7 +642,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 						// 
 						found = false;
 						for (int ix = 0; ix < newnodes.size(); ix++) {
-							curnode = (NeatNode) newnodes.get(ix);
+							curnode = newnodes.get(ix);
 							if (curnode.getId() == inode.getId()) {
 								found = true;
 								break;
@@ -681,7 +655,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 							new_inode = curnode;
 						// else create the inode
 						else {
-							new_inode = new NeatNode(inode);
+							new_inode = offspringFact.createOffspringNodeFrom(inode);
 
 							// insert in newnodes list
 							EvolutionUtils.nodeInsert(newnodes, new_inode);
@@ -699,12 +673,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 		}
 
-		new_genome = new NeatGenome(id, newnodes, newgenes);
-		//
-		// search the existence of output node
-		// if no dump
-		// 
-
+		new_genome = offspringFact.createOffspringGenome(id, newnodes, newgenes);
 		return new_genome;
 
 	}
@@ -915,7 +884,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the inode
 					else {
-						new_inode = new NeatNode(inode);
+						new_inode = offspringFact.createOffspringNodeFrom(inode);
 						
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_inode);
@@ -940,7 +909,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the onode
 					else {
-						new_onode = new NeatNode(onode);
+						new_onode = offspringFact.createOffspringNodeFrom(onode);
 						
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_onode);
@@ -969,7 +938,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the onode
 					else {
-						new_onode = new NeatNode(onode);
+						new_onode = offspringFact.createOffspringNodeFrom(onode);
 						
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_onode);
@@ -994,7 +963,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 					// else create the inode
 					else {
-						new_inode = new NeatNode(inode);
+						new_inode = offspringFact.createOffspringNodeFrom(inode);
 						
 						// insert in newnodes list
 						EvolutionUtils.nodeInsert(newnodes, new_inode);
@@ -1016,8 +985,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
 		} // end block genome
 
-		new_genome = new NeatGenome(id, newnodes, newgenes);
-
+		new_genome = offspringFact.createOffspringGenome(id, newnodes, newgenes);
 		return new_genome;
 	}
 }

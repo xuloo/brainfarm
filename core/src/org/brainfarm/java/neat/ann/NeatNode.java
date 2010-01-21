@@ -6,20 +6,22 @@ import org.brainfarm.java.neat.Node;
 import org.brainfarm.java.neat.api.ILink;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
-import org.brainfarm.java.neat.api.ann.INeatNetwork;
 import org.brainfarm.java.neat.api.ann.INeatNode;
 import org.brainfarm.java.neat.api.enums.ActivationFunction;
 import org.brainfarm.java.neat.api.enums.NodeLabel;
 import org.brainfarm.java.neat.api.enums.NodeType;
 
-
 /**
  * This class contains fields and logic that are specific to NEAT 
- * experiments (that is, those which evolve ANNs).
+ * experiments (that is, those which evolve ANNs).  The code and 
+ * comments are mostly derived from the original JNeat by Ugo
+ * Vierucci.
  * 
  * A NODE is either a NEURON or a SENSOR. If it's a sensor, it can be loaded
  * with a value for output If it's a neuron, it has a list of its incoming input
  * signals Use an activation count to avoid flushing
+ * 
+ * @author dtuohy, orig. Ugo Vierucci
  */
 public class NeatNode extends Node implements INeatNode {
 	
@@ -73,15 +75,6 @@ public class NeatNode extends Node implements INeatNode {
 	 * @supplierCardinality 1
 	 */
 	private INode analogue;
-
-	/**
-	 * Is a temporary reference to a Node ; Has used for generate a new genome
-	 * during duplicate phase of genotype.
-	 * 
-	 * @supplierCardinality 1
-	 * @clientCardinality 1
-	 */
-	private INode duplicate;
 
 	public ActivationFunction getActivationFunction() {
 		return activationFunction;
@@ -185,8 +178,6 @@ public class NeatNode extends Node implements INeatNode {
 		genNodeLabel = NodeLabel.HIDDEN;
 		setDuplicate(null);
 		setAnalogue(null);
-		setTraversed(false);
-		setInnerLevel(0);
 	}
 
 	public NeatNode(NodeType ntype, int nodeid, NodeLabel placement) {
@@ -205,8 +196,6 @@ public class NeatNode extends Node implements INeatNode {
 		// outgoing = new Vector(1, 0);
 		setDuplicate(null);
 		setAnalogue(null);
-		setTraversed(false);
-		setInnerLevel(0);
 	}
 
 	
@@ -218,6 +207,7 @@ public class NeatNode extends Node implements INeatNode {
 	}
 
 	public NeatNode(INode n) {
+		super(n);
 		activeFlag = false;
 		activeSum = 0;
 		activation = 0;
@@ -226,13 +216,10 @@ public class NeatNode extends Node implements INeatNode {
 		lastActivation2 = 0;
 		type = ((INeatNode)n).getType(); // NEURON or SENSOR type
 		activationCount = 0; // Inactive upon creation
-		setId(n.getId()); // id del nodo
 		activationFunction = ActivationFunction.SIGMOID; // funt act : sigmoid
 		genNodeLabel = ((INeatNode)n).getGenNodeLabel();
 		setDuplicate(null);
 		setAnalogue(null);
-		setTraversed(false);
-		setInnerLevel(0);
 	}
 	
 	public NeatNode clone() {
@@ -258,46 +245,6 @@ public class NeatNode extends Node implements INeatNode {
 		newNode.genNodeLabel = genNodeLabel;
 		
 		return newNode;
-	}
-
-	public int depth(int xlevel, INeatNetwork mynet, int xmax_level) {
-
-		// control for loop
-		if (xlevel > 100) {
-			System.out
-					.print("\n ** DEPTH NOT DETERMINED FOR NETWORK WITH LOOP ");
-			// System.out.print("\n Fenotype is " + mynet.getNet_id());
-			// System.out.print("\n Genotype is  " + mynet.getNet_id());
-			// mynet.genotype.op_view();
-			return 10;
-		}
-
-		// Base Case
-		if (this.type == NodeType.SENSOR) {
-			return xlevel;
-		}
-
-		xlevel++;
-
-		// recursion case
-		//itr_link = this.getIncoming().iterator();
-		int cur_depth = 0; // The depth of the current node
-
-		for (ILink _link : getIncoming()) {
-			INeatNode _ynode = (INeatNode)_link.getInputNode();
-
-			if (!((INeatNode)_ynode).isTraversed()) {
-				((INeatNode)_ynode).setTraversed(true);
-				cur_depth = _ynode.depth(xlevel, mynet, xmax_level);
-				_ynode.setInnerLevel(cur_depth - xlevel);
-			} else
-				cur_depth = xlevel + _ynode.getInnerLevel();
-
-			if (cur_depth > xmax_level)
-				xmax_level = cur_depth;
-		}
-		return xmax_level;
-
 	}
 
 	public double getActiveOut() {
@@ -364,8 +311,6 @@ public class NeatNode extends Node implements INeatNode {
 		activeSum += value;
 	}
 
-	private int innerLevel;
-
 	public boolean mark(int xlevel, INetwork mynet) {
 		
 		// loop control
@@ -383,12 +328,11 @@ public class NeatNode extends Node implements INeatNode {
 		}
 
 		// recurrency case
-		//itr_link = this.getIncoming().iterator();
 		boolean rc = false;
 
 		for (ILink _link : getIncoming()) {
-			if (!((INeatNode)_link.getInputNode()).isTraversed()) {
-				((INeatNode)_link.getInputNode()).setTraversed(true);
+			if (!_link.getInputNode().isTraversed()) {
+				_link.getInputNode().setTraversed(true);
 				rc = ((INeatNode)_link.getInputNode()).mark(xlevel + 1, mynet);
 				if (rc == false)
 					return false;
@@ -399,7 +343,6 @@ public class NeatNode extends Node implements INeatNode {
 	}
 
 	public void flushbackOLD() {
-		//Iterator itr_link;
 
 		// A sensor should not flush black
 		if (type != NodeType.SENSOR) {
@@ -428,7 +371,6 @@ public class NeatNode extends Node implements INeatNode {
 	}
 
 	public void resetNNode() {
-		//Iterator itr_link;
 
 		activationCount = 0;
 		activation = 0;
@@ -446,28 +388,5 @@ public class NeatNode extends Node implements INeatNode {
 			_link.setAddedWeight(0.0);
 			_link.setTraversed(false);
 		}
-
-	}
-
-	private void setDuplicate(INode duplicate) {
-		this.duplicate = duplicate;
-	}
-	
-	public INode generateDuplicate(){
-		INode newnode = new NeatNode(this);
-		setDuplicate(newnode);
-		return newnode;
-	}
-
-	public INode getCachedDuplicate() {
-		return duplicate;
-	}
-
-	public void setInnerLevel(int innerLevel) {
-		this.innerLevel = innerLevel;
-	}
-
-	public int getInnerLevel() {
-		return innerLevel;
 	}
 }

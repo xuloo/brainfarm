@@ -13,7 +13,7 @@ public interface IGenome {
 	
 	List<INode> getNodes();
 	
-	IGenome duplicate(int count);
+	IGenome duplicate(int new_id);
 	
 	int getLastNodeId();
 	

@@ -42,9 +42,7 @@ public class DefaultSpeciationStrategy implements ISpeciationStrategy {
 				species.add(newspecies); // add this species to list of species
 				newspecies.addOrganism(organism);
 				// Add to new spoecies the current organism
-				organism.setSpecies(newspecies); // Point organism to its
-													// species
-
+				organism.setSpecies(newspecies); // Point organism to its species
 			} else {
 				// looop in all species.... (each species is a Vector of
 				// organism...)

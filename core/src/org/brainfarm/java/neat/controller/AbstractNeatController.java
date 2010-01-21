@@ -15,7 +15,7 @@ import org.xeustechnologies.jcl.JclUtils;
 
 public abstract class AbstractNeatController implements INeatController {
 	
-	private static Logger logger = Logger.getLogger(AbstractNeatController.class);
+	protected static Logger logger = Logger.getLogger(AbstractNeatController.class);
 
 	protected INeatContext context;
 	

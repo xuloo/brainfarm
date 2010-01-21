@@ -28,7 +28,10 @@ public interface INetwork {
 	 *   Helper methods used by FEAT logic.  *
 	 *****************************************/
 	
+	boolean isRecurrent(INode potin_node, INode potout_node, int level, int thresh);
+	
 	boolean pathExists(INode potin, INode potout, int level, int threshold);
 	
 	int maxDepth();	
+	
 }
