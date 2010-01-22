@@ -45,8 +45,6 @@ public interface IExperiment {
 	public abstract int getActivation();
 	
 	public abstract IPopulation getPopulation(INeatContext context);
-	
-	public abstract IOrganismEvaluator getEvaluator(INeatContext context);
 
 	public abstract String toString();
 

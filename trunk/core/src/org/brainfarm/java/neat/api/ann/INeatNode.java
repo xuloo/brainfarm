@@ -56,9 +56,5 @@ public interface INeatNode extends INode {
 	void setGenNodeLabel(NodeLabel genNodeLabel);
 	
 	NodeType getType();
-		
-	INode getAnalogue();
-	
-	void setAnalogue(INode analogue);
 
 }

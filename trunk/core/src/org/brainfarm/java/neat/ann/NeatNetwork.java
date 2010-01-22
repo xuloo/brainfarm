@@ -182,34 +182,6 @@ public class NeatNetwork extends Network implements INeatNetwork {
 		}
 	}
 
-	/**
-	 * 
-	 * Find the maximum number of neurons between an ouput and an input
-	 */
-	public int maxDepth() {
-
-		INeatNode _node;
-		Iterator<INode> itr_node;
-
-		int cur_depth = 0;
-		int max = 0;
-
-		for (INode node : getAllNodes()) {
-			((INeatNode)node).setInnerLevel(0);
-			((INeatNode)node).setTraversed(false);
-		}
-
-		itr_node = outputs.iterator();
-		while (itr_node.hasNext()) {
-			_node = ((INeatNode) itr_node.next());
-			cur_depth = _node.depth(0, this, max);
-			if (cur_depth > max)
-				max = cur_depth;
-		}
-
-		return max;
-	}
-
 	public boolean outputsoff() {
 
 		Iterator<INode> itr_node = outputs.iterator();
@@ -396,4 +368,34 @@ public class NeatNetwork extends Network implements INeatNetwork {
 		// return delta = total time passed (real) - period (depth virtual)
 		return (level - period + 1);
 	}
+	
+	@Override
+	/**
+	 * 
+	 * Find the maximum number of neurons between an ouput and an input
+	 */
+	public int maxDepth() {
+
+		INeatNode _node;
+		Iterator<INode> itr_node;
+
+		int cur_depth = 0;
+		int max = 0;
+
+		for (INode node : getAllNodes()) {
+			node.setInnerLevel(0);
+			node.setTraversed(false);
+		}
+
+		itr_node = outputs.iterator();
+		while (itr_node.hasNext()) {
+			_node = ((INeatNode) itr_node.next());
+			cur_depth = _node.depth(0, this, max);
+			if (cur_depth > max)
+				max = cur_depth;
+		}
+
+		return max;
+	}
+
 }

@@ -24,7 +24,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class TestXOR {
 
-
 	@BeforeClass
 	public static void setup(){
 		//we must delete the experiment directory in order to re-run the experiment

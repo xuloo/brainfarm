@@ -187,8 +187,8 @@ public class NeatMutationStrategy implements IMutationStrategy {
 			}
 
 			if (!bypass) {
-				recurflag = phenotype.pathExists(((INeatNode)thenode1).getAnalogue(),
-						((INeatNode)thenode2).getAnalogue(), 0, thresh);
+				recurflag = phenotype.pathExists(thenode1.getAnalogue(),
+						thenode2.getAnalogue(), 0, thresh);
 
 				if ((!recurflag && do_recur) || (recurflag && !do_recur))
 					trycount++;
@@ -232,7 +232,6 @@ public class NeatMutationStrategy implements IMutationStrategy {
 					RandomUtils.randomInt(0, 0);
 
 					// Choose the new weight
-					// newweight=(gaussrand())/1.5; //Could use a gaussian
 					new_weight = RandomUtils.randomBinomial() * RandomUtils.randomDouble() * 10.0;
 
 					// read from population current innovation value

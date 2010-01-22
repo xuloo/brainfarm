@@ -3,12 +3,9 @@ package org.brainfarm.java.neat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.brainfarm.java.neat.ann.NeatNode;
 import org.brainfarm.java.neat.api.ILink;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
-import org.brainfarm.java.neat.api.ann.INeatNode;
-import org.brainfarm.java.neat.api.enums.ActivationFunction;
 
 /**
  * The base Node implementation that implements
@@ -29,17 +26,24 @@ public class Node implements INode {
 	private int id;
 
 	/**
+	 * Is a reference to a Node ; Has used for generate and point from a genetic
+	 * node (genotype) to a real node (phenotype) during 'generatePhenotype' process
+	 * 
+	 */
+	private transient INode analogue;
+	
+	/**
 	 * Is a temporary reference to a Node ; Has used for generate a new genome
 	 * during duplicate phase of genotype.
-	 * 
-	 * @supplierCardinality 1
-	 * @clientCardinality 1
+	 *
 	 */
-	private INode duplicate;
+	private transient INode duplicate;
 	
-	/** used fleetingly by network traversing algorithms */
-	private boolean traversed = false;
-	private int innerLevel = 0;
+	/** Used fleetingly by network traversing algorithms */
+	private transient boolean traversed = false;
+	
+	/** Used fleetingly by network traversing algorithms */
+	private transient int innerLevel = 0;
 	
 	public Node(){}
 	
@@ -72,6 +76,14 @@ public class Node implements INode {
 
 	public void setOutgoing(List<ILink> outgoing) {
 		this.outgoing = outgoing;
+	}
+	
+	public INode getAnalogue() {
+		return analogue;
+	}
+
+	public void setAnalogue(INode analogue) {
+		this.analogue = analogue;
 	}
 	
 	/*****************************************

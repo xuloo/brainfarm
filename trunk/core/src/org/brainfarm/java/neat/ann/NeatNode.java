@@ -67,15 +67,6 @@ public class NeatNode extends Node implements INeatNode {
 	 */
 	private double lastActivation2;
 
-	/**
-	 * Is a reference to a Node ; Has used for generate and point from a genetic
-	 * node (genotype) to a real node (fenotype) during 'genesis' process
-	 * 
-	 * @clientCardinality 1
-	 * @supplierCardinality 1
-	 */
-	private INode analogue;
-
 	public ActivationFunction getActivationFunction() {
 		return activationFunction;
 	}
@@ -154,14 +145,6 @@ public class NeatNode extends Node implements INeatNode {
 
 	public void setLastActivation2(double lastActivation2) {
 		this.lastActivation2 = lastActivation2;
-	}
-
-	public INode getAnalogue() {
-		return analogue;
-	}
-
-	public void setAnalogue(INode analogue) {
-		this.analogue = analogue;
 	}
 
 	public NeatNode(NodeType ntype, int nodeid) {

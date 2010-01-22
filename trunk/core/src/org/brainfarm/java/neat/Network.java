@@ -1,11 +1,13 @@
 package org.brainfarm.java.neat;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.ILink;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
+import org.brainfarm.java.neat.api.ann.INeatNode;
 
 /**
  * This is the base implementation of Network, it contains
@@ -31,6 +33,13 @@ public class Network implements INetwork {
 	/** is a reference to genotype can has originate this phenotype */
 	private IGenome genotype;
 	
+	public Network(){}
+	
+	public Network(List<INode> allList, int id) {
+		setAllNodes(allList);
+		setId(id);
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -65,13 +74,7 @@ public class Network implements INetwork {
 	
 	/*****************************************
 	 *   Helper methods used by FEAT logic.  *
-	 *****************************************/
-	
-	@Override
-	public int maxDepth() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	 *****************************************/	
 
 	public boolean pathExists(INode potin, INode potout, int level, int threshold) {
 

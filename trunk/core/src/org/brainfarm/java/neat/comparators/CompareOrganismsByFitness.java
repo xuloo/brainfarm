@@ -2,11 +2,6 @@ package org.brainfarm.java.neat.comparators;
 
 import org.brainfarm.java.neat.api.IOrganism;
 
-/**
- *
- *
- *
- */
 public class CompareOrganismsByFitness implements java.util.Comparator<IOrganism> {
 	/**
 	 * order_orgs constructor comment.

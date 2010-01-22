@@ -28,4 +28,6 @@ public interface INeatNetwork extends INetwork{
 	List<INode> getOutputs();
 	
 	int isStabilised(int period);
+	
+	public int maxDepth();
 }

@@ -32,6 +32,4 @@ public interface INetwork {
 	
 	boolean pathExists(INode potin, INode potout, int level, int threshold);
 	
-	int maxDepth();	
-	
 }
