@@ -43,4 +43,16 @@ public class DefaultOffspringFactory implements IOffspringFactory {
 		return null;
 	}
 
+	@Override
+	public INode createNewNodeForId(int id) {
+		try{
+			Class<?> nClass = EvolutionStrategy.getInstance().getNodeClass();
+			Constructor<?> c = nClass.getConstructor(int.class);
+			return (INode)c.newInstance(id);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

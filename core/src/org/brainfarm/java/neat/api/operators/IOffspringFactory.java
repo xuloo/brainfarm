@@ -10,6 +10,8 @@ public interface IOffspringFactory {
 
 	public INode createOffspringNodeFrom(INode node);
 	
+	public INode createNewNodeForId(int id);
+	
 	public IGenome createOffspringGenome(int newId, List<INode> nodes, List<IGene> genes);
 	
 }

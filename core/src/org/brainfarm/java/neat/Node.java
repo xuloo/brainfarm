@@ -54,6 +54,10 @@ public class Node implements INode {
 		setId(n.getId());
 	}
 	
+	public Node(int id) {
+		setId(id);
+	}
+	
 	public int getId() {
 		return id;
 	}

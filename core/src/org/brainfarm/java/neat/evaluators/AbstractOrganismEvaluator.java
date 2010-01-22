@@ -12,4 +12,8 @@ public abstract class AbstractOrganismEvaluator implements IOrganismEvaluator {
 		this.neat = context.getNeat();
 	}
 	
+	public AbstractOrganismEvaluator(){
+		
+	}
+	
 }
