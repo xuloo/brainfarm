@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import org.brainfarm.java.neat.ann.NeatMutationStrategy;
-import org.brainfarm.java.neat.ann.NeatOrganismEvaluator;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.INode;
 import org.brainfarm.java.neat.api.context.INeatContext;
@@ -22,6 +20,7 @@ import org.brainfarm.java.neat.api.operators.ISpeciationStrategy;
 import org.brainfarm.java.neat.context.IExperiment;
 import org.brainfarm.java.neat.evaluators.ClassEvaluatorFactory;
 import org.brainfarm.java.neat.operators.DefaultCrossoverStrategy;
+import org.brainfarm.java.neat.operators.DefaultMutationStrategy;
 import org.brainfarm.java.neat.operators.DefaultOffspringFactory;
 import org.brainfarm.java.neat.operators.DefaultPopulationInitializationStrategy;
 import org.brainfarm.java.neat.operators.DefaultReproductionStrategy;
@@ -59,20 +58,19 @@ public class EvolutionStrategy {
 
 		//initialize with defaults
 		crossoverStrategy = new DefaultCrossoverStrategy();
-		mutationStrategy = new NeatMutationStrategy();
+		mutationStrategy = new DefaultMutationStrategy();
 		populationInitializationStrategy = new DefaultPopulationInitializationStrategy();
 		reproductionStrategy = new DefaultReproductionStrategy();
 		speciationStrategy = new DefaultSpeciationStrategy();
 		offspringFactory = new DefaultOffspringFactory();
 		nodeClass = Node.class;
 		genomeClass = Genome.class;
-		evaluatorClass = NeatOrganismEvaluator.class;
 
+		String customizationsPackage = experiment.getFeatCustomizationsPackage();
 		//consult the package specified by the experiment for customizations
 		//TODO: Need to validate that all required classes are specified, and
 		//that there is only one of each type
 		try{
-			String customizationsPackage = experiment.getFeatCustomizationsPackage();
 			Class<?>[] classes = getClasses(customizationsPackage);
 			for(Class<?> c : classes){
 				if(implementationOf(ICrossoverStrategy.class,c))
@@ -97,6 +95,9 @@ public class EvolutionStrategy {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		if(evaluatorClass==null)
+			throw new FeatConfigurationException("No evaluator found for experiment.  Must create implementation of " +
+					" IOrganismEvaluator in " + customizationsPackage);
 		
 		organismEvaluator = ClassEvaluatorFactory.getFactory(experiment).getEvaluator(context);
 	}
@@ -221,5 +222,12 @@ public class EvolutionStrategy {
 			}
 		}
 		return classes;
+	}
+	
+	public class FeatConfigurationException extends RuntimeException{
+		
+		public FeatConfigurationException(String msg){
+			super(msg);
+		}
 	}
 }

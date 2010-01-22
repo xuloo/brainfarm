@@ -1,13 +1,11 @@
 package org.brainfarm.java.neat;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.ILink;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
-import org.brainfarm.java.neat.api.ann.INeatNode;
 
 /**
  * This is the base implementation of Network, it contains
