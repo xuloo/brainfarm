@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.neat.ann.NeatGenome;
 import org.brainfarm.java.neat.api.IGene;
 import org.brainfarm.java.neat.api.IGenome;
+import org.brainfarm.java.neat.api.ILink;
 import org.brainfarm.java.neat.api.INetwork;
 import org.brainfarm.java.neat.api.INode;
-import org.brainfarm.java.neat.api.ann.INeatNode;
 
 /**
  * The base implementation of a Genome, it contains
@@ -37,12 +36,6 @@ public class Genome implements IGenome {
 
 	/** Is a collection of NNode mapped in a Vector; */
 	private List<INode> nodes;
-
-	/**
-	 * note are two String for store statistics information when genomes are
-	 * readed (if exist : null otherwise);
-	 */
-	//private String notes;
 
 	public List<IGene> getGenes() {
 		return genes;
@@ -208,9 +201,61 @@ public class Genome implements IGenome {
 	}
 
 	@Override
-	public INetwork generatePhenotype(int genomeId) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Generates a Network (Phenotype) from this Genome (Genotype).
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public INetwork generatePhenotype(int id) {
+
+		INetwork newnet = null;
+		INode newnode = null;
+		List<INode> all_list = new ArrayList<INode>(getNodes().size());
+
+		ILink curlink = null;
+		ILink newlink = null;
+		INode inode = null;
+		INode onode = null;
+		
+		for (INode _node : getNodes()) {
+			
+			// create a copy of gene node for phenotype.
+			newnode = EvolutionStrategy.getInstance().getOffspringFactory().createOffspringNodeFrom(_node);
+
+			// add to genotype the pointer to phenotype node
+			all_list.add(newnode);
+			_node.setAnalogue(newnode);
+		}
+
+		for (IGene _gene : getGenes()) {
+			
+			// Only create the link if the gene is enabled
+			if (_gene.isEnabled()) {
+
+				curlink = _gene.getLink();
+
+				inode = curlink.getInputNode().getAnalogue();
+				onode = curlink.getOutputNode().getAnalogue();
+				// NOTE: This line could be run through a recurrency check if desired
+				// (no need to in the current implementation of NEAT)
+				newlink = new Link(curlink.getWeight(), inode, onode, curlink.isRecurrent());
+				onode.getIncoming().add(newlink);
+				inode.getOutgoing().add(newlink);
+			}
+
+		}
+		
+		// Create the new network
+		newnet = new Network(all_list, id);
+		// Attach genotype and phenotype together:
+		// newnet point to owner genotype (this)
+		newnet.setGenotype(this);
+		
+		// genotype point to owner phenotype (newnet)
+		setPhenotype(newnet);
+		
+		return newnet;
 	}
 	
 	public boolean verify() {

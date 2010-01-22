@@ -8,7 +8,9 @@ import java.util.Enumeration;
 import java.util.List;
 
 import org.brainfarm.java.neat.ann.NeatMutationStrategy;
-import org.brainfarm.java.neat.ann.NeatOffspringFactory;
+import org.brainfarm.java.neat.ann.NeatOrganismEvaluator;
+import org.brainfarm.java.neat.api.IGenome;
+import org.brainfarm.java.neat.api.INode;
 import org.brainfarm.java.neat.api.context.INeatContext;
 import org.brainfarm.java.neat.api.evaluators.IOrganismEvaluator;
 import org.brainfarm.java.neat.api.operators.ICrossoverStrategy;
@@ -18,14 +20,16 @@ import org.brainfarm.java.neat.api.operators.IPopulationInitializationStrategy;
 import org.brainfarm.java.neat.api.operators.IReproductionStrategy;
 import org.brainfarm.java.neat.api.operators.ISpeciationStrategy;
 import org.brainfarm.java.neat.context.IExperiment;
+import org.brainfarm.java.neat.evaluators.ClassEvaluatorFactory;
 import org.brainfarm.java.neat.operators.DefaultCrossoverStrategy;
+import org.brainfarm.java.neat.operators.DefaultOffspringFactory;
 import org.brainfarm.java.neat.operators.DefaultPopulationInitializationStrategy;
 import org.brainfarm.java.neat.operators.DefaultReproductionStrategy;
 import org.brainfarm.java.neat.operators.DefaultSpeciationStrategy;
 
 /**
- * Singleton providing access to methods for executing various
- * pieces of the NEAT algorithm.
+ * Singleton providing access to customization classes
+ * for customizing various pieces of the FEAT algorithm.
  * 
  * @author dtuohy
  *
@@ -37,6 +41,10 @@ public class EvolutionStrategy {
 	//evaluator for IOrganisms in the current experiment
 	IOrganismEvaluator organismEvaluator;
 
+	Class<?> nodeClass;
+	Class<?> genomeClass;
+	Class<?> evaluatorClass;
+	
 	//strategies for various parts of the NEAT algorithm
 	ICrossoverStrategy crossoverStrategy;
 	IMutationStrategy mutationStrategy;
@@ -48,19 +56,21 @@ public class EvolutionStrategy {
 	private EvolutionStrategy(){}
 
 	public void setActiveExperiment(IExperiment experiment, INeatContext context){
-		
-		organismEvaluator = experiment.getEvaluator(context);
-		
-		//initialize with default strategies
+
+		//initialize with defaults
 		crossoverStrategy = new DefaultCrossoverStrategy();
 		mutationStrategy = new NeatMutationStrategy();
 		populationInitializationStrategy = new DefaultPopulationInitializationStrategy();
 		reproductionStrategy = new DefaultReproductionStrategy();
 		speciationStrategy = new DefaultSpeciationStrategy();
-		offspringFactory = new NeatOffspringFactory();
+		offspringFactory = new DefaultOffspringFactory();
+		nodeClass = Node.class;
+		genomeClass = Genome.class;
+		evaluatorClass = NeatOrganismEvaluator.class;
 
 		//consult the package specified by the experiment for customizations
-		//TODO: Need to validate that all required classes are specified
+		//TODO: Need to validate that all required classes are specified, and
+		//that there is only one of each type
 		try{
 			String customizationsPackage = experiment.getFeatCustomizationsPackage();
 			Class<?>[] classes = getClasses(customizationsPackage);
@@ -77,17 +87,39 @@ public class EvolutionStrategy {
 					speciationStrategy = (ISpeciationStrategy)c.newInstance();
 				if(implementationOf(IOffspringFactory.class,c))
 					offspringFactory = (IOffspringFactory)c.newInstance();
+				if(implementationOf(IGenome.class,c))
+					genomeClass = c;
+				if(implementationOf(INode.class,c))
+					nodeClass = c;
+				if(implementationOf(IOrganismEvaluator.class,c))
+					evaluatorClass = c;
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		
+		organismEvaluator = ClassEvaluatorFactory.getFactory(experiment).getEvaluator(context);
 	}
 
 	private boolean implementationOf(Class<?> iface, Class<?> c) {
 		Class<?>[]interfaces = c.getInterfaces();
-		for(int i = 0;i<interfaces.length;i++)
+		for(int i = 0;i<interfaces.length;i++){
 			if(interfaces[i] == iface)
 				return true;
+			
+			//recursively check super Interfaces
+			Class<?>[] superInterfaces = interfaces[i].getInterfaces();
+			for(int j = 0;j<superInterfaces.length;j++){
+				if(implementationOf(iface,superInterfaces[j]))
+					return true;
+			}
+		}
+		
+		//recursively check super Class
+		Class<?> superClass = c.getSuperclass();
+		if(superClass!=null && implementationOf(iface,superClass))
+			return true;
+		
 		return false;
 	}
 
@@ -123,6 +155,18 @@ public class EvolutionStrategy {
 
 	public IOffspringFactory getOffspringFactory(){
 		return offspringFactory;
+	}
+	
+	public Class<?> getNodeClass(){
+		return nodeClass;
+	}
+	
+	public Class<?> getGenomeClass(){
+		return genomeClass;
+	}
+	
+	public Class<?> getEvaluatorClass(){
+		return evaluatorClass;
 	}
 
 	/**

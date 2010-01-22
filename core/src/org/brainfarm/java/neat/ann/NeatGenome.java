@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.brainfarm.java.neat.EvolutionStrategy;
 import org.brainfarm.java.neat.Gene;
 import org.brainfarm.java.neat.Genome;
 import org.brainfarm.java.neat.Link;

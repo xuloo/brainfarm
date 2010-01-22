@@ -22,9 +22,18 @@ public interface INode {
 	
 	INode generateDuplicate();
 	
-	/*****************************************
-	 *   Helper methods used by FEAT logic.  *
-	 *****************************************/
+	/***************************************************
+	 *   Helper methods used by FEAT during mutation   *
+	 *            and phenotype generation.            *
+	 ***************************************************/
+	
+	INode getAnalogue();
+	
+	void setAnalogue(INode analogue);
+	
+	/**********************************************************
+	 *   Helper methods used by FEAT during graph traversal.  *
+	 **********************************************************/
 	
 	boolean isTraversed();
 	
