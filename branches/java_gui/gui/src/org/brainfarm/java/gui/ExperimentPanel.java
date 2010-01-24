@@ -60,7 +60,7 @@ public class ExperimentPanel extends AbstractNeatPanel {
 	/**
 	 * The TableModel used to hold the data for the experiment parameters.
 	 */
-	private AbstractTableModel tableModel;
+	private ExperimentParametersTableModel tableModel;
 	
 	/**
 	 * Constructor. Creates a new ExperimentPanel.
@@ -107,8 +107,8 @@ public class ExperimentPanel extends AbstractNeatPanel {
 				.createTitledBorder("Experiment Parameters"),
 				BorderFactory.createEmptyBorder(10, 10, 2, 2)));
 		
-		tableModel = new NeatParametersTableModel();
-		JTable parametersTable = new JTable(tableModel);
+		tableModel = new ExperimentParametersTableModel();
+		JTable parametersTable = new ExperimentTable(tableModel);
 		
 		JScrollPane scrollPane = new JScrollPane(parametersTable);
 		
@@ -996,6 +996,10 @@ System.out.println("prev_word " + prev_word);
 	@Override
 	public void experimentChanged(INeatContext context) {
 		logger.debug("A New Experiment has been loaded - reload the view");
+		
+		if (context.getExperiment() != null) {
+			tableModel.setData(context.getExperiment());
+		}
 	}
 
 }

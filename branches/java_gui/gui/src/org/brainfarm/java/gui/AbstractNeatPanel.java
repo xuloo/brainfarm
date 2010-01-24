@@ -13,7 +13,7 @@ import org.brainfarm.java.neat.context.INeatContextListener;
 
 public abstract class AbstractNeatPanel implements INeatPanel, INeatContextListener, ActionListener {
 
-	public static final String EXIT_BUTTON_LABEL = " E X I T ";
+	public static final String EXIT_BUTTON_LABEL = "EXIT";
 	
 	/**
 	 * Controller for this view.
