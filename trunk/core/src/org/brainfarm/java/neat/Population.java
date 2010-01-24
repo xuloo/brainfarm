@@ -332,7 +332,6 @@ public class Population implements IPopulation {
 					}
 				}
 
-				// System.out.print("\n stolen babies = "+ stolen_babies);
 				// Mark the best champions of the top species to be the super
 				// champs
 				// who will take on the extra offspring for cloning or mutant
@@ -430,17 +429,8 @@ public class Population implements IPopulation {
 		 * System.out.print("\n ---------------------------------------------");
 		 * System.out.print("\n Start reproduction of species ....");
 		 */
-		//boolean rc = false;
-
-		//Iterator<ISpecies> itr_specie = sorted_species.iterator();
-		// System.out.print("\n verifica");
-		// System.out.print("\n this species has "+sorted_species.size()+" elements");
-		for (ISpecies specie : sorted_species) {
-//			specie.reproduce(generation, this, sorted_species);
+		for (ISpecies specie : sorted_species)
 			EvolutionStrategy.getInstance().getReproductionStrategy().reproduce(specie,generation, this, sorted_species);
-		}
-
-		// System.out.print("\n Reproduction completed");
 
 		//
 		// Destroy and remove the old generation from the organisms and species
@@ -477,7 +467,6 @@ public class Population implements IPopulation {
 
 		// Remove all empty Species and age ones that survive
 		// As this happens, create master organism list for the new generation.
-
 		List<ISpecies> sdel = new ArrayList<ISpecies>(species.size());
 		int orgcount = 0;
 
@@ -505,9 +494,8 @@ public class Population implements IPopulation {
 		}
 
 		// Eliminate species marked from master list.
-		for (ISpecies specie : sdel) {
+		for (ISpecies specie : sdel)
 			species.remove(specie);
-		}
 
 		// Remove the innovations of the current generation
 		innovations.clear();
@@ -554,7 +542,7 @@ public class Population implements IPopulation {
 	public void incrementCur_node_id() {
 		cur_node_id += 1;
 	}
-
+	
 	/**
 	 * Insert the method's description here. Creation date: (01/02/2002 9.48.44)
 	 */

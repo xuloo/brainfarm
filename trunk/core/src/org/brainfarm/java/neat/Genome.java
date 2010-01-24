@@ -197,7 +197,7 @@ public class Genome implements IGenome {
 		}
 
 		// okay all nodes created, the new genome can be generate
-		return EvolutionStrategy.getInstance().getOffspringFactory().createOffspringGenome(new_id, nodes_dup, genes_dup);
+		return EvolutionStrategy.getInstance().getModelObjectFactory().createOffspringGenome(new_id, nodes_dup, genes_dup);
 	}
 
 	@Override
@@ -221,7 +221,7 @@ public class Genome implements IGenome {
 		for (INode _node : getNodes()) {
 			
 			// create a copy of gene node for phenotype.
-			newnode = EvolutionStrategy.getInstance().getOffspringFactory().createOffspringNodeFrom(_node);
+			newnode = EvolutionStrategy.getInstance().getModelObjectFactory().createOffspringNodeFrom(_node);
 
 			// add to genotype the pointer to phenotype node
 			all_list.add(newnode);

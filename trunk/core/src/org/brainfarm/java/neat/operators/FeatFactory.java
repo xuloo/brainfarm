@@ -7,17 +7,18 @@ import org.brainfarm.java.neat.EvolutionStrategy;
 import org.brainfarm.java.neat.api.IGene;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.INode;
-import org.brainfarm.java.neat.api.operators.IOffspringFactory;
+import org.brainfarm.java.neat.api.IOrganism;
+import org.brainfarm.java.neat.api.operators.IFeatFactory;
 
 /**
- * Uses reflection to create instances of whichever IGenome and INode
- * implementations were provided in the customizations package, or 
- * the default Node and Genome if there were none.
+ * Uses reflection to create instances of the custom FEAT model object
+ * implementations that are provided in the customizations package, or 
+ * the defaults if there were none. 
  * 
  * @author dtuohy
  *
  */
-public class DefaultOffspringFactory implements IOffspringFactory {
+public class FeatFactory implements IFeatFactory {
 
 	@Override
 	public IGenome createOffspringGenome(int newId, List<INode> nodes, List<IGene> genes) {
@@ -53,6 +54,17 @@ public class DefaultOffspringFactory implements IOffspringFactory {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public IOrganism createOrganism(double xfitness, IGenome xgenome, int xgeneration){
+		try{
+			Class<?> oClass = EvolutionStrategy.getInstance().getOrganismClass();
+			Constructor<?> c = oClass.getConstructor(double.class,IGenome.class,int.class);
+			return (IOrganism)c.newInstance(xfitness,xgenome,xgeneration);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;		
 	}
 
 }

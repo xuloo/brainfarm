@@ -21,12 +21,12 @@ public class DefaultPopulationInitializationStrategy implements
 		for (int i = 1; i <= size; i++) {
 			newgenome = genome.duplicate(i);
 			EvolutionStrategy.getInstance().getMutationStrategy().mutateLinkWeight(newgenome,1.0, 1.0, MutationType.GAUSSIAN);
-			IOrganism neworganism = new Organism(0.0, newgenome, 1);
+			IOrganism neworganism = EvolutionStrategy.getInstance().getModelObjectFactory().createOrganism(0.0, newgenome, 1);
 			pop.getOrganisms().add(neworganism);
 		}
 
 		// Keep a record of the innovation and node number we are on
-		pop.setCur_node_id(newgenome.getLastNodeId());
+		pop.setCur_node_id(newgenome.getLastNodeId()+1);
 		pop.setCur_innov_num(newgenome.getLastGeneInnovationId());
 
 		// Separate the new Population into species

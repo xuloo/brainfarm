@@ -49,7 +49,7 @@ public class RandomUtils {
 	}
 	
 	public static int randomInt(int x) {
-		return random.nextInt(x - 1);
+		return random.nextInt(x);
 	}
 	
 	public static double randomGaussian() {

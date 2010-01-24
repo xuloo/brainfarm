@@ -5,8 +5,9 @@ import java.util.List;
 import org.brainfarm.java.neat.api.IGene;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.INode;
+import org.brainfarm.java.neat.api.IOrganism;
 
-public interface IOffspringFactory {
+public interface IFeatFactory {
 
 	public INode createOffspringNodeFrom(INode node);
 	
@@ -14,4 +15,6 @@ public interface IOffspringFactory {
 	
 	public IGenome createOffspringGenome(int newId, List<INode> nodes, List<IGene> genes);
 	
+	public IOrganism createOrganism(double xfitness, IGenome xgenome, int xgeneration);
+
 }
