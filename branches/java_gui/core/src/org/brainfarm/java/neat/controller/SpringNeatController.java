@@ -30,9 +30,9 @@ public class SpringNeatController extends AbstractNeatController {
 		
 		// Create a temporary directory for the experiment.		
 		File experimentDirectory = new File("experiment");
-		
+
 		if (experimentDirectory.exists()) {
-			experimentDirectory.delete();
+			FileUtils.recursiveDelete(experimentDirectory);
 		}
 		
 		boolean success = experimentDirectory.mkdir();
