@@ -198,7 +198,7 @@ public class EvolutionStrategy {
 		try{
 			String path = packageName.replace('.', '/');
 			File localDir = new File("bin/classes/" + path);
-			File experimentDir = new File("experiment/");
+			File experimentDir = new File("experiment/" + path);
 			
 			//create class loader
 		    URL[] urls = new URL[]{localDir.toURI().toURL(),experimentDir.toURI().toURL()};
