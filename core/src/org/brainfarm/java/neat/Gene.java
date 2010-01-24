@@ -66,7 +66,7 @@ public class Gene implements IGene
 	 * @param mutationNumber
 	 */
 	public Gene(double weight, INode inputNode, INode outputNode, boolean recurrent, double innovationNumber, double mutationNumber) {
-		
+
 		// Create the Link.
 		link = new Link(weight, inputNode, outputNode, recurrent);
 		

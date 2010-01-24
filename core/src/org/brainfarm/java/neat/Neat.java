@@ -166,7 +166,7 @@ public class Neat {
 	/**
 	 * Probability of forcing selection of ONLY links that are naturally recurrent
 	 */
-	public static final String RECUR_ONLY_PROB = "recur_only_prop";
+	public static final String RECUR_ONLY_PROB = "recur_only_prob";
 	
 	@NeatParameter
 	public static double recur_only_prob;
@@ -265,9 +265,7 @@ public class Neat {
 	
 	public List<AbstractNeatParameter> parameters;
 	
-	public Neat() {
-		
-	}
+	public Neat() {}
 	
 	public List<AbstractNeatParameter> getParameters() {
 		return parameters;

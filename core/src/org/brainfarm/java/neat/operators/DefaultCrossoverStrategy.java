@@ -11,7 +11,7 @@ import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.INode;
 import org.brainfarm.java.neat.api.IOrganism;
 import org.brainfarm.java.neat.api.operators.ICrossoverStrategy;
-import org.brainfarm.java.neat.api.operators.IOffspringFactory;
+import org.brainfarm.java.neat.api.operators.IFeatFactory;
 import org.brainfarm.java.util.EvolutionUtils;
 import org.brainfarm.java.util.RandomUtils;
 
@@ -23,10 +23,10 @@ import org.brainfarm.java.util.RandomUtils;
  */
 public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 
-	IOffspringFactory offspringFact;
+	IFeatFactory offspringFact;
 	
 	public IGenome performCrossover(IOrganism mom, IOrganism dad, int count) {
-		offspringFact = EvolutionStrategy.getInstance().getOffspringFactory();
+		offspringFact = EvolutionStrategy.getInstance().getModelObjectFactory();
 		IGenome new_genome;
 		if (RandomUtils.randomDouble() < Neat.mate_multipoint_prob) {
 			//			logger.debug("mate multipoint baby: ");

@@ -32,196 +32,125 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 
 	// The weight mutation power is species specific depending on its age
 	double mut_power = Neat.weight_mut_power;
-	
+
 	@Override
 	public boolean mutate(IGenome genome, IPopulation pop, int generation) {
 		boolean mutatedStructure = false;
-		
+
 		if (RandomUtils.randomDouble() < Neat.mutate_add_node_prob) {
-//			logger.debug("....species.reproduce.mutate add node");
+			//			logger.debug("....species.reproduce.mutate add node");
 			mutateAddNode(genome,pop);
 			mutatedStructure = true;
 		} else if (RandomUtils.randomDouble() < Neat.mutate_add_link_prob) {
-//			logger.debug("....mutate add link");
+			//			logger.debug("....mutate add link");
 			genome.generatePhenotype(generation);
 			mutateAddLink(genome, pop);
 			mutatedStructure = true;
 		} else {
 			if (RandomUtils.randomDouble() < Neat.mutate_link_weights_prob) {
-//				logger.debug("...mutate link weight");
+				//				logger.debug("...mutate link weight");
 				mutateLinkWeight(genome, mut_power, 1.0,MutationType.GAUSSIAN);
 			}
 			if (RandomUtils.randomDouble() < Neat.mutate_toggle_enable_prob) {
-//				logger.debug("...mutate toggle enable");
+				//				logger.debug("...mutate toggle enable");
 				mutateToggleEnable(genome,1);
 			}
 			if (RandomUtils.randomDouble() < Neat.mutate_gene_reenable_prob) {
-//				logger.debug("...mutate gene_reenable:");
+				//				logger.debug("...mutate gene_reenable:");
 				mutateGeneReenable(genome);
 			}
 		}
 		return mutatedStructure;
 	}
-	
+
 	public boolean mutateAddLink(IGenome genome, IPopulation population) {
-		
+
 		int attempts = Neat.newlink_tries;
-		
+
 		//get fields from the genome
 		List<INode> nodes = genome.getNodes();
 		List<IGene> genes = genome.getGenes();
 		INetwork phenotype = genome.getPhenotype();
-		
+
 		boolean done = false;
-		boolean do_recur = false;
-		boolean loop_recur = false;
 		boolean found = false;
-		boolean bypass = false;
 		boolean recurflag = false;
 
 		int trycount = 0;
 
 		int thresh = nodes.size() * nodes.size();
-		int nodenum1;
-		int nodenum2;
+		int nodenum1 = 0;
+		int nodenum2 = 0;
 		double new_weight;
 
 		INode thenode1 = null;
 		INode thenode2 = null;
 		IGene new_gene = null;
 		IGene _gene = null;
-		
+
 		// Make attempts to find an unconnected pair
 		trycount = 0;
 
-		// Decide whether to make this recurrent
-		if (RandomUtils.randomDouble() < Neat.recur_only_prob)
-			do_recur = true;
-		else
-			do_recur = false;
-		
 		found = false;
 		while (trycount < attempts) {
-			//
-			// recurrency case .........
-			//
 
-			if (do_recur) {
-				//
-				// at this point :
-				// 50% of prob to decide a loop recurrency( node X to node X)
-				// 50% a normal recurrency ( node X to node Y)
-				if (RandomUtils.randomDouble() > 0.5)
-					loop_recur = true;
-				else
-					loop_recur = false;
+			nodenum1 = RandomUtils.randomInt(nodes.size());
+			nodenum2 = RandomUtils.randomInt(nodes.size());
 
-				if (loop_recur) {
-					nodenum1 = RandomUtils.randomInt(nodes
-							.size() - 1);
-					nodenum2 = nodenum1;
-				} else {
-					nodenum1 = RandomUtils.randomInt(nodes.size() - 1);
-					nodenum2 = RandomUtils.randomInt(nodes.size() - 1);
-				}
-
-			}
-			//
-			// no recurrency case .........
-			//
-			else {
-				nodenum1 = RandomUtils.randomInt(nodes.size() - 1);
-				nodenum2 = RandomUtils.randomInt(nodes.size() - 1);
-
-			}
-
-			//
 			// now point to object's nodes
-			//
 			thenode1 = nodes.get(nodenum1);
 			thenode2 = nodes.get(nodenum2);
 
-			//
-			// verify if the possible new gene already EXIST
-			//
-			bypass = false;
+			// check if the possible new gene already exists
+			boolean alreadyExists = false;
 			for (int j = 0; j < genes.size(); j++) {
 				_gene = genes.get(j);
 				if (_gene.getLink().getInputNode() == thenode1
-						&& _gene.getLink().getOutputNode() == thenode2
-						&& _gene.getLink().isRecurrent() && do_recur) {
-					bypass = true;
+						&& _gene.getLink().getOutputNode() == thenode2) {
+					alreadyExists = true;
 					break;
 				}
-
-				if (_gene.getLink().getInputNode() == thenode1
-						&& _gene.getLink().getOutputNode() == thenode2
-						&& !_gene.getLink().isRecurrent() && !do_recur) {
-					bypass = true;
-					break;
-				}
-
 			}
 
-			if (!bypass) {
+			if (!alreadyExists) {
 				recurflag = phenotype.pathExists(thenode1.getAnalogue(),
 						thenode2.getAnalogue(), 0, thresh);
-
-				if ((!recurflag && do_recur) || (recurflag && !do_recur))
-					trycount++;
-				else {
-					trycount = attempts;
-					found = true;
-				}
-
-			} // end block bypass
-
-			//
-			// if bypass is true, this gene is not good
-			// and skip to next cycle
-			//
+				trycount = attempts;
+				found = true;
+			}
+			// gene already exists, try again
 			else
 				trycount++;
-
 		} // end block trycount
 
 		if (found) {
+
+//			if(nodenum1 == 1 && nodenum2 == 1){
+//				for(ILink link : thenode1.getOutgoing())
+//					if(link.getOutputNode() == thenode2)
+//						System.out.println("");
+//			}
 
 			// Check to see if this innovation already occured in the population
 			Iterator<IInnovation> innovationsIterator = population.getInnovations().iterator();
 
 			done = false;
 			while (!done) {
-
 				if (!innovationsIterator.hasNext()) {
-
-					// If the phenotype does not exist, exit on false,print
-					// error
-					// Note: This should never happen- if it does there is a bug
-					if (phenotype == null) {
-						System.out
-								.print("ERROR: Attempt to add link to genome with no phenotype");
-						return false;
-					}
-
-					// TODO: delete this invocation, it's only here to preserve 
-					// consistent interaction with Random
-					RandomUtils.randomInt(0, 0);
 
 					// Choose the new weight
 					new_weight = RandomUtils.randomBinomial() * RandomUtils.randomDouble() * 10.0;
 
 					// read from population current innovation value
-
 					// read curr innovation with postincrement
 					double curr_innov = population.getCurrentInnovationNumberAndIncrement();
 					// Create the new gene
-					new_gene = new Gene(new_weight, thenode1, thenode2, do_recur,
+					new_gene = new Gene(new_weight, thenode1, thenode2, recurflag,
 							curr_innov, new_weight);
+
 					// Add the innovation
 					population.getInnovations().add(new Innovation(thenode1.getId(), thenode2.getId(), curr_innov, new_weight));
 					done = true;
-
 				}
 
 				// OTHERWISE, match the innovation in the innovs list
@@ -230,21 +159,19 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 					if ((_innov.getInnovationType() == InnovationType.NEW_LINK)
 							&& (_innov.getInputNodeId() == thenode1.getId())
 							&& (_innov.getOutputNodeId() == thenode2.getId())
-							&& (_innov.isRecurrent() == do_recur)) {
+							&& (_innov.isRecurrent() == recurflag)) {
 
-						new_gene = new Gene(_innov.getNewWeight(), thenode1, thenode2, do_recur, _innov.getInnovationNumber1(), 0);
+						new_gene = new Gene(_innov.getNewWeight(), thenode1, thenode2, recurflag, _innov.getInnovationNumber1(), 0);
 						done = true;
 					}
 				}
 			}
-
 			genes.add(new_gene);
 			return true;
 		}
-
 		return false;
 	}
-	
+
 	public void mutateLinkWeight(IGenome genome, double power, double rate, MutationType mutationType) {
 
 		double num; // counts gene placement
@@ -302,9 +229,9 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 			randnum = RandomUtils.randomBinomial() * RandomUtils.randomBinomial() * power * powermod;
 
 			if (mutationType == MutationType.GAUSSIAN) {
-				
+
 				randchoice = RandomUtils.randomDouble(); // a number from ]0,1[
-				
+
 				if (randchoice > gausspoint) {
 					gene.getLink().setWeight(gene.getLink().getWeight() + randnum);
 				} else if (randchoice > coldgausspoint) {
@@ -313,152 +240,153 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 			} else if (mutationType == MutationType.COLD_GAUSSIAN) {
 				gene.getLink().setWeight(randnum);
 			}
-			
+
 			// copy to mutation_num, the current weight
 			gene.setMutationNumber(gene.getLink().getWeight());
 			num += 1.0;
 		}
 	}
-	
+
 	public boolean mutateAddNode(IGenome genome, IPopulation population) {
 
-			List<IGene> genes = genome.getGenes();
-		
-			IGene _gene = null;
+		List<IGene> genes = genome.getGenes();
 
-			ILink thelink = null;
-			double oldweight = 0;
+		IGene _gene = null;
 
-			IGene newgene1 = null;
-			IGene newgene2 = null;
-			INode in_node = null;
-			INode out_node = null;
-			INode new_node = null;
+		ILink thelink = null;
+		double oldweight = 0;
 
-			int j;
-			int genenum = 0;
-			int trycount = 0;
+		IGene newgene1 = null;
+		IGene newgene2 = null;
+		INode in_node = null;
+		INode out_node = null;
+		INode new_node = null;
 
-			boolean found = false;
-			//boolean bypass = false;
-			//boolean step1 = true;
-			boolean step2 = false;
-			double gene_innov1;
-			double gene_innov2;
+		int j;
+		int genenum = 0;
+		int trycount = 0;
 
-			if (genes.size() < 15) {
+		boolean found = false;
+		boolean step2 = false;
+		double gene_innov1;
+		double gene_innov2;
 
-				step2 = false;
-				for (j = 0; j < genes.size(); j++) {
-					_gene = genes.get(j);
-					if (_gene.isEnabled())
-						break;
+		if (genes.size() < 15) {
+
+			step2 = false;
+			for (j = 0; j < genes.size(); j++) {
+				_gene = genes.get(j);
+				if (_gene.isEnabled())
+					break;
+			}
+
+			for (; j < genes.size(); j++) {
+				_gene = genes.get(j);
+				if ((RandomUtils.randomDouble() >= 0.3)) {
+					step2 = true;
+					break;
 				}
+			}
 
-				for (; j < genes.size(); j++) {
-					_gene = genes.get(j);
-					if ((RandomUtils.randomDouble() >= 0.3)) {
-						step2 = true;
-						break;
-					}
-				}
+			if ((step2) && (_gene.isEnabled())) {
+				found = true;
 
-				if ((step2) && (_gene.isEnabled())) {
+			}
+
+		} else {
+			while ((trycount < 20) && (!found)) {
+				// Pure random splittingNeatRoutine.randint
+				genenum = RandomUtils.randomInt(0, genes.size() - 1);
+				_gene = genes.get(genenum);
+				if (_gene.isEnabled())
 					found = true;
+				++trycount;
 
-				}
-
-			} else {
-				while ((trycount < 20) && (!found)) {
-					// Pure random splittingNeatRoutine.randint
-					genenum = RandomUtils.randomInt(0, genes.size() - 1);
-					_gene = genes.get(genenum);
-					if (_gene.isEnabled())
-						found = true;
-					++trycount;
-
-				}
 			}
+		}
 
-			if (!found)
-				return false;
+		if (!found)
+			return false;
 
-			_gene.setEnabled(false);
+		_gene.setEnabled(false);
 
-			// Extract the link
-			thelink = _gene.getLink();
-			// Extract the weight;
-			oldweight = thelink.getWeight();
+		// Extract the link
+		thelink = _gene.getLink();
+		// Extract the weight;
+		oldweight = thelink.getWeight();
 
-			// Extract the nodes
-			in_node = thelink.getInputNode();
-			out_node = thelink.getOutputNode();
+		// Extract the nodes
+		in_node = thelink.getInputNode();
+		out_node = thelink.getOutputNode();
 
-			boolean done = false;
-			Iterator<IInnovation> innovationIterator = population.getInnovations().iterator();
+		boolean done = false;
+		Iterator<IInnovation> innovationIterator = population.getInnovations().iterator();
 
-			while (!done) {
-				// Check to see if this innovation already occured in the population
-				if (!innovationIterator.hasNext()) {
+		while (!done) {
+			// Check to see if this innovation already occured in the population
+			if (!innovationIterator.hasNext()) {
 
-					// The innovation is totally novel
+				// The innovation is totally novel
+				// Create the new Genes
+				// Create the new NNode
+				// get the current node id with postincrement
+
+				int curnode_id = population.getCurrentNodeIdAndIncrement();
+
+				// pass this current nodeid to newnode and create the new node
+				new_node = EvolutionStrategy.getInstance().getModelObjectFactory().createNewNodeForId(curnode_id);
+
+				// get the current gene inovation with post increment
+				gene_innov1 = population.getCurrentInnovationNumberAndIncrement();
+
+				// create gene with the current gene inovation
+				newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), gene_innov1, 0);
+
+				// re-read the current innovation with increment
+				gene_innov2 = population.getCurrentInnovationNumberAndIncrement();
+
+				if(gene_innov2==3)
+					System.out.print("");
+				
+				// create the second gene with this innovation incremented
+				newgene2 = new Gene(oldweight, new_node, out_node, false, gene_innov2, 0);
+
+				population.getInnovations().add(new Innovation(in_node.getId(), out_node .getId(), gene_innov1, gene_innov2, new_node.getId(), _gene.getInnovationNumber()));
+
+				done = true;
+			}
+			// end for new innovation case
+			else {
+				IInnovation _innov = innovationIterator.next();
+
+				if ((_innov.getInnovationType() == InnovationType.NEW_NODE)
+						&& (_innov.getInputNodeId() == in_node.getId())
+						&& (_innov.getOutputNodeId() == out_node.getId())
+						&& (_innov.getOldInnovationNumber() == _gene.getInnovationNumber())) {
+
 					// Create the new Genes
-					// Create the new NNode
-					// get the current node id with postincrement
+					// pass this current nodeid to newnode
+					new_node = EvolutionStrategy.getInstance().getModelObjectFactory().createNewNodeForId(_innov.getNewNodeId());
 
-					int curnode_id = population.getCurrentNodeIdAndIncrement();
-
-					// pass this current nodeid to newnode and create the new node
-					new_node = EvolutionStrategy.getInstance().getOffspringFactory().createNewNodeForId(curnode_id);
-
-					// get the current gene inovation with post increment
-					gene_innov1 = population.getCurrentInnovationNumberAndIncrement();
-
-					// create gene with the current gene inovation
-					newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), gene_innov1, 0);
-
-					// re-read the current innovation with increment
-					gene_innov2 = population.getCurrentInnovationNumberAndIncrement();
-
-					// create the second gene with this innovation incremented
-					newgene2 = new Gene(oldweight, new_node, out_node, false, gene_innov2, 0);
-
-					population.getInnovations().add(new Innovation(in_node.getId(), out_node .getId(), gene_innov1, gene_innov2, new_node.getId(), _gene.getInnovationNumber()));
-					
+					newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), _innov.getInnovationNumber1(), 0);
+					newgene2 = new Gene(oldweight, new_node, out_node, false, _innov.getInnovationNumber2(), 0);
 					done = true;
+
 				}
-				// end for new innovation case
-				else {
-					IInnovation _innov = innovationIterator.next();
-
-					if ((_innov.getInnovationType() == InnovationType.NEW_NODE)
-							&& (_innov.getInputNodeId() == in_node.getId())
-							&& (_innov.getOutputNodeId() == out_node.getId())
-							&& (_innov.getOldInnovationNumber() == _gene.getInnovationNumber())) {
-						
-						// Create the new Genes
-						// pass this current nodeid to newnode
-						new_node = EvolutionStrategy.getInstance().getOffspringFactory().createNewNodeForId(_innov.getNewNodeId());
-
-						newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), _innov.getInnovationNumber1(), 0);
-						newgene2 = new Gene(oldweight, new_node, out_node, false, _innov.getInnovationNumber2(), 0);
-						done = true;
-
-					}
-				}
-
 			}
-
-			// Now add the new NNode and new Genes to the Genome
-
-			genes.add(newgene1);
-			genes.add(newgene2);
-			EvolutionUtils.nodeInsert(genome.getNodes(), new_node);
-
-			return true;
 
 		}
-	
+
+		// Now add the new NNode and new Genes to the Genome
+
+		genes.add(newgene1);
+		genes.add(newgene2);
+		EvolutionUtils.nodeInsert(genome.getNodes(), new_node);
+
+		return true;
+
+	}
+
 	public void mutateGeneReenable(IGenome genome) {
 		for (IGene gene : genome.getGenes()) {
 			if (!gene.isEnabled()) {
@@ -467,7 +395,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 			}
 		}
 	}
-	
+
 	/**
 	 * Toggle genes from enable on to enable off or
 	 * vice versa. Do it times times.
@@ -475,7 +403,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 	public void mutateToggleEnable(IGenome genome, int repeats) {
 		int genenum;
 		int count;
-		
+
 		IGene _gene = null;
 		IGene _jgene = null;
 

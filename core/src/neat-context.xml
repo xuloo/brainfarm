@@ -244,11 +244,11 @@
 					<property name="name">
 						<bean
 							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${recur.only.prop.name}" />
+							<property name="staticField" value="${recur.only.prob.name}" />
 						</bean>
 					</property>
-					<property name="value" value="${recur.only.prop.value}" />
-					<property name="description" value="${recur.only.prop.description}" />
+					<property name="value" value="${recur.only.prob.value}" />
+					<property name="description" value="${recur.only.prob.description}" />
 				</bean>
 				<bean class="org.brainfarm.java.neat.params.NeatIntParameter">
 					<property name="name">

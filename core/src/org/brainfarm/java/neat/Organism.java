@@ -16,9 +16,6 @@ public class Organism implements IOrganism {
 	/** A fitness measure that won't change during adjustments */
 	private double originalFitness;
 
-	/** Used just for reporting purposes */
-	private double error;
-
 	/** Win marker (if needed for a particular task) */
 	private boolean winner;
 
@@ -70,7 +67,6 @@ public class Organism implements IOrganism {
 		expectedOffspring = 0;
 		generation = xgeneration;
 		eliminated = false;
-		error = 0;
 		winner = false;
 		champion = false;
 		superChampOffspring = 0;
@@ -95,14 +91,6 @@ public class Organism implements IOrganism {
 
 	public void setOriginalFitness(double originalFitness) {
 		this.originalFitness = originalFitness;
-	}
-
-	public double getError() {
-		return error;
-	}
-
-	public void setError(double error) {
-		this.error = error;
 	}
 
 	public boolean isWinner() {

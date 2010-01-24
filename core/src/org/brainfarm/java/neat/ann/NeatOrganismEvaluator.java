@@ -1,6 +1,5 @@
 package org.brainfarm.java.neat.ann;
 
-import org.brainfarm.java.neat.Neat;
 import org.brainfarm.java.neat.api.IOrganism;
 import org.brainfarm.java.neat.api.ann.INeatNetwork;
 import org.brainfarm.java.neat.api.ann.INeatNode;
@@ -40,7 +39,9 @@ public class NeatOrganismEvaluator extends AbstractOrganismEvaluator {
 	}
 	
 	@Override
-	public boolean evaluate(IOrganism organism) {
+	public boolean evaluate(IOrganism org) {
+		
+		NeatOrganism organism = (NeatOrganism)org;
 		
 		double fit_dyn = 0.0;
 		double err_dyn = 0.0;

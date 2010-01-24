@@ -12,6 +12,7 @@ import org.brainfarm.java.neat.api.IOrganism;
 import org.brainfarm.java.neat.api.IPopulation;
 import org.brainfarm.java.neat.api.ISpecies;
 import org.brainfarm.java.neat.api.enums.MutationType;
+import org.brainfarm.java.neat.api.operators.IFeatFactory;
 import org.brainfarm.java.neat.api.operators.IReproductionStrategy;
 import org.brainfarm.java.util.RandomUtils;
 
@@ -28,6 +29,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 
 		List<IOrganism> organisms = specie.getOrganisms();
 		int expectedOffspring = specie.getExpectedOffspring();
+		IFeatFactory factory = EvolutionStrategy.getInstance().getModelObjectFactory();
 		
 		//boolean found; // When a Species is found
 		boolean champ_done = false; // Flag the preservation of the champion
@@ -93,7 +95,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 					}
 				}
 
-				baby = new Organism(0.0, new_genome, generation);
+				baby = factory.createOrganism(0.0, new_genome, generation);
 
 				if (thechamp.getSuperChampOffspring() == 1) {
 					if (thechamp.isPopulationChampion()) {
@@ -111,7 +113,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 			else if ((!champ_done) && (expectedOffspring > 5)) {
 				mom = thechamp; // Mom is the champ
 				new_genome = mom.getGenome().duplicate(count);
-				baby = new Organism(0.0, new_genome, generation); // Baby is
+				baby = factory.createOrganism(0.0, new_genome, generation); // Baby is
 																	// just like
 																	// mommy
 				champ_done = true;
@@ -128,7 +130,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 				boolean mutatedStructure = EvolutionStrategy.getInstance().getMutationStrategy().mutate(new_genome,pop,generation);
 				mut_struct_baby = (mut_struct_baby || mutatedStructure);
 
-				baby = new Organism(0.0, new_genome, generation);
+				baby = factory.createOrganism(0.0, new_genome, generation);
 			}
 
 			// Otherwise we should mate
@@ -193,7 +195,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 					boolean mutatedStructure = EvolutionStrategy.getInstance().getMutationStrategy().mutate(new_genome,pop,generation);
 					mut_struct_baby = (mut_struct_baby || mutatedStructure);
 
-					baby = new Organism(0.0, new_genome, generation);
+					baby = factory.createOrganism(0.0, new_genome, generation);
 
 				} // end block of prob
 				// Determine whether to mutate the baby's Genome
@@ -202,7 +204,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 
 				else {
 					// Create the baby without mutating first
-					baby = new Organism(0.0, new_genome, generation);
+					baby = factory.createOrganism(0.0, new_genome, generation);
 				}
 
 			}

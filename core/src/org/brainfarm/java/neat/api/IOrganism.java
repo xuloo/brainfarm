@@ -10,9 +10,6 @@ public interface IOrganism {
 	
 	INetwork getPhenotype();
 	
-	double getError();
-	void setError(double error);
-	
 	boolean isEliminated();
 	void setEliminated(boolean eliminate);
 	
