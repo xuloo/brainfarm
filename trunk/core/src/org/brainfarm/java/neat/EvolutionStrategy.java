@@ -193,19 +193,19 @@ public class EvolutionStrategy {
 	 * @throws IOException
 	 */
 	private static Class<?>[] getClasses(String packageName){
-	
+
 		ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
 		try{
 			String path = packageName.replace('.', '/');
 			File localDir = new File("bin/classes/" + path);
-			File experimentDir = new File("experiment/" + path);
-			
-			//create class loader
-		    URL[] urls = new URL[]{localDir.toURI().toURL(),experimentDir.toURI().toURL()};
+			File experimentDir = new File("experiment/");
 
-		    // Create a new class loader with the directory
-		    ClassLoader cl = new URLClassLoader(urls);
-			
+			//create class loader
+			URL[] urls = new URL[]{experimentDir.toURI().toURL()};
+
+			// Create a new class loader with the directory
+			ClassLoader cl = new URLClassLoader(urls);
+
 			if(localDir.exists())
 				classes.addAll(findClasses(localDir, packageName, cl));
 			if(!localDir.exists() && experimentDir.exists())
@@ -229,17 +229,21 @@ public class EvolutionStrategy {
 		List<Class<?>> classes = new ArrayList<Class<?>>();
 		if (!directory.exists())
 			return classes;
-		
-//	    @SuppressWarnings("unused")
-//		Class<?> test = cl.loadClass("org.gatech.feat.experiments.simple.SimpleOrganismEvaluator");
-		
+
+		//	    @SuppressWarnings("unused")
+		//		Class<?> test = cl.loadClass("org.gatech.feat.experiments.simple.SimpleOrganismEvaluator");
+
 		File[] files = directory.listFiles();
 		for (File file : files) {
 			if (file.isDirectory()) 
 				classes.addAll(findClasses(file, packageName,cl));
-			if (file.getName().endsWith(".class") && !file.getName().startsWith("I")){
+			if (file.getName().endsWith(".class")){
 				String p = packageName + '.' + file.getName().substring(0, file.getName().length() - 6);
-				classes.add(cl.loadClass(p));
+				try{
+					classes.add(cl.loadClass(p));
+				}catch(Exception e){
+					System.err.println(e.getClass() + ": Problem loading " + file.getName() + " from " + p);
+				}
 			}
 		}
 		return classes;
