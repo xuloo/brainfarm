@@ -6,7 +6,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 import org.brainfarm.java.neat.api.IGenome;
@@ -201,7 +200,7 @@ public class EvolutionStrategy {
 			File experimentDir = new File("experiment/");
 
 			//create class loader
-			URL[] urls = new URL[]{experimentDir.toURI().toURL()};
+			URL[] urls = new URL[]{localDir.toURI().toURL(),experimentDir.toURI().toURL()};
 
 			// Create a new class loader with the directory
 			ClassLoader cl = new URLClassLoader(urls);
