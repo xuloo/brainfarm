@@ -38,6 +38,7 @@ import org.brainfarm.java.gui.graph.Structure;
 import org.brainfarm.java.gui.graph.Vertex;
 import org.brainfarm.java.gui.graph.code;
 import org.brainfarm.java.neat.Organism;
+import org.brainfarm.java.neat.ann.NeatOrganism;
 import org.brainfarm.java.neat.api.IGenome;
 import org.brainfarm.java.neat.api.context.INeatContext;
 import org.brainfarm.java.neat.api.evolution.IEvolutionFitness;
@@ -720,7 +721,7 @@ public class EvolutionPanel extends AbstractNeatPanel implements ItemListener {
 		sx.compute_Coordinate(p3.getWidth() / 2, p3.getHeight());
 
 		String riga_r1 = " Fitness ->" + fmt6d.format(_o1.getOriginalFitness())
-				+ "  , error->" + fmt6d.format(_o1.getError());
+				+ "  , error->" + fmt6d.format(((NeatOrganism)_o1).getError());
 
 		v1.add(new code(10, p3.getHeight() + 10, riga_r1, 0,
 				CodeConstant.DESCRIPTOR));
