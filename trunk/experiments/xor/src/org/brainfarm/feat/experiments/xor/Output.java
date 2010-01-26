@@ -1,6 +1,6 @@
-package org.brainfarm.neat.experiments.xor;
+package org.brainfarm.feat.experiments.xor;
 
-import org.brainfarm.java.neat.api.evolution.IEvolutionOutput;
+import org.brainfarm.java.feat.api.evolution.IEvolutionOutput;
 
 public class Output implements IEvolutionOutput {
 
