@@ -31,12 +31,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class TestStar {
 
-	@BeforeClass
-	public static void setup(){
-		//we must delete the experiment directory in order to re-run the experiment
-		FileUtils.deleteDirectory("experiment");
-	}
-
 	/**
 	 * Runs the experiment defined by test/xor-experiment.jar.  Because
 	 * we seed the NEAT Random number generator ahead of time, we can 

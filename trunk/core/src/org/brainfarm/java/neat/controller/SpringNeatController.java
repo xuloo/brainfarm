@@ -14,6 +14,8 @@ import org.xeustechnologies.jcl.JclObjectFactory;
 public class SpringNeatController extends AbstractNeatController {
 	
 	private static Logger logger = Logger.getLogger(SpringNeatController.class);
+	
+	private final String experiment_dir = "experiment";
 
 	@Override
 	/**
@@ -29,11 +31,10 @@ public class SpringNeatController extends AbstractNeatController {
 	public void loadExperiment(String location) {
 		
 		// Create a temporary directory for the experiment.		
-		File experimentDirectory = new File("experiment");
+		File experimentDirectory = new File(experiment_dir);
 		
-		if (experimentDirectory.exists()) {
-			experimentDirectory.delete();
-		}
+		if (experimentDirectory.exists())
+			FileUtils.deleteDirectory(experimentDirectory);
 		
 		boolean success = experimentDirectory.mkdir();
 		
@@ -47,28 +48,41 @@ public class SpringNeatController extends AbstractNeatController {
 			jarClassLoader = new JarClassLoader();
 			jarClassLoader.add(location);
 			
-			factory = JclObjectFactory.getInstance();
-		  
-			// Grab the experiments directory's path.
-			String path = experimentDirectory.getAbsolutePath();
-			experimentDirectory = null;
-		  
-			// Load the experiment's context into a bean factory.
-			XmlBeanFactory factory = new XmlBeanFactory(new FileSystemResource( path + "/experiment-context.xml"));
-			PropertyPlaceholderConfigurer cfg = new PropertyPlaceholderConfigurer();
-		  	cfg.setLocation(new FileSystemResource(path + "/experiment-parameters.properties"));
-		  	cfg.postProcessBeanFactory(factory);
-		  	
-		  	IExperiment experiment = (IExperiment)factory.getBean("experiment");
-		  	
-		  	// Get the 'experiment' bean - this contains the settings for the loaded experiment.
-		  	refresh(experiment);
-		  	
-		  	context.setExperiment(experiment);
+			setupExperiment(experimentDirectory);
 		  	
 		} else {
 			logger.error("There was an error creating the experiment directory");
 		}
+	}
+
+	private void setupExperiment(File experimentDirectory) {
+		factory = JclObjectFactory.getInstance();
+  
+		// Grab the experiments directory's path.
+		String path = experimentDirectory.getAbsolutePath();
+		experimentDirectory = null;
+  
+		// Load the experiment's context into a bean factory.
+		XmlBeanFactory factory = new XmlBeanFactory(new FileSystemResource( path + "/experiment-context.xml"));
+		PropertyPlaceholderConfigurer cfg = new PropertyPlaceholderConfigurer();
+		cfg.setLocation(new FileSystemResource(path + "/experiment-parameters.properties"));
+		cfg.postProcessBeanFactory(factory);
+		
+		IExperiment experiment = (IExperiment)factory.getBean("experiment");
+		
+		// Get the 'experiment' bean - this contains the settings for the loaded experiment.
+		refresh(experiment);
+		
+		context.setExperiment(experiment);
+	}
+	
+	/**
+	 * Uses the existing experiment/ directory as the location of
+	 * configuration files, results output, and custom java classes. 
+	 */
+	public void loadExperiment(){
+		File experimentDirectory = new File(experiment_dir);
+		setupExperiment(experimentDirectory);
 	}
 	
 	@Override

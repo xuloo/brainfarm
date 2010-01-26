@@ -184,7 +184,12 @@ public class EvolutionStrategy {
 	}
 
 	/**
-	 * Scans all classes accessible from the context class loader which belong to the given package and subpackages.
+	 * Scans all classes which belong to the given package and
+	 * subpackages.  It does so with a custom class loader that
+	 * looks in both (a) the local build directory (e.g. "bin" in
+	 * a conventional eclipse project) and (b) the "experiment"
+	 * folder, where classes may have been unpacked from the
+	 * experiment JAR.
 	 *
 	 * @param packageName The base package
 	 * @return The classes
@@ -195,8 +200,13 @@ public class EvolutionStrategy {
 
 		ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
 		try{
+			
+			/** get directory for local classes **/
 			String path = packageName.replace('.', '/');
 			File localDir = new File("bin/classes/" + path);
+			//allow for conventional eclipse bin directory
+			if(!localDir.exists())
+				localDir = new File("bin/" + path);
 			File experimentDir = new File("experiment/");
 
 			//create class loader
@@ -228,9 +238,6 @@ public class EvolutionStrategy {
 		List<Class<?>> classes = new ArrayList<Class<?>>();
 		if (!directory.exists())
 			return classes;
-
-		//	    @SuppressWarnings("unused")
-		//		Class<?> test = cl.loadClass("org.gatech.feat.experiments.simple.SimpleOrganismEvaluator");
 
 		File[] files = directory.listFiles();
 		for (File file : files) {
