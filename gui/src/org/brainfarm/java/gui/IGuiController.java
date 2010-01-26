@@ -2,7 +2,7 @@ package org.brainfarm.java.gui;
 
 import javax.swing.JFrame;
 
-import org.brainfarm.java.neat.api.INeatController;
+import org.brainfarm.java.feat.api.INeatController;
 
 public interface IGuiController extends INeatController {
 

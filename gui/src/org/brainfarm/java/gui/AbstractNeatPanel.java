@@ -7,9 +7,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import org.brainfarm.java.feat.api.context.INeatContext;
+import org.brainfarm.java.feat.context.INeatContextListener;
 import org.brainfarm.java.gui.api.INeatPanel;
-import org.brainfarm.java.neat.api.context.INeatContext;
-import org.brainfarm.java.neat.context.INeatContextListener;
 
 public abstract class AbstractNeatPanel implements INeatPanel, INeatContextListener, ActionListener {
 

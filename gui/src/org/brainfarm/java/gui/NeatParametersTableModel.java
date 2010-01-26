@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import org.brainfarm.java.neat.params.AbstractNeatParameter;
+import org.brainfarm.java.feat.params.AbstractNeatParameter;
 
 public class NeatParametersTableModel extends AbstractTableModel {
 	

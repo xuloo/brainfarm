@@ -21,7 +21,7 @@ import java.util.Vector;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.brainfarm.java.neat.api.enums.NodeLabel;
+import org.brainfarm.java.feat.api.enums.NodeLabel;
 import org.brainfarm.java.util.CodeConstant;
 
 public class ChartXY extends JPanel {

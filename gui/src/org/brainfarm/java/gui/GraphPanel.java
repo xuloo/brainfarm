@@ -29,17 +29,17 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.apache.log4j.Logger;
+import org.brainfarm.java.feat.Genome;
+import org.brainfarm.java.feat.Organism;
+import org.brainfarm.java.feat.Population;
+import org.brainfarm.java.feat.api.IGenome;
+import org.brainfarm.java.feat.api.IOrganism;
+import org.brainfarm.java.feat.api.context.INeatContext;
 import org.brainfarm.java.gui.graph.ChartXY;
 import org.brainfarm.java.gui.graph.Edge;
 import org.brainfarm.java.gui.graph.Structure;
 import org.brainfarm.java.gui.graph.Vertex;
 import org.brainfarm.java.gui.graph.code;
-import org.brainfarm.java.neat.Genome;
-import org.brainfarm.java.neat.Organism;
-import org.brainfarm.java.neat.Population;
-import org.brainfarm.java.neat.api.IGenome;
-import org.brainfarm.java.neat.api.IOrganism;
-import org.brainfarm.java.neat.api.context.INeatContext;
 import org.brainfarm.java.util.CodeConstant;
 
 public class GraphPanel extends AbstractNeatPanel implements ListSelectionListener, ItemListener
