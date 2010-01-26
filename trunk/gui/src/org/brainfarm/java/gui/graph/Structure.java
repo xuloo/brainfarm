@@ -7,11 +7,11 @@ import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import org.brainfarm.java.neat.Gene;
-import org.brainfarm.java.neat.api.IGenome;
-import org.brainfarm.java.neat.api.INode;
-import org.brainfarm.java.neat.api.ann.INeatNode;
-import org.brainfarm.java.neat.api.enums.NodeType;
+import org.brainfarm.java.feat.Gene;
+import org.brainfarm.java.feat.api.IGenome;
+import org.brainfarm.java.feat.api.INode;
+import org.brainfarm.java.feat.api.ann.INeatNode;
+import org.brainfarm.java.feat.api.enums.NodeType;
 import org.brainfarm.java.util.CodeConstant;
 import org.brainfarm.java.util.IOseq;
 

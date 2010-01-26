@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.neat.api.context.INeatContext;
+import org.brainfarm.java.feat.api.context.INeatContext;
 
 public class NeatParametersPanel extends AbstractNeatPanel{
 

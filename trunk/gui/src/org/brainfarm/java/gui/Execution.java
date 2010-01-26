@@ -12,12 +12,12 @@ import java.util.StringTokenizer;
 
 import javax.swing.JTextArea;
 
-import org.brainfarm.java.neat.Genome;
-import org.brainfarm.java.neat.ann.NeatGenome;
-import org.brainfarm.java.neat.ann.NeatNode;
-import org.brainfarm.java.neat.api.IGenome;
-import org.brainfarm.java.neat.api.INetwork;
-import org.brainfarm.java.neat.api.ann.INeatNetwork;
+import org.brainfarm.java.feat.Genome;
+import org.brainfarm.java.feat.ann.NeatGenome;
+import org.brainfarm.java.feat.ann.NeatNode;
+import org.brainfarm.java.feat.api.IGenome;
+import org.brainfarm.java.feat.api.INetwork;
+import org.brainfarm.java.feat.api.ann.INeatNetwork;
 import org.brainfarm.java.util.IOseq;
 
 public class Execution {

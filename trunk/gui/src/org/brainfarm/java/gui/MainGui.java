@@ -7,9 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
 import org.apache.log4j.BasicConfigurator;
+import org.brainfarm.java.feat.api.context.INeatContext;
+import org.brainfarm.java.feat.context.SpringNeatContext;
 import org.brainfarm.java.gui.api.INeatPanel;
-import org.brainfarm.java.neat.api.context.INeatContext;
-import org.brainfarm.java.neat.context.SpringNeatContext;
 
 public class MainGui {
 

@@ -1,6 +1,6 @@
 package org.brainfarm.java.gui;
 
-import org.brainfarm.java.neat.api.context.INeatContext;
+import org.brainfarm.java.feat.api.context.INeatContext;
 
 public interface IGuiModelListener {
 	

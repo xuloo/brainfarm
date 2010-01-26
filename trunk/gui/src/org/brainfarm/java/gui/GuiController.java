@@ -5,9 +5,9 @@ import java.awt.FileDialog;
 import javax.swing.JFrame;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.neat.api.context.INeatContext;
-import org.brainfarm.java.neat.context.SpringNeatContext;
-import org.brainfarm.java.neat.controller.SpringNeatController;
+import org.brainfarm.java.feat.api.context.INeatContext;
+import org.brainfarm.java.feat.context.SpringNeatContext;
+import org.brainfarm.java.feat.controller.SpringNeatController;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
