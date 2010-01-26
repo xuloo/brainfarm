@@ -18,7 +18,7 @@ import java.util.zip.ZipFile;
 import org.apache.log4j.Logger;
 
 public class FileUtils {
-	
+
 	private static Logger logger = Logger.getLogger(FileUtils.class);
 
 	public static String getFileContents(String fname) {
@@ -73,7 +73,16 @@ public class FileUtils {
 					deleteDirectory(files[i]);
 				} else {
 					try {
-					boolean success = files[i].delete();
+						boolean success = false;
+						while(!success){
+							success = files[i].delete();
+							if(!success){
+								System.err.println("Could not delete " + files[i].getName() + ", running garbage " +
+										" collector and trying again.  If multiple experiments are being run sequentially (for" +
+										" example, in a test suite), then this is expected behavior.");
+								System.gc();
+							}
+						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -107,7 +116,7 @@ public class FileUtils {
 		in.close();
 		out.close();
 	}
-	
+
 	public static void copyDirectory(File srcPath, File dstPath) throws IOException {
 
 		if (srcPath.isDirectory()) {
@@ -148,7 +157,7 @@ public class FileUtils {
 
 		System.out.println("Directory copied.");
 	}
-	
+
 	/**
 	 * Create a new temporary directory. Use something like
 	 * {@link #recursiveDelete(File)} to clean this directory up since it isn't
@@ -158,34 +167,34 @@ public class FileUtils {
 	 */
 	public static File createTempDir() throws IOException
 	{
-	    final File sysTempDir = new File(System.getProperty("java.io.tmpdir"));
-	    File newTempDir;
-	    final int maxAttempts = 9;
-	    int attemptCount = 0;
-	    do
-	    {
-	        attemptCount++;
-	        if(attemptCount > maxAttempts)
-	        {
-	            throw new IOException(
-	                    "The highly improbable has occurred! Failed to " +
-	                    "create a unique temporary directory after " +
-	                    maxAttempts + " attempts.");
-	        }
-	        String dirName = UUID.randomUUID().toString();
-	        newTempDir = new File(sysTempDir, dirName);
-	    } while(newTempDir.exists());
+		final File sysTempDir = new File(System.getProperty("java.io.tmpdir"));
+		File newTempDir;
+		final int maxAttempts = 9;
+		int attemptCount = 0;
+		do
+		{
+			attemptCount++;
+			if(attemptCount > maxAttempts)
+			{
+				throw new IOException(
+						"The highly improbable has occurred! Failed to " +
+						"create a unique temporary directory after " +
+						maxAttempts + " attempts.");
+			}
+			String dirName = UUID.randomUUID().toString();
+			newTempDir = new File(sysTempDir, dirName);
+		} while(newTempDir.exists());
 
-	    if(newTempDir.mkdirs())
-	    {
-	        return newTempDir;
-	    }
-	    else
-	    {
-	        throw new IOException(
-	                "Failed to create temp dir named " +
-	                newTempDir.getAbsolutePath());
-	    }
+		if(newTempDir.mkdirs())
+		{
+			return newTempDir;
+		}
+		else
+		{
+			throw new IOException(
+					"Failed to create temp dir named " +
+					newTempDir.getAbsolutePath());
+		}
 	}
 
 	/**
@@ -197,19 +206,19 @@ public class FileUtils {
 	 */
 	public static boolean recursiveDelete(File fileOrDir)
 	{
-	    if(fileOrDir.isDirectory())
-	    {
-	        // recursively delete contents
-	        for(File innerFile: fileOrDir.listFiles())
-	        {
-	            if(!recursiveDelete(innerFile))
-	            {
-	                return false;
-	            }
-	        }
-	    }
+		if(fileOrDir.isDirectory())
+		{
+			// recursively delete contents
+			for(File innerFile: fileOrDir.listFiles())
+			{
+				if(!recursiveDelete(innerFile))
+				{
+					return false;
+				}
+			}
+		}
 
-	    return fileOrDir.delete();
+		return fileOrDir.delete();
 	}
 
 	public static void extractZip(String src, File dest) {
@@ -220,7 +229,7 @@ public class FileUtils {
 			ZipFile zipFile = new ZipFile(src);
 			Enumeration<? extends ZipEntry> entries = zipFile.entries();
 			while (entries.hasMoreElements()) {
-				
+
 				ZipEntry entry = (ZipEntry) entries.nextElement();
 
 				if (entry.isDirectory()) {
@@ -250,23 +259,23 @@ public class FileUtils {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static File resolvePath(String path) {
 		File file = new File(path);
-		
+
 		if (!file.exists()) {
 			String[] elements = path.split("/");
 			String currentPath = "";
 			for (int i = 0; i < elements.length; i++) {
 				currentPath += "/" + elements[i];
 				file = new File(currentPath);
-				
+
 				if (i < elements.length - 1) {
 					file.mkdir();
 				}
 			}
 		}
-		
+
 		return file;
 	}
 }

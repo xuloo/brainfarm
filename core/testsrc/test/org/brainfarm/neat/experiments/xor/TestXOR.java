@@ -8,9 +8,7 @@ import org.brainfarm.java.neat.api.evolution.IEvolution;
 import org.brainfarm.java.neat.api.evolution.IEvolutionListener;
 import org.brainfarm.java.neat.context.SpringNeatContext;
 import org.brainfarm.java.neat.controller.SpringNeatController;
-import org.brainfarm.java.util.FileUtils;
 import org.brainfarm.java.util.RandomUtils;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -23,13 +21,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  */
 public class TestXOR {
-
-	@BeforeClass
-	public static void setup(){
-		//we must delete the experiment directory in order to re-run the experiment
-		FileUtils.deleteDirectory("experiment");
-	}
-
+	
 	/**
 	 * Runs the experiment defined by test/xor-experiment.jar.  Because
 	 * we seed the NEAT Random number generator ahead of time, we can 

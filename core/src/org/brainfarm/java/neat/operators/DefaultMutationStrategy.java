@@ -31,7 +31,7 @@ import org.brainfarm.java.util.RandomUtils;
 public class DefaultMutationStrategy implements IMutationStrategy {
 
 	// The weight mutation power is species specific depending on its age
-	double mut_power = Neat.weight_mut_power;
+	protected double mut_power = Neat.weight_mut_power;
 
 	@Override
 	public boolean mutate(IGenome genome, IPopulation pop, int generation) {
@@ -124,12 +124,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 		} // end block trycount
 
 		if (found) {
-
-//			if(nodenum1 == 1 && nodenum2 == 1){
-//				for(ILink link : thenode1.getOutgoing())
-//					if(link.getOutputNode() == thenode2)
-//						System.out.println("");
-//			}
 
 			// Check to see if this innovation already occured in the population
 			Iterator<IInnovation> innovationsIterator = population.getInnovations().iterator();
