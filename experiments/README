@@ -1,0 +1,35 @@
+The Star project is a simple demonstration of FEAT that evolves a graph structure
+resembling a 7-point star when the nodes of the genome are laid out sequentially
+on a circle.  It's a trivial problem, but it demonstrates the usage of FEAT's
+default functionality.  
+
+FEAT is augmented with customizations of the Node and IOrganismEvaluator classes.  
+Of the two, only an custom evaluator is *required* to run a FEAT experiment.  The
+package "org.gatech.feat.experiments.star" contains the customizations, and this
+fact is indicated in experiment-parameters.properties by the property
+feat.customizations.package.
+
+The Star projects supports two ways in which a FEAT experiment can be run (which
+makes the project structure a little confusing).  Method (2) is recommended for
+most cases!!!
+
+(1) Run with experiment JAR from "core" directory.
+	- This is similar to the XOR project.  Just run the "build.xml" file 
+	  and a JAR will be packaged and placed in dist/.  That JAR can then
+	  be used when executing from the "core" project, where it will be
+	  unpacked into experiment/.  The JAR is built from the customization
+	  classes in bin/, and the experiment artifacts in experiment/.
+	  
+(2) Run directly from the Star project. 
+	- Most users should use this strategy.  IT DOES NOT INVOLVE A
+	  JAR INTERMEDIATE.  Everything needed to run is already in the
+	  experiment directory, and FEAT is initialized without a JAR.  The
+	  "TestStar" unit test in testsrc demonstrates how to do this. 
+	  
+Other notes:
+
+(1) The test case in the Star project has a cute little UI that shows you 
+	the state of the most fit organism updated each epoch.  The nodes are
+	layed out radially so that the "Star" will be apparent, and each node
+	is color coded by the number of correct outgoing links it has.  Each
+	should have two, so 2 = GREEN, 1 = YELLOW and anything else = RED.
