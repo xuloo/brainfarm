@@ -1,0 +1,31 @@
+<project name="javagui" default="build">
+    	
+	<import file="build-imports.xml"/>
+
+    <path id="javac.lib.path">
+		<pathelement location="${commons.logging.jar}"/>
+		<pathelement location="${spring.beans.jar}"/>
+		<pathelement location="${spring.context.jar}"/>
+		<pathelement location="${spring.core.jar}"/>
+		<pathelement location="${jcl.jar}"/>
+		<pathelement location="${log4j.jar}"/>
+    	<pathelement location="${jneat.jar}"/>
+	</path>
+
+    <!-- targets -->
+    <target name="build" depends="init,hello,java-classes,jar" description="Build the library"/>
+	
+	<target name="hello">
+		<echo>CLASSES ${jneat.jar}</echo>
+		</target>
+	
+	<target name="jar" description="creates a jar file from the compiled classes">
+		<jar jarfile="${brainfarm.gui.jar}" basedir="${build.javac.dir}" />
+	</target>
+	
+	<target name="java-launch">
+		<echo>${java.main.class}</echo>
+		<java classname="${java.main.class}" classpathref="javac.lib.path" classpath="${build.javac.dir}"/>
+    </target>
+	
+</project>

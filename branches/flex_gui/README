@@ -1,0 +1,98 @@
+++ =======================================================================
+++ BrainFarm: Java implementation of the NEAT algorithm.
+++ Based on Ugo Vierucci's Java port of Ken Stanley's original c++ code.
+++ =======================================================================
+
+IMPORTANT! - You must build brainfarm from the command line at least once
+before setting up Eclipse. This will ensure that all the dependencies 
+amongst the sub-projects are built before you define them in Eclipse.
+
+--------------------------------------------------------------------------
+++ BUILDING BRAINFARM
+--------------------------------------------------------------------------
+BrainFarm uses Ant and Antennae to make setting up and building as simple
+as possible.
+
+1. Define User-Specific Build Properties
+
+A template build properties file has been provided to help.
+
+Copy the user-build.properties.template and rename it user-build.properties.
+Change the values of the properties in this file to match your system's setup.
+
+2. Build
+
+Open a terminal window (mac) or command prompt (win) and type
+
+ant build
+
+This will create the output directories for the sub-projects and build the
+binaries for each of them.
+
+--------------------------------------------------------------------------
+++ SETTING UP ECLIPSE
+--------------------------------------------------------------------------
+Eclipse project files are provided for all the brainfarm sub-projects.
+
+Open Eclipse and select the workspace you want to import the brainfarm 
+projects into.
+
+Right-Click in the 'Project Explorer' window.
+Select 'Import'.
+In the Import dialog window select General -> Existing Projects into Workspace
+Click 'Next'
+Hit the 'Browse' button and navigate to the brainfarm directory.
+Click 'OK'
+
+You should now see all the brainfarm sub-projects listed
+
+Click 'Finish' and they'll be imported into your workspace. These projects will
+show problems though, as they're missing dependencies.
+
+Now you need to define a User Library so Eclipse knows where the library jars
+are that brainfarm needs to link to.
+
+Open the Eclipse Preferences 
+
+Window->Preferences (win)
+Eclipse->Preferences (mac)
+
+In the list panel on the left select
+
+Java->Build Path->User Libraries
+
+In the User Library panel that opens on the left select 'New'
+
+Give your new User Library the name
+
+BRAINFARM_LIB
+
+click 'OK'
+click 'Add JARs...'
+
+Navigate to the /lib directory and select all the .jar files in that
+directory and click 'Open'
+
+click 'OK' and Eclipse will rebuild your projects and now it has the 
+dependencies to link to you should see all the Problems disappear.
+
+--------------------------------------------------------------------------
+++ RUNNING BRAINFARM - STANDALONE JAVA APPLICATION
+--------------------------------------------------------------------------
+
+1. Running from the Command Line.
+
+Open a terminal window (mac) or command prompt (win) and from the root of 
+your brainfarm directory cd into the /gui directory and run
+
+ant java-launch
+
+This will run the Java Application for you.
+
+2. Running from within Eclipse
+
+Expand the /src directory of the 'gui' project, right-click on the class
+
+org.brainfarm.java.gui.MainGui
+
+and select Run As -> Java Application.
