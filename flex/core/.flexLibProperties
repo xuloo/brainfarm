@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="false" version="3">
+  <includeClasses>
+    <classEntry path="org.brainfarm.flex.comm.BasicMessage"/>
+    <classEntry path="org.brainfarm.flex.comm.IMessage"/>
+    <classEntry path="org.brainfarm.flex.BrainFarmFlexTestSuite"/>
+    <classEntry path="org.brainfarm.flex.comm.BasicMessageTest"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>
