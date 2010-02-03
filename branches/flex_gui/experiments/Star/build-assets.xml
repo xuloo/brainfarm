@@ -1,0 +1,7 @@
+<project name="star.assets">
+    <dirname property="star.assets.dir" file="${ant.file.star.assets}"/>
+
+    <!-- Define JAR exported by this library. -->
+    <property name="star.jar" location="${star.assets.dir}/${build.dist.dir}/star-experiment.jar"/>
+
+</project>
