@@ -17,6 +17,7 @@ public class Fitness implements IEvolutionFitness {
 			errorsum += Math.abs(target[j][0] - output[j][0]);
 		}
 		
+		
 		fitness = Math.pow(4.0 - errorsum, 2);
 
 		d[0] = fitness;

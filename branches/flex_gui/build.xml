@@ -16,6 +16,10 @@
         <file name="core"/>
         <file name="gui"/>
         <file name="experiments/xor"/>
+		<file name="experiments/Star"/>
+		<file name="web/red5/BrainFarmServer"/>
+		<file name="flex/core"/>
+		<file name="flex/gui"/>
     </filelist>
 	
 </project>
