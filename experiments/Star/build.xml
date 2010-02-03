@@ -1,23 +1,28 @@
-<project name="Star" default="jar">
+<project name="star" default="build">
     	
-	  <target name="createtempdir">
-	  	<delete dir="build/temp"/>
-	  	<mkdir dir="build/temp"/>
-	  	<mkdir dir="build/temp/org"/>
-	  	<copy file="experiment/experiment-context.xml" todir="build/temp"/>
-	  	<copy file="experiment/experiment-parameters.properties" todir="build/temp"/>
-	  	<copy file="experiment/genome.xml" todir="build/temp"/>
-	  	<copy todir="build/temp/org">
-	  		<fileset dir="bin/org"/>
-	  	</copy>
-	  </target>	
+	<import file="build-imports.xml"/>
+
+    <path id="javac.lib.path">
+		<pathelement location="${jneat.jar}"/>
+    	<pathelement location="${collections.generic.jar}"/>
+    	<pathelement location="${jung.algorithms.jar}"/>
+    	<pathelement location="${jung.api.jar}"/>
+    	<pathelement location="${jung.graph.jar}"/>
+    	<pathelement location="${jung.visualization.jar}"/>
+	</path>
 	
-	  <target name="jar" depends="createtempdir">
-	    <jar destfile="dist/star-experiment.jar"
-	         basedir="build/temp">
-	      <manifest>
-	      </manifest>
-	    </jar>
-	  </target>
+	<path id="resources">
+		<pathelement location="experiment"/>
+	</path>
+
+    <!-- targets -->
+    <target name="build" depends="init,java-classes,jar" description="Build the library"/>
+	
+	<target name="jar" description="creates a jar file from the compiled classes">
+		<jar jarfile="${star.jar}" basedir="${build.javac.dir}">
+			<fileset dir="${build.dir}/classes"/>
+			<fileset dir="experiment"/>
+		</jar>
+	</target>
 	
 </project>
