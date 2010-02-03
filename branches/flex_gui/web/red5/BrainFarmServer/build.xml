@@ -33,18 +33,19 @@
 			</fileset>
 		</copy>
 		
-		<antcall target="deploy"/>
-		
 	</target>
 	
-	<target name="deploy" description="Deploy the application">
+	<target name="deploy" depends="undeploy,dist" description="Deploy the application">
         <!--copy todir="${red5.webapps.dir}" file="${build.dist.dir}/${project.war}"/-->
-		<delete dir="${red5.webapps.dir}/${ant.project.name}" />
 		<copy todir="${red5.webapps.dir}" overwrite="true">
 			<fileset dir="${build.dist.dir}">
 				<include name="**/*" />
 			</fileset>
 		</copy>
     </target>
+	
+	<target name="undeploy" description="cleans the deployed result of this build">
+		<delete dir="${red5.webapps.dir}/${ant.project.name}" />
+	</target>
 	
 </project>
