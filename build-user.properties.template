@@ -8,4 +8,14 @@
 #
 # Path to the directory this file is located in - the root of the JNEAT2 project
 #
-brainfarm.root=D:/projects/brainfarm/trunk
+brainfarm.root=/path/to/brainfarm
+
+#
+# Path the Red5 installation used to run the BrainFarm server.
+#
+red5.dir=/path/to/red5
+
+#
+# Path to the Flex 4 SDK on your machine that will be used to compile the Flex GUI
+#
+flex.dir=/path/to/flexSDK

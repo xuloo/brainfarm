@@ -28,8 +28,6 @@ import org.brainfarm.java.feat.operators.DefaultReproductionStrategy;
 import org.brainfarm.java.feat.operators.DefaultSpeciationStrategy;
 import org.brainfarm.java.feat.operators.FeatFactory;
 
-import com.sun.xml.internal.ws.api.ResourceLoader;
-
 /**
  * Singleton providing access to customization classes
  * for customizing various pieces of the FEAT algorithm.
