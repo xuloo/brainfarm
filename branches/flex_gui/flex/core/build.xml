@@ -3,6 +3,7 @@
 
     <!-- This library doesn't depend on anything else. -->
     <path id="flex.lib.path">
+    	<pathelement location="${moccasin.swc}"/>
 	</path>
 
     <!-- targets -->

@@ -3,10 +3,14 @@ package org.brainfarm.java.feat.controller;
 import java.io.File;
 
 import org.apache.log4j.Logger;
+import org.brainfarm.java.feat.api.context.INeatContext;
 import org.brainfarm.java.feat.context.IExperiment;
+import org.brainfarm.java.feat.context.SpringNeatContext;
 import org.brainfarm.java.util.FileUtils;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.FileSystemResource;
 import org.xeustechnologies.jcl.JarClassLoader;
 import org.xeustechnologies.jcl.JclObjectFactory;
@@ -16,6 +20,15 @@ public class SpringNeatController extends AbstractNeatController {
 	private static Logger logger = Logger.getLogger(SpringNeatController.class);
 	
 	private final String experiment_dir = "experiment";
+	
+	public SpringNeatController(INeatContext context) {
+		this.context = context;
+	}
+	
+	public void loadDefaultParameters() {
+		ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{"neat-context.xml"});
+		((SpringNeatContext)context).setApplicationContext(appContext);
+	}
 
 	@Override
 	/**

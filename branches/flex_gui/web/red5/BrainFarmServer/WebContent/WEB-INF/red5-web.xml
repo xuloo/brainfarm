@@ -34,5 +34,11 @@
 	<bean id="web.handler" 
 	    class="org.red5.core.Application" 
 		singleton="true" />
+		
+	<!-- 
+	Defines the BrainFarm service that will handle brainfarm operations.
+	 -->
+	 <bean id="brainfarm.service"
+	 	class="org.brainfarm.java.red5.service.BrainFarmService"/>
  
 </beans>

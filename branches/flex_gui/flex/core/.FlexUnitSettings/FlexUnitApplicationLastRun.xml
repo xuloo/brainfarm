@@ -2,5 +2,6 @@
 <testrun name="" >
 <testsuite  name="Default Test Suite" project="BrainFarmFlexLib">
 <testsuite name="org.brainfarm.flex:BrainFarmFlexTestSuite" type="testsuiteclass"/>
+<testsuite name="org.brainfarm.flex.comm:BasicMessageTest" type="testcaseclass"/>
 </testsuite>
 </testrun>
