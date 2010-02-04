@@ -3,6 +3,7 @@
 
     <path id="javac.lib.path">
 		<pathelement location="${red5.jar}" />
+    	<pathelement location="${jneat.jar}"/>
 	</path>
 
     <!-- targets -->
@@ -40,6 +41,13 @@
 		<copy todir="${red5.webapps.dir}" overwrite="true">
 			<fileset dir="${build.dist.dir}">
 				<include name="**/*" />
+			</fileset>
+		</copy>
+		
+		<!-- copy jars the webapp requires at runtime into the WEB-INF/lib directory -->
+		<copy todir="${red5.webapps.dir}/${webapp.lib.dir}" overwrite="true">
+			<fileset dir=".">
+				<include name="${jneat.jar}"/>
 			</fileset>
 		</copy>
     </target>

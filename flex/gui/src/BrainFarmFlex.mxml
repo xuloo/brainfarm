@@ -1,12 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   xmlns:mx="library://ns.adobe.com/flex/halo" minWidth="1024" minHeight="768">
+			   xmlns:mx="library://ns.adobe.com/flex/halo" 
+			   minWidth="1024" minHeight="768"
+			   creationComplete="onCreationComplete()">
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.MenuEvent;
+			
+			import org.brainfarm.flex.mvcs.controller.FlexBrainFarmController;
+			import org.brainfarm.flex.mvcs.controller.MenuHelper;
+			import org.brainfarm.flex.mvcs.service.IBrainFarmService;
+			import org.brainfarm.flex.mvcs.service.remote.RemoteBrainFarmService;
+			
+			private var menuHelper:MenuHelper;
+			
+			[Bindable]
+			private var menubarXML:XMLList =
+				<>
+					<menuitem label="BrainFarm" data="top">
+						<menuitem label="Connect to server..." data="connect"/>
+						<menuitem label="MenuItem 1-B" data="1B"/>
+					</menuitem>
+					<menuitem label="Menu2" data="top">
+						<menuitem label="MenuItem 2-A" type="check"  data="2A"/>
+						<menuitem type="separator"/>
+						<menuitem label="MenuItem 2-B" >
+							<menuitem label="SubMenuItem 3-A" type="radio"
+								groupName="one" data="3A"/>
+							<menuitem label="SubMenuItem 3-B" type="radio"
+								groupName="one" data="3B"/>
+						</menuitem>
+					</menuitem>
+				</>;
+
+			private function onCreationComplete():void 
+			{				
+				var service:IBrainFarmService = new RemoteBrainFarmService();
+				var controller:FlexBrainFarmController = new FlexBrainFarmController(viewLayer, service);
+			
+				menuHelper = new MenuHelper(controller);
+			}
+
+			// Event handler for the MenuBar control's itemClick event.
+			private function menuHandler(event:MenuEvent):void  {
+				// Don't open the Alert for a menu bar item that 
+				// opens a popup submenu.
+				/*if (event.item.@data != "top") {
+					Alert.show("Label: " + event.item.@label + "\n" + 
+						"Data: " + event.item.@data, "Clicked menu item");
+				} */
+				menuHelper.handleMenuItem(event.item);
+			}
+
+		]]>
+	</fx:Script>
+	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:VGroup x="0" y="0" width="100%" height="100%">
+	<s:VGroup x="0" y="0" width="100%" height="100%" id="viewLayer">
+		
+		<mx:MenuBar labelField="@label" dataProvider="{menubarXML}" itemClick="menuHandler(event)"/>
+		
 		<s:HGroup width="100%" height="50">
+			<s:Label text="BrainFarm Client" paddingTop="10" fontSize="18" paddingLeft="10"/>
 		</s:HGroup>
 		<s:VGroup width="300" height="100%">
 			<s:Group>

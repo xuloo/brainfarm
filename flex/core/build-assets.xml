@@ -2,6 +2,6 @@
     <dirname property="BrainFarmFlexLib.assets.dir" file="${ant.file.BrainFarmFlexLib.assets}"/>
 
     <!-- Define SWC exported by this library. -->
-    <property name="brainfarm.flex.core.swc" location="${brainfarm-flex-core.assets.dir}/${build.mxmlc.dir}/${project.swc}"/>
+    <property name="brainfarm.flex.core.swc" location="${BrainFarmFlexLib.assets.dir}/${build.compc.dir}/BrainFarmFlexLib.swc"/>
 
 </project>

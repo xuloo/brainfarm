@@ -10,7 +10,7 @@
 	is intended to be displayed by tools. The display 
 	name need not be unique.
 	-->
-	<display-name>BrainFarmServer</display-name>
+	<display-name>brainfarm-server</display-name>
 	
 	<!--
 	The context-param element contains the declaration of a web
