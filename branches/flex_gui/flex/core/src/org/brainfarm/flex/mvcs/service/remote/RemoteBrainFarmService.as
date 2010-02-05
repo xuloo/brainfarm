@@ -2,27 +2,33 @@ package org.brainfarm.flex.mvcs.service.remote
 {
 	import com.joeberkovitz.moccasin.service.IOperation;
 	
-	import flash.net.NetConnection;
-	
+	import org.brainfarm.flex.api.connection.IClient;
+	import org.brainfarm.flex.comm.client.BasicClient;
+	import org.brainfarm.flex.comm.messages.BaseMessage;
 	import org.brainfarm.flex.mvcs.service.IBrainFarmService;
 	
 	public class RemoteBrainFarmService implements IBrainFarmService
 	{
+		private var $client:IClient;
+		
 		public function RemoteBrainFarmService()
 		{
+			$client = new BasicClient();
 		}
 		
 		public function connect(uri:String):IOperation
 		{
-			return new RemoteConnectionOperation(uri);
+			BaseMessage.DEFAULT_SERVICE = "brainfarm";
+			
+			return $client.connect(uri);
 		}
 		
-		public function loadNeatParameters(connection:NetConnection):IOperation
+		public function loadNeatParameters():IOperation
 		{
-			return new RemoteLoadNeatParametersOperation(connection);
+			return $client.sendToServer(new LoadNeatParametersMessage());
 		}
 		
-		public function saveNeatParameters(connection:NetConnection):IOperation
+		public function saveNeatParameters():IOperation
 		{
 			return null;
 		}

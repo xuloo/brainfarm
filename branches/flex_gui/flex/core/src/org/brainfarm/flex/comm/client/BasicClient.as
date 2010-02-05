@@ -37,7 +37,7 @@ package org.brainfarm.flex.comm.client
 		/**
 		 * @private
 		 */
-		private var _id:String;
+		private var _id:String = "id";
 		
 		/**
 		 * The unique id assigned to this client's connection by the server.

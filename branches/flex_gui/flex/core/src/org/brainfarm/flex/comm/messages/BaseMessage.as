@@ -25,6 +25,11 @@ package org.brainfarm.flex.comm.messages
 		
 		public static var DEFAULT_SERVICE:String;
 		
+		public override function get aliasName():String 
+		{
+			return "org.brainfarm.java.red5.message.BaseMessage";
+		}
+		
 		/**
 		 * Holds the object returned as a response from the server 
 		 * the last time this message was successfully sent.
@@ -73,16 +78,20 @@ package org.brainfarm.flex.comm.messages
 		 */
 		public function get command():String
 		{
+			var cmd:String = _service + "." + _command;
+			
 			if (!_service)
 			{
-				return _command;
+				cmd = (DEFAULT_SERVICE == null) ? _command : DEFAULT_SERVICE + "." + _command;
 			}
 			else if (_service.length == 0)
 			{
-				return _command;
+				cmd = (DEFAULT_SERVICE == null) ? _command : DEFAULT_SERVICE + "." + _command;
 			}
 			
-			return _service + "." + _command;
+			trace("cmd: " + cmd);
+			
+			return cmd;
 		}
 		
 		/**
@@ -166,6 +175,7 @@ package org.brainfarm.flex.comm.messages
 		 */
 		override public function writeExternal(output:IDataOutput):void 
 		{
+			trace("sender id : " + senderId);
 			output.writeUTF(senderId);
 		}
 		

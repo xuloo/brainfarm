@@ -4,6 +4,7 @@
     <!-- This library doesn't depend on anything else. -->
     <path id="flex.lib.path">
     	<pathelement location="${moccasin.swc}"/>
+    	<pathelement location="${spring.actionscript.swc}"/>
 	</path>
 
     <!-- targets -->

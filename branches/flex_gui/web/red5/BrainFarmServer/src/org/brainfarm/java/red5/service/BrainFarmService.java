@@ -6,8 +6,10 @@ import org.brainfarm.java.feat.api.context.INeatContext;
 import org.brainfarm.java.feat.context.SpringNeatContext;
 import org.brainfarm.java.feat.controller.SpringNeatController;
 import org.brainfarm.java.feat.params.AbstractNeatParameter;
+import org.brainfarm.java.red5.api.service.IBrainFarmService;
+import org.brainfarm.java.red5.api.service.message.IMessage;
 
-public class BrainFarmService {
+public class BrainFarmService implements IBrainFarmService {
 
 	private INeatContext context;
 	
@@ -23,5 +25,11 @@ public class BrainFarmService {
 		controller.loadDefaultParameters();
 		
 		return context.getNeat().getParameters();
+	}
+	
+	public Object receiveMessage(IMessage message) {
+		System.out.println("message: " + message);
+		message.setService(this);
+		return message.read();
 	}
 }

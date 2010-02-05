@@ -19,6 +19,10 @@ package org.brainfarm.flex.mvcs.controller
 					$controller.showConnectionPanel();
 					break;
 				
+				case "loadNeatParameters":
+					$controller.loadNeatParameters();
+					break;
+				
 				default:
 					break;
 			}
