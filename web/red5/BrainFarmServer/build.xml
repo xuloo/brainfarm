@@ -1,4 +1,4 @@
-<project name="brainfarm-server" default="build">
+<project name="brainfarm-webapp" default="build">
     <import file="build-imports.xml"/>
 
     <path id="javac.lib.path">
@@ -43,13 +43,10 @@
 				<include name="**/*" />
 			</fileset>
 		</copy>
-		
+
 		<!-- copy jars the webapp requires at runtime into the WEB-INF/lib directory -->
-		<copy todir="${red5.webapps.dir}/${webapp.lib.dir}" overwrite="true">
-			<fileset dir=".">
-				<include name="${jneat.jar}"/>
-			</fileset>
-		</copy>
+		<copy todir="${red5.webapps.dir}/${ant.project.name}/${webapp.lib.dir}" file="${jneat.jar}" overwrite="true"/>
+
     </target>
 	
 	<target name="undeploy" description="cleans the deployed result of this build">

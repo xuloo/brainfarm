@@ -8,8 +8,8 @@ package org.brainfarm.flex.mvcs.service
 	{
 		function connect(uri:String):IOperation;
 		
-		function loadNeatParameters(connection:NetConnection):IOperation;
+		function loadNeatParameters():IOperation;
 		
-		function saveNeatParameters(connection:NetConnection):IOperation;
+		function saveNeatParameters():IOperation;
 	}
 }

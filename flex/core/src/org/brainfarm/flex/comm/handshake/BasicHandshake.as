@@ -57,7 +57,7 @@ package org.brainfarm.flex.comm.handshake
 			var opSequence:AsyncOperationSequence = new AsyncOperationSequence();
 			
 			// Add the connection operation.
-			opSequence.addOperation(new ConnectToServerOperation(connection, connection.connectionArgs[0], connection.connectionArgs[1]));
+			opSequence.addOperation(new ConnectToServerOperation(connection));
 			
 			// Add an operation for each of the classes that need to be registered with the server.
 			for (var i:int = 0; i < _classesToRegister.length; i++)

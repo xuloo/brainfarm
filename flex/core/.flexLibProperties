@@ -32,7 +32,6 @@
     <classEntry path="org.brainfarm.flex.mvcs.service.remote.AbstractRemoteOperation"/>
     <classEntry path="org.brainfarm.flex.mvcs.service.remote.RemoteBrainFarmService"/>
     <classEntry path="org.brainfarm.flex.mvcs.service.remote.RemoteConnectionOperation"/>
-    <classEntry path="org.brainfarm.flex.mvcs.service.remote.RemoteLoadNeatParametersOperation"/>
     <classEntry path="org.brainfarm.flex.mvcs.service.remote.RemoteSaveNeatParametersOperation"/>
     <classEntry path="org.brainfarm.flex.mvcs.view.connection.ConnectionPanel"/>
     <classEntry path="org.brainfarm.flex.mvcs.view.connection.ConnectionPanelView"/>

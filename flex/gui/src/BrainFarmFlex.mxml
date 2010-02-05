@@ -23,8 +23,8 @@
 						<menuitem label="Connect to server..." data="connect"/>
 						<menuitem label="MenuItem 1-B" data="1B"/>
 					</menuitem>
-					<menuitem label="Menu2" data="top">
-						<menuitem label="MenuItem 2-A" type="check"  data="2A"/>
+					<menuitem label="NEAT" data="top">
+						<menuitem label="Load Neat Params" data="loadNeatParameters"/>
 						<menuitem type="separator"/>
 						<menuitem label="MenuItem 2-B" >
 							<menuitem label="SubMenuItem 3-A" type="radio"
@@ -61,12 +61,10 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<s:VGroup x="0" y="0" width="100%" height="100%" id="viewLayer">
-		
-		<mx:MenuBar labelField="@label" dataProvider="{menubarXML}" itemClick="menuHandler(event)"/>
-		
 		<s:HGroup width="100%" height="50">
 			<s:Label text="BrainFarm Client" paddingTop="10" fontSize="18" paddingLeft="10"/>
 		</s:HGroup>
+		<mx:MenuBar labelField="@label" dataProvider="{menubarXML}" itemClick="menuHandler(event)"/>
 		<s:VGroup width="300" height="100%">
 			<s:Group>
 			</s:Group>

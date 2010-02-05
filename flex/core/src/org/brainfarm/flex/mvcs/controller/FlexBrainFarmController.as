@@ -3,7 +3,6 @@ package org.brainfarm.flex.mvcs.controller
 	import com.joeberkovitz.moccasin.service.IOperation;
 	
 	import flash.events.Event;
-	import flash.net.NetConnection;
 	
 	import mx.managers.PopUpManager;
 	
@@ -15,8 +14,6 @@ package org.brainfarm.flex.mvcs.controller
 	public class FlexBrainFarmController implements IBrainFarmController
 	{
 		private var $service:IBrainFarmService;
-		
-		private var $connection:NetConnection;
 		
 		private var $viewLayer:Group;
 		
@@ -30,7 +27,7 @@ package org.brainfarm.flex.mvcs.controller
 		
 		public function loadNeatParameters():void
 		{
-			var operation:IOperation = $service.loadNeatParameters($connection);
+			var operation:IOperation = $service.loadNeatParameters();
 			operation.addEventListener(Event.COMPLETE, onNeatParametersLoadComplete);
 			operation.execute();
 		}
@@ -38,11 +35,14 @@ package org.brainfarm.flex.mvcs.controller
 		private function onNeatParametersLoadComplete(evt:Event):void 
 		{
 			trace("neat parameters loaded");
+			var params:* = IOperation(evt.target).result;
+			
+			trace("params: " + params);
 		}
 		
 		public function saveNeatParameters():void
 		{
-			var operation:IOperation = $service.saveNeatParameters($connection);
+			var operation:IOperation = $service.saveNeatParameters();
 			operation.addEventListener(Event.COMPLETE, onNeatParametersSaveComplete);
 			operation.execute();
 		}
@@ -60,9 +60,7 @@ package org.brainfarm.flex.mvcs.controller
 		}
 		
 		private function onConnectionComplete(evt:Event):void 
-		{
-			$connection = IOperation(evt.target).result as NetConnection;
-			
+		{	
 			PopUpManager.removePopUp($connectionPanel);
 		}
 		
