@@ -36,6 +36,9 @@
     <classEntry path="org.brainfarm.flex.mvcs.view.connection.ConnectionPanel"/>
     <classEntry path="org.brainfarm.flex.mvcs.view.connection.ConnectionPanelView"/>
     <classEntry path="org.brainfarm.flex.BrainFarmFlexTestSuite"/>
+    <classEntry path="org.brainfarm.flex.mvcs.model.vo.NeatIntParameter"/>
+    <classEntry path="org.brainfarm.flex.mvcs.view.neatparams.NeatParamsPanel"/>
+    <classEntry path="org.brainfarm.flex.mvcs.view.neatparams.NeatParamsPanelView"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

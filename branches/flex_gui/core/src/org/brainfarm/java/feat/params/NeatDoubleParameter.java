@@ -3,6 +3,8 @@ package org.brainfarm.java.feat.params;
 import java.lang.reflect.Field;
 
 import org.brainfarm.java.feat.Neat;
+import org.red5.io.amf3.IDataInput;
+import org.red5.io.amf3.IDataOutput;
 
 public class NeatDoubleParameter extends AbstractNeatParameter {
 
@@ -37,5 +39,17 @@ public class NeatDoubleParameter extends AbstractNeatParameter {
 	
 	public void setVal(String val) {
 		value = Double.parseDouble(val);
+	}
+	
+	public void readExternal(IDataInput input) {
+		super.readExternal(input);
+		
+		value = input.readDouble();
+	}
+	
+	public void writeExternal(IDataOutput output) {
+		super.writeExternal(output);
+		
+		output.writeDouble(value);
 	}
 }

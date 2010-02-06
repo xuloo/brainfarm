@@ -2,6 +2,7 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/halo" 
+			   xmlns:np="org.brainfarm.flex.mvcs.view.neatparams.*"
 			   minWidth="1024" minHeight="768"
 			   creationComplete="onCreationComplete()"
 			   backgroundColor="haloSilver">
@@ -12,8 +13,10 @@
 		<![CDATA[
 			import mx.events.MenuEvent;
 			
+			import org.brainfarm.flex.mvcs.controller.BrainFarmContext;
 			import org.brainfarm.flex.mvcs.controller.FlexBrainFarmController;
 			import org.brainfarm.flex.mvcs.controller.MenuHelper;
+			import org.brainfarm.flex.mvcs.model.BrainFarmModel;
 			import org.brainfarm.flex.mvcs.service.IBrainFarmService;
 			import org.brainfarm.flex.mvcs.service.remote.RemoteBrainFarmService;
 			
@@ -37,11 +40,19 @@
 						</menuitem>
 					</menuitem>
 				</>;
+			
+			[Bindable]
+			public var context:BrainFarmContext;
 
 			private function onCreationComplete():void 
 			{				
 				var service:IBrainFarmService = new RemoteBrainFarmService();
-				var controller:FlexBrainFarmController = new FlexBrainFarmController(viewLayer, service);
+				context = new BrainFarmContext();
+				
+				var model:BrainFarmModel = new BrainFarmModel();
+				context.model = model;
+				
+				var controller:FlexBrainFarmController = new FlexBrainFarmController(viewLayer, service, context);
 			
 				menuHelper = new MenuHelper(controller);
 			}
@@ -70,9 +81,16 @@
 					labelField="@label" 
 					dataProvider="{menubarXML}" 
 					itemClick="menuHandler(event)"/>
-		<s:VGroup width="300" height="100%">
-			<s:Group>
-			</s:Group>
-		</s:VGroup>
+		<s:HGroup>
+			<s:VGroup width="30%" height="100%">
+				<np:NeatParamsPanelView title="Neat Parameters"
+									context="{context}">
+				</np:NeatParamsPanelView>
+			</s:VGroup>
+			<s:VGroup width="70%" height="100%">
+				<s:Group>
+				</s:Group>
+			</s:VGroup>
+		</s:HGroup>
 	</s:VGroup>
 </s:Application>

@@ -4,6 +4,7 @@ package org.brainfarm.flex.mvcs.controller
 	
 	import flash.events.Event;
 	
+	import mx.collections.ArrayList;
 	import mx.managers.PopUpManager;
 	
 	import org.brainfarm.flex.mvcs.service.IBrainFarmService;
@@ -15,14 +16,17 @@ package org.brainfarm.flex.mvcs.controller
 	{
 		private var $service:IBrainFarmService;
 		
+		private var $context:BrainFarmContext;
+		
 		private var $viewLayer:Group;
 		
 		private var $connectionPanel:ConnectionPanelView;
 		
-		public function FlexBrainFarmController(viewLayer:Group, service:IBrainFarmService)
+		public function FlexBrainFarmController(viewLayer:Group, service:IBrainFarmService, context:BrainFarmContext)
 		{
 			$viewLayer = viewLayer;
 			$service = service;
+			$context = context;
 		}
 		
 		public function loadNeatParameters():void
@@ -35,9 +39,11 @@ package org.brainfarm.flex.mvcs.controller
 		private function onNeatParametersLoadComplete(evt:Event):void 
 		{
 			trace("neat parameters loaded");
-			var params:* = IOperation(evt.target).result;
+			var params:Array = IOperation(evt.target).result as Array;
 			
-			trace("params: " + params);
+			trace("params: " + (params is Array));
+			
+			$context.model.neatParams = new ArrayList(params);
 		}
 		
 		public function saveNeatParameters():void
