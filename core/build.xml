@@ -8,6 +8,7 @@
 		<pathelement location="${spring.core.jar}"/>
 		<pathelement location="${jcl.jar}"/>
 		<pathelement location="${log4j.jar}"/>
+    	<pathelement location="${red5.jar}"/>
 	</path>
 
     <!-- targets -->

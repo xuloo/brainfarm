@@ -19,12 +19,11 @@ package org.red5.core;
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
  */
 
-import org.red5.logging.Red5LoggerFactory;
+import org.brainfarm.java.red5.api.service.message.IMessage;
 import org.red5.server.adapter.MultiThreadedApplicationAdapter;
 import org.red5.server.api.IConnection;
 import org.red5.server.api.IScope;
 import org.red5.server.api.service.ServiceUtils;
-import org.slf4j.Logger;
 
 /**
  * Sample application that uses the client manager.
@@ -32,11 +31,9 @@ import org.slf4j.Logger;
  * @author The Red5 Project (red5@osflash.org)
  */
 public class Application extends MultiThreadedApplicationAdapter {
-	
-	private static Logger log = Red5LoggerFactory.getLogger(Application.class, "brainfarm-webapp");
 
 	public Application() {
-		log.debug("brainfarm webapp started");
+		System.out.println("brainfarm webapp started");
 	}
 	
 	@Override
@@ -62,4 +59,7 @@ public class Application extends MultiThreadedApplicationAdapter {
 		super.disconnect(conn, scope);
 	}
 
+    public Object echo(Object message) {
+    	return message;
+    }
 }

@@ -4,6 +4,7 @@ package org.brainfarm.flex.mvcs.controller
 
 	public class BrainFarmContext
 	{
+		[Bindable]
 		public var model:BrainFarmModel;
 		
 		public var controller:IBrainFarmController;

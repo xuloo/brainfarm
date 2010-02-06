@@ -13,11 +13,11 @@ package org.brainfarm.flex.comm.handshake
 		
 		private var _command:String;
 		
-		private var _object:NetObject;
+		private var _object:*;
 		
 		private var _another:int;
 		
-		public function EchoNetObjectOperation(connection:INetConnection, command:String, object:NetObject, i:int)
+		public function EchoNetObjectOperation(connection:INetConnection, command:String, object:*, i:int)
 		{
 			super();
 			
@@ -25,14 +25,22 @@ package org.brainfarm.flex.comm.handshake
 			_command = command;
 			_object = object;
 			_another = i;
-			
-			trace("setting object == " + _object);
 		}
 		
 		override public function execute():void
 		{
 			trace("echoing " + _object + " " + _another + " to server on " + _connection);
-			_connection.call(_command, new Responder(handleComplete, handleError), _object);
+			_connection.call(_command, new Responder(onResponse, onStatus), _object);
+		}
+		
+		protected function onResponse(response:Object):void 
+		{
+			handleComplete(null);
+		}
+		
+		protected function onStatus(status:Object):void
+		{
+			handleError(null);
 		}
 	}
 }
