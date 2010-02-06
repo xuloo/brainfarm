@@ -23,6 +23,10 @@ package org.brainfarm.flex.mvcs.controller
 					$controller.loadNeatParameters();
 					break;
 				
+				case "loadExperiment":
+					$controller.showAvailableExperiments();
+					break;
+				
 				default:
 					break;
 			}

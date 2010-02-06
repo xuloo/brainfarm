@@ -10,7 +10,17 @@
     <target name="build" depends="init,java-classes,jar" description="Build the library"/>
 	
 	<target name="jar" description="creates a jar file from the compiled classes">
-		<jar jarfile="${xor.jar}" basedir="${build.javac.dir}"/>
+		<tstamp prefix="build">
+            <format property="TODAY" pattern="d-MMMM-yyyy" locale="en"/>
+        </tstamp>
+		<jar jarfile="${xor.jar}" basedir="${build.javac.dir}">
+			<manifest>
+				<attribute name="Built" value="${build.TODAY} by ${user.name}"/>
+				<attribute name="Build-OS" value="${os.name} ${os.version}"/>
+				<attribute name="Build-Java" value="Java ${java.version}"/>
+				<attribute name="Experiment-Name" value="${ant.project.name}"/>
+			</manifest>
+		</jar>
 	</target>
 	
 </project>

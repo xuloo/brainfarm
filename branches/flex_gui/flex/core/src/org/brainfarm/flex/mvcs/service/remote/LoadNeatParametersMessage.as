@@ -8,15 +8,5 @@ package org.brainfarm.flex.mvcs.service.remote
 		{
 			return "org.brainfarm.java.mvcs.service.remote.LoadNeatParametersMessage";
 		}
-		
-		public function LoadNeatParametersMessage()
-		{
-			super();
-		}
-		
-		public override function toString():String 
-		{
-			return "LoadNeatParametersMessage[" + senderId + "]";
-		}
 	}
 }
