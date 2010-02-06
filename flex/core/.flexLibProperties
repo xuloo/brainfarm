@@ -39,6 +39,12 @@
     <classEntry path="org.brainfarm.flex.mvcs.model.vo.NeatIntParameter"/>
     <classEntry path="org.brainfarm.flex.mvcs.view.neatparams.NeatParamsPanel"/>
     <classEntry path="org.brainfarm.flex.mvcs.view.neatparams.NeatParamsPanelView"/>
+    <classEntry path="org.brainfarm.flex.mvcs.service.remote.GetAvailableExperimentsMessage"/>
+    <classEntry path="org.brainfarm.flex.mvcs.view.experiments.ExperimentSelectionPanel"/>
+    <classEntry path="org.brainfarm.flex.mvcs.view.experiments.ExperimentSelectionPanelView"/>
+    <classEntry path="org.brainfarm.flex.mvcs.service.remote.LoadExperimentMessage"/>
+    <classEntry path="org.brainfarm.flex.mvcs.model.vo.ExperimentEntry"/>
+    <classEntry path="org.brainfarm.flex.mvcs.view.experiments.ExperimentListItemRenderer"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

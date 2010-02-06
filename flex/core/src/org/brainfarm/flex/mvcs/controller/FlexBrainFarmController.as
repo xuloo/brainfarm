@@ -9,6 +9,7 @@ package org.brainfarm.flex.mvcs.controller
 	
 	import org.brainfarm.flex.mvcs.service.IBrainFarmService;
 	import org.brainfarm.flex.mvcs.view.connection.ConnectionPanelView;
+	import org.brainfarm.flex.mvcs.view.experiments.ExperimentSelectionPanelView;
 	
 	import spark.components.Group;
 
@@ -21,6 +22,8 @@ package org.brainfarm.flex.mvcs.controller
 		private var $viewLayer:Group;
 		
 		private var $connectionPanel:ConnectionPanelView;
+		
+		private var $experimentsSelectionPanel:ExperimentSelectionPanelView;
 		
 		public function FlexBrainFarmController(viewLayer:Group, service:IBrainFarmService, context:BrainFarmContext)
 		{
@@ -76,5 +79,15 @@ package org.brainfarm.flex.mvcs.controller
 			PopUpManager.centerPopUp($connectionPanel);
 			$connectionPanel.controller = this;
 		}
+		
+		public function showAvailableExperiments():void
+		{
+			$experimentsSelectionPanel = PopUpManager.createPopUp($viewLayer, ExperimentSelectionPanelView, true) as ExperimentSelectionPanelView;
+			PopUpManager.centerPopUp($experimentsSelectionPanel);
+			$experimentsSelectionPanel.service = $service;
+			$experimentsSelectionPanel.controller = this;
+		}
+		
+		
 	}
 }

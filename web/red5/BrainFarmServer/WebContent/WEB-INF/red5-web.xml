@@ -39,6 +39,9 @@
 	Defines the BrainFarm service that will handle brainfarm operations.
 	 -->
 	 <bean id="brainfarm.service"
-	 	class="org.brainfarm.java.red5.service.BrainFarmService"/>
+	 	class="org.brainfarm.java.red5.service.BrainFarmService"
+	 	init-method="init">
+	 	<property name="webappPath" value="/webapps/brainfarm-webapp"/>
+	 </bean>
  
 </beans>

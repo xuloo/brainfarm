@@ -18,6 +18,14 @@
 			
 		<!-- Create a jar file from the compiled classes and place it in the WEB-INF/lib directory -->
 		<jar jarfile="${brainfarm.server.jar}" basedir="${build.javac.dir}"/>
+		
+		<!-- 
+		copy the experiment .jar files over to the /experiments directory 
+		so they're available to the webapp. 
+		-->
+		<copy todir="${red5.webapps.dir}/${ant.project.name}/experiments" file="${xor.jar}"/>
+		<echo>copying ${star.jar}</echo>
+		<copy todir="${red5.webapps.dir}/${ant.project.name}/experiments" file="${star.jar}"/>
 
 	</target>
 	
@@ -38,14 +46,18 @@
 	
 	<target name="deploy" depends="undeploy,dist" description="Deploy the application">
         <!--copy todir="${red5.webapps.dir}" file="${build.dist.dir}/${project.war}"/-->
-		<copy todir="${red5.webapps.dir}" overwrite="true">
+		<copy todir="${red5.webapps.dir}" overwrite="true" includeemptydirs="true">
 			<fileset dir="${build.dist.dir}">
 				<include name="**/*" />
 			</fileset>
 		</copy>
 
-		<!-- copy jars the webapp requires at runtime into the WEB-INF/lib directory -->
+		<!-- 
+		copy jars the webapp requires at runtime into the WEB-INF/lib directory 
+		-->
 		<copy todir="${red5.webapps.dir}/${ant.project.name}/${webapp.lib.dir}" file="${jneat.jar}" overwrite="true"/>
+		<copy todir="${red5.webapps.dir}/${ant.project.name}/${webapp.lib.dir}" file="${jcl.jar}" overwrite="true"/>
+		<copy todir="${red5.webapps.dir}/${ant.project.name}/${webapp.lib.dir}" file="${log4j.jar}" overwrite="true"/>
 
     </target>
 	

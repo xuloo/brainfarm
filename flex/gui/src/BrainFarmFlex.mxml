@@ -39,6 +39,10 @@
 								groupName="one" data="3B"/>
 						</menuitem>
 					</menuitem>
+					<menuitem label="experiment" data="top">
+						<menuitem label="Load Experiment" data="loadExperiment"/>
+						<menuitem label="MenuItem 1-B" data="1B"/>
+					</menuitem>
 				</>;
 			
 			[Bindable]

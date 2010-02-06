@@ -30,7 +30,7 @@ package org.brainfarm.flex.mvcs.view.neatparams
 			
 			if (value)
 			{
-				BindingUtils.bindSetter(invalidateNeatParams, value, ["model", "neatParams"]);
+				BindingUtils.bindProperty(this, "neatParams", value, ["model", "neatParams"]);
 			}
 		}
 		
