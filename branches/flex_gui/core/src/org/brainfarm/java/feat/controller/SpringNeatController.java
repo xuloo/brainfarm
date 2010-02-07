@@ -19,7 +19,7 @@ public class SpringNeatController extends AbstractNeatController {
 	
 	private static Logger logger = Logger.getLogger(SpringNeatController.class);
 	
-	private final String experiment_dir = "experiment";
+	private String experimentDirectory = "experiment";
 	
 	public SpringNeatController(INeatContext context) {
 		this.context = context;
@@ -44,24 +44,24 @@ public class SpringNeatController extends AbstractNeatController {
 	public void loadExperiment(String location) {
 		
 		// Create a temporary directory for the experiment.		
-		File experimentDirectory = new File(experiment_dir);
+		File experimentDir = new File(experimentDirectory);
 		
-		if (experimentDirectory.exists())
-			FileUtils.deleteDirectory(experimentDirectory);
+		if (experimentDir.exists())
+			FileUtils.deleteDirectory(experimentDir);
 		
-		boolean success = experimentDirectory.mkdir();
+		boolean success = experimentDir.mkdir();
 		
 		if (success) {
 			
 			// Extract the JAR file that contains the experiment's 
 			// contents into the experiments directory.
-			FileUtils.extractZip(location, experimentDirectory);
+			FileUtils.extractZip(location, experimentDir);
 			
 			// Load the experiment classes onto the classpath so they're available to neat.
 			jarClassLoader = new JarClassLoader();
 			jarClassLoader.add(location);
 			
-			setupExperiment(experimentDirectory);
+			setupExperiment(experimentDir);
 		  	
 		} else {
 			logger.error("There was an error creating the experiment directory");
@@ -94,8 +94,8 @@ public class SpringNeatController extends AbstractNeatController {
 	 * configuration files, results output, and custom java classes. 
 	 */
 	public void loadExperiment(){
-		File experimentDirectory = new File(experiment_dir);
-		setupExperiment(experimentDirectory);
+		File experimentDir = new File(experimentDirectory);
+		setupExperiment(experimentDir);
 	}
 	
 	@Override
@@ -103,4 +103,7 @@ public class SpringNeatController extends AbstractNeatController {
 		context.getEvolution().run();
 	}
 
+	public void setExperimentDirectory(String experimentDirectory) {
+		this.experimentDirectory = experimentDirectory;
+	}
 }

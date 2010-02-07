@@ -25,7 +25,7 @@ package org.brainfarm.flex.mvcs.service.remote
 		public override function readExternal(input:IDataInput):void 
 		{
 			super.readExternal(input);
-			
+
 			$experiment = input.readUTF();
 		}
 		

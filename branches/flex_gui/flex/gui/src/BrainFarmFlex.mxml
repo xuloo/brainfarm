@@ -41,7 +41,7 @@
 					</menuitem>
 					<menuitem label="experiment" data="top">
 						<menuitem label="Load Experiment" data="loadExperiment"/>
-						<menuitem label="MenuItem 1-B" data="1B"/>
+						<menuitem label="Run Experiment..." data="runExperiment"/>
 					</menuitem>
 				</>;
 			

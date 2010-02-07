@@ -24,7 +24,7 @@ public class SpringNeatContext extends AbstractNeatContext {
 		this.context = context;
 		
 		neat = (Neat)context.getBean("neat");
-		
+
 		contextChanged();
 	}
 	

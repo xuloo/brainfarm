@@ -8,11 +8,15 @@ public class LoadExperimentMessage extends BaseMessage {
 
 	private String experiment = "";
 	
+	public LoadExperimentMessage() {
+		
+	}
+	
 	@Override
 	public Object read() {
 		System.out.println("Loading an experiment " + experiment);
 		service.loadExperiment(experiment);
-		return null;
+		return "hello";
 	}
 	
 	@Override

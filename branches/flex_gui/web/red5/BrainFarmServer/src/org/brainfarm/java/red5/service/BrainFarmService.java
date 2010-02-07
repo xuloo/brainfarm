@@ -21,7 +21,7 @@ public class BrainFarmService implements IBrainFarmService {
 	
 	private final String ROOT_PATH = System.getProperty("red5.root");
 
-	private INeatContext context;
+	private SpringNeatContext context;
 	
 	private SpringNeatController controller;
 	
@@ -44,7 +44,9 @@ public class BrainFarmService implements IBrainFarmService {
 		System.out.println("initialising BrainFarm");
 		
 		context = new SpringNeatContext();
+		
 		controller = new SpringNeatController(context);
+		controller.setExperimentDirectory(webappPath + "/working");
 	}
 	
 	public void updateExperimentList() {
@@ -86,13 +88,23 @@ public class BrainFarmService implements IBrainFarmService {
 	}
 	
 	public void loadExperiment(String location) {
-		controller.loadExperiment(location);
+		String path = webappPath + "/experiments/" + location;
+		System.out.println("PATH: " + path);
+		controller.loadExperiment(path);
+	}
+	
+	public void runExperiment() {
+		System.out.println("Running Experiment");
+		controller.startEvolution();
 	}
 	
 	public Object receiveMessage(IMessage message) {
 		System.out.println("message: " + message);
 		message.setService(this);
-		return message.read();
+		
+		Object response = message.read();
+		System.out.println("Responding " + response);
+		return response;
 	}
 	
 	public void setWebappPath(String webappPath) {

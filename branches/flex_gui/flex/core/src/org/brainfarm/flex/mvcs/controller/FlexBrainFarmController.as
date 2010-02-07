@@ -88,6 +88,9 @@ package org.brainfarm.flex.mvcs.controller
 			$experimentsSelectionPanel.controller = this;
 		}
 		
-		
+		public function runExperiment():void 
+		{
+			$service.runExperiment().execute();
+		}
 	}
 }
