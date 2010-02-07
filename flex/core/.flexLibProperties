@@ -45,6 +45,7 @@
     <classEntry path="org.brainfarm.flex.mvcs.service.remote.LoadExperimentMessage"/>
     <classEntry path="org.brainfarm.flex.mvcs.model.vo.ExperimentEntry"/>
     <classEntry path="org.brainfarm.flex.mvcs.view.experiments.ExperimentListItemRenderer"/>
+    <classEntry path="org.brainfarm.flex.mvcs.service.remote.RunExperimentMessage"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

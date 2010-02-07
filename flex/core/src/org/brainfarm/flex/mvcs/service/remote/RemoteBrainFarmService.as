@@ -24,6 +24,7 @@ package org.brainfarm.flex.mvcs.service.remote
 			$client.handshake.addClassToRegister(LoadNeatParametersMessage);
 			$client.handshake.addClassToRegister(GetAvailableExperimentsMessage);
 			$client.handshake.addClassToRegister(LoadExperimentMessage);
+			$client.handshake.addClassToRegister(RunExperimentMessage);
 		}
 		
 		public function connect(uri:String):IOperation
@@ -51,6 +52,11 @@ package org.brainfarm.flex.mvcs.service.remote
 		public function loadExperiment(experiment:String):IOperation
 		{
 			return $client.sendToServer(new LoadExperimentMessage(experiment));
+		}
+		
+		public function runExperiment():IOperation
+		{
+			return $client.sendToServer(new RunExperimentMessage());
 		}
 	}
 }

@@ -13,5 +13,7 @@ package org.brainfarm.flex.mvcs.service
 		function getAvailableExperiments():IOperation;
 		
 		function loadExperiment(experiment:String):IOperation;
+		
+		function runExperiment():IOperation;
 	}
 }
