@@ -6,6 +6,7 @@ import java.util.List;
 import org.brainfarm.java.feat.EvolutionStrategy;
 import org.brainfarm.java.feat.api.IGene;
 import org.brainfarm.java.feat.api.IGenome;
+import org.brainfarm.java.feat.api.INetwork;
 import org.brainfarm.java.feat.api.INode;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.operators.IFeatFactory;
@@ -66,5 +67,16 @@ public class FeatFactory implements IFeatFactory {
 		}
 		return null;		
 	}
-
+	
+	@Override
+	public INetwork createNetwork(List<INode> allList, int id) {
+		try{
+			Class<?> oClass = EvolutionStrategy.getInstance().getNetworkClass();
+			Constructor<?> c = oClass.getConstructor(List.class,int.class);
+			return (INetwork)c.newInstance(allList,id);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;	
+	}
 }

@@ -31,7 +31,8 @@ public class Network implements INetwork {
 	/** is a reference to genotype can has originate this phenotype */
 	private IGenome genotype;
 	
-	public Network(){}
+	public Network(){
+	}
 	
 	public Network(List<INode> allList, int id) {
 		setAllNodes(allList);
