@@ -247,7 +247,7 @@ public class Genome implements IGenome {
 		}
 		
 		// Create the new network
-		newnet = new Network(all_list, id);
+		newnet = EvolutionStrategy.getInstance().getModelObjectFactory().createNetwork(all_list, id);
 		// Attach genotype and phenotype together:
 		// newnet point to owner genotype (this)
 		newnet.setGenotype(this);

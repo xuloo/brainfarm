@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.brainfarm.java.feat.api.IGenome;
+import org.brainfarm.java.feat.api.ILink;
+import org.brainfarm.java.feat.api.INetwork;
 import org.brainfarm.java.feat.api.INode;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.context.INeatContext;
@@ -44,12 +46,15 @@ public class EvolutionStrategy {
 	//evaluator for IOrganisms in the current experiment
 	IOrganismEvaluator organismEvaluator;
 
+	/** Data Classes - the data manipulated by the FEAT algorithm*/
 	Class<?> nodeClass;
+	Class<?> networkClass;
+	Class<?> linkClass;
 	Class<?> genomeClass;
 	Class<?> organismClass;
 	Class<?> evaluatorClass;
 
-	//strategies for various parts of the NEAT algorithm
+	/** Logic Classes - encapsulate various parts of the FEAT algorithm */
 	ICrossoverStrategy crossoverStrategy;
 	IMutationStrategy mutationStrategy;
 	IPopulationInitializationStrategy populationInitializationStrategy;
@@ -70,6 +75,8 @@ public class EvolutionStrategy {
 		speciationStrategy = new DefaultSpeciationStrategy();
 		modelObjectFactory = new FeatFactory();
 		nodeClass = Node.class;
+		networkClass = Network.class;
+		linkClass = Link.class;
 		genomeClass = Genome.class;
 		organismClass = Organism.class;
 
@@ -96,6 +103,10 @@ public class EvolutionStrategy {
 					genomeClass = c;
 				if(implementationOf(INode.class,c))
 					nodeClass = c;
+				if(implementationOf(INetwork.class,c))
+					networkClass = c;
+				if(implementationOf(ILink.class,c))
+					linkClass = c;
 				if(implementationOf(IOrganism.class,c))
 					organismClass = c;
 				if(implementationOf(IOrganismEvaluator.class,c))
@@ -169,6 +180,14 @@ public class EvolutionStrategy {
 
 	public Class<?> getNodeClass(){
 		return nodeClass;
+	}
+
+	public Class<?> getNetworkClass(){
+		return networkClass;
+	}
+
+	public Class<?> getLinkClass(){
+		return linkClass;
 	}
 
 	public Class<?> getGenomeClass(){
