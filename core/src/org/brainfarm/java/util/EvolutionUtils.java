@@ -23,7 +23,6 @@ public class EvolutionUtils {
 				break;
 		}
 		nlist.add(j, n);
-
 	}
 	
 }

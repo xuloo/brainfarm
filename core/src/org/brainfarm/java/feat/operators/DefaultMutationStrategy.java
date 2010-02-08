@@ -34,18 +34,14 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 	protected double mut_power = Neat.weight_mut_power;
 
 	@Override
-	public boolean mutate(IGenome genome, IPopulation pop, int generation) {
-		boolean mutatedStructure = false;
-
+	public void mutate(IGenome genome, IPopulation pop, int generation) {
 		if (RandomUtils.randomDouble() < Neat.mutate_add_node_prob) {
 			//			logger.debug("....species.reproduce.mutate add node");
 			mutateAddNode(genome,pop);
-			mutatedStructure = true;
 		} else if (RandomUtils.randomDouble() < Neat.mutate_add_link_prob) {
 			//			logger.debug("....mutate add link");
 			genome.generatePhenotype(generation);
 			mutateAddLink(genome, pop);
-			mutatedStructure = true;
 		} else {
 			if (RandomUtils.randomDouble() < Neat.mutate_link_weights_prob) {
 				//				logger.debug("...mutate link weight");
@@ -60,7 +56,6 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 				mutateGeneReenable(genome);
 			}
 		}
-		return mutatedStructure;
 	}
 
 	public boolean mutateAddLink(IGenome genome, IPopulation population) {
@@ -381,6 +376,13 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 
 	}
 
+	/**
+	 * Re-enables the first disabled gene in the genome.
+	 * 
+	 * TODO: Should this enable a random disabled gene?
+	 * 
+	 * @param genome
+	 */
 	public void mutateGeneReenable(IGenome genome) {
 		for (IGene gene : genome.getGenes()) {
 			if (!gene.isEnabled()) {
