@@ -240,14 +240,12 @@ public class Genome implements IGenome {
 				// NOTE: This line could be run through a recurrency check if desired
 				// (no need to in the current implementation of NEAT)
 				newlink = new Link(curlink.getWeight(), inode, onode, curlink.isRecurrent());
-				onode.getIncoming().add(newlink);
-				inode.getOutgoing().add(newlink);
 			}
 
 		}
 		
 		// Create the new network
-		newnet = new Network(all_list, id);
+		newnet = EvolutionStrategy.getInstance().getModelObjectFactory().createNetwork(all_list, id);
 		// Attach genotype and phenotype together:
 		// newnet point to owner genotype (this)
 		newnet.setGenotype(this);

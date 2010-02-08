@@ -77,10 +77,6 @@ public class Node implements INode {
 	public List<ILink> getOutgoing() {
 		return outgoing;
 	}
-
-	public void setOutgoing(List<ILink> outgoing) {
-		this.outgoing = outgoing;
-	}
 	
 	public INode getAnalogue() {
 		return analogue;
