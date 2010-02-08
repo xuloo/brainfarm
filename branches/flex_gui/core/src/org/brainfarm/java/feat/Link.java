@@ -1,5 +1,6 @@
 package org.brainfarm.java.feat;
 
+import org.brainfarm.java.feat.api.IGene;
 import org.brainfarm.java.feat.api.ILink;
 import org.brainfarm.java.feat.api.INode;
 
@@ -43,6 +44,9 @@ public class Link implements ILink {
 	 * The amount of weight adjustment 
 	 */
 	private double addedWeight;
+	
+	/** The gene that represents this ILink in the genome */
+	private IGene gene;
 
 	/**
 	 * Insert the method's description here. Creation date: (12/01/2002
@@ -90,16 +94,30 @@ public class Link implements ILink {
 		this.weight = weight;
 	}
 
+	/**
+	 * NOTE: This method sets the inverse reference INode.outgoing.
+	 * TODO: if setting to null, should we remove from outgoing list
+	 *       of existing inputNode?
+	 */
 	public void setInputNode(INode inputNode) {
 		this.inputNode = inputNode;
+		if(inputNode!=null)
+			inputNode.getOutgoing().add(this);
 	}
 
 	public INode getInputNode() {
 		return inputNode;
 	}
 
+	/**
+	 * NOTE: This method sets the inverse reference INode.incoming.
+	 * TODO: if setting to null, should we remove from incoming list
+	 *       of existing inputNode?
+	 */
 	public void setOutputNode(INode outputNode) {
 		this.outputNode = outputNode;
+		if(outputNode!=null)
+			outputNode.getIncoming().add(this);
 	}
 
 	public INode getOutputNode() {
@@ -136,5 +154,18 @@ public class Link implements ILink {
 
 	public boolean isTimeDelayed() {
 		return timeDelayed;
+	}
+	
+	public IGene getGene(){
+		return gene;
+	}
+	
+	/**
+	 * NOTE: This method enforces the inverse reference.
+	 */
+	public void setGene(IGene gene){
+		this.gene = gene;
+		if(gene.getLink()!=this)
+			gene.setLink(this);
 	}
 }

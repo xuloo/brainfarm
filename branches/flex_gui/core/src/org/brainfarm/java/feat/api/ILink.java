@@ -19,4 +19,7 @@ public interface ILink {
 	void setAddedWeight(double addedWeight);
 	
 	void setTraversed(boolean traversed);
+	
+	IGene getGene();
+	void setGene(IGene gene);
 }

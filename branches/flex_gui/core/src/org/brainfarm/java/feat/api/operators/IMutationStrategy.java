@@ -23,7 +23,7 @@ public interface IMutationStrategy {
 	 * @return 'true' iff a mutation introduced a structural change to the network
 	 * 			encoded by the genome.
 	 */
-	public boolean mutate(IGenome genome, IPopulation pop, int generation);
+	public void mutate(IGenome genome, IPopulation pop, int generation);
 	
 	/**
 	 * Adds a link somewhere in the genome, the population must be passed

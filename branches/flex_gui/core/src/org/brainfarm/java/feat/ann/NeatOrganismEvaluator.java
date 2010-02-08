@@ -89,19 +89,12 @@ public class NeatOrganismEvaluator extends AbstractOrganismEvaluator {
 			organism.setError(errorsum);
 		}
 				
-		if (win_dyn == 1.0) {
-			organism.setWinner(true);
-			return true;
-		}
+		boolean winner = false;
+		if (win_dyn == 1.0 || win_dyn == 2.0)
+			winner = true;
 
-		if (win_dyn == 2.0) {
-			organism.setWinner(true);
-			return true;
-		}
-
-		organism.setWinner(false);
 		
-		return false;
+		return winner;
 	}
 	
 	protected boolean evaluate() {

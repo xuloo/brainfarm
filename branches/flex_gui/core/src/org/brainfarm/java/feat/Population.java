@@ -14,7 +14,7 @@ import org.brainfarm.java.feat.api.ISpecies;
 import org.brainfarm.java.feat.comparators.CompareSpeciesByOriginalFitness;
 import org.brainfarm.java.util.RandomUtils;
 
-/** A Population is a group of Organisms including their species 
+/** A Population is a group of Organisms including their species. 
  *
  * @author dtuohy, orig. Ugo Vierucci
  */
@@ -235,33 +235,18 @@ public class Population implements IPopulation {
 
 		curspecies = sorted_species.get(0);
 
-		// Check for Population-level stagnation
-		curspecies.getOrganisms().get(0).setPopulationChampion(true);
-
 		if (curspecies.getOrganisms().get(0).getOriginalFitness() > highest_fitness) {
 			highest_fitness = curspecies.getOrganisms().get(0).getOriginalFitness();
 			highest_last_changed = 0;
 			
 			rep1.append("\n    population has reached a new *RECORD FITNESS* -> " + highest_fitness);
 
-			// 01.06.2002
-			//EnvConstant.CURR_ORGANISM_CHAMPION = tmp;
-
-			//EnvConstant.MIN_ERROR = ((Organism) curspecies.organisms.firstElement()).getError();
-
 		} else {
 			++highest_last_changed;
-			//EnvConstant.REPORT_SPECIES_TESTA = "";
-
-			// System.out.print("\n  Are passed "+ highest_last_changed+
-			// " generations from last population fitness record: "+
-			// highest_fitness);
 			rep1.append("\n    are passed " + highest_last_changed
 					+ " generations from last population fitness record: "
 					+ highest_fitness);
 		}
-
-		//EnvConstant.REPORT_SPECIES_CORPO = rep1.toString();
 
 		// Check for stagnation- if there is stagnation, perform delta-coding
 
