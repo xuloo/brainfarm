@@ -1,19 +1,6 @@
 package org.brainfarm.java.feat;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.brainfarm.java.feat.api.IGenome;
-import org.brainfarm.java.feat.api.ILink;
-import org.brainfarm.java.feat.api.INetwork;
-import org.brainfarm.java.feat.api.INode;
-import org.brainfarm.java.feat.api.IOrganism;
-import org.brainfarm.java.feat.api.context.INeatContext;
+import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.api.evaluators.IOrganismEvaluator;
 import org.brainfarm.java.feat.api.operators.ICrossoverStrategy;
 import org.brainfarm.java.feat.api.operators.IFeatFactory;
@@ -21,261 +8,113 @@ import org.brainfarm.java.feat.api.operators.IMutationStrategy;
 import org.brainfarm.java.feat.api.operators.IPopulationInitializationStrategy;
 import org.brainfarm.java.feat.api.operators.IReproductionStrategy;
 import org.brainfarm.java.feat.api.operators.ISpeciationStrategy;
-import org.brainfarm.java.feat.context.IExperiment;
-import org.brainfarm.java.feat.evaluators.ClassEvaluatorFactory;
-import org.brainfarm.java.feat.operators.DefaultCrossoverStrategy;
-import org.brainfarm.java.feat.operators.DefaultMutationStrategy;
-import org.brainfarm.java.feat.operators.DefaultPopulationInitializationStrategy;
-import org.brainfarm.java.feat.operators.DefaultReproductionStrategy;
-import org.brainfarm.java.feat.operators.DefaultSpeciationStrategy;
-import org.brainfarm.java.feat.operators.FeatFactory;
 
-/**
- * Singleton providing access to customization classes
- * for customizing various pieces of the FEAT algorithm.
- * 
- * @author dtuohy
- *
- */
-public class EvolutionStrategy {
-
-	public static EvolutionStrategy _instance;
-
+public class EvolutionStrategy implements IEvolutionStrategy {
+	
+	public static final Class<? extends EvolutionStrategy> DEFAULT_STRATEGY_CLASS = FeatEvolutionStrategy.class;
+	
+	public static Class<? extends EvolutionStrategy> STRATEGY_CLASS;
+	
+	protected static IEvolutionStrategy instance;
+	
 	//evaluator for IOrganisms in the current experiment
-	IOrganismEvaluator organismEvaluator;
+	protected IOrganismEvaluator organismEvaluator;
 
 	/** Data Classes - the data manipulated by the FEAT algorithm*/
-	Class<?> nodeClass;
-	Class<?> networkClass;
-	Class<?> linkClass;
-	Class<?> genomeClass;
-	Class<?> organismClass;
-	Class<?> evaluatorClass;
+	protected Class<?> nodeClass;
+	protected Class<?> networkClass;
+	protected Class<?> linkClass;
+	protected Class<?> genomeClass;
+	protected Class<?> organismClass;
+	protected Class<?> evaluatorClass;
 
 	/** Logic Classes - encapsulate various parts of the FEAT algorithm */
-	ICrossoverStrategy crossoverStrategy;
-	IMutationStrategy mutationStrategy;
-	IPopulationInitializationStrategy populationInitializationStrategy;
-	IReproductionStrategy reproductionStrategy;
-	ISpeciationStrategy speciationStrategy;
+	protected ICrossoverStrategy crossoverStrategy;
+	protected IMutationStrategy mutationStrategy;
+	protected IPopulationInitializationStrategy populationInitializationStrategy;
+	protected IReproductionStrategy reproductionStrategy;
+	protected ISpeciationStrategy speciationStrategy;
 	//TODO: Eliminate this field - make FeatFactory statically invokable itself
-	IFeatFactory modelObjectFactory;
-
-	private EvolutionStrategy(){}
-
-	public void setActiveExperiment(IExperiment experiment, INeatContext context){
-
-		//initialize with defaults
-		crossoverStrategy = new DefaultCrossoverStrategy();
-		mutationStrategy = new DefaultMutationStrategy();
-		populationInitializationStrategy = new DefaultPopulationInitializationStrategy();
-		reproductionStrategy = new DefaultReproductionStrategy();
-		speciationStrategy = new DefaultSpeciationStrategy();
-		modelObjectFactory = new FeatFactory();
-		nodeClass = Node.class;
-		networkClass = Network.class;
-		linkClass = Link.class;
-		genomeClass = Genome.class;
-		organismClass = Organism.class;
-
-		String customizationsPackage = experiment.getFeatCustomizationsPackage();
-		//consult the package specified by the experiment for customizations
-		//TODO: Need to validate that all required classes are specified, and
-		//that there is only one of each type
-		try{
-			Class<?>[] classes = getClasses(customizationsPackage);
-			for(Class<?> c : classes){
-				if(implementationOf(ICrossoverStrategy.class,c))
-					crossoverStrategy = (ICrossoverStrategy)c.newInstance();
-				if(implementationOf(IMutationStrategy.class,c))
-					mutationStrategy = (IMutationStrategy)c.newInstance();
-				if(implementationOf(IPopulationInitializationStrategy.class,c))
-					populationInitializationStrategy = (IPopulationInitializationStrategy)c.newInstance();
-				if(implementationOf(IReproductionStrategy.class,c))
-					reproductionStrategy = (IReproductionStrategy)c.newInstance();
-				if(implementationOf(ISpeciationStrategy.class,c))
-					speciationStrategy = (ISpeciationStrategy)c.newInstance();
-				if(implementationOf(IFeatFactory.class,c))
-					modelObjectFactory = (IFeatFactory)c.newInstance();
-				if(implementationOf(IGenome.class,c))
-					genomeClass = c;
-				if(implementationOf(INode.class,c))
-					nodeClass = c;
-				if(implementationOf(INetwork.class,c))
-					networkClass = c;
-				if(implementationOf(ILink.class,c))
-					linkClass = c;
-				if(implementationOf(IOrganism.class,c))
-					organismClass = c;
-				if(implementationOf(IOrganismEvaluator.class,c))
-					evaluatorClass = c;
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		if(evaluatorClass==null)
-			throw new FeatConfigurationException("No evaluator found for experiment.  Must create implementation of " +
-					" IOrganismEvaluator in " + customizationsPackage);
-
-		organismEvaluator = ClassEvaluatorFactory.getFactory(experiment).getEvaluator(context);
-	}
-
-	private boolean implementationOf(Class<?> iface, Class<?> c) {
-		Class<?>[]interfaces = c.getInterfaces();
-		for(int i = 0;i<interfaces.length;i++){
-			if(interfaces[i] == iface)
-				return true;
-
-			//recursively check super Interfaces
-			Class<?>[] superInterfaces = interfaces[i].getInterfaces();
-			for(int j = 0;j<superInterfaces.length;j++){
-				if(implementationOf(iface,superInterfaces[j]))
-					return true;
+	protected IFeatFactory modelObjectFactory;
+	
+	public static IEvolutionStrategy getInstance() {
+		if (instance == null) {
+			try {
+				instance = (IEvolutionStrategy)DEFAULT_STRATEGY_CLASS.newInstance();
+			} catch (Exception e) {
+				System.out.println("Problem instantiating the default strategy \n" + e.getMessage());
 			}
 		}
-
-		//recursively check super Class
-		Class<?> superClass = c.getSuperclass();
-		if(superClass!=null && implementationOf(iface,superClass))
-			return true;
-
-		return false;
+		
+		return instance;
+	}
+	
+	public static void setEvalutionStrategyClass(Class<? extends EvolutionStrategy> strategyClass) {
+		STRATEGY_CLASS = strategyClass;
 	}
 
-	public static EvolutionStrategy getInstance(){
-		if(_instance == null)
-			_instance = new EvolutionStrategy();
-		return _instance;
-	}
-
-	public IOrganismEvaluator getOrganismEvaluator(){
-		return organismEvaluator;
-	}
-
+	@Override
 	public ICrossoverStrategy getCrossoverStrategy() {
-		return crossoverStrategy;
+		return null;
 	}
 
-	public IMutationStrategy getMutationStrategy(){
-		return mutationStrategy;
+	@Override
+	public Class<?> getEvaluatorClass() {
+		return null;
 	}
 
-	public IReproductionStrategy getReproductionStrategy(){
-		return reproductionStrategy;
+	@Override
+	public Class<?> getGenomeClass() {
+		return null;
 	}
 
-	public ISpeciationStrategy getSpeciationStrategy(){
-		return speciationStrategy;
+	@Override
+	public Class<?> getLinkClass() {
+		return null;
 	}
 
-	public IPopulationInitializationStrategy getPopulationInitializationStrategy(){
-		return populationInitializationStrategy;
+	@Override
+	public IFeatFactory getModelObjectFactory() {
+		return null;
 	}
 
-	public IFeatFactory getModelObjectFactory(){
-		return modelObjectFactory;
+	@Override
+	public IMutationStrategy getMutationStrategy() {
+		return null;
 	}
 
-	public Class<?> getNodeClass(){
-		return nodeClass;
+	@Override
+	public Class<?> getNetworkClass() {
+		return null;
 	}
 
-	public Class<?> getNetworkClass(){
-		return networkClass;
+	@Override
+	public Class<?> getNodeClass() {
+		return null;
 	}
 
-	public Class<?> getLinkClass(){
-		return linkClass;
-	}
-
-	public Class<?> getGenomeClass(){
-		return genomeClass;
-	}
-
+	@Override
 	public Class<?> getOrganismClass() {
-		return organismClass;
+		return null;
 	}
 
-	public Class<?> getEvaluatorClass(){
-		return evaluatorClass;
+	@Override
+	public IOrganismEvaluator getOrganismEvaluator() {
+		return null;
 	}
 
-	/**
-	 * Scans all classes which belong to the given package and
-	 * subpackages.  It does so with a custom class loader that
-	 * looks in both (a) the local build directory (e.g. "bin" in
-	 * a conventional eclipse project) and (b) the "experiment"
-	 * folder, where classes may have been unpacked from the
-	 * experiment JAR.
-	 *
-	 * @param packageName The base package
-	 * @return The classes
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 */
-	private static Class<?>[] getClasses(String packageName){
-
-		ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
-		try{
-			
-			/** get directory for local classes **/
-			String path = packageName.replace('.', '/');
-			File localDir = new File("bin/classes/" + path);
-			//allow for conventional eclipse bin directory
-			if(!localDir.exists())
-				localDir = new File("bin/" + path);
-			File experimentDir = new File("experiment/");
-
-			//create class loader
-			URL[] urls = new URL[]{localDir.toURI().toURL(),experimentDir.toURI().toURL()};
-
-			// Create a new class loader with the directory
-			ClassLoader cl = new URLClassLoader(urls);
-
-			if(localDir.exists())
-				classes.addAll(findClasses(localDir, packageName, cl));
-			if(!localDir.exists() && experimentDir.exists())
-				classes.addAll(findClasses(experimentDir, packageName, cl));
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return classes.toArray(new Class[classes.size()]);
+	@Override
+	public IPopulationInitializationStrategy getPopulationInitializationStrategy() {
+		return null;
 	}
 
-	/**
-	 * Recursive method used to find all classes in a given directory and subdirs.
-	 *
-	 * @param directory   The base directory
-	 * @param packageName The package name for classes found inside the base directory
-	 * @return The classes
-	 * @throws ClassNotFoundException
-	 * @throws MalformedURLException 
-	 */
-	private static List<Class<?>> findClasses(File directory, String packageName,ClassLoader cl) throws ClassNotFoundException, MalformedURLException {
-		List<Class<?>> classes = new ArrayList<Class<?>>();
-		if (!directory.exists())
-			return classes;
-
-		File[] files = directory.listFiles();
-		for (File file : files) {
-			if (file.isDirectory()) 
-				classes.addAll(findClasses(file, packageName,cl));
-			if (file.getName().endsWith(".class")){
-				String p = packageName + '.' + file.getName().substring(0, file.getName().length() - 6);
-				try{
-					classes.add(cl.loadClass(p));
-				}catch(Exception e){
-					System.err.println(e.getClass() + ": Problem loading " + file.getName() + " from " + p);
-				}
-			}
-		}
-		return classes;
+	@Override
+	public IReproductionStrategy getReproductionStrategy() {
+		return null;
 	}
 
-	public class FeatConfigurationException extends RuntimeException{
-
-		public FeatConfigurationException(String msg){
-			super(msg);
-		}
+	@Override
+	public ISpeciationStrategy getSpeciationStrategy() {
+		return null;
 	}
 }

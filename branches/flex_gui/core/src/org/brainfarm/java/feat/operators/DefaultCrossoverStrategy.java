@@ -3,7 +3,7 @@ package org.brainfarm.java.feat.operators;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.brainfarm.java.feat.EvolutionStrategy;
+import org.brainfarm.java.feat.FeatEvolutionStrategy;
 import org.brainfarm.java.feat.Gene;
 import org.brainfarm.java.feat.Neat;
 import org.brainfarm.java.feat.api.IGene;
@@ -26,7 +26,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 	IFeatFactory offspringFact;
 	
 	public IGenome performCrossover(IOrganism mom, IOrganism dad, int count) {
-		offspringFact = EvolutionStrategy.getInstance().getModelObjectFactory();
+		offspringFact = FeatEvolutionStrategy.getInstance().getModelObjectFactory();
 		IGenome new_genome;
 		if (RandomUtils.randomDouble() < Neat.mate_multipoint_prob) {
 			//			logger.debug("mate multipoint baby: ");

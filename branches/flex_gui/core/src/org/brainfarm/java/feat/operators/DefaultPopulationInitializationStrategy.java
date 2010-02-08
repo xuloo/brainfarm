@@ -2,7 +2,7 @@ package org.brainfarm.java.feat.operators;
 
 import java.util.ArrayList;
 
-import org.brainfarm.java.feat.EvolutionStrategy;
+import org.brainfarm.java.feat.FeatEvolutionStrategy;
 import org.brainfarm.java.feat.Organism;
 import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.INetwork;
@@ -29,10 +29,10 @@ public class DefaultPopulationInitializationStrategy implements
 			newgenome = genome.duplicate(i);
 			
 			//perturb it's link weights
-			EvolutionStrategy.getInstance().getMutationStrategy().mutateLinkWeight(newgenome,1.0, 1.0, MutationType.GAUSSIAN);
+			FeatEvolutionStrategy.getInstance().getMutationStrategy().mutateLinkWeight(newgenome,1.0, 1.0, MutationType.GAUSSIAN);
 			
 			//add the organism to the population
-			IOrganism neworganism = EvolutionStrategy.getInstance().getModelObjectFactory().createOrganism(0.0, newgenome, 1);
+			IOrganism neworganism = FeatEvolutionStrategy.getInstance().getModelObjectFactory().createOrganism(0.0, newgenome, 1);
 			pop.getOrganisms().add(neworganism);
 		}
 
@@ -41,7 +41,7 @@ public class DefaultPopulationInitializationStrategy implements
 		pop.setCur_innov_num(newgenome.getLastGeneInnovationId());
 
 		// Separate the new Population into species
-		EvolutionStrategy.getInstance().getSpeciationStrategy().speciate(pop);
+		FeatEvolutionStrategy.getInstance().getSpeciationStrategy().speciate(pop);
 	}
 
 }

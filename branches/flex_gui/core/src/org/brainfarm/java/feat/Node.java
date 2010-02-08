@@ -111,7 +111,7 @@ public class Node implements INode {
 	}
 	
 	public INode generateDuplicate(){
-		INode newnode = EvolutionStrategy.getInstance().getModelObjectFactory().createOffspringNodeFrom(this);
+		INode newnode = FeatEvolutionStrategy.getInstance().getModelObjectFactory().createOffspringNodeFrom(this);
 		setDuplicate(newnode);
 		return newnode;
 	}
