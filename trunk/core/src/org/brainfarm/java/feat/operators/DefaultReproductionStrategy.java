@@ -30,13 +30,10 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 		List<IOrganism> organisms = specie.getOrganisms();
 		int expectedOffspring = specie.getExpectedOffspring();
 		IFeatFactory factory = EvolutionStrategy.getInstance().getModelObjectFactory();
-		
-		//boolean found; // When a Species is found
+
 		boolean champ_done = false; // Flag the preservation of the champion
 
 		// outside the species
-		boolean mut_struct_baby;
-		boolean mate_baby;
 		int giveup = 0; // For giving up finding a mate
 		int count = 0;
 		int poolsize = 0;
@@ -56,30 +53,23 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 		ISpecies randspecies = null;
 
 		if (expectedOffspring > 0 && organisms.size() == 0) {
-//			logger.error("ERROR:  ATTEMPT TO REPRODUCE OUT OF EMPTY SPECIES");
+			//			logger.error("ERROR:  ATTEMPT TO REPRODUCE OUT OF EMPTY SPECIES");
 			return false;
 		}
 
-		// elements for this specie
+		// elements for this species
 		poolsize = organisms.size() - 1;
 
-		// the champion of the 'this' specie is the first element of the specie;
+		// the champion of the 'this' species is the first element of the specie;
 		thechamp = organisms.get(0);
 
 		// Create the designated number of offspring for the Species one at a time.
 		for (count = 0; count < expectedOffspring; count++) {
 
-			mut_struct_baby = false;
-			mate_baby = false;
-
-			if (expectedOffspring > Neat.pop_size) {
-//				logger.warn("ALERT: EXPECTED OFFSPRING = " + expectedOffspring);
-			}
-
 			// If we have a super_champ (Population champion), finish off some special clones.
 			if (thechamp.getSuperChampOffspring() > 0) {
 
-//				logger.debug("analysis of champion #" + count);
+				// logger.debug("analysis of champion #" + count);
 				// save in mom current champ;
 				mom = thechamp;
 				// create a new genome from this copy
@@ -91,20 +81,15 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 						// Sometimes we add a link to a superchamp
 						new_genome.generatePhenotype(generation);
 						EvolutionStrategy.getInstance().getMutationStrategy().mutateAddLink(new_genome,pop);
-						mut_struct_baby = true;
 					}
 				}
 
 				baby = factory.createOrganism(0.0, new_genome, generation);
 
-				if (thechamp.getSuperChampOffspring() == 1) {
-					if (thechamp.isPopulationChampion()) {
-						// System.out.print("\n The new org baby's (champion) genome is : "+baby.genome.getGenome_id());
-						baby.setPopulationChampionChild(true);
+				if (thechamp.getSuperChampOffspring() == 1) 
+					if (thechamp.isPopulationChampion())
 						baby.setHighestFitness(mom.getOriginalFitness());
 
-					}
-				}
 				thechamp.incrementSuperChampOffspring();
 
 			} // end population champ
@@ -114,12 +99,12 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 				mom = thechamp; // Mom is the champ
 				new_genome = mom.getGenome().duplicate(count);
 				baby = factory.createOrganism(0.0, new_genome, generation); // Baby is
-																	// just like
-																	// mommy
+				// just like
+				// mommy
 				champ_done = true;
 
 			} else if (RandomUtils.randomDouble() < Neat.mutate_only_prob || poolsize == 1) {
-				
+
 				// Choose the random parent
 				orgnum = RandomUtils.randomInt(0, poolsize);
 				_organism = (Organism) organisms.get(orgnum);
@@ -127,21 +112,19 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 				new_genome = mom.getGenome().duplicate(count);
 
 				// Do the mutation depending on probabilities of various mutations
-				boolean mutatedStructure = EvolutionStrategy.getInstance().getMutationStrategy().mutate(new_genome,pop,generation);
-				mut_struct_baby = (mut_struct_baby || mutatedStructure);
-
+				EvolutionStrategy.getInstance().getMutationStrategy().mutate(new_genome,pop,generation);
 				baby = factory.createOrganism(0.0, new_genome, generation);
 			}
 
 			// Otherwise we should mate
 			else {
 				// Choose the random mom
-//				logger.debug("mating .............");
-				
+				//				logger.debug("mating .............");
+
 				orgnum = RandomUtils.randomInt(0, poolsize);
 
 				_organism = organisms.get(orgnum);
-				
+
 				// save in mom
 				mom = _organism;
 				// Choose random dad
@@ -182,19 +165,15 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 
 				new_genome = EvolutionStrategy.getInstance().getCrossoverStrategy().performCrossover(mom,_dad,count);
 
-				mate_baby = true;
-
 				// Determine whether to mutate the baby's Genome
 				// This is done randomly or if the mom and dad are the same
 				// organism
 
 				if (RandomUtils.randomDouble() > Neat.mate_only_prob || 
-					_dad.getGenome().getId() == mom.getGenome().getId() || 
-					_dad.getGenome().compatibility(mom.getGenome()) == 0.0) {
+						_dad.getGenome().getId() == mom.getGenome().getId() || 
+						_dad.getGenome().compatibility(mom.getGenome()) == 0.0) {
 
-					boolean mutatedStructure = EvolutionStrategy.getInstance().getMutationStrategy().mutate(new_genome,pop,generation);
-					mut_struct_baby = (mut_struct_baby || mutatedStructure);
-
+					EvolutionStrategy.getInstance().getMutationStrategy().mutate(new_genome,pop,generation);
 					baby = factory.createOrganism(0.0, new_genome, generation);
 
 				} // end block of prob
@@ -212,23 +191,20 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 			// Add the baby to its proper Species
 			// If it doesn't fit a Species, create a new one
 
-			baby.setMutStructBaby(mut_struct_baby);
-			baby.setMateBaby(mate_baby);
-
 			// if list species is empty , create the first species!
 			if (pop.getSpecies().isEmpty()) {
 				pop.incrementLastSpecies();
 				newspecies = new Species(pop.getLastSpecies(), true); // create a
-																	// new
-																	// specie
+				// new
+				// specie
 				pop.getSpecies().add(newspecies); // add this species to list of
-												// species
+				// species
 				newspecies.addOrganism(baby); // add this baby to species
 				baby.setSpecies(newspecies); // Point baby to owner specie
 			} else {
 				// looop in all species.... (each species is a Vector of
 				// organism...) of population 'pop'
-//				logger.debug("this is case of population with species pree-existent");
+				//				logger.debug("this is case of population with species pree-existent");
 				Iterator<ISpecies> speciesIterator = pop.getSpecies().iterator();
 				boolean done = false;
 
@@ -255,10 +231,9 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 				if (!done) {
 					pop.incrementLastSpecies();
 					newspecies = new Species(pop.getLastSpecies(), true); // create
-																		// a new
-																		// specie
+					// a new species
 					pop.getSpecies().add(newspecies); // add this species to list of
-													// species
+					// species
 					newspecies.addOrganism(baby); // add this baby to species
 					baby.setSpecies(newspecies); // Point baby to owner specie
 				}
@@ -269,5 +244,5 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 
 		return true;
 	}
-	
+
 }

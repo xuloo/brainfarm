@@ -171,9 +171,6 @@ public class Species implements ISpecies {
 		num_parents = (int) Math.floor((Neat.survival_thresh * ((double) size1)) + 1.0);
 
 		// Mark for death those who are ranked too low to be parents
-		// Mark the champ as such
-		organisms.get(0).setChampion(true);
-
 		Iterator<IOrganism> itr_organism = organisms.iterator();
 		count = 1;
 		
