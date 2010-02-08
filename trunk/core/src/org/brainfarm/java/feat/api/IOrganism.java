@@ -1,6 +1,11 @@
 package org.brainfarm.java.feat.api;
 
-
+/**
+ * Describes an Organism.
+ * 
+ * @author dtuohy
+ *
+ */
 public interface IOrganism {
 
 	double getFitness();
@@ -22,16 +27,11 @@ public interface IOrganism {
 	double getOriginalFitness();
 	void setOriginalFitness(double originalFitness);
 	
+	/** TODO: Should these fields be on the IOrganism itself? */
+	
 	int getSuperChampOffspring();
 	void setSuperChampOffspring(int superChampOffspring);
 
 	void incrementSuperChampOffspring();
-	void incrementSuperChampOffspring(int value);
-	
-	boolean isPopulationChampion();
-	void setPopulationChampion(boolean populationChampion);
-	
-	double getHighestFitness();
-	void setHighestFitness(double highFitness);
-	
+	void incrementSuperChampOffspring(int value);	
 }

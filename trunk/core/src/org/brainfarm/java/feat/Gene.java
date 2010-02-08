@@ -48,7 +48,7 @@ public class Gene implements IGene
 
 		// Create a new Link.
 		setLink(new Link(gene.getLink().getWeight(), inputNode, outputNode, gene.getLink().isRecurrent()));
-
+		
 		// Copy the supplied gene's properties.
 		setInnovationNumber(gene.getInnovationNumber());
 		setMutationNumber(gene.getMutationNumber());
