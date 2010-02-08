@@ -38,12 +38,6 @@ public class Organism implements IOrganism {
 
 	/** Number of reserved offspring for a population leader */
 	private int superChampOffspring;
-
-	/** Marks the best in population */
-	private boolean populationChampion;
-
-	/** DEBUG variable- high fitness of champ */
-	private double highestFitness;
 	
 	public Organism(double xfitness, IGenome xgenome, int xgeneration) {
 		fitness = xfitness;
@@ -55,8 +49,6 @@ public class Organism implements IOrganism {
 		generation = xgeneration;
 		eliminated = false;
 		superChampOffspring = 0;
-		populationChampion = false;
-		highestFitness = 0;
 	}
 
 	public double getFitness() {
@@ -129,22 +121,6 @@ public class Organism implements IOrganism {
 	
 	public void incrementSuperChampOffspring(int value) {
 		superChampOffspring += value;
-	}
-
-	public boolean isPopulationChampion() {
-		return populationChampion;
-	}
-
-	public void setPopulationChampion(boolean populationChampion) {
-		this.populationChampion = populationChampion;
-	}
-	
-	public double getHighestFitness() {
-		return highestFitness;
-	}
-
-	public void setHighestFitness(double highFitness) {
-		this.highestFitness = highFitness;
 	}
 
 	public IGenome getGenome() {

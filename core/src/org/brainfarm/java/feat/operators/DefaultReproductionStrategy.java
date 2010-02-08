@@ -86,10 +86,6 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 
 				baby = factory.createOrganism(0.0, new_genome, generation);
 
-				if (thechamp.getSuperChampOffspring() == 1) 
-					if (thechamp.isPopulationChampion())
-						baby.setHighestFitness(mom.getOriginalFitness());
-
 				thechamp.incrementSuperChampOffspring();
 
 			} // end population champ

@@ -240,8 +240,6 @@ public class Genome implements IGenome {
 				// NOTE: This line could be run through a recurrency check if desired
 				// (no need to in the current implementation of NEAT)
 				newlink = new Link(curlink.getWeight(), inode, onode, curlink.isRecurrent());
-				onode.getIncoming().add(newlink);
-				inode.getOutgoing().add(newlink);
 			}
 
 		}

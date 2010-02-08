@@ -2,6 +2,12 @@ package org.brainfarm.java.feat.api;
 
 import java.util.List;
 
+/**
+ * TODO: Document these interface methods.
+ * 
+ * @author dtuohy
+ *
+ */
 public interface IGenome {
 		
 	INetwork generatePhenotype(int genomeId);
