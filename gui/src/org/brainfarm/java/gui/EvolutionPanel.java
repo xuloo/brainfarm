@@ -54,8 +54,6 @@ public class EvolutionPanel extends AbstractNeatPanel implements ItemListener {
 	private static Logger logger = Logger.getLogger(EvolutionPanel.class);
 	
 	private JFrame f1;
-	
-	private IGuiController controller;
 
 	Container contentPane;
 	//protected HistoryLog logger;
@@ -436,7 +434,7 @@ public class EvolutionPanel extends AbstractNeatPanel implements ItemListener {
 
 		else if (e.getActionCommand().equals(" start ")) {
 
-			logger.info(" generation: wait...");
+			logger.info(" generation: wait... " + controller);
 			initAllMap();
 			//EnvConstant.FORCE_RESTART = false;
 			//startProcessAsync();

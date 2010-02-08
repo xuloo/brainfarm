@@ -3,7 +3,7 @@ package org.brainfarm.java.feat.operators;
 import java.lang.reflect.Constructor;
 import java.util.List;
 
-import org.brainfarm.java.feat.EvolutionStrategy;
+import org.brainfarm.java.feat.FeatEvolutionStrategy;
 import org.brainfarm.java.feat.api.IGene;
 import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.INetwork;
@@ -24,7 +24,7 @@ public class FeatFactory implements IFeatFactory {
 	@Override
 	public IGenome createOffspringGenome(int newId, List<INode> nodes, List<IGene> genes) {
 		try{
-			Class<?> gClass = EvolutionStrategy.getInstance().getGenomeClass();
+			Class<?> gClass = FeatEvolutionStrategy.getInstance().getGenomeClass();
 			Constructor<?> c = gClass.getConstructor(int.class,List.class,List.class);
 			return (IGenome)c.newInstance(newId,nodes,genes);
 		}catch(Exception e){
@@ -36,7 +36,7 @@ public class FeatFactory implements IFeatFactory {
 	@Override
 	public INode createOffspringNodeFrom(INode node) {
 		try{
-			Class<?> nClass = EvolutionStrategy.getInstance().getNodeClass();
+			Class<?> nClass = FeatEvolutionStrategy.getInstance().getNodeClass();
 			Constructor<?> c = nClass.getConstructor(INode.class);
 			return (INode)c.newInstance(node);
 		}catch(Exception e){
@@ -48,7 +48,7 @@ public class FeatFactory implements IFeatFactory {
 	@Override
 	public INode createNewNodeForId(int id) {
 		try{
-			Class<?> nClass = EvolutionStrategy.getInstance().getNodeClass();
+			Class<?> nClass = FeatEvolutionStrategy.getInstance().getNodeClass();
 			Constructor<?> c = nClass.getConstructor(int.class);
 			return (INode)c.newInstance(id);
 		}catch(Exception e){
@@ -59,7 +59,7 @@ public class FeatFactory implements IFeatFactory {
 	
 	public IOrganism createOrganism(double xfitness, IGenome xgenome, int xgeneration){
 		try{
-			Class<?> oClass = EvolutionStrategy.getInstance().getOrganismClass();
+			Class<?> oClass = FeatEvolutionStrategy.getInstance().getOrganismClass();
 			Constructor<?> c = oClass.getConstructor(double.class,IGenome.class,int.class);
 			return (IOrganism)c.newInstance(xfitness,xgenome,xgeneration);
 		}catch(Exception e){
@@ -71,7 +71,7 @@ public class FeatFactory implements IFeatFactory {
 	@Override
 	public INetwork createNetwork(List<INode> allList, int id) {
 		try{
-			Class<?> oClass = EvolutionStrategy.getInstance().getNetworkClass();
+			Class<?> oClass = FeatEvolutionStrategy.getInstance().getNetworkClass();
 			Constructor<?> c = oClass.getConstructor(List.class,int.class);
 			return (INetwork)c.newInstance(allList,id);
 		}catch(Exception e){
