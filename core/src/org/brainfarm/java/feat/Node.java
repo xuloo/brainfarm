@@ -152,6 +152,13 @@ public class Node implements INode {
 				xmax_level = cur_depth;
 		}
 		return xmax_level;
-
+	}
+	
+	/**
+	 * No validation is currently performed for
+	 * the basic Node.
+	 */
+	public boolean validate(){
+		return true;
 	}
 }

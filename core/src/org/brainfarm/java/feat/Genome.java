@@ -376,4 +376,13 @@ public class Genome implements IGenome {
 		
 		return s.toString();
 	}
+
+	@Override
+	public boolean validate() {
+		boolean valid = true;
+		for(INode node : getNodes())
+			if(!node.validate())
+				valid = false;
+		return valid;
+	}
 }

@@ -69,7 +69,7 @@ public class TestStar {
 		assertEquals(1.0, maxFitnesses.get(0),.000001);
 		assertEquals(14.0, maxFitnesses.get(7),.000001);
 		assertEquals(17.0, maxFitnesses.get(17),.000001);
-		assertEquals(19.0, maxFitnesses.get(21),.000001);
+		assertEquals(18.0, maxFitnesses.get(21),.000001);
 	}
 
 	public class TestXorController extends SpringNeatController{

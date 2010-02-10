@@ -13,4 +13,13 @@ public interface IGene {
 	
 	boolean isEnabled();
 	void setEnabled(boolean enabled);
+	
+	/**
+	 * Used during crossover to determine if two IGenes have
+	 * the same function.
+	 * 
+	 * @param other
+	 * @return true if this IGene has the same function as 'other'
+	 */
+	boolean sameAs(IGene other);
 }

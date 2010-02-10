@@ -30,4 +30,6 @@ public interface IGenome {
 	double compatibility(IGenome genome);
 	
 	boolean verify();
+
+	boolean validate();
 }
