@@ -138,7 +138,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 			} // gene is chosen
 
 			// Check to see if the chosengene conflicts with an already chosen
-			// gene i.e. do they represent the same link
+			// gene (i.e. do they represent the same link?)
 			for (IGene _curgene2 : newgenes) 
 				if(chosengene.sameAs(_curgene2)){
 					skip = true;
@@ -170,26 +170,13 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 					}
 
 				//create and insert the input and output nodes if they don't exist
-				//insert the node with the lower id first.
 				if (parent_inode.getId() < parent_onode.getId()) {
-					if(child_inode == null){
-						child_inode = offspringFact.createOffspringNodeFrom(parent_inode);
-						EvolutionUtils.nodeInsert(newnodes, child_inode);
-					}
-					if(child_onode == null) {
-						child_onode = offspringFact.createOffspringNodeFrom(parent_onode);
-						EvolutionUtils.nodeInsert(newnodes, child_onode);
-					}
+					child_inode = createAndAddIfNull(newnodes,parent_inode,child_inode);
+					child_onode = createAndAddIfNull(newnodes,parent_onode,child_onode);
 				}
 				else {
-					if(child_onode == null) {
-						child_onode = offspringFact.createOffspringNodeFrom(parent_onode);
-						EvolutionUtils.nodeInsert(newnodes, child_onode);
-					}
-					if(child_inode == null) {
-						child_inode = offspringFact.createOffspringNodeFrom(parent_inode);
-						EvolutionUtils.nodeInsert(newnodes, child_inode);
-					}
+					child_onode = createAndAddIfNull(newnodes,parent_onode,child_onode);
+					child_inode = createAndAddIfNull(newnodes,parent_inode,child_inode);
 				}
 
 				// Add the Gene
@@ -200,6 +187,14 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 			}
 		}
 		return offspringFact.createOffspringGenome(id, newnodes, newgenes);
+	}
+
+	private INode createAndAddIfNull(List<INode> newnodes, INode parent_node, INode child_node) {
+		if(child_node == null){
+			child_node = offspringFact.createOffspringNodeFrom(parent_node);
+			EvolutionUtils.nodeInsert(newnodes, child_node);
+		}
+		return child_node;
 	}
 
 	/**
