@@ -1,19 +1,26 @@
 package org.brainfarm.java.feat;
 
+import java.lang.reflect.Constructor;
+
+import org.brainfarm.java.feat.ann.NeatOrganismEvaluator;
 import org.brainfarm.java.feat.api.IEvolutionStrategy;
+import org.brainfarm.java.feat.api.context.INeatContext;
 import org.brainfarm.java.feat.api.evaluators.IOrganismEvaluator;
 import org.brainfarm.java.feat.api.operators.ICrossoverStrategy;
-import org.brainfarm.java.feat.api.operators.IFeatFactory;
 import org.brainfarm.java.feat.api.operators.IMutationStrategy;
 import org.brainfarm.java.feat.api.operators.IPopulationInitializationStrategy;
 import org.brainfarm.java.feat.api.operators.IReproductionStrategy;
 import org.brainfarm.java.feat.api.operators.ISpeciationStrategy;
+import org.brainfarm.java.feat.context.IExperiment;
+import org.brainfarm.java.feat.operators.DefaultCrossoverStrategy;
+import org.brainfarm.java.feat.operators.DefaultMutationStrategy;
+import org.brainfarm.java.feat.operators.DefaultPopulationInitializationStrategy;
+import org.brainfarm.java.feat.operators.DefaultReproductionStrategy;
+import org.brainfarm.java.feat.operators.DefaultSpeciationStrategy;
 
 public class EvolutionStrategy implements IEvolutionStrategy {
 	
-	public static final Class<? extends EvolutionStrategy> DEFAULT_STRATEGY_CLASS = FeatEvolutionStrategy.class;
-	
-	public static Class<? extends EvolutionStrategy> STRATEGY_CLASS;
+	public static Class<?> DEFAULT_EVALUATOR_CLASS = NeatOrganismEvaluator.class;
 	
 	protected static IEvolutionStrategy instance;
 	
@@ -34,87 +41,123 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 	protected IPopulationInitializationStrategy populationInitializationStrategy;
 	protected IReproductionStrategy reproductionStrategy;
 	protected ISpeciationStrategy speciationStrategy;
-	//TODO: Eliminate this field - make FeatFactory statically invokable itself
-	protected IFeatFactory modelObjectFactory;
 	
 	public static IEvolutionStrategy getInstance() {
 		if (instance == null) {
 			try {
-				instance = (IEvolutionStrategy)DEFAULT_STRATEGY_CLASS.newInstance();
+				instance = new EvolutionStrategy();
+				instance.reset();
 			} catch (Exception e) {
-				System.out.println("Problem instantiating the default strategy \n" + e.getMessage());
+				System.out.println("Problem instantiating the default strategy factory \n" + e.getMessage());
 			}
 		}
 		
 		return instance;
 	}
 	
-	public static void setEvalutionStrategyClass(Class<? extends EvolutionStrategy> strategyClass) {
-		STRATEGY_CLASS = strategyClass;
+	public void reset() {
+		//initialize with defaults
+		crossoverStrategy = new DefaultCrossoverStrategy();
+		mutationStrategy = new DefaultMutationStrategy();
+		populationInitializationStrategy = new DefaultPopulationInitializationStrategy();
+		reproductionStrategy = new DefaultReproductionStrategy();
+		speciationStrategy = new DefaultSpeciationStrategy();
+		nodeClass = Node.class;
+		networkClass = Network.class;
+		linkClass = Link.class;
+		genomeClass = Genome.class;
+		organismClass = Organism.class;
+	}
+	
+	public void setActiveExperiment(IExperiment experiment, INeatContext context) {
+		
+		if (evaluatorClass == null) {
+			evaluatorClass = DEFAULT_EVALUATOR_CLASS;
+		}
+		
+		try {
+			Constructor<?> c = evaluatorClass.getConstructor(INeatContext.class);
+			organismEvaluator = (IOrganismEvaluator)c.newInstance(context);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}		
+		
+		System.out.println("organism evaluator: " + evaluatorClass + " " + organismEvaluator);
+	}
+	
+	public static void setStrategyFactory(IEvolutionStrategy strategyFactory) {
+		instance = strategyFactory;
 	}
 
 	@Override
 	public ICrossoverStrategy getCrossoverStrategy() {
-		return null;
+		return crossoverStrategy;
 	}
 
 	@Override
 	public Class<?> getEvaluatorClass() {
-		return null;
+		return evaluatorClass;
+	}
+	
+	@Override
+	public void setEvaluatorClass(Class<?> evaluatorClass) {
+		this.evaluatorClass = evaluatorClass;
 	}
 
 	@Override
 	public Class<?> getGenomeClass() {
-		return null;
+		return genomeClass;
 	}
 
 	@Override
 	public Class<?> getLinkClass() {
-		return null;
-	}
-
-	@Override
-	public IFeatFactory getModelObjectFactory() {
-		return null;
+		return linkClass;
 	}
 
 	@Override
 	public IMutationStrategy getMutationStrategy() {
-		return null;
+		return mutationStrategy;
 	}
 
 	@Override
 	public Class<?> getNetworkClass() {
-		return null;
+		return networkClass;
 	}
 
 	@Override
 	public Class<?> getNodeClass() {
-		return null;
+		return nodeClass;
+	}
+	
+	@Override
+	public void setNodeClass(Class<?> nodeClass) {
+		this.nodeClass = nodeClass;
+		System.out.println("node class set to " + nodeClass);
 	}
 
 	@Override
 	public Class<?> getOrganismClass() {
-		return null;
+		return organismClass;
 	}
 
 	@Override
 	public IOrganismEvaluator getOrganismEvaluator() {
-		return null;
+		return organismEvaluator;
 	}
 
 	@Override
 	public IPopulationInitializationStrategy getPopulationInitializationStrategy() {
-		return null;
+		System.out.println("Getting population initialisation strategy " + populationInitializationStrategy);
+		return populationInitializationStrategy;
 	}
 
 	@Override
 	public IReproductionStrategy getReproductionStrategy() {
-		return null;
+		return reproductionStrategy;
 	}
 
 	@Override
 	public ISpeciationStrategy getSpeciationStrategy() {
-		return null;
+		return speciationStrategy;
 	}
 }

@@ -15,4 +15,8 @@
 		<property name="epoch" value="${epoch}"/>
 		<property name="activation" value="${activation}"/>
 	</bean>
+	
+	<bean id="evolutionStrategy" 
+		class="org.brainfarm.java.feat.ann.NeatEvolutionStrategy"/>
+	
 </beans>

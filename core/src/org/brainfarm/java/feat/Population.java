@@ -69,7 +69,7 @@ public class Population implements IPopulation {
 		winnergen = 0;
 		highest_fitness = 0.0;
 		highest_last_changed = 0;
-		FeatEvolutionStrategy.getInstance().getPopulationInitializationStrategy().initialize(this, g, size);
+		EvolutionStrategy.getInstance().getPopulationInitializationStrategy().initialize(this, g, size);
 	}
 
 	public String toString() {
@@ -415,7 +415,7 @@ public class Population implements IPopulation {
 		 * System.out.print("\n Start reproduction of species ....");
 		 */
 		for (ISpecies specie : sorted_species)
-			FeatEvolutionStrategy.getInstance().getReproductionStrategy().reproduce(specie,generation, this, sorted_species);
+			EvolutionStrategy.getInstance().getReproductionStrategy().reproduce(specie,generation, this, sorted_species);
 
 		//
 		// Destroy and remove the old generation from the organisms and species

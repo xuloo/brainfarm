@@ -1,9 +1,21 @@
 package org.brainfarm.java.feat.context;
 
+import java.util.Map;
+
 import org.brainfarm.java.feat.api.enums.DataSource;
 import org.brainfarm.java.feat.api.enums.StartFrom;
 
 public abstract class AbstractExperiment implements IExperiment {
+	
+	private Map<String, String> specialisations;
+	
+	public void setSpecialisations(Map<String, String> specialisations) {
+		this.specialisations = specialisations;
+	}
+	
+	public Map<String, String> getSpecialisations() {
+		return specialisations;
+	}
 	
 	public AbstractExperiment() {
 		

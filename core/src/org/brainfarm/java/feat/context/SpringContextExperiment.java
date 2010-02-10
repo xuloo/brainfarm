@@ -10,5 +10,4 @@ public class SpringContextExperiment extends AbstractExperiment {
 	public IPopulation getPopulation(INeatContext context) {
 		return PopulationFactory.getFactory(this).getPopulation(context);
 	}
-
 }

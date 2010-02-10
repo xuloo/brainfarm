@@ -1,5 +1,7 @@
 package org.brainfarm.java.feat.context;
 
+import java.util.Map;
+
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.context.INeatContext;
 import org.brainfarm.java.feat.api.enums.DataSource;
@@ -45,6 +47,10 @@ public interface IExperiment {
 	public abstract int getActivation();
 	
 	public abstract IPopulation getPopulation(INeatContext context);
+	
+	public abstract void setSpecialisations(Map<String, String> specialisations);
+	
+	public abstract Map<String, String> getSpecialisations();
 
 	public abstract String toString();
 

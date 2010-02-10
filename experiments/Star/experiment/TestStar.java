@@ -77,7 +77,7 @@ public class TestStar {
 
 	public class TestXorController extends SpringNeatController{
 		public TestXorController(INeatContext context) {
-			this.context = context;
+			super(context);
 		}
 	}
 
