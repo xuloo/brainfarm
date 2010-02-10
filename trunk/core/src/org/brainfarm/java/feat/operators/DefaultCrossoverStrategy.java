@@ -225,8 +225,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 			avgene.getLink().setRecurrent(dadGene.getLink().isRecurrent());
 
 		avgene.setInnovationNumber(momGene.getInnovationNumber());
-		avgene.setMutationNumber(momGene.getMutationNumber()
-				+ dadGene.getMutationNumber() / 2.0);
+		avgene.setMutationNumber(momGene.getMutationNumber() + dadGene.getMutationNumber() / 2.0);
 
 		return avgene;
 	}
