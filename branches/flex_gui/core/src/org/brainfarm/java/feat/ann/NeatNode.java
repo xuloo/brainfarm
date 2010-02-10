@@ -188,6 +188,10 @@ public class NeatNode extends Node implements INeatNode {
 	public NeatNode() {
 		
 	}
+	
+	public NeatNode(int id) {
+		super(id);
+	}
 
 	public NeatNode(INode n) {
 		super(n);

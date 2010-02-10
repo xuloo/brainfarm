@@ -32,7 +32,7 @@ public class DefaultPopulationInitializationStrategy implements
 			FeatEvolutionStrategy.getInstance().getMutationStrategy().mutateLinkWeight(newgenome,1.0, 1.0, MutationType.GAUSSIAN);
 			
 			//add the organism to the population
-			IOrganism neworganism = FeatEvolutionStrategy.getInstance().getModelObjectFactory().createOrganism(0.0, newgenome, 1);
+			IOrganism neworganism = FeatFactory.newOrganism(0.0, newgenome, 1);
 			pop.getOrganisms().add(neworganism);
 		}
 

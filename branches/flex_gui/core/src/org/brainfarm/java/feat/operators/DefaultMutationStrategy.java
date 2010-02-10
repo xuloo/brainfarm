@@ -323,7 +323,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 				int curnode_id = population.getCurrentNodeIdAndIncrement();
 
 				// pass this current nodeid to newnode and create the new node
-				new_node = FeatEvolutionStrategy.getInstance().getModelObjectFactory().createNewNodeForId(curnode_id);
+				new_node = FeatFactory.newNodeForId(curnode_id);
 
 				// get the current gene inovation with post increment
 				gene_innov1 = population.getCurrentInnovationNumberAndIncrement();
@@ -355,7 +355,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 
 					// Create the new Genes
 					// pass this current nodeid to newnode
-					new_node = FeatEvolutionStrategy.getInstance().getModelObjectFactory().createNewNodeForId(_innov.getNewNodeId());
+					new_node = FeatFactory.newNodeForId(_innov.getNewNodeId());
 
 					newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), _innov.getInnovationNumber1(), 0);
 					newgene2 = new Gene(oldweight, new_node, out_node, false, _innov.getInnovationNumber2(), 0);

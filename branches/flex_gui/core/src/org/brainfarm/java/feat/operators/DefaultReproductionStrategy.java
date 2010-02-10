@@ -12,7 +12,6 @@ import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
 import org.brainfarm.java.feat.api.enums.MutationType;
-import org.brainfarm.java.feat.api.operators.IFeatFactory;
 import org.brainfarm.java.feat.api.operators.IReproductionStrategy;
 import org.brainfarm.java.util.RandomUtils;
 
@@ -29,7 +28,6 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 
 		List<IOrganism> organisms = specie.getOrganisms();
 		int expectedOffspring = specie.getExpectedOffspring();
-		IFeatFactory factory = FeatEvolutionStrategy.getInstance().getModelObjectFactory();
 
 		boolean champ_done = false; // Flag the preservation of the champion
 
@@ -84,7 +82,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 					}
 				}
 
-				baby = factory.createOrganism(0.0, new_genome, generation);
+				baby = FeatFactory.newOrganism(0.0, new_genome, generation);
 
 				thechamp.incrementSuperChampOffspring();
 
@@ -94,7 +92,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 			else if ((!champ_done) && (expectedOffspring > 5)) {
 				mom = thechamp; // Mom is the champ
 				new_genome = mom.getGenome().duplicate(count);
-				baby = factory.createOrganism(0.0, new_genome, generation); // Baby is
+				baby = FeatFactory.newOrganism(0.0, new_genome, generation); // Baby is
 				// just like
 				// mommy
 				champ_done = true;
@@ -109,7 +107,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 
 				// Do the mutation depending on probabilities of various mutations
 				FeatEvolutionStrategy.getInstance().getMutationStrategy().mutate(new_genome,pop,generation);
-				baby = factory.createOrganism(0.0, new_genome, generation);
+				baby = FeatFactory.newOrganism(0.0, new_genome, generation);
 			}
 
 			// Otherwise we should mate
@@ -170,7 +168,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 						_dad.getGenome().compatibility(mom.getGenome()) == 0.0) {
 
 					FeatEvolutionStrategy.getInstance().getMutationStrategy().mutate(new_genome,pop,generation);
-					baby = factory.createOrganism(0.0, new_genome, generation);
+					baby = FeatFactory.newOrganism(0.0, new_genome, generation);
 
 				} // end block of prob
 				// Determine whether to mutate the baby's Genome
@@ -179,7 +177,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 
 				else {
 					// Create the baby without mutating first
-					baby = factory.createOrganism(0.0, new_genome, generation);
+					baby = FeatFactory.newOrganism(0.0, new_genome, generation);
 				}
 
 			}

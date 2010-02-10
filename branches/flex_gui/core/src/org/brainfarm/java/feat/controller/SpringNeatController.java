@@ -1,8 +1,12 @@
 package org.brainfarm.java.feat.controller;
 
 import java.io.File;
+import java.lang.reflect.Method;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.brainfarm.java.feat.EvolutionStrategy;
+import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.api.context.INeatContext;
 import org.brainfarm.java.feat.context.IExperiment;
 import org.brainfarm.java.feat.context.SpringNeatContext;
@@ -67,8 +71,37 @@ public class SpringNeatController extends AbstractNeatController {
 			logger.error("There was an error creating the experiment directory");
 		}
 	}
+	
+	public void handleSpecialisations(IExperiment experiment) {
+		Map<String, String> specialisations = experiment.getSpecialisations();
+			if (specialisations != null) {
+			System.out.println("setting specialisations for experiment\n" + specialisations);
+			IEvolutionStrategy evolutionStrategy = EvolutionStrategy.getInstance();
+			Class<?>[] parameterTypes = new Class<?>[]{Class.class};
+			for (String key : specialisations.keySet()) {
+				
+				String methodName = "set" + key.substring(0,1).toUpperCase() + key.substring(1);
+				String className = specialisations.get(key);
+				
+				try {
+					Class<?> parameter = Class.forName(className, false, jarClassLoader);
+					Method method = evolutionStrategy.getClass().getDeclaredMethod(methodName, parameterTypes);
+					method.invoke(evolutionStrategy, new Object[]{parameter});
+				} catch (ClassNotFoundException e) {
+					System.out.println("Unable to find a class for " + className);
+				} catch (NoSuchMethodException e) {
+					System.out.println("Unable to set the value of the property " + key + " on EvolutionStrategy.getInstance() - are you sure there's a setter for this value?");
+				} catch (Exception e) {
+					System.out.println("Unable to invoke the setter method " + methodName + " on " + className + "\n" + e.getMessage());
+				} 
+			}
+		}
+	}
 
 	private void setupExperiment(File experimentDirectory) {
+		
+		System.out.println("setting up experiment");
+		
 		factory = JclObjectFactory.getInstance();
   
 		// Grab the experiments directory's path.
@@ -83,6 +116,15 @@ public class SpringNeatController extends AbstractNeatController {
 		
 		IExperiment experiment = (IExperiment)factory.getBean("experiment");
 		
+		IEvolutionStrategy evolutionStrategyBean = (IEvolutionStrategy)factory.getBean("evolutionStrategy");
+		
+		if (evolutionStrategyBean != null) {
+			EvolutionStrategy.setStrategyFactory(evolutionStrategyBean);
+		} else {
+			EvolutionStrategy.setStrategyFactory(new EvolutionStrategy());
+		}
+		
+		handleSpecialisations(experiment);
 		// Get the 'experiment' bean - this contains the settings for the loaded experiment.
 		refresh(experiment);
 		

@@ -2,6 +2,7 @@ package org.brainfarm.java.feat.context;
 
 import org.apache.log4j.Logger;
 import org.brainfarm.java.feat.Evolution;
+import org.brainfarm.java.feat.EvolutionStrategy;
 import org.brainfarm.java.feat.FeatEvolutionStrategy;
 import org.brainfarm.java.feat.Neat;
 import org.springframework.context.ApplicationContext;
@@ -30,8 +31,8 @@ public class SpringNeatContext extends AbstractNeatContext {
 	
 	@Override
 	public Evolution getEvolution() {
-		logger.debug("Evolution Bean: " + context.getBean("evolution"));
-		FeatEvolutionStrategy.getInstance().setActiveExperiment(experiment, this);
+		System.out.println("Evolution Bean: " + context.getBean("evolution"));
+		EvolutionStrategy.getInstance().setActiveExperiment(experiment, this);
 		Evolution evolution = (Evolution)context.getBean("evolution");
 		logger.debug("bean cast " + evolution);
 		evolution.setNeat(neat);

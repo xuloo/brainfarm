@@ -41,7 +41,7 @@ public class TestXOR {
 
 		//load experiment
 		SpringNeatController controller = new TestXorController(context);
-		controller.loadExperiment("test/xor-experiment.jar");
+		controller.loadExperiment("../experiments/xor/bin/dist/xor-experiment.jar");
 
 		//run experiment
 		TestEvolutionListener listener = new TestEvolutionListener();
@@ -65,7 +65,7 @@ public class TestXOR {
 
 	public class TestXorController extends SpringNeatController{
 		public TestXorController(INeatContext context) {
-			this.context = context;
+			super(context);
 		}
 	}
 

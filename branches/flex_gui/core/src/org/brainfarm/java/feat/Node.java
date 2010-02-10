@@ -6,6 +6,7 @@ import java.util.List;
 import org.brainfarm.java.feat.api.ILink;
 import org.brainfarm.java.feat.api.INetwork;
 import org.brainfarm.java.feat.api.INode;
+import org.brainfarm.java.feat.operators.FeatFactory;
 
 /**
  * The base Node implementation that implements
@@ -111,7 +112,7 @@ public class Node implements INode {
 	}
 	
 	public INode generateDuplicate(){
-		INode newnode = FeatEvolutionStrategy.getInstance().getModelObjectFactory().createOffspringNodeFrom(this);
+		INode newnode = FeatFactory.newOffspringNodeFrom(this);
 		setDuplicate(newnode);
 		return newnode;
 	}

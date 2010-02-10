@@ -41,7 +41,7 @@
 	 <bean id="brainfarm.service"
 	 	class="org.brainfarm.java.red5.service.BrainFarmService"
 	 	init-method="init">
-	 	<property name="webappPath" value="/webapps/brainfarm-webapp"/>
+	 	<property name="webappPath" value="/webapps${webapp.contextPath}"/>
 	 </bean>
  
 </beans>
