@@ -2,6 +2,7 @@ package org.brainfarm.java.feat;
 
 import java.lang.reflect.Constructor;
 
+import org.apache.log4j.Logger;
 import org.brainfarm.java.feat.ann.NeatOrganismEvaluator;
 import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.api.context.INeatContext;
@@ -18,7 +19,16 @@ import org.brainfarm.java.feat.operators.DefaultPopulationInitializationStrategy
 import org.brainfarm.java.feat.operators.DefaultReproductionStrategy;
 import org.brainfarm.java.feat.operators.DefaultSpeciationStrategy;
 
+/**
+ * Manages specialisations. 
+ * 
+ * @author dtouhy
+ * @author Trevor Burton [trevor@flashmonkey.org]
+ *
+ */
 public class EvolutionStrategy implements IEvolutionStrategy {
+	
+	private static Logger log = Logger.getLogger(EvolutionStrategy.class);
 	
 	public static Class<?> DEFAULT_EVALUATOR_CLASS = NeatOrganismEvaluator.class;
 	
@@ -51,7 +61,7 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 			try {
 				instance = new EvolutionStrategy();
 			} catch (Exception e) {
-				System.out.println("Problem instantiating the default strategy factory \n" + e.getMessage());
+				log.error("Problem instantiating the default strategy factory \n" + e.getMessage());
 			}
 		}
 		
@@ -84,8 +94,6 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
-		
-		System.out.println("organism evaluator: " + evaluatorClass + " " + organismEvaluator);
 	}
 	
 	public static void setStrategyFactory(IEvolutionStrategy strategyFactory) {
@@ -135,7 +143,6 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 	@Override
 	public void setNodeClass(Class<?> nodeClass) {
 		this.nodeClass = nodeClass;
-		System.out.println("node class set to " + nodeClass);
 	}
 
 	@Override
@@ -150,7 +157,6 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 
 	@Override
 	public IPopulationInitializationStrategy getPopulationInitializationStrategy() {
-		System.out.println("Getting population initialisation strategy " + populationInitializationStrategy);
 		return populationInitializationStrategy;
 	}
 

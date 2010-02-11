@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.log4j.Logger;
+import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
@@ -13,9 +14,11 @@ import org.brainfarm.java.feat.api.evolution.IEvolution;
 import org.brainfarm.java.feat.api.evolution.IEvolutionListener;
 import org.brainfarm.java.feat.context.IExperiment;
 import org.brainfarm.java.util.ThreadedCommand;
+
 /**
  * The central class from which Evolution is run.
  * 
+ * @author Trevor Burton [trevor@flashmonkey.org]
  * @author dtuohy
  *
  */
@@ -32,6 +35,17 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	private IExperiment experiment;
 	
 	private IPopulation population;
+	
+	/**
+	 * The first organism in any epoch of any run that 
+	 * performed better than the error threshold.
+	 */
+	private IOrganism firstWinner;
+	
+	/**
+	 * The fittest organism from any epoch of any run.
+	 */
+	private IOrganism superWinner;
 	
 	protected List<IEvolutionListener> listeners = Collections.synchronizedList(new CopyOnWriteArrayList<IEvolutionListener>());
 	
@@ -53,22 +67,20 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 		// Inform listeners we're starting a set of evolution runs.
 		onEvolutionStart(population);
 		
-		for (int i = 0; i < neat.num_runs; i++) {
+		// For each run...
+		for (currentRun = 0; currentRun < neat.num_runs; currentRun++) {
 			
-			currentRun = i;
-			
-			for (int j = 0; j < experiment.getEpoch(); j++) {
-				
-				currentEpoch = j;
+			// Execute an Epoch.
+			for (int currentEpoch = 0; currentEpoch < experiment.getEpoch(); currentEpoch++) {
 				
 				// Inform listeners we're starting a new Epoch.
-				onEpochStart(i, j, population);
+				onEpochStart(currentRun, currentEpoch, population);
 				
 				// Execute the Epoch.
-				epoch(population, j);
+				epoch(population, currentEpoch);
 				
 				// Inform the listeners the Epoch is complete.
-				onEpochComplete(i, j, population);
+				onEpochComplete(currentRun, currentEpoch, population);
 			}
 		}
 		
@@ -76,82 +88,60 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 		onEvolutionComplete(population);
 	}
 	
-	public boolean epoch(IPopulation population, int generation) {
+	/**
+	 * Represents a single cycle of 'evolution'.
+	 * Evaluates each organism in the population and records any 'winners'.
+	 * Keeps track of the maximum fitness value for the Epoch.
+	 * Updates the fitness values for each species in the population.
+	 * invokes the population's own 'epoch' method - functionality here depends 
+	 * on the strategy implementations for the experiment.
+	 * 
+	 * @param population - The population to evaluate and evolve.
+	 * @param generation - The current epoch we're in.
+	 */
+	public void epoch(IPopulation population, int generation) {
 
-		boolean esito = false;
-		boolean win = false;
+		double maxFitnessOfEpoch = 0.0;
+		
+		// Cache the EvolutionStrategy instance - it shouldn't 
+		// change during an experiment run. But let's make sure.
+		IEvolutionStrategy evolutionStrategy = EvolutionStrategy.getInstance();
 
-			// Evaluate each organism if exist the winner.........
-			// flag and store only the first winner
-
-			double max_fitness_of_epoch = 0.0;
-
-			for (IOrganism organism : population.getOrganisms()) {
-				// Evaluate each organism.
-				esito = EvolutionStrategy.getInstance().getOrganismEvaluator().evaluate(organism);
-
-				if (organism.getFitness() > max_fitness_of_epoch)
-					max_fitness_of_epoch = organism.getFitness();
+		// Evaluate each organism and check for first/super winners.
+		for (IOrganism organism : population.getOrganisms()) {
+			
+			// Evaluate each organism. 
+			if (evolutionStrategy.getOrganismEvaluator().evaluate(organism)) {
 				
-				// if is a winner , store a flag
-				if (esito) {
-					win = true;
-					// store only first organism
-					/*if (EnvConstant.FIRST_ORGANISM_WINNER == null) {
-						EnvConstant.FIRST_ORGANISM_WINNER = _organism;
-					}*/
-
+				// If it's the first winner, store the organism.
+				if (!hasWinner()) {
+					
+					// If there's no firstWinner then there's no superWinner either.
+					firstWinner = superWinner = organism;
+				
+				// Otherwise, check if it's more fit than the previous superwinner.
+				} else if (organism.getFitness() > superWinner.getFitness()) {
+					superWinner = organism;
 				}
 			}
-			maxFitnessEachEpoch.add(max_fitness_of_epoch);
-			
-			// Compute average and max fitness for each species
-			for (ISpecies specie : population.getSpecies()) {
-				specie.computeAverageFitness();
-				specie.computeMaxFitness();
+
+			// Keep track of the maximum fitness of the epoch.
+			if (organism.getFitness() > maxFitnessOfEpoch) {
+				maxFitnessOfEpoch = organism.getFitness();
 			}
-			
-			// Only print to file every print_every generations
-			/*String cause1 = " ";
-			String cause2 = " ";*/
-			/*if (((generation % _neat.print_every) == 0) || (win)) {
+		}
+		
+		// Record the highest fitness value for this epoch.
+		maxFitnessEachEpoch.add(maxFitnessOfEpoch);
+		
+		// Compute average and max fitness for each species
+		for (ISpecies specie : population.getSpecies()) {
+			specie.computeAverageFitness();
+			specie.computeMaxFitness();
+		}
 
-				if ((generation % _neat.print_every) == 0)
-					cause1 = " request";
-				if (win)
-					cause2 = " winner";
-			}*/
-
-			// if exist a winner write to file
-			if (win) {
-				logger.debug("in generation " + generation + " i have found at leat one WINNER");
-				/*int conta = 0;
-				itr_organism = pop.getOrganisms().iterator();
-				while (itr_organism.hasNext()) {
-					Organism _organism = ((Organism) itr_organism.next());
-					if (_organism.winner) {
-						conta++;
-					}
-					if (EnvConstant.SUPER_WINNER_) {
-						logger
-								.debug(" generation:      in this generation "
-										+ generation
-										+ " i have found a SUPER WINNER ");
-						EnvConstant.SUPER_WINNER_ = false;
-
-					}
-
-				}
-
-				logger.debug(" generation:      number of winner's is "
-						+ conta);
-*/
-			}
-
-			// wait an epoch and make a reproduction of the best species
-			population.epoch(generation);
-			
-			return win;
+		// Evolve the population.
+		population.epoch(generation);
 	}
 	
 	protected void onEvolutionStart(IPopulation population) {
@@ -217,5 +207,20 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	
 	public void setPopulation(IPopulation population) {
 		this.population = population;
+	}
+
+	@Override
+	public IOrganism getWinner() {
+		return firstWinner;
+	}
+
+	@Override
+	public boolean hasWinner() {
+		return firstWinner != null;
+	}
+
+	@Override
+	public IOrganism getSuperWinner() {
+		return superWinner;
 	}
 }
