@@ -71,32 +71,6 @@ public class SpringNeatController extends AbstractNeatController {
 			logger.error("There was an error creating the experiment directory");
 		}
 	}
-	
-	public void handleSpecialisations(IExperiment experiment) {
-		Map<String, String> specialisations = experiment.getSpecialisations();
-			if (specialisations != null) {
-			System.out.println("setting specialisations for experiment\n" + specialisations);
-			IEvolutionStrategy evolutionStrategy = EvolutionStrategy.getInstance();
-			Class<?>[] parameterTypes = new Class<?>[]{Class.class};
-			for (String key : specialisations.keySet()) {
-				
-				String methodName = "set" + key.substring(0,1).toUpperCase() + key.substring(1);
-				String className = specialisations.get(key);
-				
-				try {
-					Class<?> parameter = Class.forName(className, false, jarClassLoader);
-					Method method = evolutionStrategy.getClass().getDeclaredMethod(methodName, parameterTypes);
-					method.invoke(evolutionStrategy, new Object[]{parameter});
-				} catch (ClassNotFoundException e) {
-					System.out.println("Unable to find a class for " + className);
-				} catch (NoSuchMethodException e) {
-					System.out.println("Unable to set the value of the property " + key + " on EvolutionStrategy.getInstance() - are you sure there's a setter for this value?");
-				} catch (Exception e) {
-					System.out.println("Unable to invoke the setter method " + methodName + " on " + className + "\n" + e.getMessage());
-				} 
-			}
-		}
-	}
 
 	private void setupExperiment(File experimentDirectory) {
 		
@@ -114,21 +88,88 @@ public class SpringNeatController extends AbstractNeatController {
 		cfg.setLocation(new FileSystemResource(path + "/experiment-parameters.properties"));
 		cfg.postProcessBeanFactory(factory);
 		
+		// Grab the experiment object.
 		IExperiment experiment = (IExperiment)factory.getBean("experiment");
 		
-		IEvolutionStrategy evolutionStrategyBean = (IEvolutionStrategy)factory.getBean("evolutionStrategy");
+		// Set up the application to handle the new experiment.
+		checkForCustomStrategyBean(factory);
+		handleStrategySpecialisations(experiment);
+		refresh(experiment);
 		
-		if (evolutionStrategyBean != null) {
+		// Setting the new experiment on the context will 
+		// update any listeners that a new experiment is ready.
+		context.setExperiment(experiment);
+	}
+	
+	/**
+	 * If the experiment defines a custom EvolutionStrategy in its context
+	 * then it's loaded and set here.
+	 * 
+	 * @param factory
+	 */
+	private void checkForCustomStrategyBean(XmlBeanFactory factory) {
+		if (factory.containsBean("evolutionStrategy")) {
+			IEvolutionStrategy evolutionStrategyBean = (IEvolutionStrategy)factory.getBean("evolutionStrategy");
 			EvolutionStrategy.setStrategyFactory(evolutionStrategyBean);
 		} else {
 			EvolutionStrategy.setStrategyFactory(new EvolutionStrategy());
 		}
+	}
+	
+	/**
+	 * If the experiment requires specialisation of any area of the EvolutionStrategy
+	 * this is found and handled here.
+	 * 
+	 * @param experiment
+	 */
+	private void handleStrategySpecialisations(IExperiment experiment) {
 		
-		handleSpecialisations(experiment);
-		// Get the 'experiment' bean - this contains the settings for the loaded experiment.
-		refresh(experiment);
+		Map<String, String> specialisations = experiment.getSpecialisations();
 		
-		context.setExperiment(experiment);
+		// If any specialisations are defined.
+		if (specialisations != null) {
+				
+			System.out.println("setting specialisations for experiment\n" + specialisations);
+			
+			// Get a reference to the EvolutionStrategy.
+			IEvolutionStrategy evolutionStrategy = EvolutionStrategy.getInstance();
+			
+			// All EvolutionStrategy setters take a Class object as their argument.
+			Class<?>[] parameterTypes = new Class<?>[]{Class.class};
+			
+			// For each declared specialisation.
+			for (String key : specialisations.keySet()) {
+				
+				String methodName = "set" + key.substring(0,1).toUpperCase() + key.substring(1);
+				String className = specialisations.get(key);
+				
+				Class<?> parameter = null;
+				
+				try {
+					// Try and find the class in the main class loader.
+					parameter = Class.forName(className);
+					
+				} catch (ClassNotFoundException e) {
+					System.out.println("Unable to find a class for " + className + " in experiment jar");
+					
+					try {
+						// If it's not there then try and find it in the loaded experiment jar.
+						parameter = Class.forName(className, false, jarClassLoader);
+					} catch (ClassNotFoundException ee) {
+						System.out.println("Unable to find a class for " + className);
+					}					
+				} 
+				
+				try {
+					Method method = evolutionStrategy.getClass().getDeclaredMethod(methodName, parameterTypes);
+					method.invoke(evolutionStrategy, new Object[]{parameter});
+				} catch (NoSuchMethodException e) {
+					System.out.println("Unable to set the value of the property " + key + " on EvolutionStrategy.getInstance() - are you sure there's a setter for this value?");
+				} catch (Exception e) {
+					System.out.println("Unable to invoke the setter method " + methodName + " on " + className + "\n" + e.getMessage());
+				} 
+			}
+		}
 	}
 	
 	/**

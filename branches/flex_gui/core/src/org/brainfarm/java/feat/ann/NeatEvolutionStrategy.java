@@ -8,7 +8,7 @@ import org.brainfarm.java.feat.context.IExperiment;
 public class NeatEvolutionStrategy extends EvolutionStrategy {
 	
 	public NeatEvolutionStrategy() {
-		reset();
+		super();
 	}
 	
 	@Override 
