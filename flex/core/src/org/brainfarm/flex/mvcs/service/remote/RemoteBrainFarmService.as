@@ -14,9 +14,9 @@ package org.brainfarm.flex.mvcs.service.remote
 	{
 		private var $client:IClient;
 		
-		public function RemoteBrainFarmService()
+		public function RemoteBrainFarmService(client:IClient)
 		{
-			$client = new BasicClient();
+			$client = client;
 			$client.handshake.addClassToRegister(NeatDoubleParameter);
 			$client.handshake.addClassToRegister(NeatIntParameter);
 			$client.handshake.addClassToRegister(BaseMessage);

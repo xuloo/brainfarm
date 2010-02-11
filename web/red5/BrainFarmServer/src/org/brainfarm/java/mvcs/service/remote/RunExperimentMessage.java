@@ -10,6 +10,11 @@ import org.brainfarm.java.util.writers.PopulationFilenameGenerator;
 import org.brainfarm.java.util.writers.SpringXMLSourceGenerator;
 import org.brainfarm.java.util.writers.TransformerCommand;
 
+/**
+ * 
+ * @author Trevor Burton [trevor@flashmonkey.org]
+ *
+ */
 public class RunExperimentMessage extends BaseMessage implements IEvolutionListener {
 
 	@Override
