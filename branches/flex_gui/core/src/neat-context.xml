@@ -15,6 +15,10 @@
 		</property>
 	</bean>
 	
+	<!-- 
+	Example of a spring-wired evolution listener.
+	 -->
+	 <!-- 
 	<bean id="evolution" class="org.brainfarm.java.feat.Evolution">
 		<property name="listeners">
 			<list>
@@ -41,6 +45,7 @@
 			</list>
 		</property>
 	</bean>
+	 -->
 
 	<bean id="neat" class="org.brainfarm.java.feat.Neat">
 		<property name="parameters" ref="default.parameters" />

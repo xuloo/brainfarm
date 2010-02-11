@@ -3,11 +3,9 @@ package org.brainfarm.java.red5.service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
-import java.util.jar.Attributes.Name;
 
 import org.brainfarm.java.feat.api.context.INeatContext;
 import org.brainfarm.java.feat.context.SpringNeatContext;
@@ -93,21 +91,20 @@ public class BrainFarmService implements IBrainFarmService {
 		controller.loadExperiment(path);
 	}
 	
-	public void runExperiment() {
-		System.out.println("Running Experiment");
-		controller.startEvolution();
-	}
-	
 	public Object receiveMessage(IMessage message) {
-		System.out.println("message: " + message);
 		message.setService(this);
 		
 		Object response = message.read();
-		System.out.println("Responding " + response);
+		
 		return response;
 	}
 	
 	public void setWebappPath(String webappPath) {
 		this.webappPath = ROOT_PATH + webappPath;
+	}
+
+	@Override
+	public INeatContext getFeatContext() {
+		return context;
 	}
 }

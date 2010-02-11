@@ -19,7 +19,7 @@ package org.brainfarm.flex.mvcs.service.remote
 			if (experiment)
 			{
 				$experiment = experiment;
-			}
+			}	
 		}
 		
 		public override function readExternal(input:IDataInput):void 

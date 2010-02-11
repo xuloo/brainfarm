@@ -19,7 +19,6 @@ package org.red5.core;
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA 
  */
 
-import org.brainfarm.java.red5.api.service.message.IMessage;
 import org.red5.server.adapter.MultiThreadedApplicationAdapter;
 import org.red5.server.api.IConnection;
 import org.red5.server.api.IScope;
