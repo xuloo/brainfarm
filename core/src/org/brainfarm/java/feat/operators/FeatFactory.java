@@ -9,7 +9,6 @@ import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.INetwork;
 import org.brainfarm.java.feat.api.INode;
 import org.brainfarm.java.feat.api.IOrganism;
-import org.brainfarm.java.feat.api.operators.IFeatFactory;
 
 /**
  * Uses reflection to create instances of the custom FEAT model object

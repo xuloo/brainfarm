@@ -3,7 +3,6 @@ package org.brainfarm.java.feat.operators;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.brainfarm.java.feat.FeatEvolutionStrategy;
 import org.brainfarm.java.feat.Gene;
 import org.brainfarm.java.feat.Neat;
 import org.brainfarm.java.feat.api.IGene;
@@ -11,7 +10,6 @@ import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.INode;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.operators.ICrossoverStrategy;
-import org.brainfarm.java.feat.api.operators.IFeatFactory;
 import org.brainfarm.java.util.EvolutionUtils;
 import org.brainfarm.java.util.RandomUtils;
 
