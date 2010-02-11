@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.brainfarm.java.feat.EvolutionStrategy;
+import org.brainfarm.java.feat.FEATConstants;
 import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.api.context.INeatContext;
 import org.brainfarm.java.feat.context.IExperiment;
@@ -19,18 +20,18 @@ import org.springframework.core.io.FileSystemResource;
 import org.xeustechnologies.jcl.JarClassLoader;
 import org.xeustechnologies.jcl.JclObjectFactory;
 
-public class SpringNeatController extends AbstractNeatController {
+public class SpringNeatController extends AbstractNeatController implements FEATConstants {
 	
 	private static Logger logger = Logger.getLogger(SpringNeatController.class);
 	
-	private String experimentDirectory = "experiment";
+	private String experimentDirectory = DEFAULT_EXPERIMENT_DIR;
 	
 	public SpringNeatController(INeatContext context) {
 		this.context = context;
 	}
 	
 	public void loadDefaultParameters() {
-		ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{"neat-context.xml"});
+		ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{NEAT_CONTEXT_FILENAME});
 		((SpringNeatContext)context).setApplicationContext(appContext);
 	}
 
@@ -83,13 +84,13 @@ public class SpringNeatController extends AbstractNeatController {
 		experimentDirectory = null;
   
 		// Load the experiment's context into a bean factory.
-		XmlBeanFactory factory = new XmlBeanFactory(new FileSystemResource( path + "/experiment-context.xml"));
+		XmlBeanFactory factory = new XmlBeanFactory(new FileSystemResource( path + "/" + EXPERIMENT_CONTEXT_FILENAME));
 		PropertyPlaceholderConfigurer cfg = new PropertyPlaceholderConfigurer();
-		cfg.setLocation(new FileSystemResource(path + "/experiment-parameters.properties"));
+		cfg.setLocation(new FileSystemResource(path + "/" + EXPERIMENT_PROPERTIES_FILENAME));
 		cfg.postProcessBeanFactory(factory);
 		
 		// Grab the experiment object.
-		IExperiment experiment = (IExperiment)factory.getBean("experiment");
+		IExperiment experiment = (IExperiment)factory.getBean(EXPERIMENT_BEAN_NAME);
 		
 		// Set up the application to handle the new experiment.
 		checkForCustomStrategyBean(factory);
@@ -108,8 +109,8 @@ public class SpringNeatController extends AbstractNeatController {
 	 * @param factory
 	 */
 	private void checkForCustomStrategyBean(XmlBeanFactory factory) {
-		if (factory.containsBean("evolutionStrategy")) {
-			IEvolutionStrategy evolutionStrategyBean = (IEvolutionStrategy)factory.getBean("evolutionStrategy");
+		if (factory.containsBean(EVOLUTION_STRATEGY_BEAN_NAME)) {
+			IEvolutionStrategy evolutionStrategyBean = (IEvolutionStrategy)factory.getBean(EVOLUTION_STRATEGY_BEAN_NAME);
 			EvolutionStrategy.setStrategyFactory(evolutionStrategyBean);
 		} else {
 			EvolutionStrategy.setStrategyFactory(new EvolutionStrategy());
