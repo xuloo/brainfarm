@@ -3,7 +3,6 @@ package org.brainfarm.java.feat.operators;
 import java.util.Iterator;
 import java.util.List;
 
-import org.brainfarm.java.feat.FeatEvolutionStrategy;
 import org.brainfarm.java.feat.Gene;
 import org.brainfarm.java.feat.Innovation;
 import org.brainfarm.java.feat.Neat;
