@@ -4,6 +4,11 @@ import org.red5.io.amf3.IDataInput;
 import org.red5.io.amf3.IDataOutput;
 import org.red5.io.amf3.IExternalizable;
 
+/**
+ * 
+ * @author Trevor Burton [trevor@flashmonkey.org]
+ *
+ */
 public class ExperimentEntry implements IExternalizable {
 
 	private String name;

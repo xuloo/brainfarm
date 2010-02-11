@@ -4,6 +4,11 @@ import org.brainfarm.java.red5.message.BaseMessage;
 import org.red5.io.amf3.IDataInput;
 import org.red5.io.amf3.IDataOutput;
 
+/**
+ * 
+ * @author Trevor Burton [trevor@flashmonkey.org]
+ *
+ */
 public class LoadExperimentMessage extends BaseMessage {
 
 	private String experiment = "";

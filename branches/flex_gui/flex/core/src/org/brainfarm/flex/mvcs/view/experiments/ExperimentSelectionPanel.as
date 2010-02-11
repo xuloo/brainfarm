@@ -116,6 +116,8 @@ package org.brainfarm.flex.mvcs.view.experiments
 		private function onExperimentLoaded(evt:Event):void 
 		{
 			trace("Experiment Loaded");
+			
+			PopUpManager.removePopUp(this);
 		}
 	}
 }

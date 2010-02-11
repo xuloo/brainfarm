@@ -13,12 +13,16 @@
 		<![CDATA[
 			import mx.events.MenuEvent;
 			
+			import org.brainfarm.flex.api.connection.IClient;
+			import org.brainfarm.flex.comm.client.BasicClient;
 			import org.brainfarm.flex.mvcs.controller.BrainFarmContext;
 			import org.brainfarm.flex.mvcs.controller.FlexBrainFarmController;
 			import org.brainfarm.flex.mvcs.controller.MenuHelper;
 			import org.brainfarm.flex.mvcs.model.BrainFarmModel;
 			import org.brainfarm.flex.mvcs.service.IBrainFarmService;
 			import org.brainfarm.flex.mvcs.service.remote.RemoteBrainFarmService;
+			
+			private var client:IClient;
 			
 			private var menuHelper:MenuHelper;
 			
@@ -50,7 +54,9 @@
 
 			private function onCreationComplete():void 
 			{				
-				var service:IBrainFarmService = new RemoteBrainFarmService();
+				client = new BasicClient();
+				
+				var service:IBrainFarmService = new RemoteBrainFarmService(client);
 				context = new BrainFarmContext();
 				
 				var model:BrainFarmModel = new BrainFarmModel();
