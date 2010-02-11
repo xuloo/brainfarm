@@ -42,11 +42,14 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 	protected IReproductionStrategy reproductionStrategy;
 	protected ISpeciationStrategy speciationStrategy;
 	
+	public EvolutionStrategy() {
+		reset();
+	}
+	
 	public static IEvolutionStrategy getInstance() {
 		if (instance == null) {
 			try {
 				instance = new EvolutionStrategy();
-				instance.reset();
 			} catch (Exception e) {
 				System.out.println("Problem instantiating the default strategy factory \n" + e.getMessage());
 			}
