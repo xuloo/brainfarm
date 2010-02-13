@@ -8,7 +8,7 @@ import org.brainfarm.java.feat.api.enums.DataSource;
 import org.brainfarm.java.feat.api.evolution.IEvolutionFitness;
 import org.brainfarm.java.feat.api.evolution.IEvolutionInput;
 import org.brainfarm.java.feat.api.evolution.IEvolutionOutput;
-import org.brainfarm.java.feat.context.IExperiment;
+import org.brainfarm.java.feat.api.experiment.IExperiment;
 import org.xeustechnologies.jcl.JarClassLoader;
 import org.xeustechnologies.jcl.JclObjectFactory;
 import org.xeustechnologies.jcl.JclUtils;
@@ -26,6 +26,9 @@ public abstract class AbstractNeatController implements INeatController {
 	protected void refresh(IExperiment experiment) {
 		// Unload the experiment-specific class implmentations.
 		// So they'll be recreated next time they're called.
+		/*
+		System.out.println(context + " " + factory + " "+ jarClassLoader);
+		System.out.println("experiment fitness class " + experiment.getFitnessClass());
 		if(experiment.getFitnessClass()!=null)
 			context.setFitnessImpl(JclUtils.cast(factory.create(jarClassLoader, experiment.getFitnessClass()), IEvolutionFitness.class));
 		if(experiment.getDataInput()!=null)
@@ -48,6 +51,6 @@ public abstract class AbstractNeatController implements INeatController {
 				neat.setNumberOfOutputUnits(context.getOutputImpl().getNumUnit());
 		} else if (experiment.getDataSource() == DataSource.FILE) {
 
-		}
+		}*/
 	}
 }

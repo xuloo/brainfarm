@@ -5,7 +5,7 @@ import java.util.Map;
 import org.brainfarm.java.feat.api.enums.DataSource;
 import org.brainfarm.java.feat.api.enums.StartFrom;
 
-public abstract class AbstractExperiment implements IExperiment {
+public abstract class AbstractExperiment {
 	
 	private Map<String, String> specialisations;
 	

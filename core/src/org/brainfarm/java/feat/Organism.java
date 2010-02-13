@@ -131,7 +131,7 @@ public class Organism implements IOrganism {
 		this.genome = genome;
 	}
 
-	public String toString() {
+	/*public String toString() {
 		StringBuilder s = new StringBuilder();
 		
 		s.append("-ORGANISM -[genomew_id=" + genome.getId() + "]");
@@ -140,5 +140,5 @@ public class Organism implements IOrganism {
 		s.append(", offspring=" + expectedOffspring);
 		
 		return s.toString();
-	}
+	}*/
 }

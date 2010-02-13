@@ -5,7 +5,7 @@ import org.brainfarm.java.feat.Neat;
 import org.brainfarm.java.feat.api.evolution.IEvolutionFitness;
 import org.brainfarm.java.feat.api.evolution.IEvolutionInput;
 import org.brainfarm.java.feat.api.evolution.IEvolutionOutput;
-import org.brainfarm.java.feat.context.IExperiment;
+import org.brainfarm.java.feat.api.experiment.IExperiment;
 import org.brainfarm.java.feat.context.INeatContextListener;
 
 public interface INeatContext {

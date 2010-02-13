@@ -7,6 +7,7 @@ import org.brainfarm.java.feat.EvolutionStrategy;
 import org.brainfarm.java.feat.Neat;
 import org.brainfarm.java.feat.Organism;
 import org.brainfarm.java.feat.Species;
+import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
@@ -24,6 +25,12 @@ import org.brainfarm.java.util.RandomUtils;
  */
 public class DefaultReproductionStrategy implements IReproductionStrategy{
 
+	private IEvolutionStrategy evolutionStrategy;
+	
+	public DefaultReproductionStrategy(IEvolutionStrategy evolutionStrategy) {
+		this.evolutionStrategy = evolutionStrategy;
+	}
+	
 	public boolean reproduce(ISpecies specie, int generation, IPopulation pop, List<ISpecies> sorted_species) {
 
 		List<IOrganism> organisms = specie.getOrganisms();
@@ -74,11 +81,11 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 				new_genome = mom.getGenome().duplicate(count);
 				if ((thechamp.getSuperChampOffspring()) > 1) {
 					if (RandomUtils.randomDouble() < .8 || Neat.mutate_add_link_prob == 0.0) {
-						EvolutionStrategy.getInstance().getMutationStrategy().mutateLinkWeight(new_genome, Neat.weight_mut_power, 1.0, MutationType.GAUSSIAN);
+						evolutionStrategy.getMutationStrategy().mutateLinkWeight(new_genome, Neat.weight_mut_power, 1.0, MutationType.GAUSSIAN);
 					} else {
 						// Sometimes we add a link to a superchamp
 						new_genome.generatePhenotype(generation);
-						EvolutionStrategy.getInstance().getMutationStrategy().mutateAddLink(new_genome,pop);
+						evolutionStrategy.getMutationStrategy().mutateAddLink(new_genome,pop);
 					}
 				}
 
@@ -106,7 +113,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 				new_genome = mom.getGenome().duplicate(count);
 
 				// Do the mutation depending on probabilities of various mutations
-				EvolutionStrategy.getInstance().getMutationStrategy().mutate(new_genome,pop,generation);
+				evolutionStrategy.getMutationStrategy().mutate(new_genome,pop,generation);
 				baby = FeatFactory.newOrganism(0.0, new_genome, generation);
 			}
 
@@ -157,7 +164,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 					_dad = randspecies.getOrganisms().get(0);
 				}
 
-				new_genome = EvolutionStrategy.getInstance().getCrossoverStrategy().performCrossover(mom,_dad,count);
+				new_genome = evolutionStrategy.getCrossoverStrategy().performCrossover(mom,_dad,count);
 
 				// Determine whether to mutate the baby's Genome
 				// This is done randomly or if the mom and dad are the same
@@ -167,7 +174,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 						_dad.getGenome().getId() == mom.getGenome().getId() || 
 						_dad.getGenome().compatibility(mom.getGenome()) == 0.0) {
 
-					EvolutionStrategy.getInstance().getMutationStrategy().mutate(new_genome,pop,generation);
+					evolutionStrategy.getMutationStrategy().mutate(new_genome,pop,generation);
 					baby = FeatFactory.newOrganism(0.0, new_genome, generation);
 
 				} // end block of prob
