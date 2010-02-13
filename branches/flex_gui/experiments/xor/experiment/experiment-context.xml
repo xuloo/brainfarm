@@ -7,8 +7,16 @@
 	<bean id="experiment" class="org.brainfarm.java.feat.context.SpringContextExperiment">
 		<property name="featCustomizationsPackage" value="${feat.customizations.package}"/>
 		<property name="dataSource" value="${data.source}"/>
+		<property name="dataInput" value="${data.input}"/>
+		<property name="dataOutput" value="${data.output}"/>
+		<property name="fitnessClass" value="${fitness.class}"/>
 		<property name="genomeFile" value="${genome.file}"/>
 		<property name="startFrom" value="${start.from}"/>
 		<property name="epoch" value="${epoch}"/>
+		<property name="activation" value="${activation}"/>
 	</bean>
+	
+	<bean id="evolutionStrategy" 
+		class="org.brainfarm.java.feat.ann.NeatEvolutionStrategy"/>
+	
 </beans>
