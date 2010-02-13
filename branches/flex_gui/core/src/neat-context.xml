@@ -18,6 +18,7 @@
 	<!-- 
 	Example of a spring-wired evolution listener.
 	 -->
+	<bean id="evolution" class="org.brainfarm.java.feat.Evolution"/>
 	 <!-- 
 	<bean id="evolution" class="org.brainfarm.java.feat.Evolution">
 		<property name="listeners">

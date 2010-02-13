@@ -32,6 +32,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class TestStar {
 	
+	public TestStar() {
+	}
+	
 	StarOrganismEvaluator eval = new StarOrganismEvaluator();
 
 	/**
@@ -51,7 +54,7 @@ public class TestStar {
 		((SpringNeatContext)context).setApplicationContext(appContext);
 
 		//load experiment
-		SpringNeatController controller = new TestXorController(context);
+		SpringNeatController controller = new TestStarController(context);
 		controller.loadExperiment();
 
 		//run experiment
@@ -74,15 +77,16 @@ public class TestStar {
 		assertEquals(17.0, maxFitnesses.get(17),.000001);
 		assertEquals(19.0, maxFitnesses.get(21),.000001);
 	}
+	
+	public class TestStarController extends SpringNeatController {
 
-	public class TestXorController extends SpringNeatController{
-		public TestXorController(INeatContext context) {
+		public TestStarController(INeatContext context) {
 			super(context);
 		}
 	}
 
 	public class TestEvolutionListener implements IEvolutionListener{
-
+		
 		MyHmmVisualizer ui;
 
 		private void initializeUI(INetwork net) {

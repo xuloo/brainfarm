@@ -8,7 +8,6 @@ import org.brainfarm.java.feat.api.ILink;
 import org.brainfarm.java.feat.api.INetwork;
 import org.brainfarm.java.feat.api.INode;
 import org.brainfarm.java.feat.api.IOrganism;
-import org.brainfarm.java.feat.api.context.INeatContext;
 import org.brainfarm.java.feat.evaluators.AbstractOrganismEvaluator;
 
 /**
@@ -19,10 +18,6 @@ import org.brainfarm.java.feat.evaluators.AbstractOrganismEvaluator;
  *
  */
 public class StarOrganismEvaluator extends AbstractOrganismEvaluator {
-	
-	public StarOrganismEvaluator(INeatContext context){
-		super(context);
-	}
 	
 	public StarOrganismEvaluator(){
 		

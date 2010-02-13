@@ -1,9 +1,9 @@
 package org.brainfarm.java.feat.ann;
 
+import org.brainfarm.java.feat.Neat;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.ann.INeatNetwork;
 import org.brainfarm.java.feat.api.ann.INeatNode;
-import org.brainfarm.java.feat.api.context.INeatContext;
 import org.brainfarm.java.feat.api.evolution.IEvolutionFitness;
 import org.brainfarm.java.feat.api.evolution.IEvolutionInput;
 import org.brainfarm.java.feat.api.evolution.IEvolutionOutput;
@@ -25,13 +25,12 @@ public class NeatOrganismEvaluator extends AbstractOrganismEvaluator {
 	
 	protected boolean success = false;
 	
+	protected Neat neat;
+	
 	private IEvolutionFitness fitnessImpl;
 	
-	public NeatOrganismEvaluator(INeatContext context) {
-		super(context);
-		this.fitnessImpl = context.getFitnessImpl();
-		this.inputImpl = context.getInputImpl();
-		this.outputImpl = context.getOutputImpl();
+	public NeatOrganismEvaluator() {
+		super();
 	}
 	
 	public IEvolutionFitness getFitnessImpl(){

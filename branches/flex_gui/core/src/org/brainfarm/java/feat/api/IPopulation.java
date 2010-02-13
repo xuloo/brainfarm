@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface IPopulation {
 	
+	void init();
+	
 	void epoch(int generation);
 	
 	List<IOrganism> getOrganisms();

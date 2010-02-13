@@ -26,6 +26,7 @@
 	<property name="jung.api.jar" location="${brainfarm.root}/lib/jung-api-2.0.jar"/>
 	<property name="jung.graph.jar" location="${brainfarm.root}/lib/jung-graph-impl-2.0.jar"/>
 	<property name="jung.visualization.jar" location="${brainfarm.root}/lib/jung-visualization-2.0.jar"/>
+	<property name="junit.jar" location="${brainfarm.root}/lib/junit-4.8.1.jar"/>
 	
 	<!-- Red5 .jar -->
 	<property name="red5.jar" location="${red5.dir}/red5.jar"/>

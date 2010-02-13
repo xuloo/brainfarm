@@ -18,7 +18,7 @@ public abstract class AbstractNeatContext implements INeatContext {
 	
 	protected Neat neat;
 
-	protected IExperiment experiment;
+	protected org.brainfarm.java.feat.api.experiment.IExperiment experiment;
 	
 	private IEvolutionFitness fitnessImpl;
 	
@@ -27,7 +27,7 @@ public abstract class AbstractNeatContext implements INeatContext {
 	private IEvolutionOutput outputImpl;
 
 	@Override
-	public IExperiment getExperiment() {
+	public org.brainfarm.java.feat.api.experiment.IExperiment getExperiment() {
 		return experiment;
 	}
 
@@ -52,7 +52,7 @@ public abstract class AbstractNeatContext implements INeatContext {
 	}
 
 	@Override
-	public void setExperiment(IExperiment experiment) {
+	public void setExperiment(org.brainfarm.java.feat.api.experiment.IExperiment experiment) {
 		this.experiment = experiment;
 		
 		experimentChanged();

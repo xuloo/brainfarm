@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.IInnovation;
 import org.brainfarm.java.feat.api.IOrganism;
@@ -64,15 +65,28 @@ public class Population implements IPopulation {
 
 	/** If too high, leads to delta coding process. */
 	private int highest_last_changed;
+	
+	private IEvolutionStrategy evolutionStrategy;
+	
+	private IGenome genome;
+	
+	private int size;
 
-	public Population(IGenome g, int size) {
+	public Population(IEvolutionStrategy evolutionStrategy, IGenome g, int size) {
 		winnergen = 0;
 		highest_fitness = 0.0;
 		highest_last_changed = 0;
-		EvolutionStrategy.getInstance().getPopulationInitializationStrategy().initialize(this, g, size);
+				
+		this.evolutionStrategy = evolutionStrategy;
+		this.genome = g;
+		this.size = size;
+	}
+	
+	public void init() {
+		evolutionStrategy.getPopulationInitializationStrategy().initialize(this, genome, size);
 	}
 
-	public String toString() {
+	/*public String toString() {
 
 		StringBuilder s = new StringBuilder();
 		
@@ -89,7 +103,7 @@ public class Population implements IPopulation {
 		}
 		
 		return s.toString();
-	}
+	}*/
 
 	/**
 	 * 
@@ -415,7 +429,7 @@ public class Population implements IPopulation {
 		 * System.out.print("\n Start reproduction of species ....");
 		 */
 		for (ISpecies specie : sorted_species)
-			EvolutionStrategy.getInstance().getReproductionStrategy().reproduce(specie,generation, this, sorted_species);
+			evolutionStrategy.getReproductionStrategy().reproduce(specie,generation, this, sorted_species);
 
 		//
 		// Destroy and remove the old generation from the organisms and species

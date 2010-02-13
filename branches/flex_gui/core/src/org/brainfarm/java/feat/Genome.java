@@ -360,7 +360,7 @@ public class Genome implements IGenome {
 		return id;
 	}
 	
-	public String toString() {
+	/*public String toString() {
 
 		StringBuilder s = new StringBuilder();
 		
@@ -376,5 +376,5 @@ public class Genome implements IGenome {
 		}
 		
 		return s.toString();
-	}
+	}*/
 }

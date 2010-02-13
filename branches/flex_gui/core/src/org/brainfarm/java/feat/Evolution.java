@@ -12,7 +12,7 @@ import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
 import org.brainfarm.java.feat.api.evolution.IEvolution;
 import org.brainfarm.java.feat.api.evolution.IEvolutionListener;
-import org.brainfarm.java.feat.context.IExperiment;
+import org.brainfarm.java.feat.api.experiment.IExperiment;
 import org.brainfarm.java.util.ThreadedCommand;
 
 /**
@@ -36,6 +36,8 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	
 	private IPopulation population;
 	
+	private IEvolutionStrategy evolutionStrategy;
+	
 	/**
 	 * The first organism in any epoch of any run that 
 	 * performed better than the error threshold.
@@ -55,7 +57,8 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 		
 	}
 	
-	public Evolution(Neat neat, IExperiment experiment, IPopulation population) {
+	public Evolution(IEvolutionStrategy evolutionStrategy, Neat neat, IExperiment experiment, IPopulation population) {
+		this.evolutionStrategy = evolutionStrategy;
 		this.neat = neat;
 		this.experiment = experiment;
 		this.population = population;
@@ -102,10 +105,6 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	public void epoch(IPopulation population, int generation) {
 
 		double maxFitnessOfEpoch = 0.0;
-		
-		// Cache the EvolutionStrategy instance - it shouldn't 
-		// change during an experiment run. But let's make sure.
-		IEvolutionStrategy evolutionStrategy = EvolutionStrategy.getInstance();
 
 		// Evaluate each organism and check for first/super winners.
 		for (IOrganism organism : population.getOrganisms()) {
@@ -207,6 +206,10 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	
 	public void setPopulation(IPopulation population) {
 		this.population = population;
+	}
+	
+	public void setEvolutionStrategy(IEvolutionStrategy evolutionStrategy) {
+		this.evolutionStrategy = evolutionStrategy;
 	}
 
 	@Override

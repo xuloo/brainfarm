@@ -33,7 +33,6 @@ public class DefaultSpeciationStrategy implements ISpeciationStrategy {
 		int counter = 0; // Species counter
 
 		// for each organism.....
-
 		for (IOrganism organism : pop.getOrganisms()) {
 
 			// if list species is empty , create the first species!
