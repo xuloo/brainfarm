@@ -35,6 +35,10 @@ public class DefaultPopulationInitializationStrategy implements
 			IOrganism neworganism = EvolutionStrategy.getInstance().getModelObjectFactory().createOrganism(0.0, newgenome, 1);
 			pop.getOrganisms().add(neworganism);
 		}
+		
+		//validate genomes
+		for(IOrganism org : pop.getOrganisms())
+			org.getGenome().validate();
 
 		// Keep a record of the innovation and node number we are on
 		pop.setCur_node_id(newgenome.getLastNodeId()+1);

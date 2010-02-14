@@ -3,10 +3,10 @@ package org.brainfarm.java.feat.api;
 public interface ILink {
 	
 	INode getInputNode();
-	void setInputNode(INode node);
+	void setInputNode(INode node, boolean enforceInverseRef);
 	
 	INode getOutputNode();
-	void setOutputNode(INode node);
+	void setOutputNode(INode node, boolean enforceInverseRef);
 	
 	double getWeight();
 	void setWeight(double weight);

@@ -210,14 +210,14 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 		avgene.getLink().setWeight((momGene.getLink().getWeight() + dadGene.getLink().getWeight()) / 2.0);
 
 		if (RandomUtils.randomDouble() > 0.5)
-			avgene.getLink().setInputNode(momGene.getLink().getInputNode());
+			avgene.getLink().setInputNode(momGene.getLink().getInputNode(),false);
 		else
-			avgene.getLink().setInputNode(dadGene.getLink().getInputNode());
+			avgene.getLink().setInputNode(dadGene.getLink().getInputNode(),false);
 
 		if (RandomUtils.randomDouble() > 0.5)
-			avgene.getLink().setOutputNode(momGene.getLink().getOutputNode());
+			avgene.getLink().setOutputNode(momGene.getLink().getOutputNode(),false);
 		else
-			avgene.getLink().setOutputNode(dadGene.getLink().getOutputNode());
+			avgene.getLink().setOutputNode(dadGene.getLink().getOutputNode(),false);
 
 		if (RandomUtils.randomDouble() > 0.5)
 			avgene.getLink().setRecurrent(momGene.getLink().isRecurrent());
@@ -380,14 +380,14 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 								.getLink().getWeight()) / 2.0);
 
 						if (RandomUtils.randomDouble() > 0.5)
-							avgene.getLink().setInputNode(geneA.getLink().getInputNode());
+							avgene.getLink().setInputNode(geneA.getLink().getInputNode(),false);
 						else
-							avgene.getLink().setInputNode(geneB.getLink().getInputNode());
+							avgene.getLink().setInputNode(geneB.getLink().getInputNode(),false);
 
 						if (RandomUtils.randomDouble() > 0.5)
-							avgene.getLink().setOutputNode(geneA.getLink().getOutputNode());
+							avgene.getLink().setOutputNode(geneA.getLink().getOutputNode(),false);
 						else
-							avgene.getLink().setOutputNode(geneB.getLink().getOutputNode());
+							avgene.getLink().setOutputNode(geneB.getLink().getOutputNode(),false);
 
 						if (RandomUtils.randomDouble() > 0.5)
 							avgene.getLink().setRecurrent(geneA.getLink().isRecurrent());
