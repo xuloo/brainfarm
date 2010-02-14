@@ -4,14 +4,6 @@ import org.brainfarm.java.feat.api.evolution.IEvolutionInput;
 
 public class Input implements IEvolutionInput {
 
-	public int getNumSamples() {
-		return 4;
-	}
-
-	public int getNumUnit() {
-		return 2;
-	}
-
 	public double getInput(int _plist[]) {
 
 		int _index = _plist[0];

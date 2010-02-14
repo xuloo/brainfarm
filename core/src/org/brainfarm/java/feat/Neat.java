@@ -8,6 +8,8 @@ import org.brainfarm.java.feat.params.NeatParameter;
 
 /**
  * Definition of all parameters , threshold and other values.
+ * 
+ * @author Trevor Burton [trevor@flashmonkey.org]
  */
 public class Neat {
 
@@ -218,50 +220,6 @@ public class Neat {
 	
 	@NeatParameter
 	public int num_runs;
-	
-	
-	///////////////////////////////////////
-	// NOT SURE IF THESE ARE NEEDED HERE //
-	///////////////////////////////////////
-	private double maxFitness = 0.0;
-	
-	public void setMaxFitness(double maxFitness) {
-		this.maxFitness = maxFitness;
-	}
-
-	public double getMaxFitness() {
-		return maxFitness;
-	}
-	
-	private int numberOfInputs = 0;
-	
-	public void setNumberOfInputs(int numberOfInputs) {
-		this.numberOfInputs = numberOfInputs;
-	}
-
-	public int getNumberOfInputs() {
-		return numberOfInputs;
-	}
-
-	private int numberOfSamples = 0;
-	
-	public void setNumberOfSamples(int numberOfSamples) {
-		this.numberOfSamples = numberOfSamples;
-	}
-
-	public int getNumberOfSamples() {
-		return numberOfSamples;
-	}	
-
-	private int numberOfOutputUnits = 0;
-	
-	public void setNumberOfOutputUnits(int numberOfOutputUnits) {
-		this.numberOfOutputUnits = numberOfOutputUnits;
-	}
-
-	public int getNumberOfOutputUnits() {
-		return numberOfOutputUnits;
-	}
 	
 	public List<AbstractNeatParameter> parameters;
 	

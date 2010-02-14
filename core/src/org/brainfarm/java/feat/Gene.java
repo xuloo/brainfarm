@@ -8,6 +8,8 @@ import org.brainfarm.java.feat.api.INode;
 
 /** 
  * A genetic codification of gene. 
+ * 
+ * @author Trevor Burton [trevor@flashmonkey.org]
  */
 public class Gene implements IGene
 {

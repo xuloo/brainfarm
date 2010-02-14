@@ -16,6 +16,7 @@ import org.brainfarm.java.feat.operators.FeatFactory;
  * everything required by the FEAT everything.
  * 
  * @author dtuohy
+ * @author Trevor Burton [trevor@flashmonkey.org]
  *
  */
 public class Genome implements IGenome {
@@ -359,22 +360,4 @@ public class Genome implements IGenome {
 	public int getId() {
 		return id;
 	}
-	
-	/*public String toString() {
-
-		StringBuilder s = new StringBuilder();
-		
-		s.append("GENOME START   id=" + getId());
-		s.append("\n  genes are :" + genes.size());
-		s.append("\n  nodes are :" + nodes.size());
-
-		for (INode _node : nodes) 
-			s.append(_node.toString());
-
-		for (IGene _gene : genes) {
-			s.append(_gene.toString());
-		}
-		
-		return s.toString();
-	}*/
 }

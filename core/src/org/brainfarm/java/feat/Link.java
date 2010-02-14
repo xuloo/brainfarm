@@ -7,6 +7,8 @@ import org.brainfarm.java.feat.api.INode;
 /**
  * Link is a connection from one node to another with an associated weight; It
  * can be marked as recurrent; Its parameters are made public for efficiency.
+ * 
+ * @author Trevor Burton [trevor@flashmonkey.org]
  */
 public class Link implements ILink {
 

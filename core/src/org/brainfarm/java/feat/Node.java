@@ -13,6 +13,7 @@ import org.brainfarm.java.feat.operators.FeatFactory;
  * the bare essentials required for a FEAT experiment.
  * 
  * @author dtuohy
+ * @author Trevor Burton [trevor@flashmonkey.org]
  *
  */
 public class Node implements INode {

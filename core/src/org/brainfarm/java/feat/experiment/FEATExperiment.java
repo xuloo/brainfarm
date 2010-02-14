@@ -2,6 +2,7 @@ package org.brainfarm.java.feat.experiment;
 
 import org.brainfarm.java.feat.api.IEvolution;
 import org.brainfarm.java.feat.api.IEvolutionStrategy;
+import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.enums.DataSource;
 import org.brainfarm.java.feat.api.enums.StartFrom;
@@ -21,6 +22,8 @@ public class FEATExperiment implements IExperiment {
 	protected StartFrom startFrom = DEFAULT_START_FROM;
 	
 	private DataSource dataSource = DEFAULT_DATA_SOURCE;
+	
+	private IGenome genome;
 	
 	protected String genomeFile;
 	
@@ -87,5 +90,13 @@ public class FEATExperiment implements IExperiment {
 	
 	public void setEvolutionStrategy(IEvolutionStrategy evolutionStrategy) {
 		this.evolutionStrategy = evolutionStrategy;
+	}
+
+	public void setGenome(IGenome genome) {
+		this.genome = genome;
+	}
+
+	public IGenome getGenome() {
+		return genome;
 	}
 }
