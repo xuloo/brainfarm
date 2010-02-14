@@ -24,7 +24,6 @@
     <classEntry path="org.brainfarm.flex.comm.messages.RequestIdMessage"/>
     <classEntry path="org.brainfarm.flex.comm.messages.SendMessageOperation"/>
     <classEntry path="org.brainfarm.flex.mvcs.controller.BrainFarmContext"/>
-    <classEntry path="org.brainfarm.flex.mvcs.controller.FlexBrainFarmController"/>
     <classEntry path="org.brainfarm.flex.mvcs.controller.IBrainFarmController"/>
     <classEntry path="org.brainfarm.flex.mvcs.model.BrainFarmModel"/>
     <classEntry path="org.brainfarm.flex.mvcs.model.vo.NeatParameter"/>

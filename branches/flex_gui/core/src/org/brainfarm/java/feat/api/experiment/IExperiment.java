@@ -1,8 +1,8 @@
 package org.brainfarm.java.feat.api.experiment;
 
-import org.brainfarm.java.feat.api.IEvolution;
 import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.api.IPopulation;
+import org.brainfarm.java.feat.api.evolution.IEvolution;
 
 public interface IExperiment {
 	
@@ -12,7 +12,9 @@ public interface IExperiment {
 	
 	public IEvolutionStrategy getEvolutionStrategy();
 	
-	public int getEpoch();
+	public int getEpochs();
+	
+	public int getRuns();
 	
 	public IPopulation getPopulation();
 }

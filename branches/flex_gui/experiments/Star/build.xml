@@ -47,7 +47,7 @@
 	</target>
 
 	<path id="javac.test.path">
-		<pathelement location="${test.src.dir}"/>
+		<pathelement location="${build.test.dir}"/>
 		<pathelement location="${junit.jar}" />
 		<pathelement location="${build.classes.dir}"/>
 		<pathelement location="${spring.context.jar}"/>

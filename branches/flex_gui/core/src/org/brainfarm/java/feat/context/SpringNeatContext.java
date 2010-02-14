@@ -1,10 +1,9 @@
 package org.brainfarm.java.feat.context;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.feat.Evolution;
 import org.brainfarm.java.feat.FEATConstants;
 import org.brainfarm.java.feat.Neat;
-import org.brainfarm.java.feat.api.IPopulation;
+import org.brainfarm.java.feat.api.evolution.IEvolution;
 import org.springframework.context.ApplicationContext;
 
 public class SpringNeatContext extends AbstractNeatContext implements FEATConstants {
@@ -30,27 +29,8 @@ public class SpringNeatContext extends AbstractNeatContext implements FEATConsta
 	}
 	
 	@Override
-	public Evolution getEvolution() {
-
-		Evolution evolution = (Evolution)context.getBean("evolution");
+	public IEvolution getEvolution() {
 		
-		System.out.println("Evolution Bean: " + evolution);
-		//EvolutionStrategy.getInstance().setActiveExperiment(experiment, this);
-
-		
-		
-		System.out.println("bean cast " + evolution);
-		System.out.println("population " + experiment.getPopulation());
-
-		IPopulation population = experiment.getPopulation();
-		population.init();
-		
-		evolution.setNeat(neat);
-		evolution.setExperiment(experiment);
-		evolution.setPopulation(population);
-		evolution.setEvolutionStrategy(experiment.getEvolutionStrategy());
-		
-		
-		return evolution;
+		return experiment.evolution();
 	}
 }

@@ -45,8 +45,9 @@ public class TestXOR {
 
 		//run experiment
 		TestEvolutionListener listener = new TestEvolutionListener();
-		context.getEvolution().addListener(listener);
-		controller.startEvolution();
+		IEvolution evolution = context.getEvolution();
+		evolution.addListener(listener);
+		evolution.run();
 
 		//verify that appropriate events were received
 		assertEquals(1,listener.evolutionStarted);
@@ -55,9 +56,12 @@ public class TestXOR {
 		assertEquals(40,listener.epochsCompleted);
 		
 		//sample and validate results of evolution
-		List<Double> maxFitnesses = context.getEvolution().getMaxFitnessEachEpoch();
+		List<Double> maxFitnesses = evolution.getMaxFitnessEachEpoch();
+		
 		for(double d : maxFitnesses)
 			System.out.print(d + ", ");
+		
+		System.out.println("\n" + maxFitnesses.size());
 		assertEquals(6.178315187424375, maxFitnesses.get(0),.000001);
 		assertEquals(15.999766675576327, maxFitnesses.get(28),.000001);
 		assertEquals(10.043538023300911, maxFitnesses.get(35),.000001);

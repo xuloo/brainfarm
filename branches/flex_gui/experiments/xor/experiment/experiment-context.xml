@@ -6,7 +6,8 @@
 	 
 	<bean id="experiment" class="org.brainfarm.java.feat.ann.NeatExperiment">
 		<property name="genome" ref="genome"/>
-		<property name="epoch" value="${epoch}"/>
+		<property name="runs" value="${runs}"/>
+		<property name="epochs" value="${epochs}"/>
 		<property name="evolutionStrategy" ref="evolutionStrategy"/>
 		<property name="population" ref="population"/>
 	</bean>
@@ -34,7 +35,7 @@
 	<bean id="population" class="org.brainfarm.java.feat.Population">
 		<constructor-arg ref="evolutionStrategy" index="0" type="org.brainfarm.java.feat.api.IEvolutionStrategy"/>
 		<constructor-arg ref="genome" index="1" type="org.brainfarm.java.feat.api.IGenome"/>
-		<constructor-arg value="500" index="2"/>
+		<constructor-arg value="${population.size}" index="2"/>
 	</bean>
 	
 	<import resource="genome.xml"/>

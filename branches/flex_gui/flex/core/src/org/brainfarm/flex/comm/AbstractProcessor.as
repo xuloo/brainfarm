@@ -1,5 +1,7 @@
 package org.brainfarm.flex.comm
 {
+	import org.brainfarm.flex.api.connection.IProcessor;
+
 	public class AbstractProcessor implements IProcessor
 	{
 		private var _types:Array = [];
