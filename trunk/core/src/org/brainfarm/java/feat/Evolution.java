@@ -61,6 +61,9 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 				
 				currentEpoch = j;
 				
+				for(IOrganism org : population.getOrganisms())
+					org.getGenome().validate();
+				
 				// Inform listeners we're starting a new Epoch.
 				onEpochStart(i, j, population);
 				
@@ -94,14 +97,8 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 					max_fitness_of_epoch = organism.getFitness();
 				
 				// if is a winner , store a flag
-				if (esito) {
+				if (esito)
 					win = true;
-					// store only first organism
-					/*if (EnvConstant.FIRST_ORGANISM_WINNER == null) {
-						EnvConstant.FIRST_ORGANISM_WINNER = _organism;
-					}*/
-
-				}
 			}
 			maxFitnessEachEpoch.add(max_fitness_of_epoch);
 			
@@ -110,43 +107,10 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 				specie.computeAverageFitness();
 				specie.computeMaxFitness();
 			}
-			
-			// Only print to file every print_every generations
-			/*String cause1 = " ";
-			String cause2 = " ";*/
-			/*if (((generation % _neat.print_every) == 0) || (win)) {
-
-				if ((generation % _neat.print_every) == 0)
-					cause1 = " request";
-				if (win)
-					cause2 = " winner";
-			}*/
 
 			// if exist a winner write to file
-			if (win) {
+			if (win)
 				logger.debug("in generation " + generation + " i have found at leat one WINNER");
-				/*int conta = 0;
-				itr_organism = pop.getOrganisms().iterator();
-				while (itr_organism.hasNext()) {
-					Organism _organism = ((Organism) itr_organism.next());
-					if (_organism.winner) {
-						conta++;
-					}
-					if (EnvConstant.SUPER_WINNER_) {
-						logger
-								.debug(" generation:      in this generation "
-										+ generation
-										+ " i have found a SUPER WINNER ");
-						EnvConstant.SUPER_WINNER_ = false;
-
-					}
-
-				}
-
-				logger.debug(" generation:      number of winner's is "
-						+ conta);
-*/
-			}
 
 			// wait an epoch and make a reproduction of the best species
 			population.epoch(generation);

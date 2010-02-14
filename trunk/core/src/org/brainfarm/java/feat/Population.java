@@ -102,23 +102,18 @@ public class Population implements IPopulation {
 		int max_expected;
 		int total_expected; // precision checking
 		int final_expected;
-		int half_pop = 0;
 		double overall_average = 0.0;
 		int total_organisms = 0;
 		double skim = 0.0;
 		int tmpi = 0;
 		int best_species_num = 0;
 		int stolen_babies = 0;
-		//int one_fifth_stolen = 0;
-		//int one_tenth_stolen = 0;
 		int size_of_curr_specie = 0;
 		int NUM_STOLEN = Neat.babies_stolen; // Number of babies to steal
-		// al momento NUM_STOLEN=1
 
 		//ISpecies _specie = null;
 		ISpecies curspecies = null;
 		ISpecies best_specie = null;
-		//Vector sorted_species = null;
 
 		// Use Species' ages to modify the objective fitness of organisms
 		// in other words, make it more fair for younger species
@@ -128,45 +123,31 @@ public class Population implements IPopulation {
 		// within a species.
 		// Then, within each Species, mark for death
 		// those below survival_thresh * average
-
-		for (ISpecies specie : species) {
+		for (ISpecies specie : species)
 			specie.adjustFitness();
-		}
 
-		// Go through the organisms and add up their fitnesses to compute the
-		// overall average
-
+		// Go through the organisms and add up their fitnesses to compute the overall average
 		total = 0.0000;
-		//int z = 0;
-		for (IOrganism organism : organisms) {
-			//System.out.println("organim " + (z++) + " fitness == " + _organism.fitness);
+		for (IOrganism organism : organisms)
 			total += organism.getFitness();
-		}
-		
-		//System.out.println("TOTAL FITNESS " + total);
 
 		total_organisms = organisms.size();
 		overall_average = total / total_organisms;
 
 		// Now compute expected number of offspring for each individual organism
-		//
-		//int orgnum = 0;
-		for (IOrganism organism : organisms) {
+		for (IOrganism organism : organisms)
 			organism.setExpectedOffspring(organism.getFitness() / overall_average);
-		}
 
 		// Now add those offspring up within each Species to get the number of
 		// offspring per Species
 		skim = 0.0;
 		total_expected = 0;
-		//int specount = 0;
 		for (ISpecies specie : species) {
 			skim = specie.countOffspring(skim);
 			total_expected += specie.getExpectedOffspring();
 		}
 
-		// Need to make up for lost foating point precision in offspring
-		// assignment
+		// Need to make up for lost foating point precision in offspring assignment
 		// If we lost precision, give an extra baby to the best Species
 
 		if (total_expected < total_organisms) {
@@ -183,7 +164,6 @@ public class Population implements IPopulation {
 				final_expected += specie.getExpectedOffspring();
 			}
 			// Give the extra offspring to the best species
-
 			best_specie.incrementExpectedOffspring();
 			final_expected++;
 
@@ -195,9 +175,8 @@ public class Population implements IPopulation {
 			if (final_expected < total_organisms) {
 				System.out.print("\n Sorry : Population .has DIED +");
 				System.out.print("\n ------------------------------");
-				for (ISpecies specie : species) {
+				for (ISpecies specie : species)
 					specie.setExpectedOffspring(0);
-				}
 				best_specie.setExpectedOffspring(total_organisms);
 			}
 		}
@@ -205,9 +184,8 @@ public class Population implements IPopulation {
 		List<ISpecies> sorted_species = new ArrayList<ISpecies>(species.size());
 		
 		// copy the Species pointers into a new Species list for sorting
-		for (ISpecies specie : species) {
+		for (ISpecies specie : species)
 			sorted_species.add(specie);
-		}
 
 		// Sort the population and mark for death those after survival_thresh * pop_size.
 		Collections.sort(sorted_species, new CompareSpeciesByOriginalFitness());
@@ -221,7 +199,6 @@ public class Population implements IPopulation {
 		rep1.append("\n  the BEST  specie is #" + best_species_num);
 
 		// report current situation
-
 		for (ISpecies specie : sorted_species) {
 			rep1.append("\n  orig fitness of Species #" + specie.getId());
 			rep1.append(" (Size " + specie.getOrganisms().size() + "): ");
@@ -238,9 +215,7 @@ public class Population implements IPopulation {
 		if (curspecies.getOrganisms().get(0).getOriginalFitness() > highest_fitness) {
 			highest_fitness = curspecies.getOrganisms().get(0).getOriginalFitness();
 			highest_last_changed = 0;
-			
 			rep1.append("\n    population has reached a new *RECORD FITNESS* -> " + highest_fitness);
-
 		} else {
 			++highest_last_changed;
 			rep1.append("\n    are passed " + highest_last_changed
@@ -249,54 +224,15 @@ public class Population implements IPopulation {
 		}
 
 		// Check for stagnation- if there is stagnation, perform delta-coding
-
-		if (highest_last_changed >= Neat.dropoff_age + 5) {
-			// ------------------ block delta coding
-			// ----------------------------
-			System.out.print("\n+  <PERFORMING DELTA CODING>");
-			highest_last_changed = 0;
-			half_pop = Neat.pop_size / 2;
-			tmpi = Neat.pop_size - half_pop;
-			System.out.print("\n  Pop size is " + Neat.pop_size);
-			System.out.print(", half_pop=" + half_pop
-					+ ",   pop_size - halfpop=" + tmpi);
-
-			Iterator<ISpecies> itr_specie = sorted_species.iterator();
-			ISpecies _specie = ((Species) itr_specie.next());
-
-			// the first organism of first species can have offspring = 1/2 pop
-			// size
-			_specie.getOrganisms().get(0).setSuperChampOffspring(half_pop);
-			// the first species can have offspring = 1/2 pop size
-			_specie.setExpectedOffspring(half_pop);
-			_specie.setAgeOfLastImprovement(_specie.getAge());
-
-			if (itr_specie.hasNext()) {
-				_specie = itr_specie.next();
-				_specie.getOrganisms().get(0).setSuperChampOffspring(half_pop);
-				// the second species can have offspring = 1/2 pop size
-				_specie.setExpectedOffspring(half_pop);
-				_specie.setAgeOfLastImprovement(_specie.getAge());
-				// at this moment the offpring is terminated : the remainder
-				// species has 0 offspring!
-				while (itr_specie.hasNext()) {
-					_specie = ((Species) itr_specie.next());
-					_specie.setExpectedOffspring(0);
-				}
-			} else {
-				_specie.getOrganisms().get(0).incrementSuperChampOffspring(Neat.pop_size - half_pop);
-				_specie.incrementExpectedOffspring(Neat.pop_size - half_pop);
-			}
-
-		} else {
+		if (highest_last_changed >= Neat.dropoff_age + 5)
+			performDeltaCoding(sorted_species);
+		else {
 			// --------------------------------- block baby stolen (if baby
 			// stolen > 0) -------------------------
-			// System.out.print("\n   Starting with NUM_STOLEN = "+NUM_STOLEN);
 
 			if (Neat.babies_stolen > 0) {
 				ISpecies _specie = null;
-				// Take away a constant number of expected offspring from the
-				// worst few species
+				// Take away a constant number of expected offspring from the worst few species
 				stolen_babies = 0;
 				for (int j = sorted_species.size() - 1; (j >= 0)
 						&& (stolen_babies < NUM_STOLEN); j--) {
@@ -317,13 +253,10 @@ public class Population implements IPopulation {
 					}
 				}
 
-				// Mark the best champions of the top species to be the super
-				// champs
-				// who will take on the extra offspring for cloning or mutant
-				// cloning
-				// Determine the exact number that will be given to the top
-				// three
-				// They get , in order, 1/5 1/5 and 1/10 of the stolen babies
+				// Mark the best champions of the top species to be the super champs
+				// who will take on the extra offspring for cloning or mutant cloning
+				// Determine the exact number that will be given to the top three
+				// They get, in order, 1/5 1/5 and 1/10 of the stolen babies
 
 				int tb_four[] = new int[3];
 				tb_four[0] = Neat.babies_stolen / 5;
@@ -382,38 +315,27 @@ public class Population implements IPopulation {
 			} // end baby_stolen > 0
 
 		}
-		// ---------- phase of elimination of organism with flag eliminate
-		// ------------
-		//Iterator<IOrganism> itr_organism = organisms.iterator();
-		//Vector vdel = new Vector(organisms.size());
+		// ---------- phase of elimination of organism with flag eliminate ------------
 		List<IOrganism> vdel = new ArrayList<IOrganism>(organisms.size());
 		
-		for (IOrganism organism : organisms) {
+		for (IOrganism organism : organisms)
 			if (organism.isEliminated()) {
 				// Remove the organism from its Species
 				organism.getSpecies().removeOrganism(organism);
 				// store the organism can be elimanated;
 				vdel.add(organism);
 			}
-		}
+		
 		// eliminate organism from master list
-		for (IOrganism organism : vdel) {
+		for (IOrganism organism : vdel)
 			organisms.remove(organism);
-		}
 
 		vdel.clear();
 
+		for(IOrganism org : getOrganisms())
+			org.getGenome().validate();
+		
 		// ---------- phase of reproduction -----------
-		/*
-		 * System.out.print("\n ---- Reproduction at time " +
-		 * generation+" ----"); System.out.print("\n    species   : "+
-		 * sorted_species.size()); System.out.print("\n    organisms : "+
-		 * organisms.size());
-		 * System.out.print("\n    cur innov num : "+cur_innov_num);
-		 * System.out.print("\n    cur node num  : "+cur_node_id);
-		 * System.out.print("\n ---------------------------------------------");
-		 * System.out.print("\n Start reproduction of species ....");
-		 */
 		for (ISpecies specie : sorted_species)
 			EvolutionStrategy.getInstance().getReproductionStrategy().reproduce(specie,generation, this, sorted_species);
 
@@ -485,7 +407,7 @@ public class Population implements IPopulation {
 		// Remove the innovations of the current generation
 		innovations.clear();
 
-		// DEBUG: Check to see if the best species died somehow
+		// TODO: Check to see if the best species died somehow
 		// We don't want this to happen
 		boolean best_ok = false;
 
@@ -500,6 +422,45 @@ public class Population implements IPopulation {
 			logger.info("The Best Species Died!"); 
 		} else {
 			logger.info("The best Species #" + best_species_num + " survived");
+		}
+	}
+
+	private void performDeltaCoding(List<ISpecies> sorted_species) {
+		int half_pop;
+		int tmpi;
+		// ------------------ block delta coding
+		// ----------------------------
+		System.out.print("\n+  <PERFORMING DELTA CODING>");
+		highest_last_changed = 0;
+		half_pop = Neat.pop_size / 2;
+		tmpi = Neat.pop_size - half_pop;
+		System.out.print("\n  Pop size is " + Neat.pop_size);
+		System.out.print(", half_pop=" + half_pop + ",   pop_size - halfpop=" + tmpi);
+
+		Iterator<ISpecies> itr_specie = sorted_species.iterator();
+		ISpecies _specie = ((Species) itr_specie.next());
+
+		// the first organism of first species can have offspring = 1/2 pop size
+		_specie.getOrganisms().get(0).setSuperChampOffspring(half_pop);
+		// the first species can have offspring = 1/2 pop size
+		_specie.setExpectedOffspring(half_pop);
+		_specie.setAgeOfLastImprovement(_specie.getAge());
+
+		if (itr_specie.hasNext()) {
+			_specie = itr_specie.next();
+			_specie.getOrganisms().get(0).setSuperChampOffspring(half_pop);
+			// the second species can have offspring = 1/2 pop size
+			_specie.setExpectedOffspring(half_pop);
+			_specie.setAgeOfLastImprovement(_specie.getAge());
+			// at this moment the offpring is terminated : the remainder
+			// species has 0 offspring!
+			while (itr_specie.hasNext()) {
+				_specie = ((Species) itr_specie.next());
+				_specie.setExpectedOffspring(0);
+			}
+		} else {
+			_specie.getOrganisms().get(0).incrementSuperChampOffspring(Neat.pop_size - half_pop);
+			_specie.incrementExpectedOffspring(Neat.pop_size - half_pop);
 		}
 	}
 
