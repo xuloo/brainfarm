@@ -46,14 +46,9 @@
     <classEntry path="org.brainfarm.flex.mvcs.model.vo.ExperimentEntry"/>
     <classEntry path="org.brainfarm.flex.mvcs.view.experiments.ExperimentListItemRenderer"/>
     <classEntry path="org.brainfarm.flex.mvcs.service.remote.RunExperimentMessage"/>
-<<<<<<< .mine
-    <classEntry path="org.brainfarm.flex.mvcs.view.resultsummary.ResultSummaryPanel"/>
-    <classEntry path="org.brainfarm.flex.mvcs.view.resultsummary.ResultSummaryPanelView"/>
-=======
     <classEntry path="org.brainfarm.flex.mvcs.view.resultsummary.ResultSummaryPanel"/>
     <classEntry path="org.brainfarm.flex.mvcs.view.resultsummary.ResultSummaryPanelView"/>
     <classEntry path="org.brainfarm.flex.mvcs.service.remote.ExperimentResultMessage"/>
->>>>>>> .r138
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
