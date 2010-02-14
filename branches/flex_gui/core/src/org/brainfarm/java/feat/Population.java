@@ -18,6 +18,7 @@ import org.brainfarm.java.util.RandomUtils;
 /** A Population is a group of Organisms including their species. 
  *
  * @author dtuohy, orig. Ugo Vierucci
+ * @author Trevor Burton [trevor@flashmonkey.org]
  */
 public class Population implements IPopulation {
 	

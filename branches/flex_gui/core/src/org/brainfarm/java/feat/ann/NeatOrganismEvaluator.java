@@ -1,6 +1,5 @@
 package org.brainfarm.java.feat.ann;
 
-import org.brainfarm.java.feat.Neat;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.ann.INeatNetwork;
 import org.brainfarm.java.feat.api.ann.INeatNode;
@@ -11,9 +10,17 @@ import org.brainfarm.java.feat.evaluators.AbstractOrganismEvaluator;
 
 public class NeatOrganismEvaluator extends AbstractOrganismEvaluator {	
 	
-	private IEvolutionInput inputImpl;
+	private int numberOfInputs;
 	
-	private IEvolutionOutput outputImpl;
+	private int numberOfOutputs;
+	
+	private int numberOfSamples;
+	
+	private IEvolutionInput input;
+	
+	private IEvolutionOutput output;
+	
+	private IEvolutionFitness fitness;
 	
 	protected INeatNetwork net;
 	
@@ -25,16 +32,8 @@ public class NeatOrganismEvaluator extends AbstractOrganismEvaluator {
 	
 	protected boolean success = false;
 	
-	protected Neat neat;
-	
-	private IEvolutionFitness fitnessImpl;
-	
 	public NeatOrganismEvaluator() {
 		super();
-	}
-	
-	public IEvolutionFitness getFitnessImpl(){
-		return fitnessImpl;
 	}
 	
 	@Override
@@ -61,24 +60,24 @@ public class NeatOrganismEvaluator extends AbstractOrganismEvaluator {
 
 		// System.out.print("\n evaluate.step 1 ");
 
-		in = new double[neat.getNumberOfInputs() + 1];
+		in = new double[numberOfInputs + 1];
 
 		// setting bias
 
-		in[neat.getNumberOfInputs()] = 1.0;
+		in[numberOfInputs] = 1.0;
 
-		out = new double[neat.getNumberOfSamples()][neat.getNumberOfOutputUnits()];
+		out = new double[numberOfSamples][numberOfOutputs];
 
-		tgt = new double[neat.getNumberOfSamples()][neat.getNumberOfOutputUnits()];
+		tgt = new double[numberOfSamples][numberOfOutputs];
 
 		net = (INeatNetwork)organism.getPhenotype();
 	
 		if (evaluate()) {
-			double[] fitness = getFitnessImpl().computeFitness(neat.getNumberOfSamples(), net.getAllNodes().size(), out, tgt);
+			double[] fit = fitness.computeFitness(numberOfSamples, net.getAllNodes().size(), out, tgt);
 			//System.out.println("SETTING FITNESS FROM FITNESS CLASS");
-			fit_dyn = fitness[0];
-			err_dyn = fitness[1];
-			win_dyn = fitness[2];
+			fit_dyn = fit[0];
+			err_dyn = fit[1];
+			win_dyn = fit[2];
 			
 			organism.setFitness(fit_dyn);
 			organism.setError(err_dyn);
@@ -98,15 +97,15 @@ public class NeatOrganismEvaluator extends AbstractOrganismEvaluator {
 	
 	protected boolean evaluate() {
 		
-		int input[] = new int[2];
+		int inputs[] = new int[2];
 
-		for (int count = 0; count < neat.getNumberOfSamples(); count++) {
-			input[0] = count;
+		for (int count = 0; count < numberOfSamples; count++) {
+			inputs[0] = count;
 			// first activation from sensor to first next level of
 			// neurons
-			for (int j = 0; j < neat.getNumberOfInputs(); j++) {
-				input[1] = j;
-				in[j] = inputImpl.getInput(input);
+			for (int j = 0; j < numberOfInputs; j++) {
+				inputs[1] = j;
+				in[j] = input.getInput(inputs);
 			}
 
 			// load sensor
@@ -129,7 +128,7 @@ public class NeatOrganismEvaluator extends AbstractOrganismEvaluator {
 			//}
 
 			// for each sample save each output
-			for (int j = 0; j < neat.getNumberOfOutputUnits(); j++) {
+			for (int j = 0; j < numberOfOutputs; j++) {
 				out[count][j] = ((INeatNode)net.getOutputs().get(j)).getActivation();
 			}
 			
@@ -142,16 +141,64 @@ public class NeatOrganismEvaluator extends AbstractOrganismEvaluator {
 			// ripassare
 			// al chiamante;
 			int target[] = new int[2];
-			for (int count = 0; count < neat.getNumberOfSamples(); count++) {	
+			for (int count = 0; count < numberOfSamples; count++) {	
 				target[0] = count;
-				for (int j = 0; j < neat.getNumberOfOutputUnits(); j++) {
+				for (int j = 0; j < numberOfOutputs; j++) {
 					target[1] = j;
-					tgt[count][j] = outputImpl.getTarget(target);
+					tgt[count][j] = output.getTarget(target);
 				}
 			}
 		}
 		
 		return success;
+	}
+
+	public void setNumberOfInputs(int numberOfInputs) {
+		this.numberOfInputs = numberOfInputs;
+	}
+
+	public int getNumberOfInputs() {
+		return numberOfInputs;
+	}
+
+	public void setNumberOfOutputs(int numberOfOutputs) {
+		this.numberOfOutputs = numberOfOutputs;
+	}
+
+	public int getNumberOfOutputs() {
+		return numberOfOutputs;
+	}
+
+	public void setNumberOfSamples(int numberOfSamples) {
+		this.numberOfSamples = numberOfSamples;
+	}
+
+	public int getNumberOfSamples() {
+		return numberOfSamples;
+	}
+
+	public void setInput(IEvolutionInput input) {
+		this.input = input;
+	}
+
+	public IEvolutionInput getInput() {
+		return input;
+	}
+
+	public void setOutput(IEvolutionOutput output) {
+		this.output = output;
+	}
+
+	public IEvolutionOutput getOutput() {
+		return output;
+	}
+
+	public void setFitness(IEvolutionFitness fitness) {
+		this.fitness = fitness;
+	}
+
+	public IEvolutionFitness getFitness() {
+		return fitness;
 	}
 
 }

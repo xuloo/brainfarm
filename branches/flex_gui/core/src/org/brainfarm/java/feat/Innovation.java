@@ -12,6 +12,8 @@ import org.brainfarm.java.feat.api.enums.InnovationType;
  * new link forming, or a new node being added. In each case, two nodes fully
  * specify the innovation and where it must have occured. (Between them)
  * 
+ * @author Trevor Burton [trevor@flashmonkey.org]
+ * 
  */
 public class Innovation implements IInnovation {
 	/**

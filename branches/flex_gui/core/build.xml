@@ -1,7 +1,8 @@
 <project name="jneat" default="build">
-    	<import file="build-imports.xml"/>
+    	
+	<import file="build-imports.xml"/>
 
-    	<path id="javac.lib.path">
+    <path id="javac.lib.path">
 		<pathelement location="${commons.logging.jar}"/>
 		<pathelement location="${spring.beans.jar}"/>
 		<pathelement location="${spring.context.jar}"/>

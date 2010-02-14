@@ -12,6 +12,7 @@ import org.brainfarm.java.feat.api.INode;
  * the bare essentials required for a FEAT experiment.
  * 
  * @author dtuohy
+ * @author Trevor Burton [trevor@flashmonkey.org]
  *
  */
 public class Network implements INetwork {

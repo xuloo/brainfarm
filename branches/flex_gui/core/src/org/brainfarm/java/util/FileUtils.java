@@ -158,8 +158,6 @@ public class FileUtils {
 				}
 			}
 		}
-
-		System.out.println("Directory copied.");
 	}
 
 	/**

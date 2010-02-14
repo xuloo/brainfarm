@@ -9,7 +9,9 @@ import org.brainfarm.java.feat.api.ISpecies;
  * Organisms are Genomes and Networks with fitness 
  * information (i.e. The genotype and phenotype 
  * together)
+ * 
  * @author dtuohy, orig. Ugo Vierucci
+ * @author Trevor Burton [trevor@flashmonkey.org]
  */
 public class Organism implements IOrganism {
 	/** A measure of fitness for the Organism */
@@ -130,15 +132,4 @@ public class Organism implements IOrganism {
 	public void setGenome(Genome genome) {
 		this.genome = genome;
 	}
-
-	/*public String toString() {
-		StringBuilder s = new StringBuilder();
-		
-		s.append("-ORGANISM -[genomew_id=" + genome.getId() + "]");
-		s.append("fit=" + fitness);
-		s.append(", Elim=" + eliminated);
-		s.append(", offspring=" + expectedOffspring);
-		
-		return s.toString();
-	}*/
 }

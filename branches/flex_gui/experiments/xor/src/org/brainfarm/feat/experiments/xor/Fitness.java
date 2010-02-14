@@ -4,10 +4,6 @@ import org.brainfarm.java.feat.api.evolution.IEvolutionFitness;
 
 public class Fitness implements IEvolutionFitness {
 
-	public double getMaxFitness() {
-		return Math.pow(4.0, 2);
-	}
-
 	public double[] computeFitness(int sample, int nodeCount, double output[][], double target[][]) {
 		double d[] = new double[3];
 		double errorsum = 0.0;

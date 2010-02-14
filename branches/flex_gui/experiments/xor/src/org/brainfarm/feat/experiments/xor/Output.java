@@ -4,10 +4,6 @@ import org.brainfarm.java.feat.api.evolution.IEvolutionOutput;
 
 public class Output implements IEvolutionOutput {
 
-	public int getNumUnit() {
-		return 1;
-	}
-
 	public double getTarget(int _plist[]) {
 
 		int _index = _plist[0];

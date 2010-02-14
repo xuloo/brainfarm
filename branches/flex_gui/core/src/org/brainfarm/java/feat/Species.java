@@ -11,6 +11,11 @@ import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.ISpecies;
 import org.brainfarm.java.feat.comparators.CompareOrganismsByFitness;
 
+/**
+ * 
+ * @author Trevor Burton [trevor@flashmonkey.org]
+ *
+ */
 public class Species implements ISpecies {
 	
 	private static Logger logger = Logger.getLogger(Species.class);
