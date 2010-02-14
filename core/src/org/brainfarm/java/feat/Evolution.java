@@ -12,11 +12,12 @@ import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
 import org.brainfarm.java.feat.api.evolution.IEvolution;
 import org.brainfarm.java.feat.api.evolution.IEvolutionListener;
-import org.brainfarm.java.feat.api.experiment.IExperiment;
 import org.brainfarm.java.util.ThreadedCommand;
 
 /**
  * The central class from which Evolution is run.
+ * 
+ * Evolution is executed in its own thread.
  * 
  * @author Trevor Burton [trevor@flashmonkey.org]
  * @author dtuohy
@@ -26,13 +27,13 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	
 	private static Logger logger = Logger.getLogger(Evolution.class);
 	
+	private int runs;
+	
 	private int currentRun;
 	
+	private int epochs;
+	
 	private int currentEpoch;
-	
-	private Neat neat;
-	
-	private IExperiment experiment;
 	
 	private IPopulation population;
 	
@@ -53,15 +54,11 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	
 	private List<Double> maxFitnessEachEpoch = new ArrayList<Double>();
 	
-	public Evolution() {
-		
-	}
-	
-	public Evolution(IEvolutionStrategy evolutionStrategy, Neat neat, IExperiment experiment, IPopulation population) {
+	public Evolution(IEvolutionStrategy evolutionStrategy, IPopulation population, int runs, int epochs) {
 		this.evolutionStrategy = evolutionStrategy;
-		this.neat = neat;
-		this.experiment = experiment;
 		this.population = population;
+		this.runs = runs;
+		this.epochs = epochs;
 	}
 	
 	@Override
@@ -71,10 +68,10 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 		onEvolutionStart(population);
 		
 		// For each run...
-		for (currentRun = 0; currentRun < neat.num_runs; currentRun++) {
+		for (currentRun = 0; currentRun < runs; currentRun++) {
 			
 			// Execute an Epoch.
-			for (int currentEpoch = 0; currentEpoch < experiment.getEpoch(); currentEpoch++) {
+			for (int currentEpoch = 0; currentEpoch < epochs; currentEpoch++) {
 				
 				// Inform listeners we're starting a new Epoch.
 				onEpochStart(currentRun, currentEpoch, population);
@@ -129,7 +126,7 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 				maxFitnessOfEpoch = organism.getFitness();
 			}
 		}
-		
+
 		// Record the highest fitness value for this epoch.
 		maxFitnessEachEpoch.add(maxFitnessOfEpoch);
 		
@@ -194,22 +191,6 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	
 	public List<Double> getMaxFitnessEachEpoch(){
 		return maxFitnessEachEpoch;
-	}
-	
-	public void setNeat(Neat neat) {
-		this.neat = neat;
-	}
-	
-	public void setExperiment(IExperiment experiment) {
-		this.experiment = experiment;
-	}
-	
-	public void setPopulation(IPopulation population) {
-		this.population = population;
-	}
-	
-	public void setEvolutionStrategy(IEvolutionStrategy evolutionStrategy) {
-		this.evolutionStrategy = evolutionStrategy;
 	}
 
 	@Override

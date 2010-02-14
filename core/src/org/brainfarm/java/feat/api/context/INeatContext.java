@@ -1,7 +1,7 @@
 package org.brainfarm.java.feat.api.context;
 
-import org.brainfarm.java.feat.Evolution;
 import org.brainfarm.java.feat.Neat;
+import org.brainfarm.java.feat.api.evolution.IEvolution;
 import org.brainfarm.java.feat.api.evolution.IEvolutionFitness;
 import org.brainfarm.java.feat.api.evolution.IEvolutionInput;
 import org.brainfarm.java.feat.api.evolution.IEvolutionOutput;
@@ -10,7 +10,7 @@ import org.brainfarm.java.feat.context.INeatContextListener;
 
 public interface INeatContext {
 	
-	Evolution getEvolution();
+	IEvolution getEvolution();
 	
 	Neat getNeat();
 	void setNeat(Neat neat);

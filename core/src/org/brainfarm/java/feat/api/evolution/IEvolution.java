@@ -1,5 +1,7 @@
 package org.brainfarm.java.feat.api.evolution;
 
+import java.util.List;
+
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 
@@ -9,7 +11,7 @@ import org.brainfarm.java.feat.api.IPopulation;
  * @author Trevor Burton [trevor@flashmonkey.org]
  *
  */
-public interface IEvolution {
+public interface IEvolution extends Runnable {
 
 	int getRun();
 	
@@ -22,4 +24,10 @@ public interface IEvolution {
 	IOrganism getWinner();
 	
 	IOrganism getSuperWinner();
+	
+	List<Double> getMaxFitnessEachEpoch();
+	
+	void addListener(IEvolutionListener listener);
+	
+	void removeListener(IEvolutionListener listener);
 }

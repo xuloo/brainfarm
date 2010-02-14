@@ -31,10 +31,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  */
 public class TestStar {
-	
-	public TestStar() {
-	}
-	
+		
 	StarOrganismEvaluator eval = new StarOrganismEvaluator();
 
 	/**
@@ -59,8 +56,9 @@ public class TestStar {
 
 		//run experiment
 		TestEvolutionListener listener = new TestEvolutionListener();
-		context.getEvolution().addListener(listener);
-		controller.startEvolution();
+		IEvolution evolution = context.getEvolution();
+		evolution.addListener(listener);
+		evolution.run();
 
 		//verify that appropriate events were received
 		assertEquals(1,listener.evolutionStarted);
@@ -69,7 +67,7 @@ public class TestStar {
 		assertEquals(25,listener.epochsCompleted);
 
 		//sample and validate results of evolution
-		List<Double> maxFitnesses = context.getEvolution().getMaxFitnessEachEpoch();
+		List<Double> maxFitnesses = evolution.getMaxFitnessEachEpoch();
 		for(double d : maxFitnesses)
 			System.out.print(d + ", ");
 		assertEquals(1.0, maxFitnesses.get(0),.000001);
@@ -112,10 +110,10 @@ public class TestStar {
 			IOrganism best = getBestOrganism(evolution.getPopulation());
 			INetwork net = best.getPhenotype();
 			//			System.out.println("Best has fitness " + best.getFitness());
-			if(ui==null)
+			/*if(ui==null)
 				initializeUI(net);
 			else
-				ui.setNetwork(net);
+				ui.setNetwork(net);*/
 		}
 
 		@Override

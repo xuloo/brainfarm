@@ -3,9 +3,9 @@ package org.brainfarm.java.feat.ann;
 import org.brainfarm.java.feat.api.evolution.IEvolutionFitness;
 import org.brainfarm.java.feat.api.evolution.IEvolutionInput;
 import org.brainfarm.java.feat.api.evolution.IEvolutionOutput;
-import org.brainfarm.java.feat.experiment.FEATExperiment;
+import org.brainfarm.java.feat.experiment.Experiment;
 
-public class NeatExperiment extends FEATExperiment {
+public class NeatExperiment extends Experiment {
 
 	private IEvolutionFitness fitnessImpl;
 	

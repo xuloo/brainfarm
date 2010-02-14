@@ -4,11 +4,9 @@
 		xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 	 
-	<bean id="experiment" class="org.brainfarm.java.feat.context.SpringContextExperiment">
-		<property name="dataSource" value="${data.source}"/>
-		<property name="genomeFile" value="${genome.file}"/>
-		<property name="startFrom" value="${start.from}"/>
-		<property name="epoch" value="${epoch}"/>
+	<bean id="experiment" class="org.brainfarm.java.feat.experiment.Experiment">
+		<property name="runs" value="1"/>
+		<property name="epochs" value="${epochs}"/>
 		<property name="population" ref="population"/>
 		<property name="evolutionStrategy" ref="evolutionStrategy"/>
 	</bean>
