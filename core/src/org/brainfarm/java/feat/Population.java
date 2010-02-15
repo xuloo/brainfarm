@@ -331,9 +331,6 @@ public class Population implements IPopulation {
 			organisms.remove(organism);
 
 		vdel.clear();
-
-		for(IOrganism org : getOrganisms())
-			org.getGenome().validate();
 		
 		// ---------- phase of reproduction -----------
 		for (ISpecies specie : sorted_species)

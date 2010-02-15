@@ -31,5 +31,6 @@ public interface IGenome {
 	
 	boolean verify();
 
+	//TODO: this method should be merged with verify()
 	boolean validate();
 }
