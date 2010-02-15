@@ -1,23 +1,66 @@
-<project name="Star" default="jar">
+<project name="star" default="build">
     	
-	  <target name="createtempdir">
-	  	<delete dir="build/temp"/>
-	  	<mkdir dir="build/temp"/>
-	  	<mkdir dir="build/temp/org"/>
-	  	<copy file="experiment/experiment-context.xml" todir="build/temp"/>
-	  	<copy file="experiment/experiment-parameters.properties" todir="build/temp"/>
-	  	<copy file="experiment/genome.xml" todir="build/temp"/>
-	  	<copy todir="build/temp/org">
-	  		<fileset dir="bin/org"/>
-	  	</copy>
-	  </target>	
+	<import file="build-imports.xml"/>
+
+    <path id="javac.lib.path">
+		<pathelement location="${jneat.jar}"/>
+    	<pathelement location="${collections.generic.jar}"/>
+    	<pathelement location="${jung.algorithms.jar}"/>
+    	<pathelement location="${jung.api.jar}"/>
+    	<pathelement location="${jung.graph.jar}"/>
+    	<pathelement location="${jung.visualization.jar}"/>
+	</path>
+
+    <!-- targets -->
+    <target name="build" depends="init,java-classes,jar,copy-to-core-test-dir" description="Build the library"/>
 	
-	  <target name="jar" depends="createtempdir">
-	    <jar destfile="dist/star-experiment.jar"
-	         basedir="build/temp">
-	      <manifest>
-	      </manifest>
-	    </jar>
-	  </target>
+	<target name="jar" description="creates a jar file from the compiled classes">
+		<tstamp prefix="build">
+            <format property="TODAY" pattern="d-MMMM-yyyy" locale="en"/>
+        </tstamp>
+		<jar jarfile="${star.jar}" basedir="${build.javac.dir}">
+			<exclude name="omit/**"/>
+			<fileset dir="experiment"/>
+			<manifest>
+				<attribute name="Built" value="${build.TODAY} by ${user.name}"/>
+				<attribute name="Build-OS" value="${os.name} ${os.version}"/>
+				<attribute name="Build-Java" value="Java ${java.version}"/>
+				<attribute name="Experiment-Name" value="${ant.project.name}"/>
+			</manifest>
+		</jar>
+	</target>
+	
+	<target name="copy-to-core-test-dir">
+		<copy file="${star.jar}" todir="${brainfarm.root}/core/test" overwrite="true"/>
+	</target>
+
+	<path id="javac.test.path">
+		<pathelement location="${build.test.dir}"/>
+		<pathelement location="${junit.jar}" />
+		<pathelement location="${build.classes.dir}"/>
+		<pathelement location="${spring.context.jar}"/>
+		<pathelement location="${spring.core.jar}"/>
+		<pathelement location="${spring.beans.jar}"/>
+		<pathelement location="${jcl.jar}"/>
+		<pathelement location="${commons.logging.jar}"/>
+		<pathelement location="${log4j.jar}"/>
+		<pathelement location="${red5.jar}"/>
+		<path refid="javac.lib.path" />
+	</path>
+
+	<target name="build-test">
+		<javac srcdir="${test.src.dir}" destdir="${build.test.dir}" debug="${javac.debug}">
+			<classpath refid="javac.test.path"/>
+		</javac>
+	</target>
+
+	<target name="test" depends="build,build-test">
+		<junit failureProperty="test.failure">
+			<classpath refid="javac.test.path" />
+			<formatter type="brief" usefile="false" />
+			<test name="test.org.brainfarm.feat.experiments.star.TestStar"/>
+		</junit>
+		<fail message="test failed" if="test.failure" />
+	</target>
 	
 </project>
