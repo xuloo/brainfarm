@@ -117,7 +117,7 @@ public class FileUtils {
 		out.close();
 	}
 
-	public static void copyDirectory(File srcPath, File dstPath) throws IOException {
+	public static void copyDirectory(File srcPath, File dstPath) {
 
 		if (srcPath.isDirectory()) {
 
@@ -138,20 +138,23 @@ public class FileUtils {
 				System.out.println("File or directory does not exist.");
 
 			} else {
-
-				InputStream in = new FileInputStream(srcPath);
-				OutputStream out = new FileOutputStream(dstPath); 
-				// Transfer bytes from in to out
-				byte[] buf = new byte[1024];
-
-				int len;
-
-				while ((len = in.read(buf)) > 0) {
-					out.write(buf, 0, len);
+				try {
+					InputStream in = new FileInputStream(srcPath);
+					OutputStream out = new FileOutputStream(dstPath); 
+					// Transfer bytes from in to out
+					byte[] buf = new byte[1024];
+	
+					int len;
+	
+					while ((len = in.read(buf)) > 0) {
+						out.write(buf, 0, len);
+					}
+	
+					in.close();
+					out.close();
+				} catch (IOException e) {
+					System.out.println("Problem copy directory\n" + e.getMessage());
 				}
-
-				in.close();
-				out.close();
 			}
 		}
 
@@ -167,7 +170,7 @@ public class FileUtils {
 	 */
 	public static File createTempDir() throws IOException
 	{
-		final File sysTempDir = new File(System.getProperty("java.io.tmpdir"));
+		final File sysTempDir = new File(System.getProperty("java.io.tmpdir") + "/feat");
 		File newTempDir;
 		final int maxAttempts = 9;
 		int attemptCount = 0;
@@ -219,6 +222,10 @@ public class FileUtils {
 		}
 
 		return fileOrDir.delete();
+	}
+	
+	public static void extractZip(File src, File dest) {
+		extractZip(src.getAbsolutePath(), dest);
 	}
 
 	public static void extractZip(String src, File dest) {

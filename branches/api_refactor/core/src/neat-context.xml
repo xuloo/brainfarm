@@ -15,7 +15,7 @@
 		</property>
 	</bean>
 	
-	<bean id="evolution" class="org.brainfarm.java.feat.Evolution">
+	<!-- bean id="evolution" class="org.brainfarm.java.feat.Evolution">
 		<property name="listeners">
 			<list>
 				<bean class="org.brainfarm.java.util.writers.CommandAwareEvolutionListener">
@@ -40,7 +40,7 @@
 				</bean>
 			</list>
 		</property>
-	</bean>
+	</bean  -->
 
 	<bean id="neat" class="org.brainfarm.java.feat.Neat">
 		<property name="parameters" ref="default.parameters" />

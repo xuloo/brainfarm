@@ -4,13 +4,14 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import org.brainfarm.java.feat.Neat;
+import org.brainfarm.java.feat.api.IEvolution;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.context.INeatContext;
-import org.brainfarm.java.feat.api.IEvolution;
 import org.brainfarm.java.feat.api.evolution.IEvolutionListener;
-import org.brainfarm.java.feat.context.SpringNeatContext;
-import org.brainfarm.java.feat.controller.SpringNeatController;
+import org.brainfarm.java.feat.context.EvolutionContext;
+import org.brainfarm.java.feat.controller.EvolutionController;
 import org.brainfarm.java.util.RandomUtils;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -39,14 +40,15 @@ public class TestStar {
 	public void validateDeterministicMatchExperiment(){
 		RandomUtils.seedRandom(290761);
 
-		INeatContext context = new SpringNeatContext();
+		INeatContext context = new EvolutionContext();
 
 		//load default parameters
 		ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{"neat-context.xml"});
-		((SpringNeatContext)context).setApplicationContext(appContext);
+		Neat neat = (Neat)appContext.getBean("neat");
+		context.setNeat(neat);
 
 		//load experiment
-		SpringNeatController controller = new TestXorController(context);
+		EvolutionController controller = new TestXorController(context);
 		controller.loadExperiment("test/star-experiment.jar");
 
 		//run experiment
@@ -70,13 +72,13 @@ public class TestStar {
 		assertEquals(18.0, maxFitnesses.get(21),.000001);
 	}
 
-	public class TestXorController extends SpringNeatController{
+	public class TestXorController extends EvolutionController{
 		public TestXorController(INeatContext context) {
-			this.context = context;
+			super(context);
 		}
 	}
 
-	public class TestEvolutionListener implements IEvolutionListener{
+	public class TestEvolutionListener implements IEvolutionListener {
 
 
 		int epochsStarted = 0;

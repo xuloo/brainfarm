@@ -76,15 +76,10 @@ public class EvolutionContext implements INeatContext {
 	@Override
 	public IEvolution getEvolution() {
 		if (evolution == null) {
+			System.out.println("Creating new Evolution instance");
 			evolution = experiment.evolution();			
 		}
 		
 		return evolution;
-	}
-	
-	public void setApplicationContext(ApplicationContext context) {
-		neat = (Neat)context.getBean("neat");
-		
-		contextChanged();
 	}
 }

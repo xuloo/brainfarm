@@ -3,6 +3,9 @@ package org.brainfarm.java.feat.controller;
 import java.io.File;
 
 import org.apache.log4j.Logger;
+import org.brainfarm.java.feat.api.INeatController;
+import org.brainfarm.java.feat.api.context.INeatContext;
+import org.brainfarm.java.feat.context.ExperimentLoader;
 import org.brainfarm.java.feat.context.IExperiment;
 import org.brainfarm.java.util.FileUtils;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
@@ -11,11 +14,17 @@ import org.springframework.core.io.FileSystemResource;
 import org.xeustechnologies.jcl.JarClassLoader;
 import org.xeustechnologies.jcl.JclObjectFactory;
 
-public class SpringNeatController extends AbstractNeatController {
+public class EvolutionController implements INeatController {
 	
-	private static Logger logger = Logger.getLogger(SpringNeatController.class);
+	private static Logger logger = Logger.getLogger(EvolutionController.class);
 	
 	private final String experiment_dir = "experiment";
+	
+	protected INeatContext context;
+	
+	public EvolutionController(INeatContext context) {
+		this.context = context;
+	}
 
 	@Override
 	/**
@@ -29,9 +38,11 @@ public class SpringNeatController extends AbstractNeatController {
 	 * @param location (String) The location of the .jar file that contains the experiment's resources.
 	 */
 	public void loadExperiment(String location) {
+		IExperiment experiment = ExperimentLoader.loadExperiment(new File(location));
+		context.setExperiment(experiment);
 		
 		// Create a temporary directory for the experiment.		
-		File experimentDirectory = new File(experiment_dir);
+		/*File experimentDirectory = new File(experiment_dir);
 		
 		if (experimentDirectory.exists())
 			FileUtils.deleteDirectory(experimentDirectory);
@@ -45,18 +56,18 @@ public class SpringNeatController extends AbstractNeatController {
 			FileUtils.extractZip(location, experimentDirectory);
 			
 			// Load the experiment classes onto the classpath so they're available to neat.
-			jarClassLoader = new JarClassLoader();
-			jarClassLoader.add(location);
+			//jarClassLoader = new JarClassLoader();
+			//jarClassLoader.add(location);
 			
 			setupExperiment(experimentDirectory);
 		  	
 		} else {
 			logger.error("There was an error creating the experiment directory");
-		}
+		}*/
 	}
 
-	private void setupExperiment(File experimentDirectory) {
-		factory = JclObjectFactory.getInstance();
+	/*private void setupExperiment(File experimentDirectory) {
+		//factory = JclObjectFactory.getInstance();
   
 		// Grab the experiments directory's path.
 		String path = experimentDirectory.getAbsolutePath();
@@ -70,19 +81,17 @@ public class SpringNeatController extends AbstractNeatController {
 		
 		IExperiment experiment = (IExperiment)factory.getBean("experiment");
 		
-		// Get the 'experiment' bean - this contains the settings for the loaded experiment.
-		refresh(experiment);
-		
 		context.setExperiment(experiment);
-	}
+	}*/
 	
 	/**
 	 * Uses the existing experiment/ directory as the location of
 	 * configuration files, results output, and custom java classes. 
 	 */
 	public void loadExperiment(){
-		File experimentDirectory = new File(experiment_dir);
-		setupExperiment(experimentDirectory);
+		//File experimentDirectory = new File(experiment_dir);
+		//setupExperiment(experimentDirectory);
+		loadExperiment(experiment_dir);
 	}
 	
 	@Override
