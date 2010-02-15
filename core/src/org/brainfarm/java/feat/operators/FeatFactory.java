@@ -3,13 +3,12 @@ package org.brainfarm.java.feat.operators;
 import java.lang.reflect.Constructor;
 import java.util.List;
 
-import org.brainfarm.java.feat.EvolutionStrategy;
+import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.api.IGene;
 import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.INetwork;
 import org.brainfarm.java.feat.api.INode;
 import org.brainfarm.java.feat.api.IOrganism;
-import org.brainfarm.java.feat.api.operators.IFeatFactory;
 
 /**
  * Uses reflection to create instances of the custom FEAT model object
@@ -19,12 +18,17 @@ import org.brainfarm.java.feat.api.operators.IFeatFactory;
  * @author dtuohy
  *
  */
-public class FeatFactory implements IFeatFactory {
+public class FeatFactory {
 
-	@Override
-	public IGenome createOffspringGenome(int newId, List<INode> nodes, List<IGene> genes) {
+	private static IEvolutionStrategy strategy;
+	
+	public static void setEvolutionStrategy(IEvolutionStrategy evolutionStrategy) {
+		strategy = evolutionStrategy;
+	}
+	
+	public static IGenome newOffspringGenome(int newId, List<INode> nodes, List<IGene> genes) {
 		try{
-			Class<?> gClass = EvolutionStrategy.getInstance().getGenomeClass();
+			Class<?> gClass = strategy.getGenomeClass();
 			Constructor<?> c = gClass.getConstructor(int.class,List.class,List.class);
 			return (IGenome)c.newInstance(newId,nodes,genes);
 		}catch(Exception e){
@@ -33,10 +37,9 @@ public class FeatFactory implements IFeatFactory {
 		return null;
 	}
 
-	@Override
-	public INode createOffspringNodeFrom(INode node) {
+	public static INode newOffspringNodeFrom(INode node) {
 		try{
-			Class<?> nClass = EvolutionStrategy.getInstance().getNodeClass();
+			Class<?> nClass = strategy.getNodeClass();
 			Constructor<?> c = nClass.getConstructor(INode.class);
 			return (INode)c.newInstance(node);
 		}catch(Exception e){
@@ -45,10 +48,9 @@ public class FeatFactory implements IFeatFactory {
 		return null;
 	}
 
-	@Override
-	public INode createNewNodeForId(int id) {
+	public static INode newNodeForId(int id) {
 		try{
-			Class<?> nClass = EvolutionStrategy.getInstance().getNodeClass();
+			Class<?> nClass = strategy.getNodeClass();
 			Constructor<?> c = nClass.getConstructor(int.class);
 			return (INode)c.newInstance(id);
 		}catch(Exception e){
@@ -57,9 +59,9 @@ public class FeatFactory implements IFeatFactory {
 		return null;
 	}
 	
-	public IOrganism createOrganism(double xfitness, IGenome xgenome, int xgeneration){
+	public static IOrganism newOrganism(double xfitness, IGenome xgenome, int xgeneration){
 		try{
-			Class<?> oClass = EvolutionStrategy.getInstance().getOrganismClass();
+			Class<?> oClass = strategy.getOrganismClass();
 			Constructor<?> c = oClass.getConstructor(double.class,IGenome.class,int.class);
 			return (IOrganism)c.newInstance(xfitness,xgenome,xgeneration);
 		}catch(Exception e){
@@ -68,10 +70,9 @@ public class FeatFactory implements IFeatFactory {
 		return null;		
 	}
 	
-	@Override
-	public INetwork createNetwork(List<INode> allList, int id) {
+	public static INetwork newNetwork(List<INode> allList, int id) {
 		try{
-			Class<?> oClass = EvolutionStrategy.getInstance().getNetworkClass();
+			Class<?> oClass = strategy.getNetworkClass();
 			Constructor<?> c = oClass.getConstructor(List.class,int.class);
 			return (INetwork)c.newInstance(allList,id);
 		}catch(Exception e){

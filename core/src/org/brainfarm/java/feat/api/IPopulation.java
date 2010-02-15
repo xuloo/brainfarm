@@ -2,6 +2,8 @@ package org.brainfarm.java.feat.api;
 
 import java.util.List;
 
+import org.brainfarm.java.feat.api.operators.IReproductionStrategy;
+
 public interface IPopulation {
 	
 	void epoch(int generation);
@@ -29,5 +31,6 @@ public interface IPopulation {
 	public void setCur_node_id(int cur_node_id);
 
 	public void setCur_innov_num(double cur_innov_num);
-
+	
+	public void setReproductionStrategy(IReproductionStrategy reproductionStrategy);
 }

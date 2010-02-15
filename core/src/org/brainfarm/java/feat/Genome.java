@@ -9,6 +9,7 @@ import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.ILink;
 import org.brainfarm.java.feat.api.INetwork;
 import org.brainfarm.java.feat.api.INode;
+import org.brainfarm.java.feat.operators.FeatFactory;
 
 /**
  * The base implementation of a Genome, it contains
@@ -197,7 +198,7 @@ public class Genome implements IGenome {
 		}
 
 		// okay all nodes created, the new genome can be generate
-		return EvolutionStrategy.getInstance().getModelObjectFactory().createOffspringGenome(new_id, nodes_dup, genes_dup);
+		return FeatFactory.newOffspringGenome(new_id, nodes_dup, genes_dup);
 	}
 
 	@Override
@@ -221,7 +222,7 @@ public class Genome implements IGenome {
 		for (INode _node : getNodes()) {
 			
 			// create a copy of gene node for phenotype.
-			newnode = EvolutionStrategy.getInstance().getModelObjectFactory().createOffspringNodeFrom(_node);
+			newnode = FeatFactory.newOffspringNodeFrom(_node);
 
 			// add to genotype the pointer to phenotype node
 			all_list.add(newnode);
@@ -245,7 +246,7 @@ public class Genome implements IGenome {
 		}
 		
 		// Create the new network
-		newnet = EvolutionStrategy.getInstance().getModelObjectFactory().createNetwork(all_list, id);
+		newnet = FeatFactory.newNetwork(all_list, id);
 		// Attach genotype and phenotype together:
 		// newnet point to owner genotype (this)
 		newnet.setGenotype(this);

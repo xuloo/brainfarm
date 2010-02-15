@@ -5,8 +5,8 @@ import java.awt.FileDialog;
 import javax.swing.JFrame;
 
 import org.apache.log4j.Logger;
+import org.brainfarm.java.feat.Neat;
 import org.brainfarm.java.feat.api.context.INeatContext;
-import org.brainfarm.java.feat.context.SpringNeatContext;
 import org.brainfarm.java.feat.controller.SpringNeatController;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -35,7 +35,8 @@ public class GuiController extends SpringNeatController implements IGuiControlle
 	@Override
 	public void loadDefaultParameters() {
 		ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{"neat-context.xml"});
-		((SpringNeatContext)context).setApplicationContext(appContext);
+		Neat neat = (Neat)appContext.getBean("neat");
+		context.setNeat(neat);
 	}
 	
 	public void loadExperiment(JFrame frame) {

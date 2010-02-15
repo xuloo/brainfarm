@@ -7,10 +7,14 @@
 	</path>
 
     <!-- targets -->
-    <target name="build" depends="init,java-classes,jar" description="Build the library"/>
+    <target name="build" depends="init,java-classes,jar,copy-to-core-test-dir" description="Build the library"/>
 	
 	<target name="jar" description="creates a jar file from the compiled classes">
 		<jar jarfile="${xor.jar}" basedir="${build.javac.dir}"/>
+	</target>
+	
+	<target name="copy-to-core-test-dir">
+		<copy file="${xor.jar}" todir="${brainfarm.root}/core/test" overwrite="true"/>
 	</target>
 	
 </project>

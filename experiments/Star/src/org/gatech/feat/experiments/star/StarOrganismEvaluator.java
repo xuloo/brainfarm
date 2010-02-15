@@ -8,8 +8,7 @@ import org.brainfarm.java.feat.api.ILink;
 import org.brainfarm.java.feat.api.INetwork;
 import org.brainfarm.java.feat.api.INode;
 import org.brainfarm.java.feat.api.IOrganism;
-import org.brainfarm.java.feat.api.context.INeatContext;
-import org.brainfarm.java.feat.evaluators.AbstractOrganismEvaluator;
+import org.brainfarm.java.feat.api.IOrganismEvaluator;
 
 /**
  * Fitness for this experiment is based on the degree to which
@@ -18,11 +17,7 @@ import org.brainfarm.java.feat.evaluators.AbstractOrganismEvaluator;
  * @author dtuohy
  *
  */
-public class StarOrganismEvaluator extends AbstractOrganismEvaluator {
-	
-	public StarOrganismEvaluator(INeatContext context){
-		super(context);
-	}
+public class StarOrganismEvaluator implements IOrganismEvaluator {
 	
 	public StarOrganismEvaluator(){
 		

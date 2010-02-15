@@ -2,10 +2,8 @@ package org.brainfarm.java.feat.operators;
 
 import java.util.ArrayList;
 
-import org.brainfarm.java.feat.EvolutionStrategy;
-import org.brainfarm.java.feat.Organism;
+import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.api.IGenome;
-import org.brainfarm.java.feat.api.INetwork;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.enums.MutationType;
@@ -14,6 +12,12 @@ import org.brainfarm.java.feat.api.operators.IPopulationInitializationStrategy;
 public class DefaultPopulationInitializationStrategy implements
 		IPopulationInitializationStrategy {
 
+	private IEvolutionStrategy strategy;
+	
+	public DefaultPopulationInitializationStrategy(IEvolutionStrategy strategy) {
+		this.strategy = strategy;
+	}
+	
 	/**
 	 * Initializes the population based on the initial genome.  The
 	 * default strategy is to duplicate the initial genome but
@@ -29,10 +33,10 @@ public class DefaultPopulationInitializationStrategy implements
 			newgenome = genome.duplicate(i);
 			
 			//perturb it's link weights
-			EvolutionStrategy.getInstance().getMutationStrategy().mutateLinkWeight(newgenome,1.0, 1.0, MutationType.GAUSSIAN);
+			strategy.getMutationStrategy().mutateLinkWeight(newgenome,1.0, 1.0, MutationType.GAUSSIAN);
 			
 			//add the organism to the population
-			IOrganism neworganism = EvolutionStrategy.getInstance().getModelObjectFactory().createOrganism(0.0, newgenome, 1);
+			IOrganism neworganism = FeatFactory.newOrganism(0.0, newgenome, 1);
 			pop.getOrganisms().add(neworganism);
 		}
 		
@@ -45,7 +49,7 @@ public class DefaultPopulationInitializationStrategy implements
 		pop.setCur_innov_num(newgenome.getLastGeneInnovationId());
 
 		// Separate the new Population into species
-		EvolutionStrategy.getInstance().getSpeciationStrategy().speciate(pop);
+		strategy.getSpeciationStrategy().speciate(pop);
 	}
 
 }

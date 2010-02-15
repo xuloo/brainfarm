@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.feat.api.evolution.IEvolution;
+import org.brainfarm.java.feat.api.IEvolution;
 import org.brainfarm.java.feat.api.evolution.IEvolutionListener;
 import org.brainfarm.java.util.ICommand;
 

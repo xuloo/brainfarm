@@ -8,7 +8,7 @@ import javax.xml.transform.Result;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.feat.api.evolution.IEvolution;
+import org.brainfarm.java.feat.api.IEvolution;
 import org.brainfarm.java.util.FileUtils;
 
 public class FileWritingResultGenerator implements IResultGenerator {

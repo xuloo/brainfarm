@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import java.util.List;
 
 import org.brainfarm.java.feat.api.context.INeatContext;
-import org.brainfarm.java.feat.api.evolution.IEvolution;
+import org.brainfarm.java.feat.api.IEvolution;
 import org.brainfarm.java.feat.api.evolution.IEvolutionListener;
 import org.brainfarm.java.feat.context.SpringNeatContext;
 import org.brainfarm.java.feat.controller.SpringNeatController;

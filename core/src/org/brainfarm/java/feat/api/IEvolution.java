@@ -1,11 +1,20 @@
 package org.brainfarm.java.feat.api;
 
+import java.util.List;
 
-public interface IEvolution {
+import org.brainfarm.java.feat.api.evolution.IEvolutionListener;
 
-	int getNumberOfRuns();
+
+public interface IEvolution extends Runnable {
+
+	int getRun();
 	
-	int getNumberOfEpochs();
+	int getEpoch();
+	
+	List<Double> getMaxFitnessEachEpoch();
 	
 	IPopulation getPopulation();
+	
+	void addListener(IEvolutionListener listener);
+	void removeListener(IEvolutionListener listener);
 }
