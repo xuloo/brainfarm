@@ -16,6 +16,7 @@
         <file name="core"/>
         <file name="gui"/>
         <file name="experiments/xor"/>
+		<file name="experiments/Star"/>
     </filelist>
 	
 </project>

@@ -1,6 +1,6 @@
 package test.org.brainfarm.neat.experiments.star;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
@@ -11,9 +11,7 @@ import org.brainfarm.java.feat.api.evolution.IEvolution;
 import org.brainfarm.java.feat.api.evolution.IEvolutionListener;
 import org.brainfarm.java.feat.context.SpringNeatContext;
 import org.brainfarm.java.feat.controller.SpringNeatController;
-import org.brainfarm.java.util.FileUtils;
 import org.brainfarm.java.util.RandomUtils;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
