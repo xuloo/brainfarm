@@ -3,7 +3,7 @@ package org.brainfarm.java.feat.operators;
 import java.util.Iterator;
 import java.util.List;
 
-import org.brainfarm.java.feat.EvolutionStrategy;
+import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.Neat;
 import org.brainfarm.java.feat.Organism;
 import org.brainfarm.java.feat.Species;
@@ -12,7 +12,6 @@ import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
 import org.brainfarm.java.feat.api.enums.MutationType;
-import org.brainfarm.java.feat.api.operators.IFeatFactory;
 import org.brainfarm.java.feat.api.operators.IReproductionStrategy;
 import org.brainfarm.java.util.RandomUtils;
 
@@ -25,11 +24,16 @@ import org.brainfarm.java.util.RandomUtils;
  */
 public class DefaultReproductionStrategy implements IReproductionStrategy{
 
+	private IEvolutionStrategy strategy;
+	
+	public DefaultReproductionStrategy(IEvolutionStrategy strategy) {
+		this.strategy = strategy;
+	}
+	
 	public boolean reproduce(ISpecies specie, int generation, IPopulation pop, List<ISpecies> sorted_species) {
 
 		List<IOrganism> organisms = specie.getOrganisms();
 		int expectedOffspring = specie.getExpectedOffspring();
-		IFeatFactory factory = EvolutionStrategy.getInstance().getModelObjectFactory();
 
 		boolean champ_done = false; // Flag the preservation of the champion
 
@@ -73,15 +77,15 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 				new_genome = mom.getGenome().duplicate(count);
 				if ((thechamp.getSuperChampOffspring()) > 1) {
 					if (RandomUtils.randomDouble() < .8 || Neat.mutate_add_link_prob == 0.0)
-						EvolutionStrategy.getInstance().getMutationStrategy().mutateLinkWeight(new_genome, Neat.weight_mut_power, 1.0, MutationType.GAUSSIAN);
+						strategy.getMutationStrategy().mutateLinkWeight(new_genome, Neat.weight_mut_power, 1.0, MutationType.GAUSSIAN);
 					else {
 						// Sometimes we add a link to a superchamp
 						new_genome.generatePhenotype(generation);
-						EvolutionStrategy.getInstance().getMutationStrategy().mutateAddLink(new_genome,pop);
+						strategy.getMutationStrategy().mutateAddLink(new_genome,pop);
 					}
 				}
 
-				baby = factory.createOrganism(0.0, new_genome, generation);
+				baby = FeatFactory.newOrganism(0.0, new_genome, generation);
 
 				thechamp.incrementSuperChampOffspring();
 			} // end population champ
@@ -90,7 +94,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 			else if ((!champ_done) && (expectedOffspring > 5)) {
 				mom = thechamp; // Mom is the champ
 				new_genome = mom.getGenome().duplicate(count);
-				baby = factory.createOrganism(0.0, new_genome, generation);
+				baby = FeatFactory.newOrganism(0.0, new_genome, generation);
 				// child is just like mom
 				champ_done = true;
 
@@ -103,8 +107,8 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 				new_genome = mom.getGenome().duplicate(count);
 
 				// Do the mutation depending on probabilities of various mutations
-				EvolutionStrategy.getInstance().getMutationStrategy().mutate(new_genome,pop,generation);
-				baby = factory.createOrganism(0.0, new_genome, generation);
+				strategy.getMutationStrategy().mutate(new_genome,pop,generation);
+				baby = FeatFactory.newOrganism(0.0, new_genome, generation);
 			}
 
 			// Otherwise we should mate
@@ -149,7 +153,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 					_dad = randspecies.getOrganisms().get(0);
 				}
 
-				new_genome = EvolutionStrategy.getInstance().getCrossoverStrategy().performCrossover(mom,_dad,count);
+				new_genome = strategy.getCrossoverStrategy().performCrossover(mom,_dad,count);
 
 				// Determine whether to mutate the child's Genome
 				// This is done randomly or if the mom and dad are the same
@@ -159,8 +163,8 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 						_dad.getGenome().getId() == mom.getGenome().getId() || 
 						_dad.getGenome().compatibility(mom.getGenome()) == 0.0) {
 
-					EvolutionStrategy.getInstance().getMutationStrategy().mutate(new_genome,pop,generation);
-					baby = factory.createOrganism(0.0, new_genome, generation);
+					strategy.getMutationStrategy().mutate(new_genome,pop,generation);
+					baby = FeatFactory.newOrganism(0.0, new_genome, generation);
 
 				} // end block of prob
 				// Determine whether to mutate the baby's Genome
@@ -169,7 +173,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 
 				// Create the baby without mutating first
 				else 
-					baby = factory.createOrganism(0.0, new_genome, generation);
+					baby = FeatFactory.newOrganism(0.0, new_genome, generation);
 			}
 
 			// Add the baby to its proper Species

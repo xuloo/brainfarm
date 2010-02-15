@@ -11,6 +11,7 @@ import org.brainfarm.java.feat.api.IInnovation;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
+import org.brainfarm.java.feat.api.operators.IReproductionStrategy;
 import org.brainfarm.java.feat.comparators.CompareSpeciesByOriginalFitness;
 import org.brainfarm.java.util.RandomUtils;
 
@@ -64,12 +65,14 @@ public class Population implements IPopulation {
 
 	/** If too high, leads to delta coding process. */
 	private int highest_last_changed;
+	
+	private IReproductionStrategy reproductionStrategy;
 
-	public Population(IGenome g, int size) {
+	public Population(IGenome genome, int size) {
 		winnergen = 0;
 		highest_fitness = 0.0;
 		highest_last_changed = 0;
-		EvolutionStrategy.getInstance().getPopulationInitializationStrategy().initialize(this, g, size);
+		//EvolutionStrategy.getInstance().getPopulationInitializationStrategy().initialize(this, genome, size);
 	}
 
 	public String toString() {
@@ -337,7 +340,7 @@ public class Population implements IPopulation {
 		
 		// ---------- phase of reproduction -----------
 		for (ISpecies specie : sorted_species)
-			EvolutionStrategy.getInstance().getReproductionStrategy().reproduce(specie,generation, this, sorted_species);
+			reproductionStrategy.reproduce(specie,generation, this, sorted_species);
 
 		//
 		// Destroy and remove the old generation from the organisms and species
@@ -493,6 +496,9 @@ public class Population implements IPopulation {
 	 * Insert the method's description here. Creation date: (01/02/2002 9.48.44)
 	 */
 	public Population() {
+		winnergen = 0;
+		highest_fitness = 0.0;
+		highest_last_changed = 0;
 	}
 
 	/**
@@ -612,5 +618,11 @@ public class Population implements IPopulation {
 
 	public void setHighest_last_changed(int highest_last_changed) {
 		this.highest_last_changed = highest_last_changed;
+	}
+
+	@Override
+	public void setReproductionStrategy(
+			IReproductionStrategy reproductionStrategy) {
+		this.reproductionStrategy = reproductionStrategy;		
 	}
 }

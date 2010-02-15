@@ -45,5 +45,5 @@ public interface INode {
 	
 	int depth(int xlevel, INetwork mynet, int xmax_level);
 	
-	public boolean validate();
+	boolean validate();
 }

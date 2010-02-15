@@ -5,14 +5,13 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.brainfarm.java.feat.Neat;
+import org.brainfarm.java.feat.api.IEvolution;
 import org.brainfarm.java.feat.api.context.INeatContext;
-import org.brainfarm.java.feat.api.evolution.IEvolutionFitness;
-import org.brainfarm.java.feat.api.evolution.IEvolutionInput;
-import org.brainfarm.java.feat.api.evolution.IEvolutionOutput;
+import org.springframework.context.ApplicationContext;
 
-public abstract class AbstractNeatContext implements INeatContext {
+public class EvolutionContext implements INeatContext {
 	
-	private static Logger logger = Logger.getLogger(AbstractNeatContext.class);
+	private static Logger logger = Logger.getLogger(EvolutionContext.class);
 	
 	private List<INeatContextListener> listeners = new ArrayList<INeatContextListener>();
 	
@@ -20,25 +19,11 @@ public abstract class AbstractNeatContext implements INeatContext {
 
 	protected IExperiment experiment;
 	
-	private IEvolutionFitness fitnessImpl;
-	
-	private IEvolutionInput inputImpl;
-	
-	private IEvolutionOutput outputImpl;
+	private IEvolution evolution;
 
 	@Override
 	public IExperiment getExperiment() {
 		return experiment;
-	}
-
-	@Override
-	public IEvolutionFitness getFitnessImpl() {
-		return fitnessImpl;
-	}
-
-	@Override
-	public IEvolutionInput getInputImpl() {
-		return inputImpl;
 	}
 
 	@Override
@@ -47,35 +32,15 @@ public abstract class AbstractNeatContext implements INeatContext {
 	}
 
 	@Override
-	public IEvolutionOutput getOutputImpl() {
-		return outputImpl;
-	}
-
-	@Override
 	public void setExperiment(IExperiment experiment) {
 		this.experiment = experiment;
 		
 		experimentChanged();
 	}
-
-	@Override
-	public void setFitnessImpl(IEvolutionFitness fitness) {
-		this.fitnessImpl = fitness;
-	}
-
-	@Override
-	public void setInputImpl(IEvolutionInput input) {
-		this.inputImpl = input;
-	}
 	
 	@Override
 	public void setNeat(Neat neat) {
 		this.neat = neat;
-	}
-
-	@Override
-	public void setOutputImpl(IEvolutionOutput output) {
-		this.outputImpl = output;
 	}
 
 	public void addListener(INeatContextListener listener) {
@@ -106,5 +71,20 @@ public abstract class AbstractNeatContext implements INeatContext {
 		for (INeatContextListener listener : listeners) {
 			listener.experimentChanged(this);
 		}
+	}
+	
+	@Override
+	public IEvolution getEvolution() {
+		if (evolution == null) {
+			evolution = experiment.evolution();			
+		}
+		
+		return evolution;
+	}
+	
+	public void setApplicationContext(ApplicationContext context) {
+		neat = (Neat)context.getBean("neat");
+		
+		contextChanged();
 	}
 }

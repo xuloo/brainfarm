@@ -5,7 +5,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.feat.api.evolution.IEvolution;
+import org.brainfarm.java.feat.api.IEvolution;
 import org.brainfarm.java.util.ICommand;
 
 public class TransformerCommand implements ICommand {

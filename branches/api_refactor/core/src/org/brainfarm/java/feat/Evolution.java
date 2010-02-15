@@ -9,10 +9,11 @@ import org.apache.log4j.Logger;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
-import org.brainfarm.java.feat.api.evolution.IEvolution;
+import org.brainfarm.java.feat.api.IOrganismEvaluator;
+import org.brainfarm.java.feat.api.IEvolution;
 import org.brainfarm.java.feat.api.evolution.IEvolutionListener;
-import org.brainfarm.java.feat.context.IExperiment;
 import org.brainfarm.java.util.ThreadedCommand;
+
 /**
  * The central class from which Evolution is run.
  * 
@@ -23,28 +24,27 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	
 	private static Logger logger = Logger.getLogger(Evolution.class);
 	
+	private int runs;
+	
 	private int currentRun;
+	
+	private int epochs;
 	
 	private int currentEpoch;
 	
-	private Neat neat;
-	
-	private IExperiment experiment;
-	
 	private IPopulation population;
+	
+	private IOrganismEvaluator evaluator;
 	
 	protected List<IEvolutionListener> listeners = Collections.synchronizedList(new CopyOnWriteArrayList<IEvolutionListener>());
 	
 	private List<Double> maxFitnessEachEpoch = new ArrayList<Double>();
 	
-	public Evolution() {
-		
-	}
-	
-	public Evolution(Neat neat, IExperiment experiment, IPopulation population) {
-		this.neat = neat;
-		this.experiment = experiment;
+	public Evolution(IPopulation population, IOrganismEvaluator evaluator, int runs, int epochs) {
 		this.population = population;
+		this.evaluator = evaluator;
+		this.runs = runs;
+		this.epochs = epochs;
 	}
 	
 	@Override
@@ -53,11 +53,11 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 		// Inform listeners we're starting a set of evolution runs.
 		onEvolutionStart(population);
 		
-		for (int i = 0; i < neat.num_runs; i++) {
+		for (int i = 0; i < runs; i++) {
 			
 			currentRun = i;
 			
-			for (int j = 0; j < experiment.getEpoch(); j++) {
+			for (int j = 0; j < epochs; j++) {
 				
 				currentEpoch = j;
 				
@@ -91,7 +91,7 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 
 			for (IOrganism organism : population.getOrganisms()) {
 				// Evaluate each organism.
-				esito = EvolutionStrategy.getInstance().getOrganismEvaluator().evaluate(organism);
+				esito = evaluator.evaluate(organism);
 
 				if (organism.getFitness() > max_fitness_of_epoch)
 					max_fitness_of_epoch = organism.getFitness();
@@ -169,14 +169,6 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	
 	public List<Double> getMaxFitnessEachEpoch(){
 		return maxFitnessEachEpoch;
-	}
-	
-	public void setNeat(Neat neat) {
-		this.neat = neat;
-	}
-	
-	public void setExperiment(IExperiment experiment) {
-		this.experiment = experiment;
 	}
 	
 	public void setPopulation(IPopulation population) {
