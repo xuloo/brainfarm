@@ -5,6 +5,7 @@ import org.brainfarm.java.feat.api.IEvolution;
 import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.IPopulation;
+import org.brainfarm.java.feat.operators.FeatFactory;
 
 public class Experiment implements IExperiment {
 	
@@ -26,7 +27,10 @@ public class Experiment implements IExperiment {
 	
 	@Override
 	public IEvolution evolution() {
+		FeatFactory.setEvolutionStrategy(evolutionStrategy);
+		
 		// Initialise population.
+		population.setReproductionStrategy(evolutionStrategy.getReproductionStrategy());
 		evolutionStrategy.getPopulationInitializationStrategy().initialize(population, genome, populationSize);
 		
 		// Now create a new IEvolution instance.

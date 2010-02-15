@@ -624,5 +624,6 @@ public class Population implements IPopulation {
 	public void setReproductionStrategy(
 			IReproductionStrategy reproductionStrategy) {
 		this.reproductionStrategy = reproductionStrategy;		
+		System.out.println("repro strategy " + this.reproductionStrategy);
 	}
 }

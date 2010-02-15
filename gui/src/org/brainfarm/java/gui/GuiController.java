@@ -7,16 +7,16 @@ import javax.swing.JFrame;
 import org.apache.log4j.Logger;
 import org.brainfarm.java.feat.Neat;
 import org.brainfarm.java.feat.api.context.INeatContext;
-import org.brainfarm.java.feat.controller.SpringNeatController;
+import org.brainfarm.java.feat.controller.EvolutionController;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class GuiController extends SpringNeatController implements IGuiController {
+public class GuiController extends EvolutionController implements IGuiController {
 	
 	private static Logger logger = Logger.getLogger(GuiController.class);
 	
 	public GuiController(INeatContext context) {
-		this.context = context;
+		super(context);
 	}
 	
 	@Override 

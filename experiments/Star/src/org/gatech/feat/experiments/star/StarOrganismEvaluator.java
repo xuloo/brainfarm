@@ -17,7 +17,7 @@ import org.brainfarm.java.feat.api.IOrganismEvaluator;
  * @author dtuohy
  *
  */
-public class StarOrganismEvaluator implements IOrganismEvaluator {
+public class StarOrganismEvaluator implements IOrganismEvaluator  {
 	
 	public StarOrganismEvaluator(){
 		
