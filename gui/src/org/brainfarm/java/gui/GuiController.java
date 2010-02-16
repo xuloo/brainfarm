@@ -5,8 +5,8 @@ import java.awt.FileDialog;
 import javax.swing.JFrame;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.feat.api.context.IEvolutionContext;
-import org.brainfarm.java.feat.controller.EvolutionController;
+import org.brainfarm.java.feat.api.IEvolutionContext;
+import org.brainfarm.java.feat.EvolutionController;
 
 public class GuiController extends EvolutionController implements IGuiController {
 	

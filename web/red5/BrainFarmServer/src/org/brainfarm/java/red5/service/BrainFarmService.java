@@ -7,11 +7,11 @@ import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-import org.brainfarm.java.feat.api.context.IEvolutionContext;
-import org.brainfarm.java.feat.context.EvolutionContext;
+import org.brainfarm.java.feat.api.IEvolutionContext;
+import org.brainfarm.java.feat.EvolutionContext;
 import org.brainfarm.java.feat.api.IEvolutionController;
-import org.brainfarm.java.feat.controller.EvolutionController;
-import org.brainfarm.java.feat.params.AbstractNeatParameter;
+import org.brainfarm.java.feat.EvolutionController;
+import org.brainfarm.java.feat.params.EvolutionParameter;
 import org.brainfarm.java.mvcs.service.remote.ExperimentEntry;
 import org.brainfarm.java.red5.api.service.IBrainFarmService;
 import org.brainfarm.java.red5.api.service.message.IMessage;
@@ -75,11 +75,12 @@ public class BrainFarmService implements IBrainFarmService {
 		}
 	}
 	
-	public List<AbstractNeatParameter> loadNeatParameters() {
+	public List<EvolutionParameter> loadNeatParameters() {
 		System.out.println("loading neat parameters");
 		controller.loadDefaultParameters();
 		
-		return context.getNeat().getParameters();
+		//return context.getNeat().getParameters();
+		return null;
 	}
 	
 	public List<ExperimentEntry> getAvailableExperiments() {

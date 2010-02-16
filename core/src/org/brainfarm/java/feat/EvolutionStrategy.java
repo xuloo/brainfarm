@@ -2,7 +2,7 @@ package org.brainfarm.java.feat;
 
 import org.apache.log4j.Logger;
 import org.brainfarm.java.feat.api.IEvolutionStrategy;
-import org.brainfarm.java.feat.api.evaluators.IOrganismEvaluator;
+import org.brainfarm.java.feat.api.IOrganismEvaluator;
 import org.brainfarm.java.feat.api.operators.ICrossoverStrategy;
 import org.brainfarm.java.feat.api.operators.IMutationStrategy;
 import org.brainfarm.java.feat.api.operators.IPopulationInitializationStrategy;
@@ -82,6 +82,9 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 	 * Initialises the default properties for this factory.
 	 */
 	public void reset() {
+		
+		log.debug("Resetting EvolutionStrategy Defaults");
+		
 		crossoverStrategy = new DefaultCrossoverStrategy();
 		mutationStrategy = new DefaultMutationStrategy();
 		populationInitializationStrategy = new DefaultPopulationInitializationStrategy(this);

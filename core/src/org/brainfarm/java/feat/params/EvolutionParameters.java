@@ -1,24 +1,22 @@
-package org.brainfarm.java.feat;
+package org.brainfarm.java.feat.params;
 
 
 import java.util.List;
 
-import org.brainfarm.java.feat.params.AbstractNeatParameter;
-import org.brainfarm.java.feat.params.NeatParameter;
+import org.brainfarm.java.feat.params.EvolutionParameter;
 
 /**
  * Definition of all parameters , threshold and other values.
  * 
  * @author Trevor Burton [trevor@flashmonkey.org]
  */
-public class Neat {
+public class EvolutionParameters {
 
 	/** 
 	 * The power of a linkweight mutation 
 	 */
 	public static final String WEIGHT_MUT_POWER = "weight_mut_power";
 	
-	@NeatParameter
 	public static double weight_mut_power;
 	
 	/**
@@ -26,7 +24,6 @@ public class Neat {
 	 */
 	public static final String RECURE_PROB = "recur_prob";
 	
-	@NeatParameter
 	public static double recur_prob;
 	
 	/** 
@@ -34,7 +31,6 @@ public class Neat {
 	 */
 	public static final String DISJOINT_COEFF = "disjoint_coeff";
 	
-	@NeatParameter
 	public static double disjoint_coeff;
 	
 	/** 
@@ -42,7 +38,6 @@ public class Neat {
 	 */
 	public static final String EXCESS_COEFF = "excess_coeff";
 	
-	@NeatParameter
 	public static double excess_coeff;
 	
 	/** 
@@ -50,7 +45,6 @@ public class Neat {
 	 */
 	public static final String MUTDIFF_COEFF = "mutdiff_coeff";
 	
-	@NeatParameter
 	public static double mutdiff_coeff;
 	
 	/** 
@@ -58,7 +52,6 @@ public class Neat {
 	 */
 	public static final String COMPAT_THRESHOLD = "compat_threshold";
 	
-	@NeatParameter
 	public static double compat_threshold;
 	
 	/** 
@@ -66,7 +59,6 @@ public class Neat {
 	 */
 	public static final String AGE_SIGNIFICANCE = "age_significance";
 	
-	@NeatParameter
 	public static double age_significance;
 	
 	/** 
@@ -74,7 +66,6 @@ public class Neat {
 	 */
 	public static final String SURVIVAL_THRESH = "survival_thresh";
 	
-	@NeatParameter
 	public static double survival_thresh;
 	
 	/** 
@@ -82,7 +73,6 @@ public class Neat {
 	 */
 	public static final String MUTATE_ONLY_PROB = "mutate_only_prob";
 	
-	@NeatParameter
 	public static double mutate_only_prob;
 	
 	/** 
@@ -90,7 +80,6 @@ public class Neat {
 	 */
 	public static final String MUTATE_LINK_WEIGHTS_PROB = "mutate_link_weights_prob";
 	
-	@NeatParameter
 	public static double mutate_link_weights_prob;
 	
 	/** 
@@ -98,7 +87,6 @@ public class Neat {
 	 */
 	public static final String MUTATE_TOGGLE_ENABLE_PROB = "mutate_toggle_enable_prob";
 	
-	@NeatParameter
 	public static double mutate_toggle_enable_prob;
 	
 	/** 
@@ -106,7 +94,6 @@ public class Neat {
 	 */
 	public static final String MUTATE_GENE_REENABLE_PROB = "mutate_gene_reenable_prob";
 	
-	@NeatParameter
 	public static double mutate_gene_reenable_prob;
 	
 	/** 
@@ -114,7 +101,6 @@ public class Neat {
 	 */
 	public static final String MUTATE_ADD_NODE_PROB = "mutate_add_node_prob";
 	
-	@NeatParameter
 	public static double mutate_add_node_prob;
 	
 	/** 
@@ -122,7 +108,6 @@ public class Neat {
 	 */
 	public static final String MUTATE_ADD_LINK_PROB = "mutate_add_link_prob";
 	
-	@NeatParameter
 	public static double mutate_add_link_prob;
 	
 	/** 
@@ -130,7 +115,6 @@ public class Neat {
 	 */
 	public static final String INTERSPECIES_MATE_RATE = "interspecies_mate_rate";
 	
-	@NeatParameter
 	public static double interspecies_mate_rate;
 	
 	/** 
@@ -138,7 +122,6 @@ public class Neat {
 	 */
 	public static final String MATE_MULTIPOINT_PROB = "mate_multipoint_prob";
 	
-	@NeatParameter
 	public static double mate_multipoint_prob;
 	
 	/** 
@@ -146,7 +129,6 @@ public class Neat {
 	 */
 	public static final String MATE_MULTIPOINT_AVG_PROB = "mate_multipoint_avg_prob";
 	
-	@NeatParameter
 	public static double mate_multipoint_avg_prob;
 	
 	/** 
@@ -154,7 +136,6 @@ public class Neat {
 	 */
 	public static final String MATE_SINGLEPOINT_PROB = "mate_singlepoint_prob";
 	
-	@NeatParameter
 	public static double mate_singlepoint_prob;
 	
 	/** 
@@ -162,7 +143,6 @@ public class Neat {
 	 */
 	public static final String MATE_ONLY_PROB = "mate_only_prob";
 	
-	@NeatParameter
 	public static double mate_only_prob;
 	
 	/**
@@ -170,23 +150,13 @@ public class Neat {
 	 */
 	public static final String RECUR_ONLY_PROB = "recur_only_prob";
 	
-	@NeatParameter
 	public static double recur_only_prob;
-	
-	/** 
-	 * Size of population 
-	 */
-	public static final String POP_SIZE = "pop_size";
-	
-	@NeatParameter
-	public static int pop_size;
 	
 	/** 
 	 * Age where Species starts to be penalized 
 	 */
 	public static final String DROPOFF_AGE = "dropoff_age";
 	
-	@NeatParameter
 	public static int dropoff_age;
 	
 	/** 
@@ -194,7 +164,6 @@ public class Neat {
 	 */
 	public static final String NEWLINK_TRIES = "newlink_tries";
 	
-	@NeatParameter
 	public static int newlink_tries;
 	
 	/** 
@@ -202,7 +171,6 @@ public class Neat {
 	 */
 	public static final String PRINT_EVERY = "print_every";
 	
-	@NeatParameter
 	public static int print_every;
 	
 	/** 
@@ -210,34 +178,25 @@ public class Neat {
 	 */
 	public static final String BABIES_STOLEN = "babies_stolen";
 	
-	@NeatParameter
 	public static int babies_stolen;
+		
+	public List<EvolutionParameter> parameters;
 	
-	/** 
-	 * The number of runs for an experiment 
-	 */
-	public static final String NUM_RUNS = "num_runs";
+	public EvolutionParameters() {}
 	
-	@NeatParameter
-	public int num_runs;
-	
-	public List<AbstractNeatParameter> parameters;
-	
-	public Neat() {}
-	
-	public List<AbstractNeatParameter> getParameters() {
+	public List<EvolutionParameter> getParameters() {
 		return parameters;
 	}
 	
-	public void setParameters(List<AbstractNeatParameter> parameters) {
+	public void setParameters(List<EvolutionParameter> parameters) {
 		this.parameters = parameters;
 		
-		for (AbstractNeatParameter parameter : parameters) {
+		for (EvolutionParameter parameter : parameters) {
 			setParameter(parameter);			
 		}
 	}
 	
-	public void setParameter(AbstractNeatParameter parameter) {
+	public void setParameter(EvolutionParameter parameter) {
 		parameter.set(this);
 	}
 }

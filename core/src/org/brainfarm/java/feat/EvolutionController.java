@@ -1,18 +1,16 @@
-package org.brainfarm.java.feat.controller;
+package org.brainfarm.java.feat;
 
 import java.io.File;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.feat.FEATConstants;
-import org.brainfarm.java.feat.Neat;
+import org.brainfarm.java.feat.api.IEvolutionContext;
 import org.brainfarm.java.feat.api.IEvolutionController;
-import org.brainfarm.java.feat.api.context.IEvolutionContext;
-import org.brainfarm.java.feat.api.experiment.IExperiment;
-import org.brainfarm.java.feat.experiment.ExperimentLoader;
+import org.brainfarm.java.feat.api.IExperiment;
+import org.brainfarm.java.feat.params.EvolutionParameters;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class EvolutionController implements IEvolutionController, FEATConstants {
+public class EvolutionController implements IEvolutionController, Constants {
 	
 	private static Logger logger = Logger.getLogger(EvolutionController.class);
 	
@@ -26,8 +24,8 @@ public class EvolutionController implements IEvolutionController, FEATConstants 
 	
 	public void loadDefaultParameters() {
 		ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{NEAT_CONTEXT_FILENAME});
-		Neat neat = (Neat)appContext.getBean("neat");
-		context.setNeat(neat);
+		//EvolutionParameters neat = (EvolutionParameters)appContext.getBean("neat");
+		//context.setNeat(neat);
 	}
 
 	@Override

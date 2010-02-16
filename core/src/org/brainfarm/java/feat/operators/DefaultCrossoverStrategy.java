@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.brainfarm.java.feat.Gene;
-import org.brainfarm.java.feat.Neat;
 import org.brainfarm.java.feat.api.IGene;
 import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.INode;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.operators.ICrossoverStrategy;
+import org.brainfarm.java.feat.params.EvolutionParameters;
 import org.brainfarm.java.util.EvolutionUtils;
 import org.brainfarm.java.util.RandomUtils;
 
@@ -23,10 +23,10 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy{
 	
 	public IGenome performCrossover(IOrganism mom, IOrganism dad, int count) {
 		IGenome new_genome;
-		if (RandomUtils.randomDouble() < Neat.mate_multipoint_prob) {
+		if (RandomUtils.randomDouble() < EvolutionParameters.mate_multipoint_prob) {
 			//			logger.debug("mate multipoint baby: ");
 			new_genome = mateMultipoint(mom.getGenome(), dad.getGenome(), count, mom.getOriginalFitness(), dad.getOriginalFitness());
-		} else if (RandomUtils.randomDouble() < (Neat.mate_multipoint_avg_prob / (Neat.mate_multipoint_avg_prob + Neat.mate_singlepoint_prob))) {
+		} else if (RandomUtils.randomDouble() < (EvolutionParameters.mate_multipoint_avg_prob / (EvolutionParameters.mate_multipoint_avg_prob + EvolutionParameters.mate_singlepoint_prob))) {
 			//			logger.debug("mate multipoint_avg baby: ");
 			new_genome = mateMultipointAverage(mom.getGenome(), dad.getGenome(), count, mom.getOriginalFitness(), dad.getOriginalFitness());
 		} else {

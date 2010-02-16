@@ -7,8 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
 import org.apache.log4j.BasicConfigurator;
-import org.brainfarm.java.feat.api.context.IEvolutionContext;
-import org.brainfarm.java.feat.context.EvolutionContext;
+import org.brainfarm.java.feat.api.IEvolutionContext;
+import org.brainfarm.java.feat.EvolutionContext;
 import org.brainfarm.java.gui.api.INeatPanel;
 
 public class MainGui {

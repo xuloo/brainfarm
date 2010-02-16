@@ -17,7 +17,7 @@ import org.brainfarm.java.feat.api.INode;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
-import org.brainfarm.java.feat.api.evolution.IEvolution;
+import org.brainfarm.java.feat.api.IEvolution;
 import org.brainfarm.java.util.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

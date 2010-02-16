@@ -1,4 +1,4 @@
-package org.brainfarm.java.feat.api.evolution;
+package org.brainfarm.java.feat.api.ann;
 
 public interface IEvolutionOutput {
 

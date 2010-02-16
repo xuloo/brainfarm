@@ -1,8 +1,8 @@
 package org.brainfarm.java.feat.api.params;
 
-import org.brainfarm.java.feat.Neat;
+import org.brainfarm.java.feat.params.EvolutionParameters;
 
-public interface INeatParameter {
+public interface IEvolutionParameter {
 
 	public String getKey();
 	
@@ -12,5 +12,5 @@ public interface INeatParameter {
 	
 	public void setDescription(String description);
 	
-	public abstract void set(Neat neat);
+	public abstract void set(EvolutionParameters neat);
 }

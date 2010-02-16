@@ -1,4 +1,4 @@
-package org.brainfarm.java.feat.experiment;
+package org.brainfarm.java.feat;
 
 import java.io.File;
 import java.io.InputStream;
@@ -6,15 +6,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import org.brainfarm.java.feat.FEATConstants;
-import org.brainfarm.java.feat.api.experiment.IExperiment;
+import org.brainfarm.java.feat.Constants;
+import org.brainfarm.java.feat.api.IExperiment;
 import org.brainfarm.java.feat.operators.FeatFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.InputStreamResource;
 import org.xeustechnologies.jcl.JarClassLoader;
 
-public class ExperimentLoader implements FEATConstants {
+public class ExperimentLoader implements Constants {
 
 	private static ClassLoader classLoader;
 	

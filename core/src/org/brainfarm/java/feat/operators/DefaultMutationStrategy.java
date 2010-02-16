@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.brainfarm.java.feat.Gene;
 import org.brainfarm.java.feat.Innovation;
-import org.brainfarm.java.feat.Neat;
 import org.brainfarm.java.feat.api.IGene;
 import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.IInnovation;
@@ -16,6 +15,7 @@ import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.enums.InnovationType;
 import org.brainfarm.java.feat.api.enums.MutationType;
 import org.brainfarm.java.feat.api.operators.IMutationStrategy;
+import org.brainfarm.java.feat.params.EvolutionParameters;
 import org.brainfarm.java.util.EvolutionUtils;
 import org.brainfarm.java.util.RandomUtils;
 
@@ -30,27 +30,27 @@ import org.brainfarm.java.util.RandomUtils;
 public class DefaultMutationStrategy implements IMutationStrategy {
 
 	// The weight mutation power is species specific depending on its age
-	protected double mut_power = Neat.weight_mut_power;
+	protected double mut_power = EvolutionParameters.weight_mut_power;
 
 	@Override
 	public void mutate(IGenome genome, IPopulation pop, int generation) {
-		if (RandomUtils.randomDouble() < Neat.mutate_add_node_prob) {
+		if (RandomUtils.randomDouble() < EvolutionParameters.mutate_add_node_prob) {
 			//			logger.debug("....species.reproduce.mutate add node");
 			mutateAddNode(genome,pop);
-		} else if (RandomUtils.randomDouble() < Neat.mutate_add_link_prob) {
+		} else if (RandomUtils.randomDouble() < EvolutionParameters.mutate_add_link_prob) {
 			//			logger.debug("....mutate add link");
 			genome.generatePhenotype(generation);
 			mutateAddLink(genome, pop);
 		} else {
-			if (RandomUtils.randomDouble() < Neat.mutate_link_weights_prob) {
+			if (RandomUtils.randomDouble() < EvolutionParameters.mutate_link_weights_prob) {
 				//				logger.debug("...mutate link weight");
 				mutateLinkWeight(genome, mut_power, 1.0,MutationType.GAUSSIAN);
 			}
-			if (RandomUtils.randomDouble() < Neat.mutate_toggle_enable_prob) {
+			if (RandomUtils.randomDouble() < EvolutionParameters.mutate_toggle_enable_prob) {
 				//				logger.debug("...mutate toggle enable");
 				mutateToggleEnable(genome,1);
 			}
-			if (RandomUtils.randomDouble() < Neat.mutate_gene_reenable_prob) {
+			if (RandomUtils.randomDouble() < EvolutionParameters.mutate_gene_reenable_prob) {
 				//				logger.debug("...mutate gene_reenable:");
 				mutateGeneReenable(genome);
 			}
@@ -59,7 +59,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 
 	public boolean mutateAddLink(IGenome genome, IPopulation population) {
 
-		int attempts = Neat.newlink_tries;
+		int attempts = EvolutionParameters.newlink_tries;
 
 		//get fields from the genome
 		List<INode> nodes = genome.getNodes();

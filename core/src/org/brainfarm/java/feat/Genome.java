@@ -10,6 +10,7 @@ import org.brainfarm.java.feat.api.ILink;
 import org.brainfarm.java.feat.api.INetwork;
 import org.brainfarm.java.feat.api.INode;
 import org.brainfarm.java.feat.operators.FeatFactory;
+import org.brainfarm.java.feat.params.EvolutionParameters;
 
 /**
  * The base implementation of a Genome, it contains
@@ -163,8 +164,8 @@ public class Genome implements IGenome {
 		// in the Genome.
 		// Look at disjointedness and excess in the absolute (ignoring size)
 
-		return (Neat.disjoint_coeff * (num_disjoint / 1.0)
-				+ Neat.disjoint_coeff * (num_excess / 1.0) + Neat.mutdiff_coeff
+		return (EvolutionParameters.disjoint_coeff * (num_disjoint / 1.0)
+				+ EvolutionParameters.disjoint_coeff * (num_excess / 1.0) + EvolutionParameters.mutdiff_coeff
 				* (mut_diff_total / num_matching));
 
 	}

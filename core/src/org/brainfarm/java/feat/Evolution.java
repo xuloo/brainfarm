@@ -10,8 +10,8 @@ import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
-import org.brainfarm.java.feat.api.evolution.IEvolution;
-import org.brainfarm.java.feat.api.evolution.IEvolutionListener;
+import org.brainfarm.java.feat.api.IEvolution;
+import org.brainfarm.java.feat.api.IEvolutionListener;
 import org.brainfarm.java.util.ThreadedCommand;
 
 /**
@@ -105,6 +105,8 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	@Override
 	protected void execute() {
 		
+		logger.debug("Executing Evolution");
+		
 		// Inform listeners we're starting a set of evolution runs.
 		onEvolutionStart();
 		
@@ -127,6 +129,8 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 		
 		// Inform the listeners the evolution runs are complete.
 		onEvolutionComplete();
+		
+		logger.debug("Evolution Complete");
 	}
 	
 	/**
