@@ -11,10 +11,4 @@ public interface IExperiment {
 	public IEvolution evolution();
 	
 	public IEvolutionStrategy getEvolutionStrategy();
-	
-	public int getEpochs();
-	
-	public int getRuns();
-	
-	public IPopulation getPopulation();
 }

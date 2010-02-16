@@ -8,6 +8,14 @@ import org.brainfarm.java.feat.api.evolution.IEvolutionInput;
 import org.brainfarm.java.feat.api.evolution.IEvolutionOutput;
 import org.brainfarm.java.feat.evaluators.AbstractOrganismEvaluator;
 
+/**
+ * Provides an IOrganismEvaluator implementation for use with NEAT experiments.
+ * Allows the experiment to use custom classes for providing Input data to the evaluator
+ * and for testing the fitness of an organism.
+ * 
+ * @author Trevor Burton [trevor@flashmonkey.org]
+ *
+ */
 public class NeatOrganismEvaluator extends AbstractOrganismEvaluator {	
 	
 	private int numberOfInputs;
@@ -30,12 +38,16 @@ public class NeatOrganismEvaluator extends AbstractOrganismEvaluator {
 	
 	protected double tgt[][];
 	
-	protected boolean success = false;
-	
+	/**
+	 * Constructor. Creates a new NeatOrganismEvaluator.
+	 */
 	public NeatOrganismEvaluator() {
 		super();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean evaluate(IOrganism org) {
 		
@@ -45,25 +57,11 @@ public class NeatOrganismEvaluator extends AbstractOrganismEvaluator {
 		double err_dyn = 0.0;
 		double win_dyn = 0.0;
 
-		// per evitare errori il numero di ingressi e uscite viene calcolato in
-		// base
-		// ai dati ;
-		// per le unit di input a tale numero viene aggiunto una unit bias
-		// di tipo neuron
-		// le classi di copdifica input e output quindi dovranno fornire due
-		// metodi : uno per restituire l'input j-esimo e uno per restituire
-		// il numero di ingressi/uscite
-		// se I/O è da file allora è il metodo di acesso ai files che avrà lo
-		// stesso nome e che farà la stessa cosa.
-
 		double errorsum = 0.0;
-
-		// System.out.print("\n evaluate.step 1 ");
 
 		in = new double[numberOfInputs + 1];
 
 		// setting bias
-
 		in[numberOfInputs] = 1.0;
 
 		out = new double[numberOfSamples][numberOfOutputs];
@@ -74,7 +72,7 @@ public class NeatOrganismEvaluator extends AbstractOrganismEvaluator {
 	
 		if (evaluate()) {
 			double[] fit = fitness.computeFitness(numberOfSamples, net.getAllNodes().size(), out, tgt);
-			//System.out.println("SETTING FITNESS FROM FITNESS CLASS");
+
 			fit_dyn = fit[0];
 			err_dyn = fit[1];
 			win_dyn = fit[2];
@@ -98,34 +96,34 @@ public class NeatOrganismEvaluator extends AbstractOrganismEvaluator {
 	protected boolean evaluate() {
 		
 		int inputs[] = new int[2];
+		
+		boolean success = false;
 
 		for (int count = 0; count < numberOfSamples; count++) {
+			
 			inputs[0] = count;
-			// first activation from sensor to first next level of
-			// neurons
+			
+			// first activation from sensor to first next level of neurons.
 			for (int j = 0; j < numberOfInputs; j++) {
+				
 				inputs[1] = j;
+				
 				in[j] = input.getInput(inputs);
 			}
 
 			// load sensor
 			net.loadSensors(in);
 
-			/*if (EnvConstant.ACTIVATION_PERIOD == EnvConstant.MANUAL) {
-				for (int relax = 0; relax < EnvConstant.ACTIVATION_TIMES; relax++) {
-					success = net.activate();
-				}
-			} else {*/
-				// first activation from sensor to next layer....
-				success = net.activate();
+			// first activation from sensor to next layer....
+			success = net.activate();
 
-				int maxnet_depth = net.maxDepth();
-				// next activation while last level is reached !
-				// use depth to ensure relaxation
-				for (int relax = 0; relax <= maxnet_depth; relax++) {
-					success = net.activate();
-				}
-			//}
+			int maxnet_depth = net.maxDepth();
+			
+			// Next activation while last level is reached !
+			// Use depth to ensure relaxation.
+			for (int relax = 0; relax <= maxnet_depth; relax++) {
+				success = net.activate();
+			}
 
 			// for each sample save each output
 			for (int j = 0; j < numberOfOutputs; j++) {
@@ -137,14 +135,16 @@ public class NeatOrganismEvaluator extends AbstractOrganismEvaluator {
 		}
 		
 		if (success) {
-			// prima di passare a calcolare il fitness legge il tgt da
-			// ripassare
-			// al chiamante;
 			int target[] = new int[2];
+			
 			for (int count = 0; count < numberOfSamples; count++) {	
+				
 				target[0] = count;
+				
 				for (int j = 0; j < numberOfOutputs; j++) {
+					
 					target[1] = j;
+					
 					tgt[count][j] = output.getTarget(target);
 				}
 			}
@@ -152,53 +152,60 @@ public class NeatOrganismEvaluator extends AbstractOrganismEvaluator {
 		
 		return success;
 	}
+	
+	////////////////////////////////////////////////////////////////////
+	// SETTERS - INVOKED WHEN THIS EVALUATOR IS LOADED VIA SPRING IOC //
+	////////////////////////////////////////////////////////////////////
 
+	/**
+	 * Set the number of input nodes the organism will have.
+	 */
 	public void setNumberOfInputs(int numberOfInputs) {
 		this.numberOfInputs = numberOfInputs;
 	}
 
-	public int getNumberOfInputs() {
-		return numberOfInputs;
-	}
-
+	/**
+	 * Set the number of output nodes the organism will have.
+	 * 
+	 * @param numberOfOutputs
+	 */
 	public void setNumberOfOutputs(int numberOfOutputs) {
 		this.numberOfOutputs = numberOfOutputs;
 	}
 
-	public int getNumberOfOutputs() {
-		return numberOfOutputs;
-	}
-
+	/**
+	 * Set the number of samples in each test.
+	 * 
+	 * @param numberOfSamples
+	 */
 	public void setNumberOfSamples(int numberOfSamples) {
 		this.numberOfSamples = numberOfSamples;
 	}
 
-	public int getNumberOfSamples() {
-		return numberOfSamples;
-	}
-
+	/**
+	 * Set the IEvolutionInput implementation used to provide input data.
+	 * 
+	 * @param input
+	 */
 	public void setInput(IEvolutionInput input) {
 		this.input = input;
 	}
 
-	public IEvolutionInput getInput() {
-		return input;
-	}
-
+	/**
+	 * Set the IEvolutionOutput implementation used to provide target outputs.
+	 * 
+	 * @param output
+	 */
 	public void setOutput(IEvolutionOutput output) {
 		this.output = output;
 	}
 
-	public IEvolutionOutput getOutput() {
-		return output;
-	}
-
+	/**
+	 * Set the IEvolutionFitness implementation used to test organism's fitness.
+	 * 
+	 * @param fitness
+	 */
 	public void setFitness(IEvolutionFitness fitness) {
 		this.fitness = fitness;
 	}
-
-	public IEvolutionFitness getFitness() {
-		return fitness;
-	}
-
 }

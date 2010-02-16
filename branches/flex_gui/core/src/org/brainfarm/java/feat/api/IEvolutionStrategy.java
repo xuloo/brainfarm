@@ -7,6 +7,12 @@ import org.brainfarm.java.feat.api.operators.IPopulationInitializationStrategy;
 import org.brainfarm.java.feat.api.operators.IReproductionStrategy;
 import org.brainfarm.java.feat.api.operators.ISpeciationStrategy;
 
+/**
+ * 
+ * @author dtuohy
+ * @author Trevor Burton [trevor@flashmonkey.org]
+ *
+ */
 public interface IEvolutionStrategy {
 
 	public abstract void setClassLoader(ClassLoader classLoader);

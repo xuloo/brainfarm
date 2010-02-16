@@ -1,7 +1,6 @@
 package org.brainfarm.java.feat;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.feat.ann.NeatOrganismEvaluator;
 import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.api.evaluators.IOrganismEvaluator;
 import org.brainfarm.java.feat.api.operators.ICrossoverStrategy;
