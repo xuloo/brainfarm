@@ -23,7 +23,7 @@
 	</path>
 
     <!-- targets -->
-    <target name="build" depends="init,java-classes,jar" description="Build the library"/>
+    <target name="build" depends="init,java-classes,jar,copy" description="Build the library"/>
 	
 	<target name="jar" description="creates a jar file from the compiled classes">
 		<tstamp prefix="build">
@@ -39,6 +39,10 @@
 				<attribute name="Experiment-Name" value="${ant.project.name}"/>
 			</manifest>
 		</jar>
+	</target>
+	
+	<target name="copy">
+		<copy file="${xor.jar}" todir="${brainfarm.root}/core/test" overwrite="true"/>
 	</target>
 	
 	<path id="javac.test.path">
