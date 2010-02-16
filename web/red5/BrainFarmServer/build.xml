@@ -24,7 +24,6 @@
 		so they're available to the webapp. 
 		-->
 		<copy todir="${red5.webapps.dir}/${ant.project.name}/experiments" file="${xor.jar}"/>
-		<echo>copying ${star.jar}</echo>
 		<copy todir="${red5.webapps.dir}/${ant.project.name}/experiments" file="${star.jar}"/>
 
 	</target>

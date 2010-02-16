@@ -20,7 +20,7 @@ public class RunExperimentMessage extends BaseMessage implements IEvolutionListe
 	@Override
 	public Object read() {
 		
-		Evolution evolution = service.getFeatContext().getEvolution();
+		IEvolution evolution = service.getFeatContext().getEvolution();
 		
 		configureEvolutionListeners(evolution);
 		
@@ -31,7 +31,7 @@ public class RunExperimentMessage extends BaseMessage implements IEvolutionListe
 		return null;
 	}
 
-	private void configureEvolutionListeners(Evolution evolution) {
+	private void configureEvolutionListeners(IEvolution evolution) {
 		
 		PopulationFilenameGenerator fileNameGenerator = new PopulationFilenameGenerator();
 		fileNameGenerator.setBasePath("webapps/brainfarm-webapp/working");
