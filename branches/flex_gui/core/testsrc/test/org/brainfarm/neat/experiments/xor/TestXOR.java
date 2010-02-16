@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import org.brainfarm.java.feat.Neat;
+import org.brainfarm.java.feat.api.INeatController;
 import org.brainfarm.java.feat.api.context.INeatContext;
 import org.brainfarm.java.feat.api.evolution.IEvolution;
 import org.brainfarm.java.feat.api.evolution.IEvolutionListener;
@@ -42,8 +43,8 @@ public class TestXOR {
 		context.setNeat(neat);
 
 		//load experiment
-		SpringNeatController controller = new TestXorController(context);
-		controller.loadExperiment();
+		INeatController controller = new TestXorController(context);
+		controller.loadExperiment("test/xor-experiment.jar");
 
 		//run experiment
 		TestEvolutionListener listener = new TestEvolutionListener();
@@ -59,19 +60,19 @@ public class TestXOR {
 		//sample and validate results of evolution
 		List<Double> maxFitnesses = context.getEvolution().getMaxFitnessEachEpoch();
 		for(double d : maxFitnesses)
-			System.out.println(d + ", ");
+			System.out.print(d + ", ");
 		assertEquals(6.178315187424375, maxFitnesses.get(0),.000001);
 		assertEquals(15.999766675576327, maxFitnesses.get(28),.000001);
 		assertEquals(10.043538023300911, maxFitnesses.get(35),.000001);
 	}
 
-	public class TestXorController extends SpringNeatController{
+	public class TestXorController extends SpringNeatController {
 		public TestXorController(INeatContext context) {
 			super(context);
 		}
 	}
 
-	public class TestEvolutionListener implements IEvolutionListener{
+	public class TestEvolutionListener implements IEvolutionListener {
 
 		int epochsStarted = 0;
 		int epochsCompleted = 0;

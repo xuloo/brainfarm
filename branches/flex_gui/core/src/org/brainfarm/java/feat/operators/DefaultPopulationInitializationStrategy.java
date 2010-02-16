@@ -34,7 +34,7 @@ public class DefaultPopulationInitializationStrategy implements
 
 			//perturb it's link weights
 			evolutionStrategy.getMutationStrategy().mutateLinkWeight(newgenome,1.0, 1.0, MutationType.GAUSSIAN);
-			
+
 			//add the organism to the population
 			IOrganism neworganism = FeatFactory.newOrganism(0.0, newgenome, 1);
 			pop.getOrganisms().add(neworganism);

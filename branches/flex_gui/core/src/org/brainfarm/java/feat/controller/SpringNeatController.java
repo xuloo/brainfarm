@@ -4,9 +4,10 @@ import java.io.File;
 
 import org.apache.log4j.Logger;
 import org.brainfarm.java.feat.FEATConstants;
+import org.brainfarm.java.feat.Neat;
 import org.brainfarm.java.feat.api.context.INeatContext;
 import org.brainfarm.java.feat.api.experiment.IExperiment;
-import org.brainfarm.java.feat.context.SpringNeatContext;
+import org.brainfarm.java.feat.context.EvolutionContext;
 import org.brainfarm.java.feat.experiment.ExperimentLoader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -23,7 +24,8 @@ public class SpringNeatController extends AbstractNeatController implements FEAT
 	
 	public void loadDefaultParameters() {
 		ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{NEAT_CONTEXT_FILENAME});
-		((SpringNeatContext)context).setApplicationContext(appContext);
+		Neat neat = (Neat)appContext.getBean("neat");
+		context.setNeat(neat);
 	}
 
 	@Override
@@ -38,6 +40,9 @@ public class SpringNeatController extends AbstractNeatController implements FEAT
 	 * @param location (String) The location of the .jar file that contains the experiment's resources.
 	 */
 	public void loadExperiment(String location) {
+		
+		IExperiment experiment = ExperimentLoader.loadExperiment(new File(location));
+		context.setExperiment(experiment);
 		/*
 		// Create a temporary directory for the experiment.		
 		File experimentDir = new File(experimentDirectory);
@@ -247,8 +252,7 @@ public class SpringNeatController extends AbstractNeatController implements FEAT
 		//File experimentDir = new File(experimentDirectory);
 		//setupExperiment(experimentDir);
 		
-		IExperiment experiment = ExperimentLoader.loadExperiment(new File(experimentDirectory));
-		context.setExperiment(experiment);
+		loadExperiment(experimentDirectory);
 	}
 	
 	@Override
