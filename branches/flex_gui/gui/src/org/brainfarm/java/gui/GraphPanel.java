@@ -34,7 +34,7 @@ import org.brainfarm.java.feat.Organism;
 import org.brainfarm.java.feat.Population;
 import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.IOrganism;
-import org.brainfarm.java.feat.api.context.INeatContext;
+import org.brainfarm.java.feat.api.context.IEvolutionContext;
 import org.brainfarm.java.gui.graph.ChartXY;
 import org.brainfarm.java.gui.graph.Edge;
 import org.brainfarm.java.gui.graph.Structure;
@@ -90,7 +90,7 @@ public class GraphPanel extends AbstractNeatPanel implements ListSelectionListen
 	/**
    * 
    */
-	public GraphPanel(JFrame _f, IGuiController controller, INeatContext context) {
+	public GraphPanel(JFrame _f, IGuiController controller, IEvolutionContext context) {
 
 		super(_f, controller, context);
 		
@@ -723,13 +723,13 @@ public class GraphPanel extends AbstractNeatPanel implements ListSelectionListen
 	}
 
 	@Override
-	public void contextChanged(INeatContext arg0) {
+	public void contextChanged(IEvolutionContext arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void experimentChanged(INeatContext arg0) {
+	public void experimentChanged(IEvolutionContext arg0) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -4,30 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.feat.Evolution;
 import org.brainfarm.java.feat.Neat;
-import org.brainfarm.java.feat.api.context.INeatContext;
+import org.brainfarm.java.feat.api.context.IEvolutionContext;
+import org.brainfarm.java.feat.api.context.IEvolutionContextListener;
 import org.brainfarm.java.feat.api.evolution.IEvolution;
-import org.brainfarm.java.feat.api.evolution.IEvolutionFitness;
-import org.brainfarm.java.feat.api.evolution.IEvolutionInput;
-import org.brainfarm.java.feat.api.evolution.IEvolutionOutput;
 import org.brainfarm.java.feat.api.experiment.IExperiment;
 
-public class EvolutionContext implements INeatContext {
+public class EvolutionContext implements IEvolutionContext {
 	
 	private static Logger logger = Logger.getLogger(EvolutionContext.class);
 	
-	private List<INeatContextListener> listeners = new ArrayList<INeatContextListener>();
+	private List<IEvolutionContextListener> listeners = new ArrayList<IEvolutionContextListener>();
 	
 	protected Neat neat;
 
-	protected org.brainfarm.java.feat.api.experiment.IExperiment experiment;
-	
-	private IEvolutionFitness fitnessImpl;
-	
-	private IEvolutionInput inputImpl;
-	
-	private IEvolutionOutput outputImpl;
+	protected IExperiment experiment;
 	
 	private IEvolution evolution;
 	
@@ -36,18 +27,8 @@ public class EvolutionContext implements INeatContext {
 	}
 
 	@Override
-	public org.brainfarm.java.feat.api.experiment.IExperiment getExperiment() {
+	public IExperiment getExperiment() {
 		return experiment;
-	}
-
-	@Override
-	public IEvolutionFitness getFitnessImpl() {
-		return fitnessImpl;
-	}
-
-	@Override
-	public IEvolutionInput getInputImpl() {
-		return inputImpl;
 	}
 
 	@Override
@@ -56,25 +37,10 @@ public class EvolutionContext implements INeatContext {
 	}
 
 	@Override
-	public IEvolutionOutput getOutputImpl() {
-		return outputImpl;
-	}
-
-	@Override
 	public void setExperiment(org.brainfarm.java.feat.api.experiment.IExperiment experiment) {
 		this.experiment = experiment;
 		
 		experimentChanged();
-	}
-
-	@Override
-	public void setFitnessImpl(IEvolutionFitness fitness) {
-		this.fitnessImpl = fitness;
-	}
-
-	@Override
-	public void setInputImpl(IEvolutionInput input) {
-		this.inputImpl = input;
 	}
 	
 	@Override
@@ -82,18 +48,13 @@ public class EvolutionContext implements INeatContext {
 		this.neat = neat;
 	}
 
-	@Override
-	public void setOutputImpl(IEvolutionOutput output) {
-		this.outputImpl = output;
-	}
-
-	public void addListener(INeatContextListener listener) {
+	public void addListener(IEvolutionContextListener listener) {
 		if (!listeners.contains(listener)) {
 			listeners.add(listener);
 		}
 	}
 	
-	public void removeListener(INeatContextListener listener) {
+	public void removeListener(IEvolutionContextListener listener) {
 		if (listeners.contains(listener)) {
 			listeners.remove(listener);
 		}
@@ -103,7 +64,7 @@ public class EvolutionContext implements INeatContext {
 		
 		logger.debug("informing " + listeners.size() + " listeners of context change");
 		
-		for (INeatContextListener listener : listeners) {
+		for (IEvolutionContextListener listener : listeners) {
 			listener.contextChanged(this);
 		}
 	}
@@ -112,7 +73,7 @@ public class EvolutionContext implements INeatContext {
 		
 		logger.debug("informing " + listeners.size() + " listeners of experiment change");
 		
-		for (INeatContextListener listener : listeners) {
+		for (IEvolutionContextListener listener : listeners) {
 			listener.experimentChanged(this);
 		}
 	}

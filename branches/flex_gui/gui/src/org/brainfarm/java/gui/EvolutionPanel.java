@@ -35,11 +35,11 @@ import org.apache.log4j.Logger;
 import org.brainfarm.java.feat.Organism;
 import org.brainfarm.java.feat.ann.NeatOrganism;
 import org.brainfarm.java.feat.api.IGenome;
-import org.brainfarm.java.feat.api.context.INeatContext;
+import org.brainfarm.java.feat.api.context.IEvolutionContext;
 import org.brainfarm.java.feat.api.evolution.IEvolutionFitness;
 import org.brainfarm.java.feat.api.evolution.IEvolutionInput;
 import org.brainfarm.java.feat.api.evolution.IEvolutionOutput;
-import org.brainfarm.java.feat.context.INeatContextListener;
+import org.brainfarm.java.feat.api.context.IEvolutionContextListener;
 import org.brainfarm.java.gui.graph.ChartXY;
 import org.brainfarm.java.gui.graph.Edge;
 import org.brainfarm.java.gui.graph.Structure;
@@ -124,7 +124,7 @@ public class EvolutionPanel extends AbstractNeatPanel implements ItemListener {
 	/**
 	 * pan1 constructor comment.
 	 */
-	public EvolutionPanel(JFrame frame, IGuiController controller, INeatContext context) {
+	public EvolutionPanel(JFrame frame, IGuiController controller, IEvolutionContext context) {
 
 		super(frame, controller, context);
 		
@@ -841,13 +841,13 @@ public class EvolutionPanel extends AbstractNeatPanel implements ItemListener {
 	}
 
 	@Override
-	public void contextChanged(INeatContext context) {
+	public void contextChanged(IEvolutionContext context) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void experimentChanged(INeatContext context) {
+	public void experimentChanged(IEvolutionContext context) {
 		// TODO Auto-generated method stub
 		
 	}

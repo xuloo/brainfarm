@@ -5,14 +5,14 @@ import java.awt.FileDialog;
 import javax.swing.JFrame;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.feat.api.context.INeatContext;
-import org.brainfarm.java.feat.controller.SpringNeatController;
+import org.brainfarm.java.feat.api.context.IEvolutionContext;
+import org.brainfarm.java.feat.controller.EvolutionController;
 
-public class GuiController extends SpringNeatController implements IGuiController {
+public class GuiController extends EvolutionController implements IGuiController {
 	
 	private static Logger logger = Logger.getLogger(GuiController.class);
 	
-	public GuiController(INeatContext context) {
+	public GuiController(IEvolutionContext context) {
 		super(context);
 	}
 	

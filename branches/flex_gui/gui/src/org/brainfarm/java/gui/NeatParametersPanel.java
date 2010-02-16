@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.feat.api.context.INeatContext;
+import org.brainfarm.java.feat.api.context.IEvolutionContext;
 
 public class NeatParametersPanel extends AbstractNeatPanel{
 
@@ -32,7 +32,7 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 	/**
 	 * pan1 constructor comment.
 	 */
-	public NeatParametersPanel(JFrame frame, IGuiController controller, INeatContext context) {
+	public NeatParametersPanel(JFrame frame, IGuiController controller, IEvolutionContext context) {
 
 		super(frame, controller, context);
 		
@@ -203,10 +203,10 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 	 * Refresh the table model with the new data so the user can edit.
 	 */
 	@Override
-	public void contextChanged(INeatContext context) {
+	public void contextChanged(IEvolutionContext context) {
 		tableModel.setData(context.getNeat().getParameters());
 	}
 
 	@Override
-	public void experimentChanged(INeatContext context) {}
+	public void experimentChanged(IEvolutionContext context) {}
 }

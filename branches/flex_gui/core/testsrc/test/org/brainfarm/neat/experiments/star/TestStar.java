@@ -5,14 +5,14 @@ import static org.junit.Assert.assertEquals;
 import java.util.List;
 
 import org.brainfarm.java.feat.Neat;
-import org.brainfarm.java.feat.api.INeatController;
+import org.brainfarm.java.feat.api.IEvolutionController;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
-import org.brainfarm.java.feat.api.context.INeatContext;
+import org.brainfarm.java.feat.api.context.IEvolutionContext;
 import org.brainfarm.java.feat.api.evolution.IEvolution;
 import org.brainfarm.java.feat.api.evolution.IEvolutionListener;
 import org.brainfarm.java.feat.context.EvolutionContext;
-import org.brainfarm.java.feat.controller.SpringNeatController;
+import org.brainfarm.java.feat.controller.EvolutionController;
 import org.brainfarm.java.util.RandomUtils;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -41,7 +41,7 @@ public class TestStar {
 	public void validateDeterministicMatchExperiment(){
 		RandomUtils.seedRandom(290761);
 
-		INeatContext context = new EvolutionContext();
+		IEvolutionContext context = new EvolutionContext();
 
 		//load default parameters
 		ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{"neat-context.xml"});
@@ -49,7 +49,7 @@ public class TestStar {
 		context.setNeat(neat);
 
 		//load experiment
-		INeatController controller = new TestXorController(context);
+		IEvolutionController controller = new TestXorController(context);
 		controller.loadExperiment("test/star-experiment.jar");
 
 		//run experiment
@@ -73,8 +73,8 @@ public class TestStar {
 		assertEquals(18.0, maxFitnesses.get(21),.000001);
 	}
 
-	public class TestXorController extends SpringNeatController {
-		public TestXorController(INeatContext context) {
+	public class TestXorController extends EvolutionController {
+		public TestXorController(IEvolutionContext context) {
 			super(context);
 		}
 	}

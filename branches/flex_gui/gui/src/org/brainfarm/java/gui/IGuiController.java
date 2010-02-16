@@ -2,11 +2,9 @@ package org.brainfarm.java.gui;
 
 import javax.swing.JFrame;
 
-import org.brainfarm.java.feat.api.INeatController;
+import org.brainfarm.java.feat.api.IEvolutionController;
 
-public interface IGuiController extends INeatController {
-
-	void loadDefaultParameters();
+public interface IGuiController extends IEvolutionController {
 	
 	void loadParameters(JFrame frame);
 	
