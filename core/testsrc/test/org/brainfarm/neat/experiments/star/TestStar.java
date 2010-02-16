@@ -1,17 +1,11 @@
-package test.org.brainfarm.feat.experiments.star;
+package test.org.brainfarm.neat.experiments.star;
 
 import static org.junit.Assert.assertEquals;
 
-import java.awt.Container;
 import java.util.List;
 
-import javax.swing.JFrame;
-
-import omit.org.gatech.feat.jung.MyHmmVisualizer;
-
-import org.brainfarm.java.feat.Evolution;
 import org.brainfarm.java.feat.Neat;
-import org.brainfarm.java.feat.api.INetwork;
+import org.brainfarm.java.feat.api.INeatController;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.context.INeatContext;
@@ -20,21 +14,22 @@ import org.brainfarm.java.feat.api.evolution.IEvolutionListener;
 import org.brainfarm.java.feat.context.EvolutionContext;
 import org.brainfarm.java.feat.controller.SpringNeatController;
 import org.brainfarm.java.util.RandomUtils;
-import org.gatech.feat.experiments.star.StarOrganismEvaluator;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * 
- * Tests for SimpleMatchNetwork experiment.
+ * Tests for Star experiment.  This is a trivial experiment 
+ * that evolves a graph structure that looks like a 7-point
+ * star if the nodes in the genome are laid out on a circle.  
+ * It serves to exercise the default FEAT functionality, as
+ * it only provides implementations of a custom IOrganismEvaluator
+ * and a custom INode.
  * 
  * @author dtuohy
  *
  */
 public class TestStar {
-		
-	StarOrganismEvaluator eval = new StarOrganismEvaluator();
 
 	/**
 	 * Runs the experiment defined by test/xor-experiment.jar.  Because
@@ -54,15 +49,13 @@ public class TestStar {
 		context.setNeat(neat);
 
 		//load experiment
-		SpringNeatController controller = new TestStarController(context);
-		controller.loadExperiment();
+		INeatController controller = new TestXorController(context);
+		controller.loadExperiment("test/star-experiment.jar");
 
 		//run experiment
 		TestEvolutionListener listener = new TestEvolutionListener();
-
-		IEvolution evolution = context.getEvolution();
-		evolution.addListener(listener);
-		evolution.run();
+		context.getEvolution().addListener(listener);
+		controller.startEvolution();
 
 		//verify that appropriate events were received
 		assertEquals(1,listener.evolutionStarted);
@@ -71,35 +64,23 @@ public class TestStar {
 		assertEquals(25,listener.epochsCompleted);
 
 		//sample and validate results of evolution
-		List<Double> maxFitnesses = evolution.getMaxFitnessEachEpoch();
+		List<Double> maxFitnesses = context.getEvolution().getMaxFitnessEachEpoch();
 		for(double d : maxFitnesses)
 			System.out.print(d + ", ");
 		assertEquals(1.0, maxFitnesses.get(0),.000001);
-		assertEquals(12.0, maxFitnesses.get(7),.000001);
-		assertEquals(14.0, maxFitnesses.get(17),.000001);
-		assertEquals(14.0, maxFitnesses.get(21),.000001);
+		assertEquals(14.0, maxFitnesses.get(7),.000001);
+		assertEquals(17.0, maxFitnesses.get(17),.000001);
+		assertEquals(18.0, maxFitnesses.get(21),.000001);
 	}
-	
-	public class TestStarController extends SpringNeatController {
 
-		public TestStarController(INeatContext context) {
+	public class TestXorController extends SpringNeatController {
+		public TestXorController(INeatContext context) {
 			super(context);
 		}
 	}
 
-	public class TestEvolutionListener implements IEvolutionListener{
-		
-		MyHmmVisualizer ui;
+	public class TestEvolutionListener implements IEvolutionListener {
 
-		private void initializeUI(INetwork net) {
-			JFrame frame = new JFrame();
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			Container content = frame.getContentPane();
-			ui = new MyHmmVisualizer(net);
-			content.add(ui);
-			frame.pack();
-			frame.setVisible(true);
-		}
 
 		int epochsStarted = 0;
 		int epochsCompleted = 0;
@@ -109,15 +90,6 @@ public class TestStar {
 		@Override
 		public void onEpochComplete(IEvolution evolution) {
 			epochsCompleted++;
-			for(IOrganism org : evolution.getPopulation().getOrganisms())
-				eval.evaluate(org);
-			IOrganism best = getBestOrganism(evolution.getPopulation());
-			INetwork net = best.getPhenotype();
-			//			System.out.println("Best has fitness " + best.getFitness());
-			/*if(ui==null)
-				initializeUI(net);
-			else
-				ui.setNetwork(net);*/
 		}
 
 		@Override

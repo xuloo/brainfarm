@@ -4,28 +4,39 @@
 		xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 	 
-	<bean id="experiment" class="org.brainfarm.java.feat.ann.NeatExperiment">
-		<property name="genome" ref="genome"/>
-		<property name="runs" value="${runs}"/>
-		<property name="epochs" value="${epochs}"/>
-		<property name="evolutionStrategy" ref="evolutionStrategy"/>
+	<bean id="experiment" class="org.brainfarm.java.feat.context.NeatExperiment">
+		<!-- property name="featCustomizationsPackage" value="${feat.customizations.package}"/ -->
+		<property name="dataSource" value="${data.source}"/>
+		<property name="input">
+			<bean class="org.brainfarm.feat.experiments.xor.Input"/>
+		</property>
+		<property name="output">
+			<bean class="org.brainfarm.feat.experiments.xor.Output"/>
+		</property>
+		<property name="fitness">
+			<bean class="org.brainfarm.feat.experiments.xor.Fitness"/>
+		</property>
+		<property name="genomeFile" value="${genome.file}"/>
+		<property name="startFrom" value="${start.from}"/>
+		<property name="epoch" value="${epoch}"/>
 		<property name="population" ref="population"/>
+		<property name="evolutionStrategy" ref="evolutionStrategy"/>
 	</bean>
 	
 	<bean id="evolutionStrategy" 
-		class="org.brainfarm.java.feat.ann.NeatEvolutionStrategy"> 
+		class="org.brainfarm.java.feat.ann.NeatEvolutionStrategy">
 		<property name="organismEvaluator">
 			<bean class="org.brainfarm.java.feat.ann.NeatOrganismEvaluator">
 				<property name="numberOfInputs" value="2"/>
 				<property name="numberOfOutputs" value="1"/>
 				<property name="numberOfSamples" value="4"/>
-				<property name="input">
+				<property name="inputImpl">
 					<bean class="org.brainfarm.feat.experiments.xor.Input"/>
 				</property>
-				<property name="output">
+				<property name="outputImpl">
 					<bean class="org.brainfarm.feat.experiments.xor.Output"/>
 				</property>
-				<property name="fitness">
+				<property name="fitnessImpl">
 					<bean class="org.brainfarm.feat.experiments.xor.Fitness"/>
 				</property>
 			</bean>
@@ -35,7 +46,7 @@
 	<bean id="population" class="org.brainfarm.java.feat.Population">
 		<constructor-arg ref="evolutionStrategy" index="0" type="org.brainfarm.java.feat.api.IEvolutionStrategy"/>
 		<constructor-arg ref="genome" index="1" type="org.brainfarm.java.feat.api.IGenome"/>
-		<constructor-arg value="${population.size}" index="2"/>
+		<constructor-arg value="500" index="2"/>
 	</bean>
 	
 	<import resource="genome.xml"/>

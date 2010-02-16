@@ -81,10 +81,13 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 				new_genome = mom.getGenome().duplicate(count);
 				if ((thechamp.getSuperChampOffspring()) > 1) {
 					if (RandomUtils.randomDouble() < .8 || Neat.mutate_add_link_prob == 0.0) {
+
 						evolutionStrategy.getMutationStrategy().mutateLinkWeight(new_genome, Neat.weight_mut_power, 1.0, MutationType.GAUSSIAN);
+
 					} else {
 						// Sometimes we add a link to a superchamp
 						new_genome.generatePhenotype(generation);
+
 						evolutionStrategy.getMutationStrategy().mutateAddLink(new_genome,pop);
 					}
 				}
@@ -114,6 +117,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 
 				// Do the mutation depending on probabilities of various mutations
 				evolutionStrategy.getMutationStrategy().mutate(new_genome,pop,generation);
+
 				baby = FeatFactory.newOrganism(0.0, new_genome, generation);
 			}
 
@@ -175,6 +179,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 						_dad.getGenome().compatibility(mom.getGenome()) == 0.0) {
 
 					evolutionStrategy.getMutationStrategy().mutate(new_genome,pop,generation);
+
 					baby = FeatFactory.newOrganism(0.0, new_genome, generation);
 
 				} // end block of prob

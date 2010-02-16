@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.brainfarm.java.feat.Evolution;
 import org.brainfarm.java.feat.Neat;
 import org.brainfarm.java.feat.api.context.INeatContext;
+import org.brainfarm.java.feat.api.evolution.IEvolution;
 import org.brainfarm.java.feat.api.evolution.IEvolutionFitness;
 import org.brainfarm.java.feat.api.evolution.IEvolutionInput;
 import org.brainfarm.java.feat.api.evolution.IEvolutionOutput;
+import org.brainfarm.java.feat.api.experiment.IExperiment;
 
-public abstract class AbstractNeatContext implements INeatContext {
+public class EvolutionContext implements INeatContext {
 	
-	private static Logger logger = Logger.getLogger(AbstractNeatContext.class);
+	private static Logger logger = Logger.getLogger(EvolutionContext.class);
 	
 	private List<INeatContextListener> listeners = new ArrayList<INeatContextListener>();
 	
@@ -25,6 +28,12 @@ public abstract class AbstractNeatContext implements INeatContext {
 	private IEvolutionInput inputImpl;
 	
 	private IEvolutionOutput outputImpl;
+	
+	private IEvolution evolution;
+	
+	public EvolutionContext() {
+		
+	}
 
 	@Override
 	public org.brainfarm.java.feat.api.experiment.IExperiment getExperiment() {
@@ -106,5 +115,14 @@ public abstract class AbstractNeatContext implements INeatContext {
 		for (INeatContextListener listener : listeners) {
 			listener.experimentChanged(this);
 		}
+	}
+	
+	public IEvolution getEvolution() {
+	
+		if (evolution == null) {
+			return evolution = experiment.evolution();
+		}
+		
+		return evolution;
 	}
 }

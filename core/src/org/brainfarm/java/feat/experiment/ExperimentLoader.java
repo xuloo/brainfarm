@@ -54,7 +54,7 @@ public class ExperimentLoader implements FEATConstants {
 		
 		if (!location.isDirectory() && location.getAbsolutePath().endsWith(".jar")) {
 			jarClassLoader = new JarClassLoader();
-			jarClassLoader.add(location);
+			jarClassLoader.add(location.getAbsolutePath());
 			FileUtils.extractZip(location, tempDir);
 		} else {
 			FileUtils.copyDirectory(location, tempDir);
