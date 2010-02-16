@@ -1,6 +1,6 @@
 package org.brainfarm.java.gui;
 
-import org.brainfarm.java.feat.api.context.IEvolutionContext;
+import org.brainfarm.java.feat.api.IEvolutionContext;
 
 public interface IGuiModelListener {
 	

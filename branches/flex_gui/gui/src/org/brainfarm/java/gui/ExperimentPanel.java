@@ -19,7 +19,7 @@ import javax.swing.JTextPane;
 import javax.swing.table.AbstractTableModel;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.feat.api.context.IEvolutionContext;
+import org.brainfarm.java.feat.api.IEvolutionContext;
 
 public class ExperimentPanel extends AbstractNeatPanel {
 

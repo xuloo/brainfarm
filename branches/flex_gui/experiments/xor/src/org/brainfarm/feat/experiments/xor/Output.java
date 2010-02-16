@@ -1,6 +1,6 @@
 package org.brainfarm.feat.experiments.xor;
 
-import org.brainfarm.java.feat.api.evolution.IEvolutionOutput;
+import org.brainfarm.java.feat.api.ann.IEvolutionOutput;
 
 public class Output implements IEvolutionOutput {
 

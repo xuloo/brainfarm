@@ -1,4 +1,4 @@
-package org.brainfarm.java.feat.api.evaluators;
+package org.brainfarm.java.feat.api;
 
 import org.brainfarm.java.feat.api.IOrganism;
 

@@ -1,14 +1,14 @@
-package org.brainfarm.java.feat.context;
+package org.brainfarm.java.feat;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.feat.Neat;
-import org.brainfarm.java.feat.api.context.IEvolutionContext;
-import org.brainfarm.java.feat.api.context.IEvolutionContextListener;
-import org.brainfarm.java.feat.api.evolution.IEvolution;
-import org.brainfarm.java.feat.api.experiment.IExperiment;
+import org.brainfarm.java.feat.api.IEvolutionContext;
+import org.brainfarm.java.feat.api.IEvolutionContextListener;
+import org.brainfarm.java.feat.api.IEvolution;
+import org.brainfarm.java.feat.api.IExperiment;
+import org.brainfarm.java.feat.params.EvolutionParameters;
 
 public class EvolutionContext implements IEvolutionContext {
 	
@@ -16,7 +16,7 @@ public class EvolutionContext implements IEvolutionContext {
 	
 	private List<IEvolutionContextListener> listeners = new ArrayList<IEvolutionContextListener>();
 	
-	protected Neat neat;
+	//protected EvolutionParameters neat;
 
 	protected IExperiment experiment;
 	
@@ -31,22 +31,22 @@ public class EvolutionContext implements IEvolutionContext {
 		return experiment;
 	}
 
-	@Override
-	public Neat getNeat() {
+	/*@Override
+	public EvolutionParameters getNeat() {
 		return neat;
-	}
+	}*/
 
 	@Override
-	public void setExperiment(org.brainfarm.java.feat.api.experiment.IExperiment experiment) {
+	public void setExperiment(IExperiment experiment) {
 		this.experiment = experiment;
 		
 		experimentChanged();
 	}
 	
-	@Override
-	public void setNeat(Neat neat) {
+	/*@Override
+	public void setNeat(EvolutionParameters neat) {
 		this.neat = neat;
-	}
+	}*/
 
 	public void addListener(IEvolutionContextListener listener) {
 		if (!listeners.contains(listener)) {

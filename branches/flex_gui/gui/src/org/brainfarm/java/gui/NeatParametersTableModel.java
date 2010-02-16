@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import org.brainfarm.java.feat.params.AbstractNeatParameter;
+import org.brainfarm.java.feat.params.EvolutionParameter;
 
 public class NeatParametersTableModel extends AbstractTableModel {
 	
@@ -14,7 +14,7 @@ public class NeatParametersTableModel extends AbstractTableModel {
 	 */
 	private static final long serialVersionUID = -968848652196505963L;
 
-	public List<AbstractNeatParameter> data = new ArrayList<AbstractNeatParameter>();
+	public List<EvolutionParameter> data = new ArrayList<EvolutionParameter>();
 	
 	public static final String columnNames[] = { "Parameter", "Value", "Description" };
 
@@ -63,7 +63,7 @@ public class NeatParametersTableModel extends AbstractTableModel {
 		fireTableCellUpdated(row, col);
 	}
 	
-	public void setData(List<AbstractNeatParameter> data) {
+	public void setData(List<EvolutionParameter> data) {
 		this.data = data;
 		
 		fireTableDataChanged();

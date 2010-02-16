@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.brainfarm.java.feat.Neat;
 import org.brainfarm.java.feat.Species;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
 import org.brainfarm.java.feat.api.operators.ISpeciationStrategy;
+import org.brainfarm.java.feat.params.EvolutionParameters;
 
 /**
  * This is the speciation strategy employed by the original
@@ -58,7 +58,7 @@ public class DefaultSpeciationStrategy implements ISpeciationStrategy {
 					// in current specie('compare_org')
 					double curr_compat = organism.getGenome().compatibility(compare_org.getGenome());
 
-					if (curr_compat < Neat.compat_threshold) {
+					if (curr_compat < EvolutionParameters.compat_threshold) {
 						// Found compatible species, so add this organism to it
 						_specie.addOrganism(organism);
 						// update in organism pointer to its species

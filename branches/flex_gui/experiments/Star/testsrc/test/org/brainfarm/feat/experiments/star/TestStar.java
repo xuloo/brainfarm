@@ -9,16 +9,15 @@ import javax.swing.JFrame;
 
 import omit.org.gatech.feat.jung.MyHmmVisualizer;
 
-import org.brainfarm.java.feat.Neat;
+import org.brainfarm.java.feat.EvolutionContext;
+import org.brainfarm.java.feat.EvolutionController;
+import org.brainfarm.java.feat.api.IEvolution;
+import org.brainfarm.java.feat.api.IEvolutionContext;
 import org.brainfarm.java.feat.api.IEvolutionController;
+import org.brainfarm.java.feat.api.IEvolutionListener;
 import org.brainfarm.java.feat.api.INetwork;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
-import org.brainfarm.java.feat.api.context.IEvolutionContext;
-import org.brainfarm.java.feat.api.evolution.IEvolution;
-import org.brainfarm.java.feat.api.evolution.IEvolutionListener;
-import org.brainfarm.java.feat.context.EvolutionContext;
-import org.brainfarm.java.feat.controller.EvolutionController;
 import org.brainfarm.java.util.RandomUtils;
 import org.gatech.feat.experiments.star.StarOrganismEvaluator;
 import org.junit.Test;
@@ -48,13 +47,9 @@ public class TestStar {
 
 		IEvolutionContext context = new EvolutionContext();
 
-		//load default parameters
-		ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{"neat-context.xml"});
-		Neat neat = (Neat)appContext.getBean("neat");
-		context.setNeat(neat);
-
 		//load experiment
 		IEvolutionController controller = new TestStarController(context);
+		controller.loadDefaultParameters();
 		controller.loadExperiment();
 
 		//run experiment
@@ -114,10 +109,10 @@ public class TestStar {
 			IOrganism best = getBestOrganism(evolution.getPopulation());
 			INetwork net = best.getPhenotype();
 			//			System.out.println("Best has fitness " + best.getFitness());
-			/*if(ui==null)
+			if(ui==null)
 				initializeUI(net);
 			else
-				ui.setNetwork(net);*/
+				ui.setNetwork(net);
 		}
 
 		@Override

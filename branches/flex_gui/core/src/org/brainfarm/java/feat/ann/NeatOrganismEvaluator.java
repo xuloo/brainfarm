@@ -3,10 +3,10 @@ package org.brainfarm.java.feat.ann;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.ann.INeatNetwork;
 import org.brainfarm.java.feat.api.ann.INeatNode;
-import org.brainfarm.java.feat.api.evolution.IEvolutionFitness;
-import org.brainfarm.java.feat.api.evolution.IEvolutionInput;
-import org.brainfarm.java.feat.api.evolution.IEvolutionOutput;
-import org.brainfarm.java.feat.evaluators.AbstractOrganismEvaluator;
+import org.brainfarm.java.feat.api.ann.IEvolutionFitness;
+import org.brainfarm.java.feat.api.ann.IEvolutionInput;
+import org.brainfarm.java.feat.api.ann.IEvolutionOutput;
+import org.brainfarm.java.feat.api.IOrganismEvaluator;
 
 /**
  * Provides an IOrganismEvaluator implementation for use with NEAT experiments.
@@ -16,7 +16,7 @@ import org.brainfarm.java.feat.evaluators.AbstractOrganismEvaluator;
  * @author Trevor Burton [trevor@flashmonkey.org]
  *
  */
-public class NeatOrganismEvaluator extends AbstractOrganismEvaluator {	
+public class NeatOrganismEvaluator implements IOrganismEvaluator {	
 	
 	private int numberOfInputs;
 	

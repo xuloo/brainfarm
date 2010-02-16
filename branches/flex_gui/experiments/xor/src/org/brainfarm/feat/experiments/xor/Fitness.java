@@ -1,6 +1,6 @@
 package org.brainfarm.feat.experiments.xor;
 
-import org.brainfarm.java.feat.api.evolution.IEvolutionFitness;
+import org.brainfarm.java.feat.api.ann.IEvolutionFitness;
 
 public class Fitness implements IEvolutionFitness {
 

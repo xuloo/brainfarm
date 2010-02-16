@@ -4,7 +4,7 @@
 		xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 	 
-	<bean id="experiment" class="org.brainfarm.java.feat.experiment.Experiment">
+	<bean id="experiment" class="org.brainfarm.java.feat.Experiment">
 		<property name="runs" value="1"/>
 		<property name="epochs" value="25"/>
 		<property name="population" ref="population"/>

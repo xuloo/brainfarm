@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.feat.api.context.IEvolutionContext;
+import org.brainfarm.java.feat.api.IEvolutionContext;
 
 public class NeatParametersPanel extends AbstractNeatPanel{
 
@@ -204,7 +204,7 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 	 */
 	@Override
 	public void contextChanged(IEvolutionContext context) {
-		tableModel.setData(context.getNeat().getParameters());
+		//tableModel.setData(context.getNeat().getParameters());
 	}
 
 	@Override

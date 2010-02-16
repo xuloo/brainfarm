@@ -4,17 +4,14 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.brainfarm.java.feat.Neat;
+import org.brainfarm.java.feat.EvolutionContext;
+import org.brainfarm.java.feat.EvolutionController;
+import org.brainfarm.java.feat.api.IEvolution;
+import org.brainfarm.java.feat.api.IEvolutionContext;
 import org.brainfarm.java.feat.api.IEvolutionController;
-import org.brainfarm.java.feat.api.context.IEvolutionContext;
-import org.brainfarm.java.feat.api.evolution.IEvolution;
-import org.brainfarm.java.feat.api.evolution.IEvolutionListener;
-import org.brainfarm.java.feat.context.EvolutionContext;
-import org.brainfarm.java.feat.controller.EvolutionController;
+import org.brainfarm.java.feat.api.IEvolutionListener;
 import org.brainfarm.java.util.RandomUtils;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * 
@@ -37,13 +34,9 @@ public class TestXOR {
 
 		IEvolutionContext context = new EvolutionContext();
 
-		//load default parameters
-		ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{"neat-context.xml"});
-		Neat neat = (Neat)appContext.getBean("neat");
-		context.setNeat(neat);
-
 		//load experiment
 		IEvolutionController controller = new TestXorController(context);
+		controller.loadDefaultParameters();
 		controller.loadExperiment();
 
 		//run experiment

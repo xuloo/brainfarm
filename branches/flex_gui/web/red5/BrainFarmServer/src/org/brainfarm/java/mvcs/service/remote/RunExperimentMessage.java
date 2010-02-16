@@ -1,8 +1,8 @@
 package org.brainfarm.java.mvcs.service.remote;
 
 import org.brainfarm.java.feat.Evolution;
-import org.brainfarm.java.feat.api.evolution.IEvolution;
-import org.brainfarm.java.feat.api.evolution.IEvolutionListener;
+import org.brainfarm.java.feat.api.IEvolution;
+import org.brainfarm.java.feat.api.IEvolutionListener;
 import org.brainfarm.java.red5.message.BaseMessage;
 import org.brainfarm.java.util.writers.CommandAwareEvolutionListener;
 import org.brainfarm.java.util.writers.FileWritingResultGenerator;

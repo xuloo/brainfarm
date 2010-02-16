@@ -34,7 +34,7 @@ import org.brainfarm.java.feat.Organism;
 import org.brainfarm.java.feat.Population;
 import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.IOrganism;
-import org.brainfarm.java.feat.api.context.IEvolutionContext;
+import org.brainfarm.java.feat.api.IEvolutionContext;
 import org.brainfarm.java.gui.graph.ChartXY;
 import org.brainfarm.java.gui.graph.Edge;
 import org.brainfarm.java.gui.graph.Structure;

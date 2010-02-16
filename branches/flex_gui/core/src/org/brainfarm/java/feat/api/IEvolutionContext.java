@@ -1,15 +1,13 @@
-package org.brainfarm.java.feat.api.context;
+package org.brainfarm.java.feat.api;
 
-import org.brainfarm.java.feat.Neat;
-import org.brainfarm.java.feat.api.evolution.IEvolution;
-import org.brainfarm.java.feat.api.experiment.IExperiment;
+import org.brainfarm.java.feat.params.EvolutionParameters;
 
 public interface IEvolutionContext {
 	
 	IEvolution getEvolution();
 	
-	Neat getNeat();
-	void setNeat(Neat neat);
+	/*EvolutionParameters getNeat();
+	void setNeat(EvolutionParameters neat);*/
 	
 	IExperiment getExperiment();
 	void setExperiment(IExperiment experiment);

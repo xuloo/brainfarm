@@ -6,7 +6,7 @@ package org.brainfarm.java.feat;
  * @author Trevor Burton [trevor@flashmonkey.org]
  *
  */
-public interface FEATConstants {
+public interface Constants {
 	
 	// Default Directories.
 	public final static String DEFAULT_EXPERIMENT_DIR 				= "experiment";

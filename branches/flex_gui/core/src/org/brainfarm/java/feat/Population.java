@@ -13,6 +13,7 @@ import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
 import org.brainfarm.java.feat.comparators.CompareSpeciesByOriginalFitness;
+import org.brainfarm.java.feat.params.EvolutionParameters;
 import org.brainfarm.java.util.RandomUtils;
 
 /** A Population is a group of Organisms including their species. 
@@ -127,7 +128,7 @@ public class Population implements IPopulation {
 		//int one_fifth_stolen = 0;
 		//int one_tenth_stolen = 0;
 		int size_of_curr_specie = 0;
-		int NUM_STOLEN = Neat.babies_stolen; // Number of babies to steal
+		int NUM_STOLEN = EvolutionParameters.babies_stolen; // Number of babies to steal
 		// al momento NUM_STOLEN=1
 
 		//ISpecies _specie = null;
@@ -265,14 +266,14 @@ public class Population implements IPopulation {
 
 		// Check for stagnation- if there is stagnation, perform delta-coding
 
-		if (highest_last_changed >= Neat.dropoff_age + 5) {
+		if (highest_last_changed >= EvolutionParameters.dropoff_age + 5) {
 			// ------------------ block delta coding
 			// ----------------------------
 			System.out.print("\n+  <PERFORMING DELTA CODING>");
 			highest_last_changed = 0;
-			half_pop = Neat.pop_size / 2;
-			tmpi = Neat.pop_size - half_pop;
-			System.out.print("\n  Pop size is " + Neat.pop_size);
+			half_pop = organisms.size() / 2;
+			tmpi = organisms.size() - half_pop;
+			System.out.print("\n  Pop size is " + organisms.size());
 			System.out.print(", half_pop=" + half_pop
 					+ ",   pop_size - halfpop=" + tmpi);
 
@@ -299,8 +300,8 @@ public class Population implements IPopulation {
 					_specie.setExpectedOffspring(0);
 				}
 			} else {
-				_specie.getOrganisms().get(0).incrementSuperChampOffspring(Neat.pop_size - half_pop);
-				_specie.incrementExpectedOffspring(Neat.pop_size - half_pop);
+				_specie.getOrganisms().get(0).incrementSuperChampOffspring(organisms.size() - half_pop);
+				_specie.incrementExpectedOffspring(organisms.size() - half_pop);
 			}
 
 		} else {
@@ -308,7 +309,7 @@ public class Population implements IPopulation {
 			// stolen > 0) -------------------------
 			// System.out.print("\n   Starting with NUM_STOLEN = "+NUM_STOLEN);
 
-			if (Neat.babies_stolen > 0) {
+			if (EvolutionParameters.babies_stolen > 0) {
 				ISpecies _specie = null;
 				// Take away a constant number of expected offspring from the
 				// worst few species
@@ -341,9 +342,9 @@ public class Population implements IPopulation {
 				// They get , in order, 1/5 1/5 and 1/10 of the stolen babies
 
 				int tb_four[] = new int[3];
-				tb_four[0] = Neat.babies_stolen / 5;
+				tb_four[0] = EvolutionParameters.babies_stolen / 5;
 				tb_four[1] = tb_four[0];
-				tb_four[2] = Neat.babies_stolen / 10;
+				tb_four[2] = EvolutionParameters.babies_stolen / 10;
 
 				boolean done = false;
 				Iterator<ISpecies> itr_specie = sorted_species.iterator();
@@ -351,7 +352,7 @@ public class Population implements IPopulation {
 
 				while (!done && itr_specie.hasNext()) {
 					_specie = ((Species) itr_specie.next());
-					if (_specie.lastImproved() <= Neat.dropoff_age) {
+					if (_specie.lastImproved() <= EvolutionParameters.dropoff_age) {
 						if (i_block < 3) {
 							if (stolen_babies >= tb_four[i_block]) {
 								_specie.getOrganisms().get(0).setSuperChampOffspring(tb_four[i_block]);

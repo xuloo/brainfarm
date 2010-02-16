@@ -1,6 +1,4 @@
-package org.brainfarm.java.feat.api.context;
-
-import org.brainfarm.java.feat.api.context.IEvolutionContext;
+package org.brainfarm.java.feat.api;
 
 public interface IEvolutionContextListener {
 	

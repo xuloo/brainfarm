@@ -1,6 +1,5 @@
 package org.brainfarm.java.feat.api;
 
-import org.brainfarm.java.feat.api.evaluators.IOrganismEvaluator;
 import org.brainfarm.java.feat.api.operators.ICrossoverStrategy;
 import org.brainfarm.java.feat.api.operators.IMutationStrategy;
 import org.brainfarm.java.feat.api.operators.IPopulationInitializationStrategy;
