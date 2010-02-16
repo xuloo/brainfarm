@@ -28,6 +28,12 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 	
 	public static Class<?> DEFAULT_EVALUATOR_CLASS = NeatOrganismEvaluator.class;
 	
+	private ClassLoader classLoader;
+	
+	public void setClassLoader(ClassLoader classLoader) {
+		this.classLoader = classLoader;
+	}
+	
 	//protected static IEvolutionStrategy instance;
 	
 	//evaluator for IOrganisms in the current experiment
@@ -118,12 +124,26 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 
 	@Override
 	public Class<?> getNodeClass() {
+		
+		try {
+			this.nodeClass = classLoader.loadClass(nodeClassName);
+		} catch (Exception e) {
+			System.out.println("Problem creating class for string " + nodeClassName);
+		}
+		
 		return nodeClass;
 	}
 	
+	private String nodeClassName;
+	
 	@Override
-	public void setNodeClass(Class<?> nodeClass) {
-		this.nodeClass = nodeClass;
+	public void setNodeClassName(String nodeClassName) {
+		/*try {
+			this.nodeClass = Class.forName(nodeClassName);
+		} catch (Exception e) {
+			System.out.println("Problem creating class for string " + nodeClassName);
+		}*/
+		this.nodeClassName = nodeClassName;
 	}
 
 	@Override
