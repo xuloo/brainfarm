@@ -23,21 +23,21 @@ import org.brainfarm.java.feat.operators.DefaultSpeciationStrategy;
 public class EvolutionStrategy implements IEvolutionStrategy {
 
 	//evaluator for IOrganisms in the current experiment
-	private IOrganismEvaluator organismEvaluator;
+	protected IOrganismEvaluator organismEvaluator;
 
 	/** Data Classes - the data manipulated by the FEAT algorithm*/
-	private Class<?> nodeClass;
-	private Class<?> networkClass;
-	private Class<?> linkClass;
-	private Class<?> genomeClass;
-	private Class<?> organismClass;
+	protected Class<?> nodeClass;
+	protected Class<?> networkClass;
+	protected Class<?> linkClass;
+	protected Class<?> genomeClass;
+	protected Class<?> organismClass;
 
 	/** Logic Classes - encapsulate various parts of the FEAT algorithm */
-	private ICrossoverStrategy crossoverStrategy;
-	private IMutationStrategy mutationStrategy;
-	private IPopulationInitializationStrategy populationInitializationStrategy;
-	private IReproductionStrategy reproductionStrategy;
-	private ISpeciationStrategy speciationStrategy;
+	protected ICrossoverStrategy crossoverStrategy;
+	protected IMutationStrategy mutationStrategy;
+	protected IPopulationInitializationStrategy populationInitializationStrategy;
+	protected IReproductionStrategy reproductionStrategy;
+	protected ISpeciationStrategy speciationStrategy;
 
 	public EvolutionStrategy(){
 		reset();

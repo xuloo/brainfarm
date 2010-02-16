@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+	 
+	<bean id="experiment" class="org.brainfarm.java.feat.context.Experiment">
+		<property name="runs" value="1"/>
+		<property name="epochs" value="${epoch}"/>
+		<property name="evolutionStrategy" ref="evolutionStrategy"/>
+		<property name="population" ref="population"/>
+		<property name="populationSize" value="500"/>
+		<property name="genome" ref="genome"/>
+	</bean>
+	
+	<bean id="population" class="org.brainfarm.java.feat.Population"/>
+	
+	<bean id="evolutionStrategy" class="org.brainfarm.java.feat.ann.NeatEvolutionStrategy">
+		<property name="organismEvaluator">
+			<bean class="org.brainfarm.java.feat.ann.NeatOrganismEvaluator">
+				<property name="numberOfInputs" value="2"/>
+				<property name="numberOfOutputs" value="1"/>
+				<property name="numberOfSamples" value="4"/>
+				<property name="input">
+					<bean class="org.brainfarm.feat.experiments.xor.Input"/>
+				</property>
+				<property name="output">
+					<bean class="org.brainfarm.feat.experiments.xor.Output"/>
+				</property>
+				<property name="fitness">
+					<bean class="org.brainfarm.feat.experiments.xor.Fitness"/>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	
+	<import resource="genome.xml"/>
+	
+</beans>
