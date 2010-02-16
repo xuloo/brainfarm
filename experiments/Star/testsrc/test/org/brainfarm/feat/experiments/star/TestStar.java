@@ -9,16 +9,16 @@ import javax.swing.JFrame;
 
 import omit.org.gatech.feat.jung.MyHmmVisualizer;
 
-import org.brainfarm.java.feat.Evolution;
 import org.brainfarm.java.feat.Neat;
+import org.brainfarm.java.feat.api.IEvolutionController;
 import org.brainfarm.java.feat.api.INetwork;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
-import org.brainfarm.java.feat.api.context.INeatContext;
+import org.brainfarm.java.feat.api.context.IEvolutionContext;
 import org.brainfarm.java.feat.api.evolution.IEvolution;
 import org.brainfarm.java.feat.api.evolution.IEvolutionListener;
 import org.brainfarm.java.feat.context.EvolutionContext;
-import org.brainfarm.java.feat.controller.SpringNeatController;
+import org.brainfarm.java.feat.controller.EvolutionController;
 import org.brainfarm.java.util.RandomUtils;
 import org.gatech.feat.experiments.star.StarOrganismEvaluator;
 import org.junit.Test;
@@ -46,7 +46,7 @@ public class TestStar {
 	public void validateDeterministicMatchExperiment(){
 		RandomUtils.seedRandom(290761);
 
-		INeatContext context = new EvolutionContext();
+		IEvolutionContext context = new EvolutionContext();
 
 		//load default parameters
 		ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{"neat-context.xml"});
@@ -54,7 +54,7 @@ public class TestStar {
 		context.setNeat(neat);
 
 		//load experiment
-		SpringNeatController controller = new TestStarController(context);
+		IEvolutionController controller = new TestStarController(context);
 		controller.loadExperiment();
 
 		//run experiment
@@ -80,9 +80,9 @@ public class TestStar {
 		assertEquals(14.0, maxFitnesses.get(21),.000001);
 	}
 	
-	public class TestStarController extends SpringNeatController {
+	public class TestStarController extends EvolutionController {
 
-		public TestStarController(INeatContext context) {
+		public TestStarController(IEvolutionContext context) {
 			super(context);
 		}
 	}

@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 
 import org.apache.log4j.BasicConfigurator;
-import org.brainfarm.java.feat.api.context.INeatContext;
+import org.brainfarm.java.feat.api.context.IEvolutionContext;
 import org.brainfarm.java.feat.context.EvolutionContext;
 import org.brainfarm.java.gui.api.INeatPanel;
 
@@ -53,7 +53,7 @@ public class MainGui {
 		BasicConfigurator.configure();
 		
 		// Create a context and controller for the GUI.
-		INeatContext context = new EvolutionContext();
+		IEvolutionContext context = new EvolutionContext();
 		IGuiController controller = new GuiController(context);
 
 		// Create a tabbed pane and add the necessary GUI panels as tabs.

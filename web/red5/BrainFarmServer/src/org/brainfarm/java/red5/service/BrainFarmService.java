@@ -7,9 +7,10 @@ import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-import org.brainfarm.java.feat.api.context.INeatContext;
+import org.brainfarm.java.feat.api.context.IEvolutionContext;
 import org.brainfarm.java.feat.context.EvolutionContext;
-import org.brainfarm.java.feat.controller.SpringNeatController;
+import org.brainfarm.java.feat.api.IEvolutionController;
+import org.brainfarm.java.feat.controller.EvolutionController;
 import org.brainfarm.java.feat.params.AbstractNeatParameter;
 import org.brainfarm.java.mvcs.service.remote.ExperimentEntry;
 import org.brainfarm.java.red5.api.service.IBrainFarmService;
@@ -19,9 +20,9 @@ public class BrainFarmService implements IBrainFarmService {
 	
 	private final String ROOT_PATH = System.getProperty("red5.root");
 
-	private INeatContext context;
+	private IEvolutionContext context;
 	
-	private SpringNeatController controller;
+	private IEvolutionController controller;
 	
 	private String webappPath;
 	
@@ -43,8 +44,8 @@ public class BrainFarmService implements IBrainFarmService {
 		
 		context = new EvolutionContext();
 		
-		controller = new SpringNeatController(context);
-		controller.setExperimentDirectory(webappPath + "/working");
+		controller = new EvolutionController(context);
+		//controller.setExperimentDirectory(webappPath + "/working");
 	}
 	
 	public void updateExperimentList() {
@@ -104,7 +105,7 @@ public class BrainFarmService implements IBrainFarmService {
 	}
 
 	@Override
-	public INeatContext getFeatContext() {
+	public IEvolutionContext getFeatContext() {
 		return context;
 	}
 }

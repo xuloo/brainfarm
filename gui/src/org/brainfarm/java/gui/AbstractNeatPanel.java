@@ -7,11 +7,11 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import org.brainfarm.java.feat.api.context.INeatContext;
-import org.brainfarm.java.feat.context.INeatContextListener;
+import org.brainfarm.java.feat.api.context.IEvolutionContext;
+import org.brainfarm.java.feat.api.context.IEvolutionContextListener;
 import org.brainfarm.java.gui.api.INeatPanel;
 
-public abstract class AbstractNeatPanel implements INeatPanel, INeatContextListener, ActionListener {
+public abstract class AbstractNeatPanel implements INeatPanel, IEvolutionContextListener, ActionListener {
 
 	public static final String EXIT_BUTTON_LABEL = " E X I T ";
 	
@@ -42,7 +42,7 @@ public abstract class AbstractNeatPanel implements INeatPanel, INeatContextListe
 	 * @param controller
 	 * @param context
 	 */
-	public AbstractNeatPanel(JFrame frame, IGuiController controller, INeatContext context) {
+	public AbstractNeatPanel(JFrame frame, IGuiController controller, IEvolutionContext context) {
 		this.controller = controller;
 		context.addListener(this);
 		

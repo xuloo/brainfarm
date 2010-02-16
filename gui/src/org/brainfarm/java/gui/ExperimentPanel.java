@@ -19,7 +19,7 @@ import javax.swing.JTextPane;
 import javax.swing.table.AbstractTableModel;
 
 import org.apache.log4j.Logger;
-import org.brainfarm.java.feat.api.context.INeatContext;
+import org.brainfarm.java.feat.api.context.IEvolutionContext;
 
 public class ExperimentPanel extends AbstractNeatPanel {
 
@@ -69,7 +69,7 @@ public class ExperimentPanel extends AbstractNeatPanel {
 	 * @param controller
 	 * @param context
 	 */
-	public ExperimentPanel(JFrame frame, IGuiController controller, INeatContext context) {
+	public ExperimentPanel(JFrame frame, IGuiController controller, IEvolutionContext context) {
 
 		super(frame, controller, context);
 		
@@ -989,13 +989,13 @@ System.out.println("prev_word " + prev_word);
 	}*/
 
 	@Override
-	public void contextChanged(INeatContext context) {
+	public void contextChanged(IEvolutionContext context) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void experimentChanged(INeatContext context) {
+	public void experimentChanged(IEvolutionContext context) {
 		logger.debug("A New Experiment has been loaded - reload the view");
 	}
 

@@ -13,7 +13,6 @@ import org.brainfarm.java.feat.api.ILink;
 import org.brainfarm.java.feat.api.INetwork;
 import org.brainfarm.java.feat.api.INode;
 import org.brainfarm.java.feat.api.IPopulation;
-import org.brainfarm.java.feat.api.Strategy;
 import org.brainfarm.java.feat.api.ann.INeatNode;
 import org.brainfarm.java.feat.api.enums.InnovationType;
 import org.brainfarm.java.feat.api.enums.MutationType;
