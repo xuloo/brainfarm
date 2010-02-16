@@ -33,14 +33,14 @@ public interface IEvolutionStrategy {
 	public abstract void setNodeClassName(String nodeClassName);
 
 	public abstract Class<?> getNetworkClass();
-	public abstract void setNetworkClass(Class<?> networkClass);
+	public abstract void setNetworkClassName(String networkClassName);
 
 	public abstract Class<?> getLinkClass();
-	public abstract void setLinkClass(Class<?> networkClass);
+	public abstract void setLinkClassName(String networkClassName);
 
 	public abstract Class<?> getGenomeClass();
-	public abstract void setGenomeClass(Class<?> networkClass);
+	public abstract void setGenomeClassName(String networkClassName);
 
 	public abstract Class<?> getOrganismClass();
-	public abstract void setOrganismClass(Class<?> networkClass);
+	public abstract void setOrganismClassName(String networkClassName);
 }

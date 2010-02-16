@@ -17,6 +17,8 @@ import org.brainfarm.java.util.ThreadedCommand;
 /**
  * The central class from which Evolution is run.
  * 
+ * An Evolution instance is created by an Experiment by calling Experiment.evolution();
+ * 
  * Evolution is executed in its own thread.
  * 
  * @author Trevor Burton [trevor@flashmonkey.org]
@@ -25,18 +27,39 @@ import org.brainfarm.java.util.ThreadedCommand;
  */
 public class Evolution extends ThreadedCommand implements IEvolution {
 	
+	/**
+	 * Logger instance.
+	 */
 	private static Logger logger = Logger.getLogger(Evolution.class);
 	
+	/**
+	 * The number of times this Evolution run will be executed before it completes.
+	 */
 	private int runs;
 	
+	/**
+	 * The current run this Evolution instance is in.
+	 */
 	private int currentRun;
 	
+	/**
+	 * The number of epochs to push the population through during each run.
+	 */
 	private int epochs;
 	
+	/**
+	 * The current epoch this Evolution run is in.
+	 */
 	private int currentEpoch;
 	
+	/**
+	 * The IPopulation instance that contains the organisms evolved during the Evolution.
+	 */
 	private IPopulation population;
 	
+	/**
+	 * The strategy factory used to execute the evolutionary algorithm on the organisms in the population.
+	 */
 	private IEvolutionStrategy evolutionStrategy;
 	
 	/**
@@ -50,10 +73,25 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	 */
 	private IOrganism superWinner;
 	
-	protected List<IEvolutionListener> listeners = Collections.synchronizedList(new CopyOnWriteArrayList<IEvolutionListener>());
-	
+	/**
+	 * List containing the highest fitness values from each epoch of the last run.
+	 */
 	private List<Double> maxFitnessEachEpoch = new ArrayList<Double>();
 	
+	/**
+	 * Objects listening for events from this evolutionary run.
+	 */
+	protected List<IEvolutionListener> listeners = Collections.synchronizedList(new CopyOnWriteArrayList<IEvolutionListener>());
+	
+	/**
+	 * Constructor. Creates a new Evolution instance that contains all the properties required for a complete
+	 * Evolution run. A 'snapshot' of the Experiment settings at the point Experiment#evolution() is called.
+	 * 
+	 * @param evolutionStrategy
+	 * @param population
+	 * @param runs
+	 * @param epochs
+	 */
 	public Evolution(IEvolutionStrategy evolutionStrategy, IPopulation population, int runs, int epochs) {
 		this.evolutionStrategy = evolutionStrategy;
 		this.population = population;
@@ -61,11 +99,14 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 		this.epochs = epochs;
 	}
 	
+	/**
+	 * Starts the Evolution running.
+	 */
 	@Override
 	protected void execute() {
 		
 		// Inform listeners we're starting a set of evolution runs.
-		onEvolutionStart(population);
+		onEvolutionStart();
 		
 		// For each run...
 		for (currentRun = 0; currentRun < runs; currentRun++) {
@@ -74,18 +115,18 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 			for (int currentEpoch = 0; currentEpoch < epochs; currentEpoch++) {
 				
 				// Inform listeners we're starting a new Epoch.
-				onEpochStart(currentRun, currentEpoch, population);
+				onEpochStart();
 				
 				// Execute the Epoch.
 				epoch(population, currentEpoch);
 				
 				// Inform the listeners the Epoch is complete.
-				onEpochComplete(currentRun, currentEpoch, population);
+				onEpochComplete();
 			}
 		}
 		
 		// Inform the listeners the evolution runs are complete.
-		onEvolutionComplete(population);
+		onEvolutionComplete();
 	}
 	
 	/**
@@ -140,69 +181,116 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 		population.epoch(generation);
 	}
 	
-	protected void onEvolutionStart(IPopulation population) {
+	/**
+	 * Inform each listener that Evolution has started.
+	 * 
+	 * @param population
+	 */
+	protected void onEvolutionStart() {
 		maxFitnessEachEpoch.clear();
 		for (IEvolutionListener listener : listeners) {
 			listener.onEvolutionStart(this);
 		}
 	}
 	
-	protected void onEvolutionComplete(IPopulation population) {
+	/**
+	 * Inform each listener that Evolution has completed.
+	 * 
+	 * @param population
+	 */
+	protected void onEvolutionComplete() {
 		for (IEvolutionListener listener : listeners) {
 			listener.onEvolutionComplete(this);
 		}
 	}
 	
-	protected void onEpochStart(int run, int epoch, IPopulation population) {
+	/**
+	 * Inform each listener that a new Epoch is about to begin.
+	 * 
+	 * @param run
+	 * @param epoch
+	 * @param population
+	 */
+	protected void onEpochStart() {
 		for (IEvolutionListener listener : listeners) {
 			listener.onEpochStart(this);
 		}
 	}
 	
-	protected void onEpochComplete(int run, int epoch, IPopulation population) {
+	/**
+	 * Inform each listener that an Epoch has just completed.
+	 * 
+	 * @param run
+	 * @param epoch
+	 * @param population
+	 */
+	protected void onEpochComplete() {
 		for (IEvolutionListener listener : listeners) {
 			listener.onEpochComplete(this);
 		}
 	}
 	
+	/**
+	 * Add a listener for events from this Evolution.
+	 */
 	public void addListener(IEvolutionListener listener) {
 		listeners.add(listener);
 	}
 	
+	/**
+	 * Remove a listener for events from this Evolution.
+	 */
 	public void removeListener(IEvolutionListener listener) {
 		listeners.remove(listener);
 	}
 	
-	public void setListeners(List<IEvolutionListener> listeners) {
-		this.listeners = listeners;
-	}
-	
+	/**
+	 * Returns the current 'run' this Evolution is in.
+	 */
 	public int getRun() {
 		return currentRun;
 	}
 	
+	/**
+	 * Returns the current Epoch this Evolution is in.
+	 */
 	public int getEpoch() {
 		return currentEpoch;
 	}
 	
+	/**
+	 * Returns the population that is being evolved.
+	 */
 	public IPopulation getPopulation() {
 		return population;
 	}
 	
+	/**
+	 * Returns the list of fitnesses from each epoch of the last run.
+	 */
 	public List<Double> getMaxFitnessEachEpoch(){
 		return maxFitnessEachEpoch;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public IOrganism getWinner() {
 		return firstWinner;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean hasWinner() {
 		return firstWinner != null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public IOrganism getSuperWinner() {
 		return superWinner;
