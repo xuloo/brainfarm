@@ -6,14 +6,14 @@
 	 
 	<bean id="experiment" class="org.brainfarm.java.feat.experiment.Experiment">
 		<property name="runs" value="1"/>
-		<property name="epochs" value="${epochs}"/>
+		<property name="epochs" value="25"/>
 		<property name="population" ref="population"/>
 		<property name="evolutionStrategy" ref="evolutionStrategy"/>
 	</bean>
 	
 	<bean id="evolutionStrategy" class="org.brainfarm.java.feat.EvolutionStrategy">
 		<property name="organismEvaluator" ref="evaluator"/>
-		<property name="nodeClass" value="org.gatech.feat.experiments.star.StarNode"/>
+		<property name="nodeClassName" value="org.gatech.feat.experiments.star.StarNode"/>
 	</bean>
 	
 	<bean id="evaluator" class="org.gatech.feat.experiments.star.StarOrganismEvaluator"/>

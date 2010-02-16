@@ -1,6 +1,7 @@
 package org.brainfarm.java.feat.experiment;
 
 import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.util.Map;
 
@@ -11,14 +12,20 @@ import org.brainfarm.java.feat.api.evaluators.IOrganismEvaluator;
 import org.brainfarm.java.feat.api.experiment.IExperiment;
 import org.brainfarm.java.feat.operators.FeatFactory;
 import org.brainfarm.java.util.FileUtils;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.xeustechnologies.jcl.JarClassLoader;
 
 public class ExperimentLoader implements FEATConstants {
 
-	private static JarClassLoader jarClassLoader;
+	private static ClassLoader classLoader;
 	
 	public static IExperiment loadExperiment(File location) {
 		System.out.println("loading experiment " + location);
@@ -26,14 +33,17 @@ public class ExperimentLoader implements FEATConstants {
 		File workingDir = createWorkingDirectory(location);
 		
 		String path = workingDir.getAbsolutePath();
-		System.out.println("temp path: " + path);
+
 		// Load the experiment's context into a bean factory.
-		XmlBeanFactory factory = new XmlBeanFactory(new FileSystemResource( path + "/experiment-context.xml"));
+		ClassPathXmlApplicationContext factory = new ClassPathXmlApplicationContext();
+
+		factory.setConfigLocation("experiment-context.xml");
+		factory.setClassLoader(classLoader);
+		factory.refresh();
 		
-		IExperiment experiment = createExperimentBean(factory, path);	
-		System.out.println("experiment " + experiment);
-		//IEvolutionStrategy evolutionStrategy = checkForCustomStrategyBean(factory);
-		//checkForStrategySpecialisations(factory, evolutionStrategy);
+		IExperiment experiment = createExperimentBean(factory, path);
+
+		experiment.getEvolutionStrategy().setClassLoader(classLoader);
 		
 		FeatFactory.setEvolutionStrategy(experiment.getEvolutionStrategy());
 		
@@ -53,25 +63,32 @@ public class ExperimentLoader implements FEATConstants {
 		System.out.println("Temp dir " + tempDir.getAbsolutePath());
 		
 		if (!location.isDirectory() && location.getAbsolutePath().endsWith(".jar")) {
-			jarClassLoader = new JarClassLoader();
-			jarClassLoader.add(location.getAbsolutePath());
-			FileUtils.extractZip(location, tempDir);
+			classLoader = new JarClassLoader(new Object[]{location.getAbsolutePath()});
+
+			//System.out.println("jarclassloader " + jarClassLoader.getParent() + " " + (jarClassLoader.getParent() == ClassLoader.getSystemClassLoader()));
+			
+			//FileUtils.extractZip(location, tempDir);
 		} else {
-			FileUtils.copyDirectory(location, tempDir);
+			//FileUtils.copyDirectory(location, tempDir);
+			classLoader = ClassLoader.getSystemClassLoader();
 		}
 		
 		return tempDir;
 	}
 	
-	private static IExperiment createExperimentBean(XmlBeanFactory factory, String path) {		
+	private static IExperiment createExperimentBean(ClassPathXmlApplicationContext factory, String path) {		
 				
+		InputStream is = classLoader.getResourceAsStream("experiment-parameters.properties");
+		
 		// Check if there's a properties file for the context - if there is post process the object factory with it.
 		File propertiesFile = new File(path + "/experiment-parameters.properties");
-		
+		//factory.
 		if (propertiesFile.exists()) {
 			PropertyPlaceholderConfigurer cfg = new PropertyPlaceholderConfigurer();
-			cfg.setLocation(new FileSystemResource(propertiesFile));
-			cfg.postProcessBeanFactory(factory);
+			cfg.setLocation(new InputStreamResource(is));
+			//cfg.setLocation(new FileSystemResource(propertiesFile));
+			//cfg.postProcessBeanFactory((ConfigurableListableBeanFactory) factory.getParentBeanFactory());
+			factory.addBeanFactoryPostProcessor(cfg);
 		}
 		
 		// Grab the experiment object.

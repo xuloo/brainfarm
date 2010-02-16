@@ -9,6 +9,8 @@ import org.brainfarm.java.feat.api.operators.ISpeciationStrategy;
 
 public interface IEvolutionStrategy {
 
+	public abstract void setClassLoader(ClassLoader classLoader);
+	
 	public abstract IOrganismEvaluator getOrganismEvaluator();
 	public abstract void setOrganismEvaluator(IOrganismEvaluator organismEvaluator);
 
@@ -28,7 +30,7 @@ public interface IEvolutionStrategy {
 	public abstract void setPopulationInitializationStrategy(IPopulationInitializationStrategy populationInitializationStrategy);
 
 	public abstract Class<?> getNodeClass();
-	public abstract void setNodeClass(Class<?> nodeClass);
+	public abstract void setNodeClassName(String nodeClassName);
 
 	public abstract Class<?> getNetworkClass();
 	public abstract void setNetworkClass(Class<?> networkClass);
