@@ -10,11 +10,52 @@
     <target name="build" depends="init,java-classes,jar,copy-to-core-test-dir" description="Build the library"/>
 	
 	<target name="jar" description="creates a jar file from the compiled classes">
-		<jar jarfile="${xor.jar}" basedir="${build.javac.dir}"/>
+		<tstamp prefix="build">
+            <format property="TODAY" pattern="d-MMMM-yyyy" locale="en"/>
+        </tstamp>
+		<jar jarfile="${xor.jar}" basedir="${build.javac.dir}">
+			<exclude name="omit/**"/>
+			<fileset dir="experiment"/>
+			<manifest>
+				<attribute name="Built" value="${build.TODAY} by ${user.name}"/>
+				<attribute name="Build-OS" value="${os.name} ${os.version}"/>
+				<attribute name="Build-Java" value="Java ${java.version}"/>
+				<attribute name="Experiment-Name" value="${ant.project.name}"/>
+			</manifest>
+		</jar>
 	</target>
 	
 	<target name="copy-to-core-test-dir">
 		<copy file="${xor.jar}" todir="${brainfarm.root}/core/test" overwrite="true"/>
+	</target>
+
+	<path id="javac.test.path">
+		<pathelement location="${build.test.dir}"/>
+		<pathelement location="${junit.jar}" />
+		<pathelement location="${build.classes.dir}"/>
+		<pathelement location="${spring.context.jar}"/>
+		<pathelement location="${spring.core.jar}"/>
+		<pathelement location="${spring.beans.jar}"/>
+		<pathelement location="${jcl.jar}"/>
+		<pathelement location="${commons.logging.jar}"/>
+		<pathelement location="${log4j.jar}"/>
+		<pathelement location="${red5.jar}"/>
+		<path refid="javac.lib.path" />
+	</path>
+
+	<target name="build-test">
+		<javac srcdir="${test.src.dir}" destdir="${build.test.dir}" debug="${javac.debug}">
+			<classpath refid="javac.test.path"/>
+		</javac>
+	</target>
+
+	<target name="test" depends="build,build-test">
+		<junit failureProperty="test.failure">
+			<classpath refid="javac.test.path" />
+			<formatter type="brief" usefile="false" />
+			<test name="test.org.brainfarm.feat.experiments.star.TestStar"/>
+		</junit>
+		<fail message="test failed" if="test.failure" />
 	</target>
 	
 </project>

@@ -181,6 +181,9 @@ public class NeatNode extends Node implements INeatNode {
 		setAnalogue(null);
 	}
 
+	public NeatNode(int id) {
+		setId(id);
+	}
 	
 	/**
 	 * Empty Constructor.
