@@ -8,7 +8,7 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 import org.brainfarm.java.feat.api.context.INeatContext;
-import org.brainfarm.java.feat.context.SpringNeatContext;
+import org.brainfarm.java.feat.context.EvolutionContext;
 import org.brainfarm.java.feat.controller.SpringNeatController;
 import org.brainfarm.java.feat.params.AbstractNeatParameter;
 import org.brainfarm.java.mvcs.service.remote.ExperimentEntry;
@@ -19,7 +19,7 @@ public class BrainFarmService implements IBrainFarmService {
 	
 	private final String ROOT_PATH = System.getProperty("red5.root");
 
-	private SpringNeatContext context;
+	private INeatContext context;
 	
 	private SpringNeatController controller;
 	
@@ -41,7 +41,7 @@ public class BrainFarmService implements IBrainFarmService {
 	private void initBrainFarm() {
 		System.out.println("initialising BrainFarm");
 		
-		context = new SpringNeatContext();
+		context = new EvolutionContext();
 		
 		controller = new SpringNeatController(context);
 		controller.setExperimentDirectory(webappPath + "/working");
