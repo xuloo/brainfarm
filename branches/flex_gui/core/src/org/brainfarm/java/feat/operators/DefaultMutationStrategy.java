@@ -3,8 +3,6 @@ package org.brainfarm.java.feat.operators;
 import java.util.Iterator;
 import java.util.List;
 
-import org.brainfarm.java.feat.Gene;
-import org.brainfarm.java.feat.Innovation;
 import org.brainfarm.java.feat.api.IGene;
 import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.IInnovation;
@@ -136,11 +134,12 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 					// read curr innovation with postincrement
 					double curr_innov = population.getCurrentInnovationNumberAndIncrement();
 					// Create the new gene
-					new_gene = new Gene(new_weight, thenode1, thenode2, recurflag,
-							curr_innov, new_weight);
+					//new_gene = new Gene(new_weight, thenode1, thenode2, recurflag, curr_innov, new_weight);
+					new_gene = FeatFactory.newGene(new_weight, thenode1, thenode2, recurflag, curr_innov, new_weight);
 
 					// Add the innovation
-					population.getInnovations().add(new Innovation(thenode1.getId(), thenode2.getId(), curr_innov, new_weight));
+					//population.getInnovations().add(new Innovation(thenode1.getId(), thenode2.getId(), curr_innov, new_weight));
+					population.getInnovations().add(FeatFactory.newSingleInnovation(thenode1.getId(), thenode2.getId(), curr_innov, new_weight));
 					done = true;
 				}
 
@@ -152,7 +151,8 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 							&& (_innov.getOutputNodeId() == thenode2.getId())
 							&& (_innov.isRecurrent() == recurflag)) {
 
-						new_gene = new Gene(_innov.getNewWeight(), thenode1, thenode2, recurflag, _innov.getInnovationNumber1(), 0);
+						//new_gene = new Gene(_innov.getNewWeight(), thenode1, thenode2, recurflag, _innov.getInnovationNumber1(), 0);
+						new_gene = FeatFactory.newGene(_innov.getNewWeight(), thenode1, thenode2, recurflag, _innov.getInnovationNumber1(), 0);
 						done = true;
 					}
 				}
@@ -331,7 +331,8 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 				gene_innov1 = population.getCurrentInnovationNumberAndIncrement();
 
 				// create gene with the current gene inovation
-				newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), gene_innov1, 0);
+				//newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), gene_innov1, 0);
+				newgene1 = FeatFactory.newGene(1.0, in_node, new_node, thelink.isRecurrent(), gene_innov1, 0);
 
 				// re-read the current innovation with increment
 				gene_innov2 = population.getCurrentInnovationNumberAndIncrement();
@@ -340,10 +341,12 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 					System.out.print("");
 				
 				// create the second gene with this innovation incremented
-				newgene2 = new Gene(oldweight, new_node, out_node, false, gene_innov2, 0);
+				//newgene2 = new Gene(oldweight, new_node, out_node, false, gene_innov2, 0);
+				newgene2 = FeatFactory.newGene(oldweight, new_node, out_node, false, gene_innov2, 0);
 
-				population.getInnovations().add(new Innovation(in_node.getId(), out_node .getId(), gene_innov1, gene_innov2, new_node.getId(), _gene.getInnovationNumber()));
-
+				//population.getInnovations().add(new Innovation(in_node.getId(), out_node .getId(), gene_innov1, gene_innov2, new_node.getId(), _gene.getInnovationNumber()));
+				population.getInnovations().add(FeatFactory.newDoubleInnovation(in_node.getId(), out_node .getId(), gene_innov1, gene_innov2, new_node.getId(), _gene.getInnovationNumber()));
+				
 				done = true;
 			}
 			// end for new innovation case
@@ -359,8 +362,10 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 					// pass this current nodeid to newnode
 					new_node = FeatFactory.newNodeForId(_innov.getNewNodeId());
 
-					newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), _innov.getInnovationNumber1(), 0);
-					newgene2 = new Gene(oldweight, new_node, out_node, false, _innov.getInnovationNumber2(), 0);
+					//newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), _innov.getInnovationNumber1(), 0);
+					//newgene2 = new Gene(oldweight, new_node, out_node, false, _innov.getInnovationNumber2(), 0);
+					newgene1 = FeatFactory.newGene(1.0, in_node, new_node, thelink.isRecurrent(), _innov.getInnovationNumber1(), 0);
+					newgene2 = FeatFactory.newGene(oldweight, new_node, out_node, false, _innov.getInnovationNumber2(), 0);
 					done = true;
 
 				}

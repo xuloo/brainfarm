@@ -6,9 +6,11 @@ import java.util.List;
 import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.api.IGene;
 import org.brainfarm.java.feat.api.IGenome;
+import org.brainfarm.java.feat.api.IInnovation;
 import org.brainfarm.java.feat.api.INetwork;
 import org.brainfarm.java.feat.api.INode;
 import org.brainfarm.java.feat.api.IOrganism;
+import org.brainfarm.java.feat.api.ISpecies;
 
 /**
  * Uses reflection to create instances of the custom FEAT model object
@@ -78,6 +80,61 @@ public class FeatFactory {
 			Class<?> oClass = evolutionStrategy.getNetworkClass();
 			Constructor<?> c = oClass.getConstructor(List.class,int.class);
 			return (INetwork)c.newInstance(allList,id);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;	
+	}
+	
+	public static ISpecies newSpecies(int id) {
+		try{
+			Class<?> oClass = evolutionStrategy.getSpeciesClass();
+			Constructor<?> c = oClass.getConstructor(int.class);
+			return (ISpecies)c.newInstance(id);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;	
+	}
+	
+	public static ISpecies newSpeciesNovel(int id, boolean novel) {
+		try{
+			Class<?> oClass = evolutionStrategy.getSpeciesClass();
+			Constructor<?> c = oClass.getConstructor(int.class, boolean.class);
+			return (ISpecies)c.newInstance(id, novel);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;	
+	}
+	
+	public static IGene newGene(double weight, INode inputNode, INode outputNode, boolean recurrent, double innovationNumber, double mutationNumber) {
+		try{
+			Class<?> oClass = evolutionStrategy.getGeneClass();
+			Constructor<?> c = oClass.getConstructor(double.class, INode.class, INode.class, boolean.class, double.class, double.class);
+			return (IGene)c.newInstance(weight, inputNode, outputNode, recurrent, innovationNumber, mutationNumber);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;	
+	}
+	
+	public static IInnovation newSingleInnovation(int nin, int nout, double num1, double w) {
+		try{
+			Class<?> oClass = evolutionStrategy.getInnovationClass();
+			Constructor<?> c = oClass.getConstructor(int.class, int.class, double.class, double.class);
+			return (IInnovation)c.newInstance(nin, nout, num1, w);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;	
+	}
+	
+	public static IInnovation newDoubleInnovation(int nin, int nout, double num1, double num2, int newid, double oldinnov) {
+		try{
+			Class<?> oClass = evolutionStrategy.getInnovationClass();
+			Constructor<?> c = oClass.getConstructor(int.class, int.class, double.class, double.class, int.class, double.class);
+			return (IInnovation)c.newInstance(nin, nout, num1, num2, newid, oldinnov);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

@@ -3,8 +3,6 @@ package org.brainfarm.java.feat.operators;
 import java.util.Iterator;
 import java.util.List;
 
-import org.brainfarm.java.feat.Organism;
-import org.brainfarm.java.feat.Species;
 import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.IOrganism;
@@ -113,7 +111,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy {
 
 				// Choose the random parent
 				orgnum = RandomUtils.randomInt(0, poolsize);
-				_organism = (Organism) organisms.get(orgnum);
+				_organism = organisms.get(orgnum);
 				mom = _organism;
 				new_genome = mom.getGenome().duplicate(count);
 
@@ -202,7 +200,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy {
 			// if list species is empty , create the first species!
 			if (pop.getSpecies().isEmpty()) {
 				pop.incrementLastSpecies();
-				newspecies = new Species(pop.getLastSpecies(), true); // create a
+				newspecies = FeatFactory.newSpeciesNovel(pop.getLastSpecies(), true); // create a
 				newspecies.setEvolutionParameters(evolutionParameters);
 				// new
 				// specie
@@ -239,7 +237,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy {
 
 				if (!done) {
 					pop.incrementLastSpecies();
-					newspecies = new Species(pop.getLastSpecies(), true); // create
+					newspecies = FeatFactory.newSpeciesNovel(pop.getLastSpecies(), true); // create
 					newspecies.setEvolutionParameters(evolutionParameters);
 					// a new species
 					pop.getSpecies().add(newspecies); // add this species to list of

@@ -9,9 +9,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.ISpecies;
-import org.brainfarm.java.feat.api.params.IEvolutionConstants;
 import org.brainfarm.java.feat.api.params.IEvolutionParameters;
-import org.brainfarm.java.feat.api.params.IEvolutionParametersAware;
 import org.brainfarm.java.feat.comparators.CompareOrganismsByFitness;
 
 /**
