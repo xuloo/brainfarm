@@ -22,4 +22,15 @@
 		<file name="flex/gui"/>
     </filelist>
 	
+	<filelist id="java.filelist" dir=".">
+		<file name="core"/>
+        <file name="gui"/>
+        <file name="experiments/xor"/>
+		<file name="experiments/Star"/>
+	</filelist>
+	
+	<target name="build-java">
+		<echoAndRun target="build" children.filelist.id="java.filelist"/>
+	</target>
+	
 </project>
