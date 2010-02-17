@@ -40,7 +40,6 @@ public class EvolutionContext implements IEvolutionContext {
 	public void setExperiment(IExperiment experiment) {
 		this.experiment = experiment;
 		
-		System.out.println("setting evolution parameters " + evolutionParameters + " on " + experiment.getEvolutionStrategy());
 		experiment.getEvolutionStrategy().setEvolutionParameters(evolutionParameters);
 		
 		experimentChanged();

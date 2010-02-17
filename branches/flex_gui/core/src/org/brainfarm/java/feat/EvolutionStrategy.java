@@ -98,23 +98,23 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 		
 		log.debug("Resetting EvolutionStrategy Defaults");
 		
-		crossoverStrategy = new DefaultCrossoverStrategy(evolutionParameters);
-		mutationStrategy = new DefaultMutationStrategy(evolutionParameters);
-		populationInitializationStrategy = new DefaultPopulationInitializationStrategy(this);
-		reproductionStrategy = new DefaultReproductionStrategy(this);
-		speciationStrategy = new DefaultSpeciationStrategy(evolutionParameters);
+		crossoverStrategy 					= new DefaultCrossoverStrategy(evolutionParameters);
+		mutationStrategy 					= new DefaultMutationStrategy(evolutionParameters);
+		populationInitializationStrategy 	= new DefaultPopulationInitializationStrategy(this);
+		reproductionStrategy 				= new DefaultReproductionStrategy(this);
+		speciationStrategy 					= new DefaultSpeciationStrategy(evolutionParameters);
 		
-		nodeClassName = (nodeClassName == null) ? DEFAULT_NODE_CLASS_NAME : nodeClassName;
-		networkClassName = (networkClassName == null) ? DEFAULT_NETWORK_CLASS_NAME : networkClassName;
-		linkClassName = (linkClassName == null) ? DEFAULT_LINK_CLASS_NAME : linkClassName;
-		genomeClassName = (genomeClassName == null) ? DEFAULT_GENOME_CLASS_NAME : genomeClassName;
-		organismClassName = (organismClassName == null) ? DEFAULT_ORGANISM_CLASS_NAME : organismClassName;
+		nodeClassName 		= (nodeClassName == null) 		? DEFAULT_NODE_CLASS_NAME 		: nodeClassName;
+		networkClassName 	= (networkClassName == null) 	? DEFAULT_NETWORK_CLASS_NAME 	: networkClassName;
+		linkClassName 		= (linkClassName == null) 		? DEFAULT_LINK_CLASS_NAME 		: linkClassName;
+		genomeClassName 	= (genomeClassName == null) 	? DEFAULT_GENOME_CLASS_NAME 	: genomeClassName;
+		organismClassName	= (organismClassName == null) 	? DEFAULT_ORGANISM_CLASS_NAME 	: organismClassName;
 		
-		nodeClass = null;
-		networkClass = null;
-		linkClass = null;
-		genomeClass = null;
-		organismClass = null;
+		nodeClass 		= null;
+		networkClass 	= null;
+		linkClass 		= null;
+		genomeClass 	= null;
+		organismClass 	= null;
 	}
 
 	/**
@@ -223,18 +223,12 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 	public void setNetworkClassName(String networkClassName) {
 		this.networkClassName = networkClassName;
 	}
-
-	private boolean printed = false;
 	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public Class<?> getNodeClass() {
-		if (!printed) {
-			printed = true;
-			System.out.println("Getting node class " + nodeClass + " " + nodeClassName);
-		}
 		
 		if (nodeClass == null) {
 			try {
@@ -253,7 +247,6 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 	@Override
 	public void setNodeClassName(String nodeClassName) {
 		this.nodeClassName = nodeClassName;
-		System.out.println("SEtting node class name " + this.nodeClassName);
 	}
 
 	/**

@@ -128,6 +128,7 @@ public class Species implements ISpecies {
 		int count = 0;
 		int age_debt = 0;
 		int j;
+				
 		age_debt = (age - ageOfLastImprovement + 1) - evolutionParameters.getIntParameter(DROPOFF_AGE);
 		if (age_debt == 0)
 			age_debt = 1;
@@ -267,7 +268,7 @@ public class Species implements ISpecies {
 		return r2;
 	}
 
-	public String toString() {
+	/*public String toString() {
 
 		StringBuilder s = new StringBuilder();
 		
@@ -287,7 +288,7 @@ public class Species implements ISpecies {
 		}
 		
 		return s.toString();
-	}
+	}*/
 
 	/**
 	 * Compute generations since last improvement

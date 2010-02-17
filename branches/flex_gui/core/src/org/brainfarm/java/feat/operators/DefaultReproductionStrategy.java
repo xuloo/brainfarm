@@ -203,6 +203,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy {
 			if (pop.getSpecies().isEmpty()) {
 				pop.incrementLastSpecies();
 				newspecies = new Species(pop.getLastSpecies(), true); // create a
+				newspecies.setEvolutionParameters(evolutionParameters);
 				// new
 				// specie
 				pop.getSpecies().add(newspecies); // add this species to list of
@@ -239,6 +240,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy {
 				if (!done) {
 					pop.incrementLastSpecies();
 					newspecies = new Species(pop.getLastSpecies(), true); // create
+					newspecies.setEvolutionParameters(evolutionParameters);
 					// a new species
 					pop.getSpecies().add(newspecies); // add this species to list of
 					// species
