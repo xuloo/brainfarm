@@ -368,7 +368,6 @@ public class Genome implements IGenome {
 
 	@Override
 	public void setEvolutionParameters(IEvolutionParameters evolutionParameters) {
-		System.out.println("setting params " + evolutionParameters);
 		this.evolutionParameters = evolutionParameters;
 	}
 }

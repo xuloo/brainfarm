@@ -25,14 +25,11 @@ public class StarOrganismEvaluator implements IOrganismEvaluator {
 	
 	@Override
 	public boolean evaluate(IOrganism organism) {
-		
-		System.out.println("organism " + organism);
-		
+				
 		INetwork network = organism.getPhenotype();
 		
 		List<INode> nodes = new ArrayList<INode>();
 		for(INode n : network.getAllNodes()) {
-			System.out.println("NODE " + n);
 			nodes.add(n);
 		}
 		

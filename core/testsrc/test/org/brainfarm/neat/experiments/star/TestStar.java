@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import org.apache.log4j.BasicConfigurator;
 import org.brainfarm.java.feat.EvolutionContext;
 import org.brainfarm.java.feat.EvolutionController;
 import org.brainfarm.java.feat.api.IEvolution;
@@ -30,6 +31,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class TestStar {
 
+	public TestStar() {
+		BasicConfigurator.configure();
+	}
+	
 	/**
 	 * Runs the experiment defined by test/xor-experiment.jar.  Because
 	 * we seed the NEAT Random number generator ahead of time, we can 
@@ -38,6 +43,9 @@ public class TestStar {
 	 */
 	@Test
 	public void validateDeterministicMatchExperiment(){
+		
+		
+		
 		RandomUtils.seedRandom(290761);
 
 		IEvolutionContext context = new EvolutionContext();
@@ -68,9 +76,9 @@ public class TestStar {
 		for(double d : maxFitnesses)
 			System.out.print(d + ", ");
 		assertEquals(1.0, maxFitnesses.get(0),.000001);
-		assertEquals(14.0, maxFitnesses.get(7),.000001);
-		assertEquals(17.0, maxFitnesses.get(17),.000001);
-		assertEquals(18.0, maxFitnesses.get(21),.000001);
+		assertEquals(12.0, maxFitnesses.get(7),.000001);
+		assertEquals(14.0, maxFitnesses.get(17),.000001);
+		assertEquals(14.0, maxFitnesses.get(21),.000001);
 	}
 
 	public class TestXorController extends EvolutionController {

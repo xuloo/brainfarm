@@ -21,6 +21,7 @@ public class EvolutionParameters extends AttributeStore implements IEvolutionPar
 	}
 	
 	public Double getDoubleParameter(String name) {
+		//System.out.println("param " + name + " == " + getParameter(name));
 		return getParameter(name).getDoubleValue();
 	}
 		

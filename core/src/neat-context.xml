@@ -141,7 +141,7 @@
 						<property name="description" value="${mate.multipoint.avg.prob.description}" />
 					</bean>
 				</entry>
-				<entry key-ref="mate.multipoint.avg.prob.name">
+				<entry key-ref="mate.singlepoint.prob.name">
 					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="mate.multipoint.avg.prob.name"/>
 						<property name="value" value="${mate.singlepoint.prob.value}" />
@@ -260,6 +260,10 @@
 	
 	<bean id="mate.multipoint.avg.prob.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
 		<property name="staticField" value="${mate.multipoint.avg.prob.name}" />
+	</bean>
+	
+	<bean id="mate.singlepoint.prob.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${mate.singlepoint.prob.name}" />
 	</bean>
 
 	<bean id="mate.only.prob.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">

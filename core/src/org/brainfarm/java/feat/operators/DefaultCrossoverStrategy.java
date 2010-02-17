@@ -29,6 +29,7 @@ public class DefaultCrossoverStrategy implements ICrossoverStrategy {
 	
 	public IGenome performCrossover(IOrganism mom, IOrganism dad, int count) {
 		IGenome new_genome;
+			
 		if (RandomUtils.randomDouble() < evolutionParameters.getDoubleParameter(MATE_MULTIPOINT_PROB)) {
 			//			logger.debug("mate multipoint baby: ");
 			new_genome = mateMultipoint(mom.getGenome(), dad.getGenome(), count, mom.getOriginalFitness(), dad.getOriginalFitness());
