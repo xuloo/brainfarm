@@ -3,6 +3,7 @@ package org.brainfarm.java.feat.api.operators;
 import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.enums.MutationType;
+import org.brainfarm.java.feat.api.params.IEvolutionConstants;
 
 /**
  * This interface must be implemented to perform
@@ -11,7 +12,7 @@ import org.brainfarm.java.feat.api.enums.MutationType;
  * @author dtuohy
  *
  */
-public interface IMutationStrategy {
+public interface IMutationStrategy extends IEvolutionConstants {
 
 	/**
 	 * Applies the full suite of possible mutations to a genome according

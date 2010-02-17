@@ -9,8 +9,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.ISpecies;
+import org.brainfarm.java.feat.api.params.IEvolutionConstants;
+import org.brainfarm.java.feat.api.params.IEvolutionParameters;
+import org.brainfarm.java.feat.api.params.IEvolutionParametersAware;
 import org.brainfarm.java.feat.comparators.CompareOrganismsByFitness;
-import org.brainfarm.java.feat.params.EvolutionParameters;
 
 /**
  * 
@@ -20,6 +22,8 @@ import org.brainfarm.java.feat.params.EvolutionParameters;
 public class Species implements ISpecies {
 	
 	private static Logger logger = Logger.getLogger(Species.class);
+	
+	protected IEvolutionParameters evolutionParameters;
 	
 	/**
 	 * id(-entification) of this species
@@ -124,7 +128,7 @@ public class Species implements ISpecies {
 		int count = 0;
 		int age_debt = 0;
 		int j;
-		age_debt = (age - ageOfLastImprovement + 1) - EvolutionParameters.dropoff_age;
+		age_debt = (age - ageOfLastImprovement + 1) - evolutionParameters.getIntParameter(DROPOFF_AGE);
 		if (age_debt == 0)
 			age_debt = 1;
 
@@ -146,7 +150,7 @@ public class Species implements ISpecies {
 			// The age_significance parameter is a system parameter
 			// if it is 1, then young species get no fitness boost
 			if (age <= 10)
-				_organism.setFitness(_organism.getFitness() * EvolutionParameters.age_significance);
+				_organism.setFitness(_organism.getFitness() * evolutionParameters.getDoubleParameter(AGE_SIGNIFICANCE));
 			// Do not allow negative fitness
 			if (_organism.getFitness() < 0.0)
 				_organism.setFitness(0.0001);
@@ -174,7 +178,7 @@ public class Species implements ISpecies {
 		// is not greater
 		// than the argument and is equal to a mathematical integer
 
-		num_parents = (int) Math.floor((EvolutionParameters.survival_thresh * ((double) size1)) + 1.0);
+		num_parents = (int) Math.floor((evolutionParameters.getDoubleParameter(SURVIVAL_THRESH) * ((double) size1)) + 1.0);
 
 		// Mark for death those who are ranked too low to be parents
 		Iterator<IOrganism> itr_organism = organisms.iterator();
@@ -399,5 +403,10 @@ public class Species implements ISpecies {
 
 	public void setAgeOfLastImprovement(int ageOfLastImprovement) {
 		this.ageOfLastImprovement = ageOfLastImprovement;
+	}
+
+	@Override
+	public void setEvolutionParameters(IEvolutionParameters evolutionParameters) {
+		this.evolutionParameters = evolutionParameters;
 	}
 }

@@ -12,7 +12,7 @@ import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
 import org.brainfarm.java.feat.api.enums.MutationType;
 import org.brainfarm.java.feat.api.operators.IReproductionStrategy;
-import org.brainfarm.java.feat.params.EvolutionParameters;
+import org.brainfarm.java.feat.api.params.IEvolutionParameters;
 import org.brainfarm.java.util.RandomUtils;
 
 /**
@@ -22,12 +22,15 @@ import org.brainfarm.java.util.RandomUtils;
  * @author dtuohy, orig. Ugo Vierucci
  *
  */
-public class DefaultReproductionStrategy implements IReproductionStrategy{
+public class DefaultReproductionStrategy implements IReproductionStrategy {
 
 	private IEvolutionStrategy evolutionStrategy;
 	
+	protected IEvolutionParameters evolutionParameters;
+	
 	public DefaultReproductionStrategy(IEvolutionStrategy evolutionStrategy) {
 		this.evolutionStrategy = evolutionStrategy;
+		evolutionParameters = evolutionStrategy.getEvolutionParameters();
 	}
 	
 	public boolean reproduce(ISpecies specie, int generation, IPopulation pop, List<ISpecies> sorted_species) {
@@ -79,9 +82,9 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 				// create a new genome from this copy
 				new_genome = mom.getGenome().duplicate(count);
 				if ((thechamp.getSuperChampOffspring()) > 1) {
-					if (RandomUtils.randomDouble() < .8 || EvolutionParameters.mutate_add_link_prob == 0.0) {
+					if (RandomUtils.randomDouble() < .8 || evolutionParameters.getDoubleParameter(MUTATE_ADD_LINK_PROB) == 0.0) {
 
-						evolutionStrategy.getMutationStrategy().mutateLinkWeight(new_genome, EvolutionParameters.weight_mut_power, 1.0, MutationType.GAUSSIAN);
+						evolutionStrategy.getMutationStrategy().mutateLinkWeight(new_genome, evolutionParameters.getDoubleParameter(WEIGHT_MUT_POWER), 1.0, MutationType.GAUSSIAN);
 
 					} else {
 						// Sometimes we add a link to a superchamp
@@ -106,7 +109,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 				// mommy
 				champ_done = true;
 
-			} else if (RandomUtils.randomDouble() < EvolutionParameters.mutate_only_prob || poolsize == 1) {
+			} else if (RandomUtils.randomDouble() < evolutionParameters.getDoubleParameter(MUTATE_ONLY_PROB) || poolsize == 1) {
 
 				// Choose the random parent
 				orgnum = RandomUtils.randomInt(0, poolsize);
@@ -133,7 +136,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 				mom = _organism;
 				// Choose random dad
 				// Mate within Species
-				if (RandomUtils.randomDouble() > EvolutionParameters.interspecies_mate_rate) {
+				if (RandomUtils.randomDouble() > evolutionParameters.getDoubleParameter(INTERSPECIES_MATE_RATE)) {
 					orgnum = RandomUtils.randomInt(0, poolsize);
 					_organism = organisms.get(orgnum);
 					_dad = _organism;
@@ -173,7 +176,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 				// This is done randomly or if the mom and dad are the same
 				// organism
 
-				if (RandomUtils.randomDouble() > EvolutionParameters.mate_only_prob || 
+				if (RandomUtils.randomDouble() > evolutionParameters.getDoubleParameter(MATE_ONLY_PROB) || 
 						_dad.getGenome().getId() == mom.getGenome().getId() || 
 						_dad.getGenome().compatibility(mom.getGenome()) == 0.0) {
 
@@ -223,7 +226,7 @@ public class DefaultReproductionStrategy implements IReproductionStrategy{
 					double curr_compat = baby.getGenome().compatibility(compare_org.getGenome());
 
 					// System.out.print("\n     affinity = "+curr_compat);
-					if (curr_compat < EvolutionParameters.compat_threshold) {
+					if (curr_compat < evolutionParameters.getDoubleParameter(COMPAT_THRESHOLD)) {
 						// Found compatible species, so add this baby to it
 						_specie.addOrganism(baby);
 						// update in baby pointer to its species

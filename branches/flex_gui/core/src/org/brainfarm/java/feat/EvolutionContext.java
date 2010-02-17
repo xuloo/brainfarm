@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.brainfarm.java.feat.api.IEvolution;
 import org.brainfarm.java.feat.api.IEvolutionContext;
 import org.brainfarm.java.feat.api.IEvolutionContextListener;
-import org.brainfarm.java.feat.api.IEvolution;
 import org.brainfarm.java.feat.api.IExperiment;
-import org.brainfarm.java.feat.params.EvolutionParameters;
+import org.brainfarm.java.feat.api.params.IEvolutionParameters;
 
 public class EvolutionContext implements IEvolutionContext {
 	
@@ -16,7 +16,7 @@ public class EvolutionContext implements IEvolutionContext {
 	
 	private List<IEvolutionContextListener> listeners = new ArrayList<IEvolutionContextListener>();
 	
-	//protected EvolutionParameters neat;
+	protected IEvolutionParameters evolutionParameters;
 
 	protected IExperiment experiment;
 	
@@ -39,6 +39,9 @@ public class EvolutionContext implements IEvolutionContext {
 	@Override
 	public void setExperiment(IExperiment experiment) {
 		this.experiment = experiment;
+		
+		System.out.println("setting evolution parameters " + evolutionParameters + " on " + experiment.getEvolutionStrategy());
+		experiment.getEvolutionStrategy().setEvolutionParameters(evolutionParameters);
 		
 		experimentChanged();
 	}
@@ -85,5 +88,15 @@ public class EvolutionContext implements IEvolutionContext {
 		}
 		
 		return evolution;
+	}
+
+	@Override
+	public IEvolutionParameters getEvolutionParameters() {
+		return evolutionParameters;
+	}
+
+	@Override
+	public void setEvolutionParameters(IEvolutionParameters evolutionParameters) {
+		this.evolutionParameters = evolutionParameters;
 	}
 }

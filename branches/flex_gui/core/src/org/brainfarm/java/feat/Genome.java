@@ -9,6 +9,8 @@ import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.ILink;
 import org.brainfarm.java.feat.api.INetwork;
 import org.brainfarm.java.feat.api.INode;
+import org.brainfarm.java.feat.api.params.IEvolutionConstants;
+import org.brainfarm.java.feat.api.params.IEvolutionParameters;
 import org.brainfarm.java.feat.operators.FeatFactory;
 import org.brainfarm.java.feat.params.EvolutionParameters;
 
@@ -23,6 +25,8 @@ import org.brainfarm.java.feat.params.EvolutionParameters;
 public class Genome implements IGenome {
 
 	protected static Logger logger = Logger.getLogger(Genome.class);
+	
+	public IEvolutionParameters evolutionParameters;
 	
 	/** Is a reference from this genotype to phenotype */
 	private INetwork phenotype;
@@ -164,9 +168,9 @@ public class Genome implements IGenome {
 		// in the Genome.
 		// Look at disjointedness and excess in the absolute (ignoring size)
 
-		return (EvolutionParameters.disjoint_coeff * (num_disjoint / 1.0)
-				+ EvolutionParameters.disjoint_coeff * (num_excess / 1.0) + EvolutionParameters.mutdiff_coeff
-				* (mut_diff_total / num_matching));
+		return (evolutionParameters.getDoubleParameter(DISJOINT_COEFF) * (num_disjoint / 1.0) + 
+				evolutionParameters.getDoubleParameter(DISJOINT_COEFF) * (num_excess / 1.0) + 
+				evolutionParameters.getDoubleParameter(MUTDIFF_COEFF)  * (mut_diff_total / num_matching));
 
 	}
 
@@ -360,5 +364,11 @@ public class Genome implements IGenome {
 
 	public int getId() {
 		return id;
+	}
+
+	@Override
+	public void setEvolutionParameters(IEvolutionParameters evolutionParameters) {
+		System.out.println("setting params " + evolutionParameters);
+		this.evolutionParameters = evolutionParameters;
 	}
 }

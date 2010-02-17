@@ -22,8 +22,8 @@ public class NeatEvolutionStrategy extends EvolutionStrategy {
 	 * {@inheritDoc}
 	 */
 	@Override 
-	public void reset() {
-		super.reset();
+	public void refresh() {
+		super.refresh();
 		
 		organismEvaluator = new NeatOrganismEvaluator();
 		

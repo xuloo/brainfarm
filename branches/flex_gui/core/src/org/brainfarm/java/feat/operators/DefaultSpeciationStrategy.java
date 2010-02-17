@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.brainfarm.java.feat.Genome;
 import org.brainfarm.java.feat.Species;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
 import org.brainfarm.java.feat.api.operators.ISpeciationStrategy;
-import org.brainfarm.java.feat.params.EvolutionParameters;
+import org.brainfarm.java.feat.api.params.IEvolutionParameters;
 
 /**
  * This is the speciation strategy employed by the original
@@ -20,6 +21,12 @@ import org.brainfarm.java.feat.params.EvolutionParameters;
  */
 public class DefaultSpeciationStrategy implements ISpeciationStrategy {
 
+	protected IEvolutionParameters evolutionParameters;
+	
+	public DefaultSpeciationStrategy(IEvolutionParameters evolutionParameters) {
+		this.evolutionParameters = evolutionParameters;
+	}
+	
 	@Override
 	public void speciate(IPopulation pop) {
 		
@@ -38,6 +45,8 @@ public class DefaultSpeciationStrategy implements ISpeciationStrategy {
 			// if list species is empty , create the first species!
 			if (species.isEmpty()) {
 				newspecies = new Species(++counter); // create a new specie
+				newspecies.setEvolutionParameters(evolutionParameters);
+				
 				species.add(newspecies); // add this species to list of species
 				newspecies.addOrganism(organism);
 				// Add to new spoecies the current organism
@@ -58,7 +67,7 @@ public class DefaultSpeciationStrategy implements ISpeciationStrategy {
 					// in current specie('compare_org')
 					double curr_compat = organism.getGenome().compatibility(compare_org.getGenome());
 
-					if (curr_compat < EvolutionParameters.compat_threshold) {
+					if (curr_compat < evolutionParameters.getDoubleParameter(COMPAT_THRESHOLD)) {
 						// Found compatible species, so add this organism to it
 						_specie.addOrganism(organism);
 						// update in organism pointer to its species
@@ -71,6 +80,8 @@ public class DefaultSpeciationStrategy implements ISpeciationStrategy {
 				// if no found species compatible , create specie
 				if (!done) {
 					newspecies = new Species(++counter); // create a new specie
+					newspecies.setEvolutionParameters(evolutionParameters);
+					
 					species.add(newspecies); // add this species to list of
 												// species
 					newspecies.addOrganism(organism);

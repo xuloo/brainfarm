@@ -9,6 +9,7 @@
 		<property name="epochs" value="25"/>
 		<property name="population" ref="population"/>
 		<property name="evolutionStrategy" ref="evolutionStrategy"/>
+		<property name="genome" ref="genome"/>
 	</bean>
 	
 	<bean id="evolutionStrategy" class="org.brainfarm.java.feat.EvolutionStrategy">
@@ -26,7 +27,7 @@
 	
 	<bean id="genome" class="org.brainfarm.java.feat.Genome">
  		<property name="nodes">
- 			<list value-type="org.brainfarm.java.feat.Node">
+ 			<list value-type="org.gatech.feat.experiments.star.StarNode">
  				<ref bean="node_1"/>
  				<ref bean="node_2"/>
  			</list>
@@ -38,11 +39,11 @@
  		</property>
  	</bean>
 	
-	<bean id="node_1" class="org.brainfarm.java.feat.Node">
+	<bean id="node_1" class="org.gatech.feat.experiments.star.StarNode">
 		<property name="id" value="1"/>
 	</bean>
 	
-	<bean id="node_2" class="org.brainfarm.java.feat.Node">
+	<bean id="node_2" class="org.gatech.feat.experiments.star.StarNode">
 		<property name="id" value="2"/>
 	</bean>
 	

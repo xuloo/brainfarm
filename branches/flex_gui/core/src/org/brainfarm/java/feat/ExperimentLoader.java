@@ -20,7 +20,7 @@ public class ExperimentLoader implements Constants {
 	
 	public static IExperiment loadExperiment(File location) {
 		
-		System.out.println("loading experiment " + location);
+		System.out.println("loading experiment " + location.getAbsolutePath());
 		
 		// Create the appropriate class loader.
 		createClassLoader(location);

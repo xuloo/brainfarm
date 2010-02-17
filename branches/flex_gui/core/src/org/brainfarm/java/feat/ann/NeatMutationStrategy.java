@@ -18,6 +18,8 @@ import org.brainfarm.java.feat.api.enums.MutationType;
 import org.brainfarm.java.feat.api.enums.NodeLabel;
 import org.brainfarm.java.feat.api.enums.NodeType;
 import org.brainfarm.java.feat.api.operators.IMutationStrategy;
+import org.brainfarm.java.feat.api.params.IEvolutionConstants;
+import org.brainfarm.java.feat.api.params.IEvolutionParameters;
 import org.brainfarm.java.feat.params.EvolutionParameters;
 import org.brainfarm.java.util.EvolutionUtils;
 import org.brainfarm.java.util.RandomUtils;
@@ -29,30 +31,29 @@ import org.brainfarm.java.util.RandomUtils;
  * @author dtuohy, orig. Ugo Vierucci
  *
  */
-public class NeatMutationStrategy implements IMutationStrategy {
+public class NeatMutationStrategy implements IMutationStrategy, IEvolutionConstants {
 
-	// The weight mutation power is species specific depending on its age
-	double mut_power = EvolutionParameters.weight_mut_power;
-
+	protected IEvolutionParameters evolutionParameters;
+	
 	@Override
 	public void mutate(IGenome genome, IPopulation pop, int generation) {
-		if (RandomUtils.randomDouble() < EvolutionParameters.mutate_add_node_prob) {
+		if (RandomUtils.randomDouble() < evolutionParameters.getDoubleParameter(MUTATE_ADD_NODE_PROB)) {
 			//			logger.debug("....species.reproduce.mutate add node");
 			mutateAddNode(genome,pop);
-		} else if (RandomUtils.randomDouble() < EvolutionParameters.mutate_add_link_prob) {
+		} else if (RandomUtils.randomDouble() < evolutionParameters.getDoubleParameter(MUTATE_ADD_LINK_PROB)) {
 			//			logger.debug("....mutate add link");
 			genome.generatePhenotype(generation);
 			mutateAddLink(genome, pop);
 		} else {
-			if (RandomUtils.randomDouble() < EvolutionParameters.mutate_link_weights_prob) {
+			if (RandomUtils.randomDouble() < evolutionParameters.getDoubleParameter(MUTATE_LINK_WEIGHTS_PROB)) {
 				//				logger.debug("...mutate link weight");
-				mutateLinkWeight(genome, mut_power, 1.0,MutationType.GAUSSIAN);
+				mutateLinkWeight(genome, evolutionParameters.getDoubleParameter(WEIGHT_MUT_POWER), 1.0,MutationType.GAUSSIAN);
 			}
-			if (RandomUtils.randomDouble() < EvolutionParameters.mutate_toggle_enable_prob) {
+			if (RandomUtils.randomDouble() < evolutionParameters.getDoubleParameter(MUTATE_TOGGLE_ENABLE_PROB)) {
 				//				logger.debug("...mutate toggle enable");
 				mutateToggleEnable(genome,1);
 			}
-			if (RandomUtils.randomDouble() < EvolutionParameters.mutate_gene_reenable_prob) {
+			if (RandomUtils.randomDouble() < evolutionParameters.getDoubleParameter(MUTATE_GENE_REENABLE_PROB)) {
 				//				logger.debug("...mutate gene_reenable:");
 				mutateGeneReenable(genome);
 			}
@@ -61,7 +62,7 @@ public class NeatMutationStrategy implements IMutationStrategy {
 
 	public boolean mutateAddLink(IGenome genome, IPopulation population) {
 
-		int attempts = EvolutionParameters.newlink_tries;
+		int attempts = evolutionParameters.getIntParameter(NEWLINK_TRIES);
 
 		//get fields from the genome
 		List<INode> nodes = genome.getNodes();
@@ -92,7 +93,7 @@ public class NeatMutationStrategy implements IMutationStrategy {
 		trycount = 0;
 
 		// Decide whether to make this recurrent
-		if (RandomUtils.randomDouble() < EvolutionParameters.recur_only_prob)
+		if (RandomUtils.randomDouble() < evolutionParameters.getDoubleParameter(RECUR_ONLY_PROB))
 			do_recur = true;
 		else
 			do_recur = false;

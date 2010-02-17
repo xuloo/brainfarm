@@ -15,256 +15,275 @@
 		</property>
 	</bean>
 	
-	<bean id="neat" class="org.brainfarm.java.feat.params.EvolutionParameters">
-		<property name="parameters" ref="default.parameters" />
+	<bean id="default.evolution.parameters" class="org.brainfarm.java.feat.params.EvolutionParameters">
+		<property name="attributes" ref="default.parameters" />
 	</bean>
-
-	<bean id="default.parameters"
-		class="org.springframework.beans.factory.config.ListFactoryBean">
-		<property name="sourceList">
-			<list>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${weight.mut.power.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${weight.mut.power.value}" />
-					<property name="description" value="${weight.mut.power.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${recur.prob.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${recur.prob.value}" />
-					<property name="description" value="${recur.prob.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${disjoint.coeff.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${disjoint.coeff.value}" />
-					<property name="description" value="${disjoint.coeff.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${excess.coeff.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${excess.coeff.value}" />
-					<property name="description" value="${excess.coeff.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${mutdiff.coeff.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${mutdiff.coeff.value}" />
-					<property name="description" value="${mutdiff.coeff.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${compat.threshold.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${compat.threshold.value}" />
-					<property name="description" value="${compat.threshold.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${age.significance.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${age.significance.value}" />
-					<property name="description" value="${age.significance.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${survival.thresh.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${survival.thresh.value}" />
-					<property name="description" value="${survival.thresh.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${mutate.only.prob.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${mutate.only.prob.value}" />
-					<property name="description" value="${mutate.only.prob.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${mutate.link.weights.prob.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${mutate.link.weights.prob.value}" />
-					<property name="description" value="${mutate.link.weights.prob.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${mutate.toggle.enable.prob.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${mutate.toggle.enable.prob.value}" />
-					<property name="description" value="${mutate.toggle.enable.prob.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${mutate.gene.reenable.prob.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${mutate.gene.reenable.prob.value}" />
-					<property name="description" value="${mutate.gene.reenable.prob.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${mutate.add.node.prob.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${mutate.add.node.prob.value}" />
-					<property name="description" value="${mutate.add.node.prob.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${mutate.add.link.prob.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${mutate.add.link.prob.value}" />
-					<property name="description" value="${mutate.add.link.prob.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${interspecies.mate.rate.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${interspecies.mate.rate.value}" />
-					<property name="description" value="${interspecies.mate.rate.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${mate.multipoint.prob.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${mate.multipoint.prob.value}" />
-					<property name="description" value="${mate.multipoint.prob.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${mate.multipoint.avg.prob.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${mate.multipoint.avg.prob.value}" />
-					<property name="description" value="${mate.multipoint.avg.prob.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${mate.singlepoint.prob.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${mate.singlepoint.prob.value}" />
-					<property name="description" value="${mate.singlepoint.prob.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${mate.only.prob.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${mate.only.prob.value}" />
-					<property name="description" value="${mate.only.prob.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.DoubleParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${recur.only.prob.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${recur.only.prob.value}" />
-					<property name="description" value="${recur.only.prob.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.IntParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${dropoff.age.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${dropoff.age.value}" />
-					<property name="description" value="${dropoff.age.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.IntParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${newlink.tries.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${newlink.tries.value}" />
-					<property name="description" value="${newlink.tries.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.IntParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${print.every.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${print.every.value}" />
-					<property name="description" value="${print.every.description}" />
-				</bean>
-				<bean class="org.brainfarm.java.feat.params.IntParameter">
-					<property name="name">
-						<bean
-							class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
-							<property name="staticField" value="${babies.stolen.name}" />
-						</bean>
-					</property>
-					<property name="value" value="${babies.stolen.value}" />
-					<property name="description" value="${babies.stolen.description}" />
-				</bean>
-			</list>
+	
+	<bean id="default.parameters" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="sourceMap">
+			<map>
+				<entry key-ref="weight.mut.power.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="weight.mut.power.name"/>
+						<property name="value" value="${weight.mut.power.value}" />
+						<property name="description" value="${weight.mut.power.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="recur.prob.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="recur.prob.name"/>
+						<property name="value" value="${recur.prob.value}" />
+						<property name="description" value="${recur.prob.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="disjoint.coeff.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="disjoint.coeff.name"/>
+						<property name="value" value="${disjoint.coeff.value}" />
+						<property name="description" value="${disjoint.coeff.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="excess.coeff.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="excess.coeff.name"/>
+						<property name="value" value="${excess.coeff.value}" />
+						<property name="description" value="${excess.coeff.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="mutdiff.coeff.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="mutdiff.coeff.name"/>
+						<property name="value" value="${mutdiff.coeff.value}" />
+						<property name="description" value="${mutdiff.coeff.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="compat.threshold.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="compat.threshold.name"/>
+						<property name="value" value="${compat.threshold.value}" />
+						<property name="description" value="${compat.threshold.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="age.significance.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="age.significance.name"/>
+						<property name="value" value="${age.significance.value}" />
+						<property name="description" value="${age.significance.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="survival.thresh.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="survival.thresh.name"/>
+						<property name="value" value="${survival.thresh.value}" />
+						<property name="description" value="${survival.thresh.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="mutate.only.prob.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="mutate.only.prob.name"/>
+						<property name="value" value="${mutate.only.prob.value}" />
+						<property name="description" value="${mutate.only.prob.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="mutate.link.weights.prob.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="mutate.link.weights.prob.name"/>
+						<property name="value" value="${mutate.link.weights.prob.value}" />
+						<property name="description" value="${mutate.link.weights.prob.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="mutate.toggle.enable.prob.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="mutate.toggle.enable.prob.name"/>
+						<property name="value" value="${mutate.toggle.enable.prob.value}" />
+						<property name="description" value="${mutate.toggle.enable.prob.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="mutate.gene.reenable.prob.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="mutate.gene.reenable.prob.name"/>
+						<property name="value" value="${mutate.gene.reenable.prob.value}" />
+						<property name="description" value="${mutate.gene.reenable.prob.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="mutate.add.node.prob.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="mutate.add.node.prob.name"/>
+						<property name="value" value="${mutate.add.node.prob.value}" />
+						<property name="description" value="${mutate.add.node.prob.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="mutate.add.link.prob.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="mutate.add.link.prob.name"/>
+						<property name="value" value="${mutate.add.link.prob.value}" />
+						<property name="description" value="${mutate.add.link.prob.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="interspecies.mate.rate.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="interspecies.mate.rate.name"/>
+						<property name="value" value="${interspecies.mate.rate.value}" />
+						<property name="description" value="${interspecies.mate.rate.description}" />
+					</bean>
+				</entry>				
+				<entry key-ref="mate.multipoint.prob.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="mate.multipoint.prob.name"/>
+						<property name="value" value="${mate.multipoint.prob.value}" />
+						<property name="description" value="${mate.multipoint.prob.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="mate.multipoint.avg.prob.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="mate.multipoint.avg.prob.name"/>
+						<property name="value" value="${mate.multipoint.avg.prob.value}" />
+						<property name="description" value="${mate.multipoint.avg.prob.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="mate.multipoint.avg.prob.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="mate.multipoint.avg.prob.name"/>
+						<property name="value" value="${mate.singlepoint.prob.value}" />
+						<property name="description" value="${mate.singlepoint.prob.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="mate.only.prob.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="mate.only.prob.name"/>
+						<property name="value" value="${mate.only.prob.value}" />
+						<property name="description" value="${mate.only.prob.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="recur.only.prob.name">
+					<bean class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
+						<property name="name" ref="recur.only.prob.name"/>
+						<property name="value" value="${recur.only.prob.value}" />
+						<property name="description" value="${recur.only.prob.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="dropoff.age.name">
+					<bean class="org.brainfarm.java.feat.params.IntegerEvolutionParameter">
+						<property name="name" ref="dropoff.age.name"/>
+						<property name="value" value="${dropoff.age.value}" />
+						<property name="description" value="${dropoff.age.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="newlink.tries.name">
+					<bean class="org.brainfarm.java.feat.params.IntegerEvolutionParameter">
+						<property name="name" ref="newlink.tries.name"/>
+						<property name="value" value="${newlink.tries.value}" />
+						<property name="description" value="${newlink.tries.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="print.every.name">
+					<bean class="org.brainfarm.java.feat.params.IntegerEvolutionParameter">
+						<property name="name" ref="print.every.name"/>
+						<property name="value" value="${print.every.value}" />
+						<property name="description" value="${print.every.description}" />
+					</bean>
+				</entry>
+				<entry key-ref="babies.stolen.name">
+					<bean class="org.brainfarm.java.feat.params.IntegerEvolutionParameter">
+						<property name="name" ref="babies.stolen.name"/>
+						<property name="value" value="${babies.stolen.value}" />
+						<property name="description" value="${babies.stolen.description}" />
+					</bean>
+				</entry>
+			</map>
 		</property>
 	</bean>
+	
+	<bean id="weight.mut.power.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${weight.mut.power.name}" />
+	</bean>
+	
+	<bean id="recur.prob.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${recur.prob.name}" />
+	</bean>
+	
+	<bean id="disjoint.coeff.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${disjoint.coeff.name}" />
+	</bean>
+	
+	<bean id="excess.coeff.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${excess.coeff.name}" />
+	</bean>
+	
+	<bean id="mutdiff.coeff.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${mutdiff.coeff.name}" />
+	</bean>
+	
+	<bean id="compat.threshold.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${compat.threshold.name}" />
+	</bean>
+	
+	<bean id="age.significance.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${age.significance.name}" />
+	</bean>
+	
+	<bean id="survival.thresh.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${survival.thresh.name}" />
+	</bean>
+	
+	<bean id="mutate.only.prob.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${mutate.only.prob.name}" />
+	</bean>
+	
+	<bean id="mutate.link.weights.prob.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${mutate.link.weights.prob.name}" />
+	</bean>
+	
+	<bean id="mutate.toggle.enable.prob.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${mutate.toggle.enable.prob.name}" />
+	</bean>
+	
+	<bean id="mutate.gene.reenable.prob.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${mutate.gene.reenable.prob.name}" />
+	</bean>
+	
+	<bean id="mutate.add.node.prob.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${mutate.add.node.prob.name}" />
+	</bean>
+	
+	<bean id="mutate.add.link.prob.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${mutate.add.link.prob.name}" />
+	</bean>
+	
+	<bean id="interspecies.mate.rate.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${interspecies.mate.rate.name}" />
+	</bean>
+	
+	<bean id="mate.multipoint.prob.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${mate.multipoint.prob.name}" />
+	</bean>
+	
+	<bean id="mate.multipoint.avg.prob.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${mate.multipoint.avg.prob.name}" />
+	</bean>
 
+	<bean id="mate.only.prob.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${mate.only.prob.name}" />
+	</bean>
+				
+	<bean id="recur.only.prob.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${recur.only.prob.name}" />
+	</bean>
+				
+	<bean id="dropoff.age.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${dropoff.age.name}" />
+	</bean>
+				
+	<bean id="newlink.tries.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${newlink.tries.name}" />
+	</bean>
+				
+	<bean id="print.every.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${print.every.name}" />
+	</bean>
+	
+	<bean id="babies.stolen.name" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
+		<property name="staticField" value="${babies.stolen.name}" />
+	</bean>
+			
 </beans>
