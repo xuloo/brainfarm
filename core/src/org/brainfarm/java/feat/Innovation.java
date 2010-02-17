@@ -90,8 +90,7 @@ public class Innovation implements IInnovation {
 	/**
 	 * Insert the method's description here. Creation date: (24/01/2002 8.09.28)
 	 */
-	public Innovation(int nin, int nout, double num1, double num2, int newid,
-			double oldinnov) {
+	public Innovation(int nin, int nout, double num1, double num2, int newid, double oldinnov) {
 		innovationType = InnovationType.NEW_NODE;
 		inputNodeId = nin;
 		outputNodeId = nout;

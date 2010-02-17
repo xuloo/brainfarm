@@ -14,9 +14,7 @@ import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
 import org.brainfarm.java.feat.api.params.IEvolutionConstants;
 import org.brainfarm.java.feat.api.params.IEvolutionParameters;
-import org.brainfarm.java.feat.api.params.IEvolutionParametersAware;
 import org.brainfarm.java.feat.comparators.CompareSpeciesByOriginalFitness;
-import org.brainfarm.java.feat.params.EvolutionParameters;
 import org.brainfarm.java.util.RandomUtils;
 
 /** A Population is a group of Organisms including their species. 

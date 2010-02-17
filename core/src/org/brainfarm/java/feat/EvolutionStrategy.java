@@ -31,6 +31,9 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 	public static String DEFAULT_LINK_CLASS_NAME = Link.class.getName();
 	public static String DEFAULT_GENOME_CLASS_NAME = Genome.class.getName();
 	public static String DEFAULT_ORGANISM_CLASS_NAME = Organism.class.getName();
+	public static String DEFAULT_SPECIES_CLASS_NAME = Species.class.getName();
+	public static String DEFAULT_GENE_CLASS_NAME = Gene.class.getName();
+	public static String DEFAULT_INNOVATION_CLASS_NAME = Innovation.class.getName();
 	
 	/**
 	 * Logger instance.
@@ -67,6 +70,9 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 	protected Class<?> linkClass;
 	protected Class<?> genomeClass;
 	protected Class<?> organismClass;
+	protected Class<?> speciesClass;
+	protected Class<?> geneClass;
+	protected Class<?> innovationClass;
 	protected Class<?> evaluatorClass;
 	
 	protected String nodeClassName;
@@ -74,6 +80,9 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 	protected String linkClassName;
 	protected String genomeClassName;
 	protected String organismClassName;
+	protected String speciesClassName;
+	protected String geneClassName;
+	protected String innovationClassName;
 
 	/** Logic Classes - encapsulate various parts of the FEAT algorithm */
 	protected ICrossoverStrategy crossoverStrategy;
@@ -104,17 +113,23 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 		reproductionStrategy 				= new DefaultReproductionStrategy(this);
 		speciationStrategy 					= new DefaultSpeciationStrategy(evolutionParameters);
 		
-		nodeClassName 		= (nodeClassName == null) 		? DEFAULT_NODE_CLASS_NAME 		: nodeClassName;
-		networkClassName 	= (networkClassName == null) 	? DEFAULT_NETWORK_CLASS_NAME 	: networkClassName;
-		linkClassName 		= (linkClassName == null) 		? DEFAULT_LINK_CLASS_NAME 		: linkClassName;
-		genomeClassName 	= (genomeClassName == null) 	? DEFAULT_GENOME_CLASS_NAME 	: genomeClassName;
-		organismClassName	= (organismClassName == null) 	? DEFAULT_ORGANISM_CLASS_NAME 	: organismClassName;
+		nodeClassName 			= (nodeClassName == null) 			? DEFAULT_NODE_CLASS_NAME 		: nodeClassName;
+		networkClassName 		= (networkClassName == null) 		? DEFAULT_NETWORK_CLASS_NAME 	: networkClassName;
+		linkClassName 			= (linkClassName == null) 			? DEFAULT_LINK_CLASS_NAME 		: linkClassName;
+		genomeClassName 		= (genomeClassName == null) 		? DEFAULT_GENOME_CLASS_NAME 	: genomeClassName;
+		organismClassName		= (organismClassName == null) 		? DEFAULT_ORGANISM_CLASS_NAME 	: organismClassName;
+		speciesClassName		= (speciesClassName == null) 		? DEFAULT_SPECIES_CLASS_NAME 	: speciesClassName;
+		geneClassName			= (geneClassName == null) 			? DEFAULT_GENE_CLASS_NAME 		: geneClassName;
+		innovationClassName		= (innovationClassName == null) 	? DEFAULT_INNOVATION_CLASS_NAME	: innovationClassName;
 		
 		nodeClass 		= null;
 		networkClass 	= null;
 		linkClass 		= null;
 		genomeClass 	= null;
 		organismClass 	= null;
+		speciesClass	= null;
+		geneClass		= null;
+		innovationClass = null;
 	}
 
 	/**
@@ -348,5 +363,61 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 	@Override
 	public IEvolutionParameters getEvolutionParameters() {
 		return evolutionParameters;
+	}
+
+	@Override
+	public Class<?> getSpeciesClass() {
+		
+		if (speciesClass == null) {
+			try {
+				return speciesClass = classLoader.loadClass(speciesClassName);
+			} catch (Exception e) {
+				System.out.println("Problem creating class for string " + speciesClassName);
+			}
+		}
+		
+		return speciesClass;
+	}
+
+	@Override
+	public void setSpeciesClassName(String speciesClassName) {
+		this.speciesClassName = speciesClassName;
+	}
+	
+	@Override
+	public Class<?> getGeneClass() {
+		
+		if (geneClass == null) {
+			try {
+				return geneClass = classLoader.loadClass(geneClassName);
+			} catch (Exception e) {
+				System.out.println("Problem creating class for string " + geneClassName);
+			}
+		}
+		
+		return geneClass;
+	}
+
+	@Override
+	public void setGeneClassName(String geneClassName) {
+		this.geneClassName = geneClassName;
+	}
+
+	@Override
+	public Class<?> getInnovationClass() {
+		if (innovationClass == null) {
+			try {
+				return innovationClass = classLoader.loadClass(innovationClassName);
+			} catch (Exception e) {
+				System.out.println("Problem creating class for string " + innovationClassName);
+			}
+		}
+		
+		return innovationClass;
+	}
+
+	@Override
+	public void setInnovationClassName(String innovationClassName) {
+		this.innovationClassName = innovationClassName;
 	}
 }

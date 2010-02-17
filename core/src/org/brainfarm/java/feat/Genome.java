@@ -9,10 +9,8 @@ import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.ILink;
 import org.brainfarm.java.feat.api.INetwork;
 import org.brainfarm.java.feat.api.INode;
-import org.brainfarm.java.feat.api.params.IEvolutionConstants;
 import org.brainfarm.java.feat.api.params.IEvolutionParameters;
 import org.brainfarm.java.feat.operators.FeatFactory;
-import org.brainfarm.java.feat.params.EvolutionParameters;
 
 /**
  * The base implementation of a Genome, it contains

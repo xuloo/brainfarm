@@ -2,8 +2,6 @@ package org.brainfarm.java.feat.operators;
 
 import java.util.ArrayList;
 
-import org.brainfarm.java.feat.Genome;
-import org.brainfarm.java.feat.Organism;
 import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.IOrganism;

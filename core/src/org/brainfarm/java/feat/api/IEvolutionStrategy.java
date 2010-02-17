@@ -52,4 +52,13 @@ public interface IEvolutionStrategy {
 
 	public abstract Class<?> getOrganismClass();
 	public abstract void setOrganismClassName(String networkClassName);
+	
+	public abstract Class<?> getSpeciesClass();
+	public abstract void setSpeciesClassName(String speciesClassName);
+	
+	public abstract Class<?> getGeneClass();
+	public abstract void setGeneClassName(String geneClassName);
+	
+	public abstract Class<?> getInnovationClass();
+	public abstract void setInnovationClassName(String innovationClassName);
 }

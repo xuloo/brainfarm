@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.brainfarm.java.feat.Genome;
-import org.brainfarm.java.feat.Species;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
@@ -44,7 +42,7 @@ public class DefaultSpeciationStrategy implements ISpeciationStrategy {
 
 			// if list species is empty , create the first species!
 			if (species.isEmpty()) {
-				newspecies = new Species(++counter); // create a new specie
+				newspecies = FeatFactory.newSpecies(++counter); // create a new specie
 				newspecies.setEvolutionParameters(evolutionParameters);
 				
 				species.add(newspecies); // add this species to list of species
@@ -79,7 +77,7 @@ public class DefaultSpeciationStrategy implements ISpeciationStrategy {
 
 				// if no found species compatible , create specie
 				if (!done) {
-					newspecies = new Species(++counter); // create a new specie
+					newspecies = FeatFactory.newSpecies(++counter); // create a new specie
 					newspecies.setEvolutionParameters(evolutionParameters);
 					
 					species.add(newspecies); // add this species to list of
