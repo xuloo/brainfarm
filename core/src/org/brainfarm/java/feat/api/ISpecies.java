@@ -2,7 +2,10 @@ package org.brainfarm.java.feat.api;
 
 import java.util.List;
 
-public interface ISpecies {
+import org.brainfarm.java.feat.api.params.IEvolutionConstants;
+import org.brainfarm.java.feat.api.params.IEvolutionParametersAware;
+
+public interface ISpecies extends IEvolutionConstants, IEvolutionParametersAware {
 
 	int getId();
 	

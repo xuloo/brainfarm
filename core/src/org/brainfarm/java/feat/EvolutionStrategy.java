@@ -8,6 +8,7 @@ import org.brainfarm.java.feat.api.operators.IMutationStrategy;
 import org.brainfarm.java.feat.api.operators.IPopulationInitializationStrategy;
 import org.brainfarm.java.feat.api.operators.IReproductionStrategy;
 import org.brainfarm.java.feat.api.operators.ISpeciationStrategy;
+import org.brainfarm.java.feat.api.params.IEvolutionParameters;
 import org.brainfarm.java.feat.operators.DefaultCrossoverStrategy;
 import org.brainfarm.java.feat.operators.DefaultMutationStrategy;
 import org.brainfarm.java.feat.operators.DefaultPopulationInitializationStrategy;
@@ -24,6 +25,12 @@ import org.brainfarm.java.feat.operators.DefaultSpeciationStrategy;
  *
  */
 public class EvolutionStrategy implements IEvolutionStrategy {
+	
+	public static String DEFAULT_NODE_CLASS_NAME = Node.class.getName();
+	public static String DEFAULT_NETWORK_CLASS_NAME = Network.class.getName();
+	public static String DEFAULT_LINK_CLASS_NAME = Link.class.getName();
+	public static String DEFAULT_GENOME_CLASS_NAME = Genome.class.getName();
+	public static String DEFAULT_ORGANISM_CLASS_NAME = Organism.class.getName();
 	
 	/**
 	 * Logger instance.
@@ -47,6 +54,12 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 	 * Evaluator for IOrganisms in the current experiment
 	 */
 	protected IOrganismEvaluator organismEvaluator;
+	
+	/**
+	 * Evolution Parameters that will be used for all the objects
+	 * retrieved from this factory.
+	 */
+	protected IEvolutionParameters evolutionParameters;
 
 	/** Data Classes - the data manipulated by the FEAT algorithm*/
 	protected Class<?> nodeClass;
@@ -75,35 +88,32 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 	 * from the Experiment's Spring Context file when the experiment is loaded.
 	 */
 	public EvolutionStrategy() {
-		reset();
+
 	}
 	
 	/**
 	 * Initialises the default properties for this factory.
 	 */
-	public void reset() {
+	public void refresh() {
 		
 		log.debug("Resetting EvolutionStrategy Defaults");
 		
-		crossoverStrategy = new DefaultCrossoverStrategy();
-		mutationStrategy = new DefaultMutationStrategy();
+		crossoverStrategy = new DefaultCrossoverStrategy(evolutionParameters);
+		mutationStrategy = new DefaultMutationStrategy(evolutionParameters);
 		populationInitializationStrategy = new DefaultPopulationInitializationStrategy(this);
 		reproductionStrategy = new DefaultReproductionStrategy(this);
-		speciationStrategy = new DefaultSpeciationStrategy();
+		speciationStrategy = new DefaultSpeciationStrategy(evolutionParameters);
 		
-		nodeClassName = Node.class.getName();
+		nodeClassName = (nodeClassName == null) ? DEFAULT_NODE_CLASS_NAME : nodeClassName;
+		networkClassName = (networkClassName == null) ? DEFAULT_NETWORK_CLASS_NAME : networkClassName;
+		linkClassName = (linkClassName == null) ? DEFAULT_LINK_CLASS_NAME : linkClassName;
+		genomeClassName = (genomeClassName == null) ? DEFAULT_GENOME_CLASS_NAME : genomeClassName;
+		organismClassName = (organismClassName == null) ? DEFAULT_ORGANISM_CLASS_NAME : organismClassName;
+		
 		nodeClass = null;
-		
-		networkClassName = Network.class.getName();
 		networkClass = null;
-		
-		linkClassName = Link.class.getName();
 		linkClass = null;
-		
-		genomeClassName = Genome.class.getName();
 		genomeClass = null;
-		
-		organismClassName = Organism.class.getName();
 		organismClass = null;
 	}
 
@@ -214,11 +224,17 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 		this.networkClassName = networkClassName;
 	}
 
+	private boolean printed = false;
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public Class<?> getNodeClass() {
+		if (!printed) {
+			printed = true;
+			System.out.println("Getting node class " + nodeClass + " " + nodeClassName);
+		}
 		
 		if (nodeClass == null) {
 			try {
@@ -237,6 +253,7 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 	@Override
 	public void setNodeClassName(String nodeClassName) {
 		this.nodeClassName = nodeClassName;
+		System.out.println("SEtting node class name " + this.nodeClassName);
 	}
 
 	/**
@@ -326,5 +343,17 @@ public class EvolutionStrategy implements IEvolutionStrategy {
 	@Override
 	public void setSpeciationStrategy(ISpeciationStrategy speciationStrategy) {
 		this.speciationStrategy = speciationStrategy;
+	}
+
+	@Override
+	public void setEvolutionParameters(IEvolutionParameters evolutionParameters) {
+		this.evolutionParameters = evolutionParameters;
+		
+		refresh();
+	}
+
+	@Override
+	public IEvolutionParameters getEvolutionParameters() {
+		return evolutionParameters;
 	}
 }

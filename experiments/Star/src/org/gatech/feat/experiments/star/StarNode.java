@@ -9,6 +9,10 @@ public class StarNode extends Node implements IVisualizableNode{
 
 	public Color nodeColor;
 	
+	public StarNode() {
+		
+	}
+	
 	public StarNode(INode n){
 		super(n);
 	}

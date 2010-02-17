@@ -12,6 +12,9 @@ import org.brainfarm.java.feat.api.IInnovation;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
+import org.brainfarm.java.feat.api.params.IEvolutionConstants;
+import org.brainfarm.java.feat.api.params.IEvolutionParameters;
+import org.brainfarm.java.feat.api.params.IEvolutionParametersAware;
 import org.brainfarm.java.feat.comparators.CompareSpeciesByOriginalFitness;
 import org.brainfarm.java.feat.params.EvolutionParameters;
 import org.brainfarm.java.util.RandomUtils;
@@ -21,9 +24,11 @@ import org.brainfarm.java.util.RandomUtils;
  * @author dtuohy, orig. Ugo Vierucci
  * @author Trevor Burton [trevor@flashmonkey.org]
  */
-public class Population implements IPopulation {
+public class Population implements IPopulation, IEvolutionConstants {
 	
 	private static Logger logger = Logger.getLogger(Population.class);
+	
+	protected IEvolutionParameters evolutionParameters;
 	
 	/** The organisms in the Population */
 	private List<IOrganism> organisms;
@@ -128,7 +133,7 @@ public class Population implements IPopulation {
 		//int one_fifth_stolen = 0;
 		//int one_tenth_stolen = 0;
 		int size_of_curr_specie = 0;
-		int NUM_STOLEN = EvolutionParameters.babies_stolen; // Number of babies to steal
+		int NUM_STOLEN = evolutionParameters.getIntParameter(BABIES_STOLEN); // Number of babies to steal
 		// al momento NUM_STOLEN=1
 
 		//ISpecies _specie = null;
@@ -266,7 +271,7 @@ public class Population implements IPopulation {
 
 		// Check for stagnation- if there is stagnation, perform delta-coding
 
-		if (highest_last_changed >= EvolutionParameters.dropoff_age + 5) {
+		if (highest_last_changed >= evolutionParameters.getIntParameter(DROPOFF_AGE) + 5) {
 			// ------------------ block delta coding
 			// ----------------------------
 			System.out.print("\n+  <PERFORMING DELTA CODING>");
@@ -309,7 +314,7 @@ public class Population implements IPopulation {
 			// stolen > 0) -------------------------
 			// System.out.print("\n   Starting with NUM_STOLEN = "+NUM_STOLEN);
 
-			if (EvolutionParameters.babies_stolen > 0) {
+			if (evolutionParameters.getIntParameter(BABIES_STOLEN) > 0) {
 				ISpecies _specie = null;
 				// Take away a constant number of expected offspring from the
 				// worst few species
@@ -342,9 +347,9 @@ public class Population implements IPopulation {
 				// They get , in order, 1/5 1/5 and 1/10 of the stolen babies
 
 				int tb_four[] = new int[3];
-				tb_four[0] = EvolutionParameters.babies_stolen / 5;
+				tb_four[0] = evolutionParameters.getIntParameter(BABIES_STOLEN) / 5;
 				tb_four[1] = tb_four[0];
-				tb_four[2] = EvolutionParameters.babies_stolen / 10;
+				tb_four[2] = evolutionParameters.getIntParameter(BABIES_STOLEN) / 10;
 
 				boolean done = false;
 				Iterator<ISpecies> itr_specie = sorted_species.iterator();
@@ -352,7 +357,7 @@ public class Population implements IPopulation {
 
 				while (!done && itr_specie.hasNext()) {
 					_specie = ((Species) itr_specie.next());
-					if (_specie.lastImproved() <= EvolutionParameters.dropoff_age) {
+					if (_specie.lastImproved() <= evolutionParameters.getIntParameter(DROPOFF_AGE)) {
 						if (i_block < 3) {
 							if (stolen_babies >= tb_four[i_block]) {
 								_specie.getOrganisms().get(0).setSuperChampOffspring(tb_four[i_block]);
@@ -667,5 +672,10 @@ public class Population implements IPopulation {
 
 	public void setHighest_last_changed(int highest_last_changed) {
 		this.highest_last_changed = highest_last_changed;
+	}
+
+	@Override
+	public void setEvolutionParameters(IEvolutionParameters evolutionParameters) {
+		this.evolutionParameters = evolutionParameters;
 	}
 }

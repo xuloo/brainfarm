@@ -1,47 +1,53 @@
 package org.brainfarm.java.feat.params;
 
+import org.brainfarm.java.feat.api.params.ICastingEvolutionParameter;
+import org.brainfarm.java.feat.api.params.IEvolutionParameter;
 import org.red5.io.amf3.IDataInput;
 import org.red5.io.amf3.IDataOutput;
 import org.red5.io.amf3.IExternalizable;
+import org.red5.server.AttributeStore;
 
-public abstract class EvolutionParameter implements IExternalizable {
+public class EvolutionParameter extends AttributeStore implements IEvolutionParameter, ICastingEvolutionParameter, IExternalizable {
 
-	protected String name;
-	
-	protected String description;
-	
-	public EvolutionParameter() {
-	}
-	
 	public String getName() {
-		return name;
+		return getStringAttribute(NAME);
 	}
 	
-	public void setName(String key) {
-		this.name = key;
+	public void setName(String name) {
+		setAttribute(NAME, name);
 	}
 	
 	public String getDescription() {
-		return description;
+		return getStringAttribute(DESCRIPTION);
 	}
 	
 	public void setDescription(String description) {
-		this.description = description;
+		setAttribute(DESCRIPTION, description);
 	}
 	
-	public abstract String getVal();
+	public Object getValue() {
+		return getAttribute(VALUE);
+	}
 	
-	public abstract void setVal(String val);
+	public void setValue(Object value) {
+		setAttribute(VALUE, value);
+	}
 	
-	public abstract void set(EvolutionParameters ep);
+	public Integer getIntValue() {
+		return getIntAttribute(VALUE);
+	}
+	
+	public Double getDoubleValue() {
+		return getDoubleAttribute(VALUE);
+	}
 	
 	public void readExternal(IDataInput input) {
-		name = input.readUTF();
-		description = input.readUTF();
+		setName(input.readUTF());
+		setDescription(input.readUTF());
 	}
 	
 	public void writeExternal(IDataOutput output) {
-		output.writeUTF(name);
-		output.writeUTF(description);
+		output.writeUTF(getName());
+		output.writeUTF(getDescription());
 	}
 }

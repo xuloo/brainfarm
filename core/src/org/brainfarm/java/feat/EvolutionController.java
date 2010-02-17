@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.brainfarm.java.feat.api.IEvolutionContext;
 import org.brainfarm.java.feat.api.IEvolutionController;
 import org.brainfarm.java.feat.api.IExperiment;
+import org.brainfarm.java.feat.api.params.IEvolutionParameters;
 import org.brainfarm.java.feat.params.EvolutionParameters;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -24,8 +25,8 @@ public class EvolutionController implements IEvolutionController, Constants {
 	
 	public void loadDefaultParameters() {
 		ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{NEAT_CONTEXT_FILENAME});
-		//EvolutionParameters neat = (EvolutionParameters)appContext.getBean("neat");
-		//context.setNeat(neat);
+		IEvolutionParameters evolutionParameters = (EvolutionParameters)appContext.getBean(DEFAULT_EVOLUTION_PARAMETERS_BEAN_NAME);
+		context.setEvolutionParameters(evolutionParameters);
 	}
 
 	@Override

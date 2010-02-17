@@ -2,7 +2,9 @@ package org.brainfarm.java.feat.api;
 
 import java.util.List;
 
-public interface IPopulation {
+import org.brainfarm.java.feat.api.params.IEvolutionParametersAware;
+
+public interface IPopulation extends IEvolutionParametersAware {
 	
 	void init();
 	

@@ -31,6 +31,9 @@ public class Experiment implements IExperiment {
 
 	@Override
 	public IEvolution evolution() {
+		System.out.println("genome " + genome + " strategy " + evolutionStrategy);
+		genome.setEvolutionParameters(evolutionStrategy.getEvolutionParameters());
+		population.setEvolutionParameters(evolutionStrategy.getEvolutionParameters());
 		population.init();
 		return new Evolution(evolutionStrategy, population, runs, epochs);
 	}

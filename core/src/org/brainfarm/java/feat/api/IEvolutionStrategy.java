@@ -5,6 +5,7 @@ import org.brainfarm.java.feat.api.operators.IMutationStrategy;
 import org.brainfarm.java.feat.api.operators.IPopulationInitializationStrategy;
 import org.brainfarm.java.feat.api.operators.IReproductionStrategy;
 import org.brainfarm.java.feat.api.operators.ISpeciationStrategy;
+import org.brainfarm.java.feat.api.params.IEvolutionParameters;
 
 /**
  * 
@@ -15,6 +16,9 @@ import org.brainfarm.java.feat.api.operators.ISpeciationStrategy;
 public interface IEvolutionStrategy {
 
 	public abstract void setClassLoader(ClassLoader classLoader);
+	
+	public abstract IEvolutionParameters getEvolutionParameters();
+	public abstract void setEvolutionParameters(IEvolutionParameters evolutionParameters);
 	
 	public abstract IOrganismEvaluator getOrganismEvaluator();
 	public abstract void setOrganismEvaluator(IOrganismEvaluator organismEvaluator);
