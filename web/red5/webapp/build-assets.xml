@@ -1,0 +1,10 @@
+<!-- Build assets for library1.  Note that all paths are defined
+     relative to ${multi.dir} since we don't know what the current
+     directory is in which Ant is running. -->
+<project name="brainfarm.server.assets">
+    <dirname property="brainfarm.server.assets.dir" file="${ant.file.brainfarm.server.assets}"/>
+
+    <!-- Define JAR exported by this library. -->
+    <property name="brainfarm.server.jar" location="${build.stage.dir}/${webapp.lib.dir}/${ant.project.name}-${version}.jar"/>
+
+</project>

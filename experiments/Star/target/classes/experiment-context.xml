@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+	 
+	<bean id="experiment" class="org.brainfarm.java.feat.Experiment">
+		<property name="runs" value="1"/>
+		<property name="epochs" value="25"/>
+		<property name="population" ref="population"/>
+		<property name="evolutionStrategy" ref="evolutionStrategy"/>
+		<property name="genome" ref="genome"/>
+	</bean>
+	
+	<bean id="evolutionStrategy" class="org.brainfarm.java.feat.EvolutionStrategy">
+		<property name="organismEvaluator" ref="evaluator"/>
+		<property name="nodeClassName" value="org.gatech.feat.experiments.star.StarNode"/>
+	</bean>
+	
+	<bean id="evaluator" class="org.gatech.feat.experiments.star.StarOrganismEvaluator"/>
+	
+	<bean id="population" class="org.brainfarm.java.feat.Population">
+		<constructor-arg ref="evolutionStrategy" index="0" type="org.brainfarm.java.feat.api.IEvolutionStrategy"/>
+		<constructor-arg ref="genome" index="1" type="org.brainfarm.java.feat.api.IGenome"/>
+		<constructor-arg value="500" index="2"/>
+	</bean>
+	
+	<bean id="genome" class="org.brainfarm.java.feat.Genome">
+ 		<property name="nodes">
+ 			<list value-type="org.gatech.feat.experiments.star.StarNode">
+ 				<ref bean="node_1"/>
+ 				<ref bean="node_2"/>
+ 			</list>
+ 		</property>
+ 		<property name="genes">
+ 			<list value-type="org.brainfarm.java.feat.Gene">
+ 				<ref bean="gene_1"/>
+ 			</list>
+ 		</property>
+ 	</bean>
+	
+	<bean id="node_1" class="org.gatech.feat.experiments.star.StarNode">
+		<property name="id" value="1"/>
+	</bean>
+	
+	<bean id="node_2" class="org.gatech.feat.experiments.star.StarNode">
+		<property name="id" value="2"/>
+	</bean>
+	
+	<bean id="gene_1" class="org.brainfarm.java.feat.Gene">
+		<property name="innovationNumber" value="1"/>
+		<property name="mutationNumber" value="0"/>
+		<property name="enabled" value="true"/>
+		<property name="link">
+			<bean class="org.brainfarm.java.feat.Link">
+				<constructor-arg value="0"/>
+				<constructor-arg ref="node_1"/>
+				<constructor-arg ref="node_2"/>
+				<constructor-arg value="false"/>
+			</bean>
+		</property>
+	</bean>
+	
+</beans>
