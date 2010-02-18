@@ -1,0 +1,67 @@
+<project name="brainfarm-webapp" default="build">
+    <import file="build-imports.xml"/>
+
+    <path id="javac.lib.path">
+		<pathelement location="${red5.jar}" />
+    	<pathelement location="${jneat.jar}"/>
+	</path>
+
+    <!-- targets -->
+    <target name="build" depends="init,java-classes" description="Build the library"/>
+	
+	<target name="stage" depends="build" description="stage the application">
+		
+		<!-- Copy the 'WebContent' directory into the staging directory -->
+		<copy todir="${build.stage.dir}">
+			<fileset dir="WebContent" />
+		</copy>
+			
+		<!-- Create a jar file from the compiled classes and place it in the WEB-INF/lib directory -->
+		<jar jarfile="${brainfarm.server.jar}" basedir="${build.javac.dir}"/>
+		
+		<!-- 
+		copy the experiment .jar files over to the /experiments directory 
+		so they're available to the webapp. 
+		-->
+		<copy todir="${red5.webapps.dir}/${ant.project.name}/experiments" file="${xor.jar}"/>
+		<copy todir="${red5.webapps.dir}/${ant.project.name}/experiments" file="${star.jar}"/>
+
+	</target>
+	
+	<target name="dist" depends="stage">
+		<!--war destfile="${build.dist.dir}/${project.war}" basedir="${build.stage.dir}" /-->
+
+		<mkdir dir="${build.dist.dir}/${ant.project.name}" />
+		<delete dir="${build.dist.dir}/${ant.project.name}" />
+		<mkdir dir="${build.dist.dir}/${ant.project.name}" />
+		
+		<copy todir="${build.dist.dir}/${ant.project.name}">
+			<fileset dir="${build.stage.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		
+	</target>
+	
+	<target name="deploy" depends="undeploy,dist" description="Deploy the application">
+        <!--copy todir="${red5.webapps.dir}" file="${build.dist.dir}/${project.war}"/-->
+		<copy todir="${red5.webapps.dir}" overwrite="true" includeemptydirs="true">
+			<fileset dir="${build.dist.dir}">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+
+		<!-- 
+		copy jars the webapp requires at runtime into the WEB-INF/lib directory 
+		-->
+		<copy todir="${red5.webapps.dir}/${ant.project.name}/${webapp.lib.dir}" file="${jneat.jar}" overwrite="true"/>
+		<copy todir="${red5.webapps.dir}/${ant.project.name}/${webapp.lib.dir}" file="${jcl.jar}" overwrite="true"/>
+		<copy todir="${red5.webapps.dir}/${ant.project.name}/${webapp.lib.dir}" file="${log4j.jar}" overwrite="true"/>
+
+    </target>
+	
+	<target name="undeploy" description="cleans the deployed result of this build">
+		<delete dir="${red5.webapps.dir}/${ant.project.name}" />
+	</target>
+	
+</project>
