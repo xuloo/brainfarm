@@ -19,7 +19,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>swc</packaging>
 
-  <name>Brainfarm Flex core</name>
+  <name>Flex Core</name>
 
   <build>
     <sourceDirectory>src/main/flex</sourceDirectory>

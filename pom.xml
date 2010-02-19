@@ -7,6 +7,8 @@
 	<version>1.0-SNAPSHOT</version>
 	<artifactId>brainfarm</artifactId>
 	<packaging>pom</packaging>
+	
+	<name>Brain Farm</name>
   
   <modules>
     <module>core</module>

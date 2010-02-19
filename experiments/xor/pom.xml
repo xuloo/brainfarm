@@ -14,7 +14,7 @@
   <artifactId>xor-experiment</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>XOR</name>
+  <name>XOR Experiment</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
