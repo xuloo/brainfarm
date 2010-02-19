@@ -9,5 +9,10 @@ package org.brainfarm.flex.mvcs.model
 		
 		[Bindable]
 		public var neatParams:ArrayList;
+		
+		public function BrainFarmModel() 
+		{
+			
+		}
 	}
 }

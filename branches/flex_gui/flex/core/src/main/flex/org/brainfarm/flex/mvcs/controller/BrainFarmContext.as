@@ -8,5 +8,10 @@ package org.brainfarm.flex.mvcs.controller
 		public var model:BrainFarmModel;
 		
 		public var controller:IBrainFarmController;
+		
+		public function BrainFarmContext()
+		{
+			
+		}
 	}
 }

@@ -1,7 +1,0 @@
-<project name="BrainFarmFlex.assets">
-    <dirname property="BrainFarmFlex.assets.dir" file="${ant.file.BrainFarmFlex.assets}"/>
-
-    <!-- Define SWC exported by this library. -->
-    <property name="brainfarm.flex.gui.swf" location="${BrainFarmFlex.assets.dir}/${build.mxmlc.dir}/${project.swf}"/>
-
-</project>

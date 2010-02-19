@@ -10,6 +10,11 @@ package org.brainfarm.flex.mvcs.model.vo
 		public var description:String = "";
 		public var value:*;
 		
+		public function NeatParameter() 
+		{
+			
+		}
+		
 		public function readExternal(input:IDataInput):void
 		{
 			name = input.readUTF();
