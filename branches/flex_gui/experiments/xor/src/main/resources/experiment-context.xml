@@ -7,7 +7,7 @@
 	<bean id="experiment" class="org.brainfarm.java.feat.Experiment">
 		<property name="genome" ref="genome"/>
 		<property name="runs" value="1"/>
-		<property name="epochs" value="${epoch}"/>
+		<property name="epochs" value="40"/>
 		<property name="population" ref="population"/>
 		<property name="evolutionStrategy" ref="evolutionStrategy"/>
 	</bean>
@@ -19,13 +19,13 @@
 				<property name="numberOfInputs" value="2"/>
 				<property name="numberOfOutputs" value="1"/>
 				<property name="numberOfSamples" value="4"/>
-				<property name="inputImpl">
+				<property name="input">
 					<bean class="org.brainfarm.feat.experiments.xor.Input"/>
 				</property>
-				<property name="outputImpl">
+				<property name="output">
 					<bean class="org.brainfarm.feat.experiments.xor.Output"/>
 				</property>
-				<property name="fitnessImpl">
+				<property name="fitness">
 					<bean class="org.brainfarm.feat.experiments.xor.Fitness"/>
 				</property>
 			</bean>

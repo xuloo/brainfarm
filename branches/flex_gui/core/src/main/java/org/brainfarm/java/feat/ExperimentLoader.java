@@ -68,11 +68,11 @@ public class ExperimentLoader implements Constants {
 	private static IExperiment createExperimentBean(ClassPathXmlApplicationContext cxt, String path) {		
 				
 		InputStream is = classLoader.getResourceAsStream("experiment-parameters.properties");
-		
+		//System.out.println("is " + is);
 		// Check if there's a properties file for the context - if there is post process the object factory with it.
-		File propertiesFile = new File(path + "/experiment-parameters.properties");
+		//File propertiesFile = new File(path + "/experiment-parameters.properties");
 
-		if (propertiesFile.exists()) {
+		if (is != null) {
 			PropertyPlaceholderConfigurer cfg = new PropertyPlaceholderConfigurer();
 			cfg.setLocation(new InputStreamResource(is));
 			cxt.addBeanFactoryPostProcessor(cfg);
