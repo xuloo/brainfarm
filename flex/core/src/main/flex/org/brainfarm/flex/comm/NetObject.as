@@ -6,9 +6,8 @@ package org.brainfarm.flex.comm
 	import flash.utils.IDataOutput;
 	import flash.utils.IExternalizable;
 	
-	import org.as3commons.reflect.ClassUtils;
+	import org.as3commons.lang.ClassUtils;
 	import org.brainfarm.flex.api.connection.IRegisteredClass;
-	import org.springextensions.actionscript.utils.StringUtils;
 
 	public class NetObject extends EventDispatcher implements IExternalizable, IRegisteredClass
 	{
@@ -50,22 +49,22 @@ package org.brainfarm.flex.comm
 		public function get aliasName():String
 		{
 			// If we don't already have the alias name cached.
-			if (!_aliasName)
+			/*if (!_aliasName)
 			{
 				// Create and cache it.
 				_aliasName = createAliasName();
-			}
+			}*/
 
 			return _aliasName;
 		}
 		
-		protected function createAliasName():String
+		/*protected function createAliasName():String
 		{
 			var className:String = ClassUtils.getFullyQualifiedName(ClassUtils.forInstance(this), true);
 			var beginIndex:int = className.indexOf("flex.");
 
 			return StringUtils.replaceAt(className, "java", beginIndex, beginIndex + "flex".length);
-		}
+		}*/
 		
 		public function NetObject()
 		{

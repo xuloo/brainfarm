@@ -1,3 +1,0 @@
-<project name="brainfarm-flex-gui.imports">
-    <import file="../../build-imports.xml"/>
-</project>

@@ -4,7 +4,7 @@ package org.brainfarm.flex.mvcs.model.vo
 	import flash.utils.IDataInput;
 	import flash.utils.IDataOutput;
 	
-	import org.as3commons.reflect.ClassUtils;
+	import org.as3commons.lang.ClassUtils;
 
 	public class NeatIntParameter extends NeatParameter
 	{

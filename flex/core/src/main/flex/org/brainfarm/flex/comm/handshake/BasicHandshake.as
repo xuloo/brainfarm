@@ -5,7 +5,7 @@ package org.brainfarm.flex.comm.handshake
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
 	
-	import org.as3commons.reflect.ClassUtils;
+	import org.as3commons.lang.ClassUtils;
 	import org.brainfarm.flex.api.connection.IClient;
 	import org.brainfarm.flex.api.connection.IHandshake;
 	import org.brainfarm.flex.api.connection.INetConnection;

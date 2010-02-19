@@ -1,3 +1,0 @@
-<project name="neat.assets">
-    <dirname property="neat.assets.dir" file="${ant.file.feat.assets}"/>
-</project>

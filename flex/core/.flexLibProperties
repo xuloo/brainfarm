@@ -1,53 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="false" version="3">
   <includeClasses>
-    <classEntry path="org.brainfarm.flex.api.connection.IClient"/>
-    <classEntry path="org.brainfarm.flex.api.connection.IHandshake"/>
-    <classEntry path="org.brainfarm.flex.api.connection.INetConnection"/>
-    <classEntry path="org.brainfarm.flex.api.connection.ISharedObject"/>
-    <classEntry path="org.brainfarm.flex.api.connection.messages.IGroupMessage"/>
-    <classEntry path="org.brainfarm.flex.api.connection.messages.IMessage"/>
-    <classEntry path="org.brainfarm.flex.api.connection.messages.IMessageProcessingService"/>
-    <classEntry path="org.brainfarm.flex.api.connection.messages.IPlayerMessage"/>
-    <classEntry path="org.brainfarm.flex.comm.NetObject"/>
-    <classEntry path="org.brainfarm.flex.comm.Red5Connection"/>
-    <classEntry path="org.brainfarm.flex.comm.RemoteSharedObject"/>
-    <classEntry path="org.brainfarm.flex.comm.client.BasicClient"/>
-    <classEntry path="org.brainfarm.flex.comm.client.enum.ClientState"/>
-    <classEntry path="org.brainfarm.flex.comm.events.Red5Event"/>
-    <classEntry path="org.brainfarm.flex.comm.handshake.BasicHandshake"/>
-    <classEntry path="org.brainfarm.flex.comm.handshake.ConnectToServerOperation"/>
-    <classEntry path="org.brainfarm.flex.comm.handshake.EchoNetObjectOperation"/>
-    <classEntry path="org.brainfarm.flex.comm.messages.BaseMessage"/>
-    <classEntry path="org.brainfarm.flex.comm.messages.BasePlayerMessage"/>
-    <classEntry path="org.brainfarm.flex.comm.messages.BatchMessage"/>
-    <classEntry path="org.brainfarm.flex.comm.messages.RequestIdMessage"/>
-    <classEntry path="org.brainfarm.flex.comm.messages.SendMessageOperation"/>
-    <classEntry path="org.brainfarm.flex.mvcs.controller.BrainFarmContext"/>
-    <classEntry path="org.brainfarm.flex.mvcs.controller.IBrainFarmController"/>
-    <classEntry path="org.brainfarm.flex.mvcs.model.BrainFarmModel"/>
-    <classEntry path="org.brainfarm.flex.mvcs.model.vo.NeatParameter"/>
-    <classEntry path="org.brainfarm.flex.mvcs.service.IBrainFarmService"/>
-    <classEntry path="org.brainfarm.flex.mvcs.service.remote.AbstractRemoteOperation"/>
-    <classEntry path="org.brainfarm.flex.mvcs.service.remote.RemoteBrainFarmService"/>
-    <classEntry path="org.brainfarm.flex.mvcs.service.remote.RemoteConnectionOperation"/>
-    <classEntry path="org.brainfarm.flex.mvcs.service.remote.RemoteSaveNeatParametersOperation"/>
-    <classEntry path="org.brainfarm.flex.mvcs.view.connection.ConnectionPanel"/>
-    <classEntry path="org.brainfarm.flex.mvcs.view.connection.ConnectionPanelView"/>
     <classEntry path="org.brainfarm.flex.BrainFarmFlexTestSuite"/>
-    <classEntry path="org.brainfarm.flex.mvcs.model.vo.NeatIntParameter"/>
-    <classEntry path="org.brainfarm.flex.mvcs.view.neatparams.NeatParamsPanel"/>
-    <classEntry path="org.brainfarm.flex.mvcs.view.neatparams.NeatParamsPanelView"/>
-    <classEntry path="org.brainfarm.flex.mvcs.service.remote.GetAvailableExperimentsMessage"/>
-    <classEntry path="org.brainfarm.flex.mvcs.view.experiments.ExperimentSelectionPanel"/>
-    <classEntry path="org.brainfarm.flex.mvcs.view.experiments.ExperimentSelectionPanelView"/>
-    <classEntry path="org.brainfarm.flex.mvcs.service.remote.LoadExperimentMessage"/>
-    <classEntry path="org.brainfarm.flex.mvcs.model.vo.ExperimentEntry"/>
-    <classEntry path="org.brainfarm.flex.mvcs.view.experiments.ExperimentListItemRenderer"/>
-    <classEntry path="org.brainfarm.flex.mvcs.service.remote.RunExperimentMessage"/>
-    <classEntry path="org.brainfarm.flex.mvcs.view.resultsummary.ResultSummaryPanel"/>
-    <classEntry path="org.brainfarm.flex.mvcs.view.resultsummary.ResultSummaryPanelView"/>
-    <classEntry path="org.brainfarm.flex.mvcs.service.remote.ExperimentResultMessage"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

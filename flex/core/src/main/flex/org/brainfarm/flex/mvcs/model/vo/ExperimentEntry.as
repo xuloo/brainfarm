@@ -5,7 +5,7 @@ package org.brainfarm.flex.mvcs.model.vo
 	import flash.utils.IDataOutput;
 	import flash.utils.IExternalizable;
 	
-	import org.as3commons.reflect.ClassUtils;
+	import org.as3commons.lang.ClassUtils;
 	
 	public class ExperimentEntry implements IExternalizable
 	{
