@@ -28,7 +28,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>swf</packaging>
 
-  <name>Brainfarm Flex GUI</name>
+  <name>Flex GUI</name>
 
   <build>
     <sourceDirectory>src/main/flex</sourceDirectory>
