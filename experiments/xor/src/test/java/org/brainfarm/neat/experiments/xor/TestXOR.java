@@ -36,7 +36,7 @@ public class TestXOR {
 		//load experiment
 		IEvolutionController controller = new TestXorController(context);
 		controller.loadDefaultParameters();
-		controller.loadExperiment();
+		controller.loadExperiment("src/main/resources");
 
 		//run experiment
 		TestEvolutionListener listener = new TestEvolutionListener();
@@ -52,7 +52,7 @@ public class TestXOR {
 		//sample and validate results of evolution
 		List<Double> maxFitnesses = context.getEvolution().getMaxFitnessEachEpoch();
 		for(double d : maxFitnesses)
-			System.out.println(d + ", ");
+			System.out.print(d + ", ");
 		
 		Assert.assertEquals(6.178315187424375, maxFitnesses.get(0),.000001);
 		Assert.assertEquals(15.999766675576327, maxFitnesses.get(28),.000001);
