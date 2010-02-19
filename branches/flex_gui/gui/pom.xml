@@ -13,7 +13,7 @@
   <artifactId>brainfarm-gui</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>brainfarm-gui</name>
+  <name>Java GUI</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
