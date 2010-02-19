@@ -17,12 +17,6 @@
   <name>STAR Experiment</name>
   <url>http://maven.apache.org</url>
   <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
 	<!--dependency>
       <groupId>org.red5</groupId>
       <artifactId>red5</artifactId>
@@ -73,6 +67,13 @@
 		<groupId>net.sf.jung</groupId>
 		<artifactId>jung-graph-impl</artifactId>
 		<version>2.0</version>
+		<scope>compile</scope>
+	</dependency>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>4.7</version>
+		<type>jar</type>
 		<scope>compile</scope>
 	</dependency>
   </dependencies>

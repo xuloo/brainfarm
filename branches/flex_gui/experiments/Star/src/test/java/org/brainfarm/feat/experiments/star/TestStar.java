@@ -1,4 +1,4 @@
-package test.org.brainfarm.feat.experiments.star;
+package org.brainfarm.feat.experiments.star;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,8 +21,6 @@ import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.util.RandomUtils;
 import org.gatech.feat.experiments.star.StarOrganismEvaluator;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * 
@@ -50,7 +48,7 @@ public class TestStar {
 		//load experiment
 		IEvolutionController controller = new TestStarController(context);
 		controller.loadDefaultParameters();
-		controller.loadExperiment();
+		controller.loadExperiment("src/main/resources");
 
 		//run experiment
 		TestEvolutionListener listener = new TestEvolutionListener();

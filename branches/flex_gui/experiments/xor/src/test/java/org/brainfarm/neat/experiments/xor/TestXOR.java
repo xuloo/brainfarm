@@ -1,9 +1,8 @@
-package test.org.brainfarm.neat.experiments.xor;
-
-import static org.junit.Assert.assertEquals;
+package org.brainfarm.neat.experiments.xor;
 
 import java.util.List;
 
+import org.junit.Assert;
 import org.brainfarm.java.feat.EvolutionContext;
 import org.brainfarm.java.feat.EvolutionController;
 import org.brainfarm.java.feat.api.IEvolution;
@@ -45,18 +44,19 @@ public class TestXOR {
 		controller.startEvolution();
 
 		//verify that appropriate events were received
-		assertEquals(1,listener.evolutionStarted);
-		assertEquals(1,listener.evolutionCompleted);
-		assertEquals(40,listener.epochsStarted);
-		assertEquals(40,listener.epochsCompleted);
+		Assert.assertEquals(1,listener.evolutionStarted);
+		Assert.assertEquals(1,listener.evolutionCompleted);
+		Assert.assertEquals(40,listener.epochsStarted);
+		Assert.assertEquals(40,listener.epochsCompleted);
 		
 		//sample and validate results of evolution
 		List<Double> maxFitnesses = context.getEvolution().getMaxFitnessEachEpoch();
 		for(double d : maxFitnesses)
 			System.out.println(d + ", ");
-		assertEquals(6.178315187424375, maxFitnesses.get(0),.000001);
-		assertEquals(15.999766675576327, maxFitnesses.get(28),.000001);
-		assertEquals(10.043538023300911, maxFitnesses.get(35),.000001);
+		
+		Assert.assertEquals(6.178315187424375, maxFitnesses.get(0),.000001);
+		Assert.assertEquals(15.999766675576327, maxFitnesses.get(28),.000001);
+		Assert.assertEquals(10.043538023300911, maxFitnesses.get(35),.000001);
 	}
 
 	public class TestXorController extends EvolutionController{
