@@ -1,3 +1,0 @@
-<project name="javagui.imports">
-    <import file="../build-imports.xml"/>
-</project>
