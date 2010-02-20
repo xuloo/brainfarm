@@ -1,7 +1,0 @@
-<project name="AirBrainFarm.assets">
-    <dirname property="AirBrainFarm.assets.dir" file="${ant.file.AirBrainFarm.assets}"/>
-
-    <!-- Define SWC exported by this library. -->
-    <property name="brainfarm.air.gui.swf" location="${AirBrainFarm.assets.dir}/${build.mxmlc.dir}/${project.swf}"/>
-
-</project>
