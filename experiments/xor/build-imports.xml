@@ -1,3 +1,0 @@
-<project name="xor.imports">
-    <import file="../../build-imports.xml"/>
-</project>

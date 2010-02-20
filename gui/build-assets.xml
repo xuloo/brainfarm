@@ -1,7 +1,0 @@
-<project name="javagui.assets">
-    <dirname property="javagui.assets.dir" file="${ant.file.javagui.assets}"/>
-    
-	<property name="brainfarm.gui.jar" location="${build.dist.dir}/brainfarm-gui.jar"/>
-    <property name="java.main.class" value="org.brainfarm.java.gui.MainGui"/>
-    
-</project>
