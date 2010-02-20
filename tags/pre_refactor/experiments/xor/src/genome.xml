@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+ 
+ 	<bean id="genome" class="org.brainfarm.java.feat.ann.NeatGenome">
+ 		<property name="nodes">
+ 			<list value-type="org.brainfarm.java.feat.ann.NeatNode">
+ 				<ref bean="node_1"/>
+ 				<ref bean="node_2"/>
+ 				<ref bean="node_3"/>
+ 				<ref bean="node_4"/>
+ 			</list>
+ 		</property>
+ 		<property name="genes">
+ 			<list value-type="org.brainfarm.java.feat.Gene">
+ 				<ref bean="gene_1"/>
+ 				<ref bean="gene_2"/>
+ 				<ref bean="gene_3"/>
+ 			</list>
+ 		</property>
+ 	</bean>
+	
+	<bean id="node_1" class="org.brainfarm.java.feat.ann.NeatNode">
+		<property name="id" value="1"/>
+		<property name="type" value="SENSOR"/>
+		<property name="genNodeLabel" value="INPUT"/>
+	</bean>
+	
+	<bean id="node_2" class="org.brainfarm.java.feat.ann.NeatNode">
+		<property name="id" value="2"/>
+		<property name="type" value="SENSOR"/>
+		<property name="genNodeLabel" value="INPUT"/>
+	</bean>
+	
+	<bean id="node_3" class="org.brainfarm.java.feat.ann.NeatNode">
+		<property name="id" value="3"/>
+		<property name="type" value="SENSOR"/>
+		<property name="genNodeLabel" value="BIAS"/>
+	</bean>
+	
+	<bean id="node_4" class="org.brainfarm.java.feat.ann.NeatNode">
+		<property name="id" value="4"/>
+		<property name="type" value="NEURON"/>
+		<property name="genNodeLabel" value="OUTPUT"/>
+	</bean>
+	
+	<bean id="gene_1" class="org.brainfarm.java.feat.Gene">
+		<property name="innovationNumber" value="1"/>
+		<property name="mutationNumber" value="0"/>
+		<property name="enabled" value="true"/>
+		<property name="link">
+			<bean class="org.brainfarm.java.feat.Link">
+				<constructor-arg value="0"/>
+				<constructor-arg ref="node_1"/>
+				<constructor-arg ref="node_4"/>
+				<constructor-arg value="false"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="gene_2" class="org.brainfarm.java.feat.Gene">
+		<property name="innovationNumber" value="2"/>
+		<property name="mutationNumber" value="0"/>
+		<property name="enabled" value="true"/>
+		<property name="link">
+			<bean class="org.brainfarm.java.feat.Link">
+				<constructor-arg value="0"/>
+				<constructor-arg ref="node_2"/>
+				<constructor-arg ref="node_4"/>
+				<constructor-arg value="false"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="gene_3" class="org.brainfarm.java.feat.Gene">
+		<property name="innovationNumber" value="3"/>
+		<property name="mutationNumber" value="0"/>
+		<property name="enabled" value="true"/>
+		<property name="link">
+			<bean class="org.brainfarm.java.feat.Link">
+				<constructor-arg value="0"/>
+				<constructor-arg ref="node_3"/>
+				<constructor-arg ref="node_4"/>
+				<constructor-arg value="false"/>
+			</bean>
+		</property>
+	</bean>
+				
+ </beans>
