@@ -1,8 +1,6 @@
 package org.brainfarm.java.feat.api.params;
 
-import org.red5.server.api.ICastingAttributeStore;
-
-public interface IEvolutionParameter extends ICastingAttributeStore {
+public interface IEvolutionParameter {
 
 	public final String NAME 			= "name";
 	public final String DESCRIPTION 	= "description";
@@ -17,6 +15,10 @@ public interface IEvolutionParameter extends ICastingAttributeStore {
 	void setDescription(String description);
 	
 	Object getValue();
+	
+	Integer getIntValue();
+	
+	Double getDoubleValue();
 	
 	void setValue(Object value);
 }
