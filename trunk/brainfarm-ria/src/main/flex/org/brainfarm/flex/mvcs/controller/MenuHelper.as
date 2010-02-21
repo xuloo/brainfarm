@@ -14,11 +14,7 @@ package org.brainfarm.flex.mvcs.controller
 			var data:String = item.@data;
 			
 			switch (data)
-			{
-				case "connect":
-					$controller.showConnectionPanel();
-					break;
-				
+			{				
 				case "loadNeatParameters":
 					$controller.loadNeatParameters();
 					break;
