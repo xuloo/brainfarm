@@ -7,23 +7,19 @@
 			   creationComplete="onCreationComplete()"
 			   backgroundColor="haloSilver">
 	
-	<fx:Style source="/styles/brainfarm.css" />
+	<fx:Style source="../resources/styles/brainfarm.css" />
 	
 	<fx:Script>
 		<![CDATA[
 			import mx.events.MenuEvent;
 			
-			import org.brainfarm.flex.api.connection.IClient;
-			import org.brainfarm.flex.comm.client.BasicClient;
 			import org.brainfarm.flex.mvcs.controller.BrainFarmContext;
 			import org.brainfarm.flex.mvcs.controller.FlexBrainFarmController;
 			import org.brainfarm.flex.mvcs.controller.MenuHelper;
 			import org.brainfarm.flex.mvcs.model.BrainFarmModel;
 			import org.brainfarm.flex.mvcs.service.IBrainFarmService;
 			import org.brainfarm.flex.mvcs.service.remote.RemoteBrainFarmService;
-			
-			private var client:IClient;
-			
+						
 			private var menuHelper:MenuHelper;
 			
 			[Bindable]
@@ -54,10 +50,8 @@
 			public var context:BrainFarmContext;
 
 			private function onCreationComplete():void 
-			{				
-				client = new BasicClient();
-				
-				var service:IBrainFarmService = new RemoteBrainFarmService(client);
+			{								
+				var service:IBrainFarmService = new RemoteBrainFarmService("brainfarm");
 				context = new BrainFarmContext();
 				
 				var model:BrainFarmModel = new BrainFarmModel();

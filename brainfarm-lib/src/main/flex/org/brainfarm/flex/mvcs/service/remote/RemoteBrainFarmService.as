@@ -1,12 +1,8 @@
 package org.brainfarm.flex.mvcs.service.remote
-{
-	import com.joeberkovitz.moccasin.service.IOperation;
+{	
+	import mx.rpc.AsyncToken;
+	import mx.rpc.remoting.RemoteObject;
 	
-	import org.brainfarm.flex.api.connection.IClient;
-	import org.brainfarm.flex.comm.messages.BaseMessage;
-	import org.brainfarm.flex.mvcs.model.vo.ExperimentEntry;
-	import org.brainfarm.flex.mvcs.model.vo.NeatDoubleParameter;
-	import org.brainfarm.flex.mvcs.model.vo.NeatIntParameter;
 	import org.brainfarm.flex.mvcs.service.IBrainFarmService;
 	
 	public class RemoteBrainFarmService implements IBrainFarmService
@@ -17,38 +13,30 @@ package org.brainfarm.flex.mvcs.service.remote
 		{
 			ro = new RemoteObject(destination);
 		}
-		
-		public function connect(uri:String):IOperation
+				
+		public function loadNeatParameters():AsyncToken
 		{
-			BaseMessage.DEFAULT_SERVICE = "brainfarm";
-			
-			return $client.connect(uri);
+			return ro.loadNeatParameters();
 		}
 		
-		public function loadNeatParameters():IOperation
+		public function saveNeatParameters():AsyncToken
 		{
-			var operation:mx.rpc.AbstractOperation = ro.getOperation("loadNeatParameters");
-			return new EvolutionServiceOperation(operation);
+			return ro.saveNeatParameters();
 		}
 		
-		public function saveNeatParameters():IOperation
+		public function getAvailableExperiments():AsyncToken
 		{
-			return null;
+			return ro.getAvailableExperiments();
 		}
 		
-		public function getAvailableExperiments():IOperation
+		public function loadExperiment(experiment:String):AsyncToken
 		{
-			return $client.sendToServer(new GetAvailableExperimentsMessage());
+			return ro.loadExperiment(experiment);
 		}
 		
-		public function loadExperiment(experiment:String):IOperation
+		public function runExperiment():AsyncToken
 		{
-			return $client.sendToServer(new LoadExperimentMessage(experiment));
-		}
-		
-		public function runExperiment():IOperation
-		{
-			return $client.sendToServer(new RunExperimentMessage());
+			return ro.runExperiment();
 		}
 	}
 }

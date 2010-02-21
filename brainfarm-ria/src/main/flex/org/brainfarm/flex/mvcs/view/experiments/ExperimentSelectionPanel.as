@@ -1,14 +1,12 @@
 package org.brainfarm.flex.mvcs.view.experiments
-{	
-	import com.joeberkovitz.moccasin.service.IOperation;
-	
-	import flash.events.Event;
+{		
 	import flash.events.MouseEvent;
 	
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayList;
 	import mx.events.FlexEvent;
 	import mx.managers.PopUpManager;
+	import mx.rpc.Responder;
 	
 	import org.brainfarm.flex.mvcs.controller.IBrainFarmController;
 	import org.brainfarm.flex.mvcs.model.vo.ExperimentEntry;
@@ -75,9 +73,7 @@ package org.brainfarm.flex.mvcs.view.experiments
 		
 		private function loadAvailableExperiments():void 
 		{
-			var operation:IOperation = $service.getAvailableExperiments();
-			operation.addEventListener(Event.COMPLETE, onExperimentsLoaded);
-			operation.execute();
+			$service.getAvailableExperiments().addResponder(new Responder(onExperimentsLoaded, fault));
 		}
 		
 		private function invalidateExperimentSelection(value:ExperimentEntry):void 
@@ -85,9 +81,9 @@ package org.brainfarm.flex.mvcs.view.experiments
 			$selectedExperiment = value;
 		}
 		
-		private function onExperimentsLoaded(evt:Event):void 
+		private function onExperimentsLoaded(obj:Object):void 
 		{
-			var list:Array = IOperation(evt.target).result as Array;
+			var list:Array = obj as Array;
 			
 			availableExperiments = new ArrayList(list);
 		}
@@ -108,16 +104,19 @@ package org.brainfarm.flex.mvcs.view.experiments
 		
 		public function loadExperiment(experiment:String):void 
 		{
-			var operation:IOperation = $service.loadExperiment(experiment);
-			operation.addEventListener(Event.COMPLETE, onExperimentLoaded);
-			operation.execute();
+			$service.loadExperiment(experiment).addResponder(new Responder(onExperimentLoaded, fault));
 		}
 		
-		private function onExperimentLoaded(evt:Event):void 
+		private function onExperimentLoaded(obj:Object):void 
 		{
 			trace("Experiment Loaded");
 			
 			PopUpManager.removePopUp(this);
+		}
+		
+		private function fault(obj:Object):void 
+		{
+			
 		}
 	}
 }
