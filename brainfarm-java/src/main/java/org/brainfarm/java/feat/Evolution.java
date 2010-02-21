@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.log4j.Logger;
+import org.brainfarm.java.feat.api.IEvolution;
+import org.brainfarm.java.feat.api.IEvolutionListener;
 import org.brainfarm.java.feat.api.IEvolutionStrategy;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
-import org.brainfarm.java.feat.api.IEvolution;
-import org.brainfarm.java.feat.api.IEvolutionListener;
 import org.brainfarm.java.util.ThreadedCommand;
 
 /**
@@ -108,13 +108,38 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 		logger.debug("Executing Evolution");
 		
 		// Inform listeners we're starting a set of evolution runs.
-		onEvolutionStart();
+		/*onEvolutionStart();
 		
 		// For each run...
 		for (currentRun = 0; currentRun < runs; currentRun++) {
 			
 			// Execute an Epoch.
 			for (int currentEpoch = 0; currentEpoch < epochs; currentEpoch++) {
+				
+				// Inform listeners we're starting a new Epoch.
+				onEpochStart();
+				
+				// Execute the Epoch.
+				epoch(population, currentEpoch);
+				
+				// Inform the listeners the Epoch is complete.
+				onEpochComplete();
+			}
+		}
+		
+		// Inform the listeners the evolution runs are complete.
+		onEvolutionComplete();*/
+		
+		// Inform listeners we're starting a set of evolution runs.
+		onEvolutionStart();
+		
+		for (currentRun = 0; currentRun < runs; currentRun++) {
+			
+			for (int currentEpoch = 0; currentEpoch < epochs; currentEpoch++) {
+								
+				for(IOrganism org : population.getOrganisms()) {
+					org.getGenome().validate();
+				}
 				
 				// Inform listeners we're starting a new Epoch.
 				onEpochStart();
@@ -150,7 +175,7 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 
 		// Evaluate each organism and check for first/super winners.
 		for (IOrganism organism : population.getOrganisms()) {
-			
+
 			// Evaluate each organism. 
 			if (evolutionStrategy.getOrganismEvaluator().evaluate(organism)) {
 				

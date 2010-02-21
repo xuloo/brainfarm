@@ -94,7 +94,7 @@ public class NeatOrganismEvaluator implements IOrganismEvaluator {
 	}
 	
 	protected boolean evaluate() {
-		
+
 		int inputs[] = new int[2];
 		
 		boolean success = false;

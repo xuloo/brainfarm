@@ -24,12 +24,11 @@ public class NeatEvolutionStrategy extends EvolutionStrategy {
 	@Override 
 	public void refresh() {
 		super.refresh();
-		
-		organismEvaluator = new NeatOrganismEvaluator();
-		
-		nodeClass = NeatNode.class;
-		networkClass = NeatNetwork.class;
-		genomeClass = NeatGenome.class;
-		organismClass = NeatOrganism.class;
+				
+		nodeClassName 			= (nodeClassName == null) 			? DEFAULT_NODE_CLASS_NAME 		: NeatNode.class.getName();
+		networkClassName 		= (networkClassName == null) 		? DEFAULT_NETWORK_CLASS_NAME 	: NeatNetwork.class.getName();
+		genomeClassName 		= (genomeClassName == null) 		? DEFAULT_GENOME_CLASS_NAME 	: NeatGenome.class.getName();
+		organismClassName		= (organismClassName == null) 		? DEFAULT_ORGANISM_CLASS_NAME 	: NeatOrganism.class.getName();
+
 	}
 }

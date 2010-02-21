@@ -1,8 +1,9 @@
-package org.brainfarm.neat.experiments.xor;
+package org.brainfarm.feat.experiments.xor;
+
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.junit.Assert;
 import org.brainfarm.java.feat.EvolutionContext;
 import org.brainfarm.java.feat.EvolutionController;
 import org.brainfarm.java.feat.api.IEvolution;
@@ -36,7 +37,7 @@ public class TestXOR {
 		//load experiment
 		IEvolutionController controller = new TestXorController(context);
 		controller.loadDefaultParameters();
-		controller.loadExperiment("src/main/resources");
+		controller.loadExperiment("src/test/resources/brainfarm-experiment-xor-1.0-SNAPSHOT.jar");
 
 		//run experiment
 		TestEvolutionListener listener = new TestEvolutionListener();
@@ -44,28 +45,29 @@ public class TestXOR {
 		controller.startEvolution();
 
 		//verify that appropriate events were received
-		Assert.assertEquals(1,listener.evolutionStarted);
-		Assert.assertEquals(1,listener.evolutionCompleted);
-		Assert.assertEquals(40,listener.epochsStarted);
-		Assert.assertEquals(40,listener.epochsCompleted);
+		assertEquals(1,listener.evolutionStarted);
+		assertEquals(1,listener.evolutionCompleted);
+		assertEquals(40,listener.epochsStarted);
+		assertEquals(40,listener.epochsCompleted);
 		
 		//sample and validate results of evolution
 		List<Double> maxFitnesses = context.getEvolution().getMaxFitnessEachEpoch();
+		
 		for(double d : maxFitnesses)
 			System.out.print(d + ", ");
 		
-		Assert.assertEquals(6.178315187424375, maxFitnesses.get(0),.000001);
-		Assert.assertEquals(9.0, maxFitnesses.get(28),.000001);
-		Assert.assertEquals(9.0, maxFitnesses.get(35),.000001);
+		assertEquals(6.178315187424375, maxFitnesses.get(0),.000001);
+		assertEquals(9.0, maxFitnesses.get(28),.000001);
+		assertEquals(9.0, maxFitnesses.get(35),.000001);
 	}
 
-	public class TestXorController extends EvolutionController{
+	public class TestXorController extends EvolutionController {
 		public TestXorController(IEvolutionContext context) {
 			super(context);
 		}
 	}
 
-	public class TestEvolutionListener implements IEvolutionListener{
+	public class TestEvolutionListener implements IEvolutionListener {
 
 		int epochsStarted = 0;
 		int epochsCompleted = 0;
