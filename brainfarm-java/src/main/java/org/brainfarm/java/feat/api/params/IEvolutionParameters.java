@@ -4,9 +4,7 @@ import org.red5.server.api.ICastingAttributeStore;
 
 public interface IEvolutionParameters extends ICastingAttributeStore {
 
-	
-	
-	ICastingEvolutionParameter getParameter(String name);
+	IEvolutionParameter getParameter(String name);
 	
 	Integer getIntParameter(String param);
 	

@@ -1,7 +1,10 @@
 package org.brainfarm.java.feat.params;
 
 
-import org.brainfarm.java.feat.api.params.ICastingEvolutionParameter;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+
+import org.brainfarm.java.feat.api.params.IEvolutionParameter;
 import org.brainfarm.java.feat.api.params.IEvolutionParameters;
 import org.red5.server.AttributeStore;
 
@@ -12,8 +15,10 @@ import org.red5.server.AttributeStore;
  */
 public class EvolutionParameters extends AttributeStore implements IEvolutionParameters {
 
-	public ICastingEvolutionParameter getParameter(String name) {
-		return (ICastingEvolutionParameter) getAttribute(name);
+	protected ConcurrentMap<String, IEvolutionParameter> parameters = new ConcurrentHashMap<String, IEvolutionParameter>(1);
+	
+	public IEvolutionParameter getParameter(String name) {
+		return parameters.get(name);
 	}
 	
 	public Integer getIntParameter(String param) {
@@ -21,27 +26,6 @@ public class EvolutionParameters extends AttributeStore implements IEvolutionPar
 	}
 	
 	public Double getDoubleParameter(String name) {
-		//System.out.println("param " + name + " == " + getParameter(name));
 		return getParameter(name).getDoubleValue();
 	}
-		
-	/*public List<EvolutionParameter> parameters;
-	
-	public EvolutionParameters() {}
-	
-	public List<EvolutionParameter> getParameters() {
-		return parameters;
-	}
-	
-	public void setParameters(List<EvolutionParameter> parameters) {
-		this.parameters = parameters;
-		
-		for (EvolutionParameter parameter : parameters) {
-			setParameter(parameter);			
-		}
-	}
-	
-	public void setParameter(EvolutionParameter parameter) {
-		parameter.set(this);
-	}*/
 }
