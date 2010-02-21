@@ -368,4 +368,13 @@ public class Genome implements IGenome {
 	public void setEvolutionParameters(IEvolutionParameters evolutionParameters) {
 		this.evolutionParameters = evolutionParameters;
 	}
+
+	@Override
+	public boolean validate() {
+		boolean valid = true;
+		for(INode node : getNodes())
+			if(!node.validate())
+				valid = false;
+		return valid;
+	}
 }

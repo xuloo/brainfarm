@@ -33,4 +33,7 @@ public interface IGenome extends IEvolutionParametersAware, IEvolutionConstants 
 	double compatibility(IGenome genome);
 	
 	boolean verify();
+
+	//TODO: this method should be merged with verify()
+	boolean validate();
 }

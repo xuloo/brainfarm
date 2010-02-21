@@ -3,7 +3,6 @@ package org.brainfarm.flex.mvcs.service.remote
 	import com.joeberkovitz.moccasin.service.IOperation;
 	
 	import org.brainfarm.flex.api.connection.IClient;
-	import org.brainfarm.flex.comm.client.BasicClient;
 	import org.brainfarm.flex.comm.messages.BaseMessage;
 	import org.brainfarm.flex.mvcs.model.vo.ExperimentEntry;
 	import org.brainfarm.flex.mvcs.model.vo.NeatDoubleParameter;
@@ -12,19 +11,11 @@ package org.brainfarm.flex.mvcs.service.remote
 	
 	public class RemoteBrainFarmService implements IBrainFarmService
 	{
-		private var $client:IClient;
+		private var ro:RemoteObject;
 		
-		public function RemoteBrainFarmService(client:IClient)
+		public function RemoteBrainFarmService(destination:String) 
 		{
-			$client = client;
-			$client.handshake.addClassToRegister(NeatDoubleParameter);
-			$client.handshake.addClassToRegister(NeatIntParameter);
-			$client.handshake.addClassToRegister(BaseMessage);
-			$client.handshake.addClassToRegister(ExperimentEntry);
-			$client.handshake.addClassToRegister(LoadNeatParametersMessage);
-			$client.handshake.addClassToRegister(GetAvailableExperimentsMessage);
-			$client.handshake.addClassToRegister(LoadExperimentMessage);
-			$client.handshake.addClassToRegister(RunExperimentMessage);
+			ro = new RemoteObject(destination);
 		}
 		
 		public function connect(uri:String):IOperation
@@ -36,7 +27,8 @@ package org.brainfarm.flex.mvcs.service.remote
 		
 		public function loadNeatParameters():IOperation
 		{
-			return $client.sendToServer(new LoadNeatParametersMessage());
+			var operation:mx.rpc.AbstractOperation = ro.getOperation("loadNeatParameters");
+			return new EvolutionServiceOperation(operation);
 		}
 		
 		public function saveNeatParameters():IOperation

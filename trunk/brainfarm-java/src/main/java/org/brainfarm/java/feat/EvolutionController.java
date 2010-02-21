@@ -41,6 +41,7 @@ public class EvolutionController implements IEvolutionController, Constants {
 	 * @param location (String) The location of the .jar file that contains the experiment's resources.
 	 */
 	public void loadExperiment(String location) {		
+		System.out.println("loading experiment from " + location + " " + new File(""));
 		IExperiment experiment = ExperimentLoader.loadExperiment(new File(location));
 		context.setExperiment(experiment);
 	}
