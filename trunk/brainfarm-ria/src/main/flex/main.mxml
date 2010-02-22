@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:neatparams="org.brainfarm.flex.mvcs.view.neatparams.*"
+	xmlns:experiments="org.brainfarm.flex.mvcs.view.experiments.*"
+	layout="absolute"
+	creationComplete="onCreationComplete()">
+	
+	<!--mx:controlBar>
+		<mx:Image x="0" y="10"
+				  source="@Embed('../resources/assets/logos/logo75x75.png')"
+				  buttonMode="true" useHandCursor="true"/>
+	</mx:controlBar-->
+	
+	<mx:Style source="../resources/styles/brainfarm.css" />
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.events.MenuEvent;
+			
+			import org.brainfarm.flex.api.connection.IClient;
+			import org.brainfarm.flex.connection.client.BasicClient;
+			import org.brainfarm.flex.mvcs.controller.BrainFarmContext;
+			import org.brainfarm.flex.mvcs.controller.FlexBrainFarmController;
+			import org.brainfarm.flex.mvcs.controller.MenuHelper;
+			import org.brainfarm.flex.mvcs.model.BrainFarmModel;
+			import org.brainfarm.flex.mvcs.service.IBrainFarmService;
+			import org.brainfarm.flex.mvcs.service.remote.RemoteBrainFarmService;
+			
+			private var menuHelper:MenuHelper;
+			
+			[Bindable]
+			private var menubarXML:XMLList =
+				<>
+				<menuitem label="BrainFarm" data="top">
+				<menuitem label="Connect to server..." data="connect"/>
+				<menuitem label="MenuItem 1-B" data="1B"/>
+				</menuitem>
+				<menuitem label="NEAT" data="top">
+				<menuitem label="Load Neat Params" data="loadNeatParameters"/>
+				<menuitem type="separator"/>
+				<menuitem label="MenuItem 2-B" >
+				<menuitem label="SubMenuItem 3-A" type="radio"
+				groupName="one" data="3A"/>
+				<menuitem label="SubMenuItem 3-B" type="radio"
+				groupName="one" data="3B"/>
+				</menuitem>
+				</menuitem>
+				<menuitem label="experiment" data="top">
+				<menuitem label="Load Experiment" data="loadExperiment"/>
+				<menuitem label="Create Experiment" data="createExperiment"/>
+				<menuitem label="Run Experiment..." data="runExperiment"/>
+				</menuitem>
+				</>;
+			
+			[Bindable]
+			public var context:BrainFarmContext;
+			
+			private function onCreationComplete():void 
+			{								
+				var client:IClient = new BasicClient();
+				var service:IBrainFarmService = new RemoteBrainFarmService(client);
+				context = new BrainFarmContext();
+				
+				var model:BrainFarmModel = new BrainFarmModel();
+				context.model = model;
+				
+				var controller:FlexBrainFarmController = new FlexBrainFarmController(editor, service, context);
+				
+				menuHelper = new MenuHelper(controller);
+				
+				controller.showConnectionPanel();
+			}
+			
+			// Event handler for the MenuBar control's itemClick event.
+			private function menuHandler(event:MenuEvent):void  
+			{
+				menuHelper.handleMenuItem(event.item);
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:VBox id="editorBody" width="100%" height="100%" 
+			 horizontalAlign="left" verticalGap="0">
+		
+		<mx:HBox width="100%" height="75"  backgroundColor="0x5c5c5c"
+				 horizontalAlign="left" 
+				 paddingTop="0" paddingBottom="0" paddingLeft="10" paddingRight="10" verticalAlign="bottom">
+			
+			<mx:Box backgroundImage="@Embed(source='../resources/images/WIP.png')" height="48" width="48" />
+			
+		</mx:HBox>
+		
+		<mx:MenuBar width="100%"
+					labelField="@label" 
+					dataProvider="{menubarXML}" 
+					itemClick="menuHandler(event)"/>
+					
+		<mx:HDividedBox id="editorContainer" 
+						height="100%" width="100%" 
+						paddingTop="5" paddingBottom="10" paddingLeft="10" paddingRight="10"
+						styleName="dividedBox" >
+			
+			<mx:VDividedBox id="leftDividedBox" maxWidth="200" 
+							width="250" height="100%" 
+							styleName="dividedBox">
+				
+				<neatparams:NeatParamsPanelView id="neatParams" 
+										width="100%" height="50%"
+										title="NEAT PARAMETERS"
+										/>
+				<experiments:ExperimentSelectionPanelView id="experimentList" 
+											   width="100%" height="50%"
+											   title="EXPERIMENTS"
+											   />
+				
+			</mx:VDividedBox>
+			
+			<mx:VDividedBox width="100%" height="100%" styleName="dividedBox">
+				
+				<mx:VBox height="100%" width="100%" verticalGap="0">
+					
+					<!--sbeditor:SiteMoccasinEditor id="editor" 
+												 height="100%" width="100%"
+												 minHeight="50" minWidth="50"
+												 styleName="editorPane"
+												 /-->
+					<mx:Canvas id="editor" 
+					height="100%" width="100%"
+					minHeight="50" minWidth="50"
+					styleName="editorPane"
+					/>
+					<mx:Spacer height="50"> 
+						
+					</mx:Spacer>
+					
+				</mx:VBox>
+				
+			</mx:VDividedBox>
+			
+			
+			<!--mx:VDividedBox maxWidth="230" width="230" height="100%" styleName="dividedBox">
+				
+				<mx:VBox width="100%" height="60%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
+					
+					
+					<inspector1:InspectorPanel id="inspectorPanel" 
+											   width="230" height="100%"
+											   title="INSPECTOR"
+											   />
+					
+					<inspector:SiteInspectorView id="siteInspectorPanel"
+												 width="100%" height="140" 
+												 maxHeight="180"
+												 editor="{editor}"
+												 siteContext="{editor.siteContext}"
+												 />
+				</mx:VBox>
+				<mx:VBox width="100%" height="40%">
+					<media:MediaPanel id="mediaPanel" 
+									  width="100%" height="100%"
+									  title="MEDIA"
+									  selectItem="updateMediaLibrary();"
+									  addItem="editor.addMedia();"
+									  removeItem="editor.removeMedia();"
+									  refresh="editor.scanMediaDirectory();"
+									  doubleClickEnabled="true"
+									  doubleClick="editor.editMedia(mediaPanel.selectedItem)"
+									  />
+				</mx:VBox>
+				
+			</mx:VDividedBox-->
+			
+		</mx:HDividedBox>
+		
+	</mx:VBox>
+	
+</mx:Application>

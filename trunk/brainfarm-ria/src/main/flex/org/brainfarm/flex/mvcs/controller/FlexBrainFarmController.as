@@ -1,14 +1,17 @@
 package org.brainfarm.flex.mvcs.controller
 {
+	import com.joeberkovitz.moccasin.service.IOperation;
+	
+	import flash.events.Event;
+	
 	import mx.collections.ArrayList;
+	import mx.core.UIComponent;
 	import mx.managers.PopUpManager;
-	import mx.rpc.Responder;
 	
 	import org.brainfarm.flex.mvcs.service.IBrainFarmService;
+	import org.brainfarm.flex.mvcs.view.connection.ConnectionPanelView;
 	import org.brainfarm.flex.mvcs.view.experimentbuilder.ExperimentBuilderView;
 	import org.brainfarm.flex.mvcs.view.experiments.ExperimentSelectionPanelView;
-	
-	import spark.components.Group;
 
 	public class FlexBrainFarmController implements IBrainFarmController
 	{
@@ -16,22 +19,45 @@ package org.brainfarm.flex.mvcs.controller
 		
 		private var $context:BrainFarmContext;
 		
-		private var $viewLayer:Group;
+		private var $viewLayer:UIComponent;
+		
+		private var $connectionPanel:ConnectionPanelView;
 				
 		private var $experimentsSelectionPanel:ExperimentSelectionPanelView;
 		
 		private var $experimentBuilderPanel:ExperimentBuilderView;
 		
-		public function FlexBrainFarmController(viewLayer:Group, service:IBrainFarmService, context:BrainFarmContext)
+		public function FlexBrainFarmController(viewLayer:UIComponent, service:IBrainFarmService, context:BrainFarmContext)
 		{
 			$viewLayer = viewLayer;
 			$service = service;
 			$context = context;
 		}
 		
+		public function showConnectionPanel():void 
+		{
+			$connectionPanel = PopUpManager.createPopUp($viewLayer, ConnectionPanelView, true) as ConnectionPanelView;
+			PopUpManager.centerPopUp($connectionPanel);
+			$connectionPanel.controller = this;
+		}
+		
+		public function connect(uri:String):void 
+		{
+			var op:IOperation = $service.connect(uri);
+			op.addEventListener(Event.COMPLETE, onConnectionComplete);
+			op.execute();
+		}
+		
+		private function onConnectionComplete(evt:Event):void 
+		{
+			trace("Connected");
+		}
+		
 		public function loadNeatParameters():void
 		{
-			$service.loadNeatParameters().addResponder(new Responder(onNeatParametersLoadComplete, fault));
+			var op:IOperation = $service.loadNeatParameters();
+			op.addEventListener(Event.COMPLETE, onNeatParametersLoadComplete);
+			op.execute();
 		}
 		
 		private function onNeatParametersLoadComplete(obj:Object):void 
@@ -46,7 +72,9 @@ package org.brainfarm.flex.mvcs.controller
 		
 		public function saveNeatParameters():void
 		{
-			$service.saveNeatParameters().addResponder(new Responder(onNeatParametersSaveComplete, fault));
+			var op:IOperation = $service.saveNeatParameters();
+			op.addEventListener(Event.COMPLETE, onNeatParametersSaveComplete);
+			op.execute();
 		}
 		
 		private function onNeatParametersSaveComplete(obj:Object):void 

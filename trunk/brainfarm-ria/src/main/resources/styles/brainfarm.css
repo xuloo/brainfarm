@@ -1,81 +1,457 @@
-@font-face {
-	src:url("../resources/styles/fonts/fonts.swf");
-	fontFamily: "HelveticaNeueLT Std Cn";
-	fontName: "HelveticaCondensed";
+/*@font-face {
+	src: url('../resources/styles/fonts/fonts.swf');
+	font-family: 'Helvetica';
+}*/
+
+VDividedBox
+{
+	dividerSkin: Embed(source="../images/vDivider.png");
+}
+HDividedBox
+{
+	dividerSkin: Embed(source="../images/hDivider.png");
 }
 
-@font-face {
-	src:url("../resources/styles/fonts/fonts.swf");
-	fontFamily: "HelveticaNeueLT Std Bold";
-	fontName: "HelveticaBold";
+Slider
+{
+	borderColor:#919999;
+	dataTipOffset:16;
+	dataTipPrecision:2;
+	fill-alphas:0.6, 0.4, 0.75, 0.65;
+	labelOffset:-10;
+	showTrackHighlight:false;
+	slideDuration:300;
+	thumbDisabledSkin:ClassReference("mx.skins.halo.SliderThumbSkin");
+	thumbDownSkin:ClassReference("mx.skins.halo.SliderThumbSkin");
+	thumbOffset:0;
+	thumbOverSkin:ClassReference("mx.skins.halo.SliderThumbSkin");
+	thumbUpSkin:ClassReference("mx.skins.halo.SliderThumbSkin");
+	tickLength:3;
+	tickOffset:-6;
+	tickThickness:1;
+	label-style-name:sliderLabel;
+	data-tip-style-name: sliderDataTip;
+	tracHighlightSkin:ClassReference("mx.skins.halo.SliderHighlightSkin");
+	trackSkin:ClassReference("mx.skins.halo.SliderTrackSkin");
 }
 
-@font-face {
-	src:url("../resources/styles/fonts/fonts.swf");
-	fontFamily: "HelveticaNeueLT Std Blk";
-	fontName: "HelveticaBlack";
+.sliderLabel 
+{
+	font-family: "Helvetica";
+	font-size: 15;
 }
 
-@font-face {
-	src:url("../resources/styles/fonts/fonts.swf");
-	fontFamily: "TransportDBol";
-	fontName: "Transport";
+.sliderDataTip {
+	font-family: "Helvetica";
+	background-alpha: 1.0;
+	background-color: haloBlue;
+	color: white;
+	corner-radius: 10;
+	font-weight: bold;
+	letter-spacing: 1;
 }
 
-@font-face {
-	src:url("../resources/styles/fonts/fonts.swf");
-	fontFamily: "Univers LT Std 55";
-	fontName: "Univers";
+ScrollBar
+{
+	cornerRadius: 0;
+	border-style:none;
+	borderColor: #3C3C3C;
+	trackColors: #999999, #999999;
+	fillAlphas: 1.0, 1.0;
+	fillColors: #C1C1C1, #C1C1C1;
+	background-color: #3c3c3c;
+	color:#3c3c3c;
+	
+	trackSkin: Embed(source="../images/scrollbar_track.png", scaleGridLeft="7", scaleGridTop="4", scaleGridRight="8", scaleGridBottom="6");
+	thumb-up-skin: Embed(source="../images/scrollbar_thumb_up.png", scaleGridLeft="4", scaleGridTop="12", scaleGridRight="8", scaleGridBottom="120");
+	thumbDownSkin: Embed(source="../images/scrollbar_thumb_up.png", scaleGridLeft="4", scaleGridTop="12", scaleGridRight="8", scaleGridBottom="120");
+	thumbOverSkin: Embed(source="../images/scrollbar_thumb_up.png", scaleGridLeft="2", scaleGridTop="2", scaleGridRight="10", scaleGridBottom="134");  
+	up-arrow-up-skin: Embed(source="../images/scrollbar_up_up.png");
+	up-arrow-down-skin: Embed(source="../images/scrollbar_up_up.png");
+	up-arrow-over-skin: Embed(source="../images/scrollbar_up_up.png");
+	down-arrow-up-skin: Embed(source="../images/scrollbar_down_up.png");
+	down-arrow-down-skin: Embed(source="../images/scrollbar_down_up.png");
+	down-arrow-over-skin: Embed(source="../images/scrollbar_down_up.png");
+	
+	upArrowDisabledSkin: Embed(source="../images/scrollbar_up_up.png");
+	down-arrow-disabled-skin: Embed(source="../images/scrollbar_down_up.png");
+	
 }
 
+
+/*@font-face {
+	src: url('assets/fonts/fonts.swf');
+	font-family: 'Helvetica';
+	font-weight: bold;
+}
 @font-face {
-	src:url("../resources/styles/fonts/fonts.swf");
-	fontFamily: "Univers LT Std 65 Bold";
-	fontName: "UniversBold";
+	src: url('assets/fonts/fonts.swf');
+	font-family: 'Helvetica';
+	font-style: italic;
+}
+@font-face {
+	src: url('assets/fonts/fonts.swf');
+	font-family: 'Helvetica';
+	font-style: italic;
+	font-weight: bold;
+}*/
+
+Application {
+	font-family: "Helvetica";
+	font-size: 10.5;
+	theme-color: #FFFFFF;
+	borderThickness: 0;
+	backgroundGradientAlphas: 1.0, 1.0;
+	backgroundGradientColors: #3C3C3C, #3C3C3C;
+	color: #C1C1C1;
+}	
+MenuBar {
+	font-size: 14;
+	menu-style-name: "menuBarList";
+	
+}
+MenuItem {
+	font-size: 14;
 }
 
-@font-face {
-	src:url("../resources/styles/fonts/fonts.swf");
-	fontFamily: "Univers LT Std 75 Black";
-	fontName: "UniversBlack";
+TextInput {
+	text-indent: 5;
+	padding-top: 7;
+	font-size: 12;
+	fontFamily: "Helvetica";
+	color: #031418;
+	backgroundAlpha: 1;
+	backgroundColor: C1C1C1;
+	borderThickness: 1;
+	backgroundColor: #C1C1C1;
+	borderStyle: solid; 
+}
+Button
+{
+	cornerRadius: 0;
+	themeColor: #E1E1E1;
+	fontFamily: "Helvetica";
+	fontSize: 10.5;
+	color: #03191E;
+	fillAlphas: 1.0, 1.0;
+	fillColors: #C1C1C1, #C1C1C1;
+	fontWeight: normal;
+	paddingTop: 0;
+	paddingBottom: 0;
+	paddingLeft: 2;
+	paddingRight: 2;
+}
+Alert
+{
+	fontFamily: "Helvetica";
+	fontSize: 10.5;
+	controlBarStyleName: alertControlBar;
+	borderColor: #3C3C3C;
+	corner-radius:0;
+	background-color:#3c3c3c;
 }
 
-@font-face {
-	src:url("../resources/styles/fonts/fonts.swf");
-	fontFamily: "Univers LT Std 57 Cn";
-	fontName: "UniversCondensed";
+List {
+	roll-over-color: #EEEEEE;
+	selection-color: #FFFFFF;
+	borderStyle: none;
+	backgroundColor: #C1C1C1;
+	fontFamily: "Helvetica";
+	fontSize: 10.5;
+	color: #03161A;
 }
 
-@font-face {
-	src:url("../resources/styles/fonts/fonts.swf");
-	fontFamily: "Univers LT Std 45 Light";
-	fontName: "UniversLight";
+ComboBox {
+	font-weight: normal;
+	fill-colors: #1a1a1a, #1a1a1a;
+	border-color:#ffffff;
+	background-color: #1a1a1a;
+	border-style: none;
+	/*focus-skin: ClassReference("com.infrared5.sitebuilder.authoring.ui.components.RedlineComboBoxArrowSkin");
+	focus-alpha: 1;*/
+	theme-color: #ffffff;
+	cornerRadius: 0;
+	fillAlphas: 1.0, 1.0;
+	fontSize: 10.5;
+	fontFamily: "Helvetica";
+	color: #ffffff;
+	dropdownStyleName: comboBoxDropdown;
+	dropdown-border-color: #ffffff;
+	border-thickness: 1;
+	leading: 0;
+	paddingTop: -7;
+	paddingBottom: 0;
+	vertical-align: top;
+	iconColor: #ffffff;
+	/*skin: ClassReference("com.infrared5.sitebuilder.components.RedlineComboBoxArrowSkin");*/
 }
 
-@font-face {
-	src:url("../resources/styles/fonts/fonts.swf");
-	fontFamily: "VAG Rounded Std Black";
-	fontName: "VAGBlack";
+Label
+{
+	background-color: #E8E8E8;
+	color: #545656;
+	font-size: 10;
 }
 
-@font-face {
-	src:url("../resources/styles/fonts/fonts.swf");
-	fontFamily: "VAG Rounded Std Bold";
-	fontName: "VAGBold";
+NumericStepper
+{
+	borderThickness: 0;
+	borderStyle: none;
+	backgroundColor: #C1C1C1;
+	fontFamily: "Helvetica";
+	fontSize: 10.5;
+	color: #031316;
+	cornerRadius: 0;
 }
 
-@font-face {
-	src:url("../resources/styles/fonts/fonts.swf");
-	fontFamily: "VAG Rounded Std Light";
-	fontName: "VAGLight";
+ComponentItemRenderer {
+	horizontal-gap: 4;
+	vertical-align: bottom;
+	icon: Embed(source='../images/component_icon.png');
 }
 
-@font-face {
-	src:url("../resources/styles/fonts/fonts.swf");
-	fontFamily: "VAG Rounded Std Thin";
-	fontName: "VAGThin";
+TransformationPanel {
+	lockOpenIcon: Embed(source='../images/lock_open.png');
+	lockClosedIcon: Embed(source='../images/lock.png');
 }
 
-.header {
-	contentBackgroundColor: #212121;
+SiteInspector {
+	lockOpenIcon: Embed(source='../images/lock_open.png');
+	lockClosedIcon: Embed(source='../images/lock.png');
+}
+
+.dividedBox {
+	dividerSkin: Embed(source="../images/vDivider.png");
+	divider-color: #FFFFFF;
+	divider-thickness: 10;
+	divider-affordance: 10;
+	horizontal-gap: 20;
+	vertical-gap: 20;
+}
+
+.editorPane {
+	border-style: none;
+	border-thickness: 2;
+	border-color: #878787;
+	background-color: #878787;
+	vertical-scroll-bar-style-name:myScroll;
+}
+
+.myScroll{
+	
+	
+}
+
+.mainEditorLayer {
+	border-style: inset;
+	border-thickness: 3;
+	border-color: #878787;
+	/*border-skin: ClassReference("com.infrared5.sitebuilder.components.BackgroundImageSkin");*/
+	background-color: #3c3c3c;
+}
+
+
+
+.menuBarList {
+	background-color: #FFFFFF;
+	background-alpha: 1;
+	border-skin: ClassReference("mx.skins.halo.HaloBorder");
+}
+
+Panel
+{
+	fontFamily: "Helvetica";
+	fontSize: 10.5;
+	color: #C1C1C1;
+	backgroundColor: #3C3C3C;
+	controlBarStyleName: panelControlBar;
+	borderColor: #8fd400;
+	borderAlpha: 1.0;
+	cornerRadius: 0;
+	titleStyleName: panelTitle; 
+	padding-left:0;
+	statusStyleName: panelStatus;
+	borderThicknessTop: 0;
+	borderThicknessLeft: 0;
+	borderThicknessRight: 0;
+	borderThicknessTop: 0;
+	roundedBottomCorners: false;
+	shadow-distance: 5;
+	shadow-direction: right;
+}
+
+.panel {
+	background-color: #3C3C3C;
+	padding-left: 3;
+	padding-right: 3;
+	padding-top: 3;
+	padding-bottom: 3;
+}
+
+
+
+.panelControlBar
+{
+	fontFamily: "Helvetica";
+	fontSize: 18.5;
+	color: #C1C1C1;
+	backgroundAlpha: 1.0;
+	paddingLeft: 20;
+	padding-top:20;
+	vertical-align:bottom;
+	horizontalAlign: left;
+	
+}
+.panelTitle
+{
+	fontFamily: "Helvetica";
+	fontSize: 12.5;
+	color: #476900;	
+	padding-left: 20;
+	text-indent: 8;
+	padding-top:20;
+	padding-bottom:0;
+	vertical-align:top;
+	textAlign: left;
+	leading: 0;
+	
+}
+
+.formLabel {
+	font-weight: bold;
+}
+
+.selectedTabField {
+	color: #c1c1c1;
+	roll-over-color: #e1e1e1;
+	text-roll-over-color: #e1e1e1;
+}
+
+.tab {
+	selected-up-skin: Embed(source='../images/site_tab_selected.png');
+	selected-over-skin: Embed(source='../images/site_tab_selected.png');
+	selected-down-skin: Embed(source='../images/site_tab_selected.png');
+	selected-disabled-skin: Embed(source='../images/site_tab_selected.png');
+	up-skin: Embed(source='../images/site_tab_unselected2.png');
+	over-skin: Embed(source='../images/site_tab_unselected2.png');
+	down-skin: Embed(source='../images/site_tab_unselected2.png');
+	disabled-skin: Embed(source='../images/site_tab_unselected2.png');
+	fontSize:10.5;
+	roll-over-color: #e1e1e1;
+	fontFamily: "Helvetica";
+	color:#C1C1C1;
+	selection-color: #c1c1c1;
+	text-roll-over-color: #e1e1e1;
+}
+
+.tabBar {
+	color: #C1C1C1;
+	roll-over-color: #e1e1e1;
+	text-roll-over-color: #e1e1e1;
+	tab-style-name: 'tab';
+	selected-tab-text-style-name: 'selectedTabField';
+	fontFamily: "Helvetica";
+	fontSize: 10.5;
+	vertical-gap:-4;
+}
+
+.fileMenuTree {
+	disclosure-open-icon: Embed(source='../images/directory_open_icon1.png');
+	disclosure-closed-icon: Embed(source='../images/directory_closed_icon1.png');
+	folder-open-icon: ClassReference(null);
+	folder-closed-icon: ClassReference(null);
+	background-alpha: 0;
+	border-style: none;
+	text-indent: 5;
+	vertical-align: bottom;
+	roll-over-color: #666666;
+	selection-color: #999999;
+	color: #c1c1c1;
+	border-skin: ClassReference(null);
+}
+
+.mediaTree{
+	disclosure-open-icon: Embed(source='../images/directory_open_icon1.png');
+	disclosure-closed-icon: Embed(source='../images/directory_closed_icon1.png');
+	folder-open-icon: Embed(source='../images/directory_open_icon1.png');
+	folder-closed-icon: ClassReference(null);
+	background-alpha: 0;
+	border-style: none;
+	text-indent: 5;
+	vertical-align: bottom;
+	roll-over-color: #666666;
+	selection-color: #999999;
+	color: #c1c1c1;
+	border-skin: ClassReference(null);
+}
+
+.componentList {
+	background-alpha: 0;
+	border-style: none;
+	color:#c1c1c1;
+	fontFamily: "Helvetica";
+	fontSize: 10.5;
+	roll-over-color: #666666;
+	selection-color: #999999;
+	border-skin: ClassReference(null);
+}
+.popupCanvas
+{
+	backgroundColor: #3C3C3C;
+	fontFamily: "Helvetica";
+}
+/*@font-face
+{
+	fontFamily: "Helvetica";
+	fontWeight: normal;
+	fontStyle: normal;
+	src: local("Helvetica");
+}
+@font-face
+{
+	fontFamily: "Arial";
+	fontWeight: normal;
+	fontStyle: normal;
+	src: local("Arial");
+}*/
+
+.comboBoxDropdown
+{
+	fontFamily: "Helvetica";
+	fontSize: 10.5;
+	color: #ffffff;
+	backgroundColor: #1a1a1a;
+	borderThickness: 2;
+	border-color: #ffffff;
+	textRollOverColor: #ffffff;
+	text-selected-color: #ffffff;
+	/*cornerRadius: 7.5;*/
+	/*alternatingItemColors: #282627, #282627;*/
+	
+	rollOverColor: #343233;
+	selectionColor: #1a1a1a;
+	verticalScrollBarStyleName: listBaseVerticalScrollBar;
+	leading: 0;
+	paddingTop: 5;	
+	height: 35;
+}
+.listBaseVerticalScrollBar
+{
+}
+/*@font-face
+{
+	fontFamily: "Helvetica";
+	fontWeight: bold;
+	fontStyle: normal;
+	src: local("Helvetica");
+}*/
+.alertControlBar
+{
+	color:#C1C1C1;
+	fontWeight: bold;
+	fontFamily: "Helvetica";
+	
+}
+.panelStatus
+{
 }

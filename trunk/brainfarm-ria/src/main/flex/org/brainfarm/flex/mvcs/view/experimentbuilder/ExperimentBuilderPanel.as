@@ -1,6 +1,6 @@
 package org.brainfarm.flex.mvcs.view.experimentbuilder
 {
-	import spark.components.Panel;
+	import mx.containers.Panel;
 	
 	public class ExperimentBuilderPanel extends Panel
 	{

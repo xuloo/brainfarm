@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ConnectionPanel 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns="org.brainfarm.flex.mvcs.view.connection.*"
+	width="400" height="300" title="Connection Panel">
+
+	<mx:TextInput x="58" y="109" width="197" id="uriInput" text="{uri}"/>
+	<mx:Button x="263" y="110" label="Connect" id="connectButton"/>
+</ConnectionPanel>

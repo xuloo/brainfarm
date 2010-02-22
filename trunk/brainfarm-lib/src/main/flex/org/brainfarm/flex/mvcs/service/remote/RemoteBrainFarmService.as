@@ -1,42 +1,51 @@
 package org.brainfarm.flex.mvcs.service.remote
 {	
-	import mx.rpc.AsyncToken;
-	import mx.rpc.remoting.RemoteObject;
+	import com.joeberkovitz.moccasin.service.IOperation;
 	
+	import flash.net.NetConnection;
+	
+	import org.brainfarm.flex.api.connection.IClient;
 	import org.brainfarm.flex.mvcs.service.IBrainFarmService;
 	
 	public class RemoteBrainFarmService implements IBrainFarmService
 	{
-		private var ro:RemoteObject;
+		private var connection:NetConnection;
 		
-		public function RemoteBrainFarmService(destination:String) 
+		private var client:IClient;
+		
+		public function RemoteBrainFarmService(client:IClient) 
 		{
-			ro = new RemoteObject(destination);
+			this.client = client;	
+		}
+		
+		public function connect(uri:String):IOperation
+		{
+			return client.connect(uri, ["username", "password"]);	
 		}
 				
-		public function loadNeatParameters():AsyncToken
+		public function loadNeatParameters():IOperation
 		{
-			return ro.loadNeatParameters();
+			return new RemoteServiceOperation(connection, "loadNeatParameters", "brainfarm");
 		}
 		
-		public function saveNeatParameters():AsyncToken
+		public function saveNeatParameters():IOperation
 		{
-			return ro.saveNeatParameters();
+			return new RemoteServiceOperation(connection, "saveNeatParameters", "brainfarm");
 		}
 		
-		public function getAvailableExperiments():AsyncToken
+		public function getAvailableExperiments():IOperation
 		{
-			return ro.getAvailableExperiments();
+			return new RemoteServiceOperation(connection, "getAvailableExperiments", "brainfarm");
 		}
 		
-		public function loadExperiment(experiment:String):AsyncToken
+		public function loadExperiment(experiment:String):IOperation
 		{
-			return ro.loadExperiment(experiment);
+			return new LoadExperimentOperation(connection, "loadExperiment", experiment, "brainfarm");
 		}
 		
-		public function runExperiment():AsyncToken
+		public function runExperiment():IOperation
 		{
-			return ro.runExperiment();
+			return new RemoteServiceOperation(connection, "runExperiment", "brainfarm");
 		}
 	}
 }

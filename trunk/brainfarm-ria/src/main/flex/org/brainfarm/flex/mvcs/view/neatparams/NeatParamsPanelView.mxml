@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<neatparams:NeatParamsPanel xmlns:fx="http://ns.adobe.com/mxml/2009" 
-							xmlns:s="library://ns.adobe.com/flex/spark" 
-							xmlns:mx="library://ns.adobe.com/flex/halo" 
+<neatparams:NeatParamsPanel xmlns:mx="http://www.adobe.com/2006/mxml"  
 							xmlns:neatparams="org.brainfarm.flex.mvcs.view.neatparams.*">
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
-	<mx:DataGrid x="0" y="0" dataProvider="{neatParams}">
+
+	<mx:DataGrid x="0" y="0" 
+				 width="250" height="100%"
+				 dataProvider="{neatParams}">
 		<mx:columns>
 			<mx:DataGridColumn headerText="Parameter" dataField="name"/>
 			<mx:DataGridColumn headerText="Value" dataField="value"/>
