@@ -1,4 +1,4 @@
-package org.brainfarm.java.red5.service;
+package org.brainfarm.mvcs.service;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -7,16 +7,14 @@ import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
-import org.brainfarm.java.feat.api.IEvolutionContext;
 import org.brainfarm.java.feat.EvolutionContext;
-import org.brainfarm.java.feat.api.IEvolutionController;
 import org.brainfarm.java.feat.EvolutionController;
+import org.brainfarm.java.feat.api.IEvolutionContext;
+import org.brainfarm.java.feat.api.IEvolutionController;
 import org.brainfarm.java.feat.params.EvolutionParameter;
-import org.brainfarm.java.mvcs.service.remote.ExperimentEntry;
-import org.brainfarm.java.red5.api.service.IBrainFarmService;
-import org.brainfarm.java.red5.api.service.message.IMessage;
+import org.brainfarm.mvcs.model.vo.ExperimentEntry;
 
-public class BrainFarmService implements IBrainFarmService {
+public class BrainFarmServiceImpl implements IBrainFarmService {
 	
 	private final String ROOT_PATH = System.getProperty("red5.root");
 
@@ -28,7 +26,7 @@ public class BrainFarmService implements IBrainFarmService {
 	
 	private List<ExperimentEntry> experiments = new ArrayList<ExperimentEntry>();
 	
-	public BrainFarmService() {
+	public BrainFarmServiceImpl() {
 		
 	}
 	
@@ -93,20 +91,7 @@ public class BrainFarmService implements IBrainFarmService {
 		controller.loadExperiment(path);
 	}
 	
-	public Object receiveMessage(IMessage message) {
-		message.setService(this);
-		
-		Object response = message.read();
-		
-		return response;
-	}
-	
 	public void setWebappPath(String webappPath) {
 		this.webappPath = ROOT_PATH + webappPath;
-	}
-
-	@Override
-	public IEvolutionContext getFeatContext() {
-		return context;
 	}
 }
