@@ -1,22 +1,23 @@
 package org.brainfarm.flex.mvcs.view.experiments
 {		
+	import com.joeberkovitz.moccasin.service.IOperation;
+	
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayList;
+	import mx.containers.Panel;
+	import mx.controls.Button;
+	import mx.controls.List;
 	import mx.events.FlexEvent;
 	import mx.managers.PopUpManager;
-	import mx.rpc.Responder;
 	
 	import org.brainfarm.flex.mvcs.controller.IBrainFarmController;
 	import org.brainfarm.flex.mvcs.model.vo.ExperimentEntry;
 	import org.brainfarm.flex.mvcs.service.IBrainFarmService;
 	
-	import spark.components.Button;
-	import spark.components.List;
-	import spark.components.Panel;
-	
-	public class ExperimentSelectionPanel extends Panel
+	public class ExperimentSelectionPanel extends mx.containers.Panel
 	{	
 		public var loadButton:Button;
 		public var cancelButton:Button;
@@ -62,8 +63,8 @@ package org.brainfarm.flex.mvcs.view.experiments
 		
 		private function addHandlers():void 
 		{
-			cancelButton.addEventListener(MouseEvent.CLICK, onCancelButtonClick);
-			loadButton.addEventListener(MouseEvent.CLICK, onLoadButtonClick);
+			//cancelButton.addEventListener(MouseEvent.CLICK, onCancelButtonClick);
+			//loadButton.addEventListener(MouseEvent.CLICK, onLoadButtonClick);
 		}
 		
 		private function setBindings():void 
@@ -73,7 +74,9 @@ package org.brainfarm.flex.mvcs.view.experiments
 		
 		private function loadAvailableExperiments():void 
 		{
-			$service.getAvailableExperiments().addResponder(new Responder(onExperimentsLoaded, fault));
+			var op:IOperation = $service.getAvailableExperiments();
+			op.addEventListener(Event.COMPLETE, onExperimentsLoaded);
+			op.execute();
 		}
 		
 		private function invalidateExperimentSelection(value:ExperimentEntry):void 
@@ -104,7 +107,9 @@ package org.brainfarm.flex.mvcs.view.experiments
 		
 		public function loadExperiment(experiment:String):void 
 		{
-			$service.loadExperiment(experiment).addResponder(new Responder(onExperimentLoaded, fault));
+			var op:IOperation = $service.loadExperiment(experiment);
+			op.addEventListener(Event.COMPLETE, onExperimentLoaded);
+			op.execute();
 		}
 		
 		private function onExperimentLoaded(obj:Object):void 

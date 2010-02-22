@@ -1,17 +1,19 @@
 package org.brainfarm.flex.mvcs.service
 {	
-	import mx.rpc.AsyncToken;
+	import com.joeberkovitz.moccasin.service.IOperation;
 
 	public interface IBrainFarmService
 	{		
-		function loadNeatParameters():AsyncToken;
+		function connect(uri:String):IOperation;
 		
-		function saveNeatParameters():AsyncToken;
+		function loadNeatParameters():IOperation;
 		
-		function getAvailableExperiments():AsyncToken;
+		function saveNeatParameters():IOperation;
 		
-		function loadExperiment(experiment:String):AsyncToken;
+		function getAvailableExperiments():IOperation;
 		
-		function runExperiment():AsyncToken;
+		function loadExperiment(experiment:String):IOperation;
+		
+		function runExperiment():IOperation;
 	}
 }

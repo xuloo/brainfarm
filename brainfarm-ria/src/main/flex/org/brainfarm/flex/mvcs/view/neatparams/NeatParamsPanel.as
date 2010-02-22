@@ -2,13 +2,12 @@ package org.brainfarm.flex.mvcs.view.neatparams
 {
 	import mx.binding.utils.BindingUtils;
 	import mx.collections.ArrayList;
+	import mx.containers.Panel;
 	import mx.events.FlexEvent;
 	
 	import org.brainfarm.flex.mvcs.controller.BrainFarmContext;
 	import org.brainfarm.flex.mvcs.controller.IBrainFarmController;
-	
-	import spark.components.Panel;
-	
+		
 	public class NeatParamsPanel extends Panel
 	{
 		[Bindable]

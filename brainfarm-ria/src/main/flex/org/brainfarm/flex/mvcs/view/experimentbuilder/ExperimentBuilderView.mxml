@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<experimentbuilder:ExperimentBuilderPanel xmlns:fx="http://ns.adobe.com/mxml/2009" 
-										  xmlns:s="library://ns.adobe.com/flex/spark" 
-										  xmlns:mx="library://ns.adobe.com/flex/halo" xmlns:experimentbuilder="org.brainfarm.flex.mvcs.view.experimentbuilder.*" width="400" height="300">
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
+<experimentbuilder:ExperimentBuilderPanel xmlns:mx="http://www.adobe.com/2006/mxml"  
+										  xmlns:experimentbuilder="org.brainfarm.flex.mvcs.view.experimentbuilder.*" 
+										  width="400" height="300">
+
 	<mx:TabNavigator x="0" y="0" width="399" height="237">
-		<s:NavigatorContent label="Summary" width="100%" height="100%">
-			<s:Label x="39" y="21" text="Some Element of the Experiment here"/>
-		</s:NavigatorContent>
-		<s:NavigatorContent label="Evolution" width="100%" height="100%">
-		</s:NavigatorContent>
+		<mx:Canvas label="Details" width="100%" height="100%">
+		</mx:Canvas>
+		<mx:Canvas label="Settings" width="100%" height="100%">
+		</mx:Canvas>
 	</mx:TabNavigator>
 </experimentbuilder:ExperimentBuilderPanel>
