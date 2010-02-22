@@ -1,10 +1,9 @@
-package org.brainfarm.java.red5.api.service;
+package org.brainfarm.mvcs.service;
 
 import java.util.List;
 
-import org.brainfarm.java.feat.api.IEvolutionContext;
 import org.brainfarm.java.feat.params.EvolutionParameter;
-import org.brainfarm.java.mvcs.service.remote.ExperimentEntry;
+import org.brainfarm.mvcs.model.vo.ExperimentEntry;
 
 public interface IBrainFarmService {
 
@@ -13,6 +12,4 @@ public interface IBrainFarmService {
 	public abstract List<ExperimentEntry> getAvailableExperiments();
 	
 	public abstract void loadExperiment(String location);
-	
-	public IEvolutionContext getFeatContext();
 }

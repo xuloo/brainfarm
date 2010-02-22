@@ -57,8 +57,4 @@ public class Application extends MultiThreadedApplicationAdapter {
 	public void disconnect(IConnection conn, IScope scope) {
 		super.disconnect(conn, scope);
 	}
-
-    public Object echo(Object message) {
-    	return message;
-    }
 }
