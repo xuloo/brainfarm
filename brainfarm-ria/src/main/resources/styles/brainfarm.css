@@ -116,14 +116,14 @@ MenuItem {
 
 TextInput {
 	text-indent: 5;
-	padding-top: 7;
+	padding-top: 0;
 	font-size: 12;
 	fontFamily: "Helvetica";
 	color: #031418;
 	backgroundAlpha: 1;
 	backgroundColor: C1C1C1;
 	borderThickness: 1;
-	backgroundColor: #C1C1C1;
+	backgroundColor: #E1E1E1;
 	borderStyle: solid; 
 }
 Button

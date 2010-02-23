@@ -23,29 +23,29 @@ package org.brainfarm.flex.mvcs.service.remote
 			return client.connect(uri, ["username", "password"]);	
 		}
 				
-		public function loadNeatParameters():IOperation
+		public function loadEvolutionParameters():IOperation
 		{
-			return new RemoteServiceOperation(connection, "loadNeatParameters", "brainfarm");
+			return new RemoteServiceOperation(client.connection, "loadNeatParameters", "brainfarm");
 		}
 		
 		public function saveNeatParameters():IOperation
 		{
-			return new RemoteServiceOperation(connection, "saveNeatParameters", "brainfarm");
+			return new RemoteServiceOperation(client.connection, "saveNeatParameters", "brainfarm");
 		}
 		
 		public function getAvailableExperiments():IOperation
 		{
-			return new RemoteServiceOperation(connection, "getAvailableExperiments", "brainfarm");
+			return new RemoteServiceOperation(client.connection, "getAvailableExperiments", "brainfarm");
 		}
 		
 		public function loadExperiment(experiment:String):IOperation
 		{
-			return new LoadExperimentOperation(connection, "loadExperiment", experiment, "brainfarm");
+			return new LoadExperimentOperation(client.connection, "loadExperiment", experiment, "brainfarm");
 		}
 		
 		public function runExperiment():IOperation
 		{
-			return new RemoteServiceOperation(connection, "runExperiment", "brainfarm");
+			return new RemoteServiceOperation(client.connection, "runExperiment", "brainfarm");
 		}
 	}
 }

@@ -6,7 +6,7 @@ package org.brainfarm.flex.mvcs.service
 	{		
 		function connect(uri:String):IOperation;
 		
-		function loadNeatParameters():IOperation;
+		function loadEvolutionParameters():IOperation;
 		
 		function saveNeatParameters():IOperation;
 		

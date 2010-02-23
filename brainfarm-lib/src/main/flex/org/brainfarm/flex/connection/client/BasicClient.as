@@ -41,11 +41,11 @@ package org.brainfarm.flex.connection.client
 		
 		/**
 		 * @private
-		 */
+		 *//*
 		public function set id(value:String):void
 		{
 			_id = value;
-		}
+		}*/
 		
 		/**
 		 * @private
@@ -157,6 +157,13 @@ package org.brainfarm.flex.connection.client
 			trace("Sending " + message + " to server");
 
 			return new SendMessageOperation(message, connection);
+		}
+		
+		public function setClientID(id:String):void 
+		{
+			trace("Setting client id: " + id);
+			
+			_id = id;
 		}
 				
 		/**

@@ -3,7 +3,10 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml" 
 	xmlns="org.brainfarm.flex.mvcs.view.connection.*"
 	width="400" height="300" title="Connection Panel">
-
-	<mx:TextInput x="58" y="109" width="197" id="uriInput" text="{uri}"/>
-	<mx:Button x="263" y="110" label="Connect" id="connectButton"/>
+	<mx:Canvas width="100%" height="100%" borderStyle="solid" borderColor="#FFFFFF">
+		<mx:TextInput width="197" id="uriInput" text="{uri}" x="101.5" y="84" height="22" enabled="false"/>
+		<mx:Button label="Connect" id="connectButton" x="306.5" y="84"/>
+		<mx:CheckBox x="68.5" y="57" label="Use Default URI" id="uriCheckBox" selected="true" enabled="true"/>
+		<mx:Label x="68.5" y="86" text="URI:" enabled="false"/>
+	</mx:Canvas>
 </ConnectionPanel>

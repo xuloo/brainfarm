@@ -57,15 +57,16 @@
 			public var context:BrainFarmContext;
 			
 			private function onCreationComplete():void 
-			{								
-				var client:IClient = new BasicClient();
-				var service:IBrainFarmService = new RemoteBrainFarmService(client);
+			{		
 				context = new BrainFarmContext();
+				
+				var service:IBrainFarmService = new RemoteBrainFarmService(new BasicClient());
+				context.service = service;
 				
 				var model:BrainFarmModel = new BrainFarmModel();
 				context.model = model;
 				
-				var controller:FlexBrainFarmController = new FlexBrainFarmController(editor, service, context);
+				var controller:FlexBrainFarmController = new FlexBrainFarmController(editor, context);
 				
 				menuHelper = new MenuHelper(controller);
 				
@@ -109,6 +110,7 @@
 				<neatparams:NeatParamsPanelView id="neatParams" 
 										width="100%" height="50%"
 										title="NEAT PARAMETERS"
+										context="{context}"
 										/>
 				<experiments:ExperimentSelectionPanelView id="experimentList" 
 											   width="100%" height="50%"
