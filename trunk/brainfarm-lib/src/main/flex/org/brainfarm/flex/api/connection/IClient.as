@@ -14,7 +14,7 @@ package org.brainfarm.flex.api.connection
 				
 		function get id():String;
 		
-		function set id(value:String):void;
+		//function set id(value:String):void;
 		
 		function set defaultService(value:String):void;
 		

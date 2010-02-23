@@ -14,11 +14,7 @@ package org.brainfarm.flex.mvcs.controller
 			var data:String = item.@data;
 			
 			switch (data)
-			{				
-				case "loadNeatParameters":
-					$controller.loadNeatParameters();
-					break;
-				
+			{								
 				case "createExperiment":
 					$controller.showExperimentBuilder();
 					break;

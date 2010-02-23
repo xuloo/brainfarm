@@ -1,29 +1,36 @@
 package org.brainfarm.flex.mvcs.view.connection
 {
+	import com.joeberkovitz.moccasin.service.IOperation;
+	
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
+	import mx.binding.utils.BindingUtils;
 	import mx.containers.Panel;
 	import mx.controls.Button;
+	import mx.controls.CheckBox;
 	import mx.controls.TextInput;
 	import mx.events.FlexEvent;
+	import mx.managers.PopUpManager;
 	
-	import org.brainfarm.flex.mvcs.controller.IBrainFarmController;
+	import org.brainfarm.flex.mvcs.controller.BrainFarmContext;
 		
 	public class ConnectionPanel extends Panel
 	{
+		public var uriCheckBox:CheckBox;
 		public var uriInput:TextInput;
 		public var connectButton:Button;
 		
 		[Bindable]
-		public var uri:String = "rtmp://localhost/brainfarm-webapp";
+		public var uri:String = "rtmp://localhost/brainfarm-web";
 		
 		private var $connecting:Boolean = false;
 		
-		private var $controller:IBrainFarmController;
+		private var $context:BrainFarmContext;
 		
-		public function set controller(value:IBrainFarmController):void 
+		public function set context(value:BrainFarmContext):void 
 		{
-			$controller = value;
+			$context = value;
 		}
 		
 		public function ConnectionPanel()
@@ -50,12 +57,26 @@ package org.brainfarm.flex.mvcs.view.connection
 		
 		private function createBindings():void 
 		{
-			
+			BindingUtils.bindSetter(invalidateCheckBox, uriCheckBox, "selected");
+		}
+		
+		private function invalidateCheckBox(selected:Boolean):void 
+		{			
+			uriInput.enabled = !selected;
 		}
 		
 		private function onConnectButtonClick(evt:MouseEvent):void 
+		{			
+			var op:IOperation = $context.service.connect(uri);
+			op.addEventListener(Event.COMPLETE, onConnectionComplete);
+			op.execute();
+		}
+		
+		private function onConnectionComplete(evt:Event):void 
 		{
-			$controller.connect(uriInput.text);
+			$context.model.connected = true;
+			
+			PopUpManager.removePopUp(this);
 		}
 	}
 }

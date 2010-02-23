@@ -5,9 +5,11 @@ package org.brainfarm.flex.mvcs.service.remote
 	import flash.net.NetConnection;
 	import flash.net.Responder;
 	
+	import org.brainfarm.flex.api.connection.INetConnection;
+	
 	public class RemoteServiceOperation extends AbstractOperation
 	{
-		protected var connection:NetConnection;
+		protected var connection:INetConnection;
 		
 		protected var command:String;
 		
@@ -18,12 +20,12 @@ package org.brainfarm.flex.mvcs.service.remote
 			return _result;
 		}
 		
-		public function RemoteServiceOperation(connection:NetConnection, method:String, service:String = null)
+		public function RemoteServiceOperation(connection:INetConnection, method:String, service:String = null)
 		{
 			super();
 			
 			this.connection = connection;
-			command = createCommand(service, method);
+			command = createCommand(method, service);
 		}
 		
 		private function createCommand(method:String, service:String):String 
@@ -38,6 +40,7 @@ package org.brainfarm.flex.mvcs.service.remote
 		
 		public override function execute() : void
 		{
+			trace("Command: " + command);
 			connection.call(command, new Responder(onResult, onFault));
 		}
 		

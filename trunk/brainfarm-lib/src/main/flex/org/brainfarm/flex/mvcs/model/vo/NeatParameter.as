@@ -4,7 +4,7 @@ package org.brainfarm.flex.mvcs.model.vo
 	{		
 		public var name:String = "";
 		public var description:String = "";
-		public var value:*;
+		public var value:*
 		
 		public function NeatParameter() 
 		{
