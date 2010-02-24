@@ -1,6 +1,7 @@
 package org.brainfarm.java.feat.params;
 
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,5 +31,9 @@ public class EvolutionParameters implements IEvolutionParameters {
 	
 	public void setParameters(Map<String, IEvolutionParameter> parameters) {
 		this.parameters = parameters;
+	}
+	
+	public Collection<IEvolutionParameter> getParameterCollection() {
+		return parameters.values();
 	}
 }

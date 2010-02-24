@@ -1,13 +1,27 @@
 package org.brainfarm.java.feat.params;
 
-public class IntegerEvolutionParameter extends EvolutionParameter {
+import org.red5.io.amf3.IDataInput;
+import org.red5.io.amf3.IDataOutput;
+import org.red5.io.amf3.IExternalizable;
 
-	@Override 
-	public void setValue(Object value) {
-		if (value instanceof String) {
-			this.value = Integer.parseInt((String)value);
-		} else {
-			super.setValue(value);
-		}
+public class IntegerEvolutionParameter extends EvolutionParameter implements IExternalizable {
+
+	public void setIntegerValue(Integer value) {
+		System.out.println("Setting integer value" + value);
+		this.value = value;
+	}
+	
+	@Override
+	public void readExternal(IDataInput input) {
+		super.readExternal(input);
+		
+		value = input.readInt();
+	}
+
+	@Override
+	public void writeExternal(IDataOutput output) {
+		super.writeExternal(output);
+		
+		output.writeInt((Integer)value);
 	}
 }

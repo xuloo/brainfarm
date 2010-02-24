@@ -18,12 +18,14 @@
 		<![CDATA[
 			import mx.events.MenuEvent;
 			
-			import org.brainfarm.flex.api.connection.IClient;
 			import org.brainfarm.flex.connection.client.BasicClient;
 			import org.brainfarm.flex.mvcs.controller.BrainFarmContext;
 			import org.brainfarm.flex.mvcs.controller.FlexBrainFarmController;
 			import org.brainfarm.flex.mvcs.controller.MenuHelper;
 			import org.brainfarm.flex.mvcs.model.BrainFarmModel;
+			import org.brainfarm.flex.mvcs.model.vo.NeatDoubleParameter;
+			import org.brainfarm.flex.mvcs.model.vo.NeatIntParameter;
+			import org.brainfarm.flex.mvcs.model.vo.NeatParameter;
 			import org.brainfarm.flex.mvcs.service.IBrainFarmService;
 			import org.brainfarm.flex.mvcs.service.remote.RemoteBrainFarmService;
 			
@@ -56,8 +58,16 @@
 			[Bindable]
 			public var context:BrainFarmContext;
 			
+			private var param:NeatParameter;
+			private var param1:NeatDoubleParameter;
+			private var param2:NeatIntParameter;
+			
 			private function onCreationComplete():void 
 			{		
+				registerClassAlias("org.brainfarm.java.feat.params.EvolutionParameter", NeatParameter);	
+				registerClassAlias("org.brainfarm.java.feat.params.DoubleEvolutionParameter", NeatDoubleParameter);
+				registerClassAlias("org.brainfarm.java.feat.params.IntegerEvolutionParameter", NeatIntParameter);
+
 				context = new BrainFarmContext();
 				
 				var service:IBrainFarmService = new RemoteBrainFarmService(new BasicClient());
@@ -115,6 +125,7 @@
 				<experiments:ExperimentSelectionPanelView id="experimentList" 
 											   width="100%" height="50%"
 											   title="EXPERIMENTS"
+											   context="{context}"
 											   />
 				
 			</mx:VDividedBox>

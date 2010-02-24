@@ -13,9 +13,9 @@ package org.brainfarm.flex.mvcs.view.experiments
 	import mx.events.FlexEvent;
 	import mx.managers.PopUpManager;
 	
+	import org.brainfarm.flex.mvcs.controller.BrainFarmContext;
 	import org.brainfarm.flex.mvcs.controller.IBrainFarmController;
 	import org.brainfarm.flex.mvcs.model.vo.ExperimentEntry;
-	import org.brainfarm.flex.mvcs.service.IBrainFarmService;
 	
 	public class ExperimentSelectionPanel extends mx.containers.Panel
 	{	
@@ -28,15 +28,19 @@ package org.brainfarm.flex.mvcs.view.experiments
 		
 		private var $selectedExperiment:ExperimentEntry;
 		
-		private var $service:IBrainFarmService;
+		private var $context:BrainFarmContext;
 		
-		public function set service(value:IBrainFarmService):void
+		public function set context(value:BrainFarmContext):void
 		{
+			trace("setting context on ExperimentPanel");
+			
 			if (value)
 			{
-				$service = value;
-				loadAvailableExperiments();
+				BindingUtils.bindProperty(this, "availableExperiments", value, ["model", "availableExperiments"]);
+				BindingUtils.bindSetter(invalidateConnectionState, value, ["model", "connected"]);
 			}
+			
+			$context = value;
 		}
 		
 		private var $controller:IBrainFarmController;
@@ -72,20 +76,34 @@ package org.brainfarm.flex.mvcs.view.experiments
 			BindingUtils.bindSetter(invalidateExperimentSelection, experimentsList, "selectedItem");
 		}
 		
+		private function invalidateConnectionState(state:Boolean):void 
+		{
+			trace("Experiment Panel handling connection state change");
+			
+			if (state)
+			{
+				loadAvailableExperiments();
+			}
+		}
+		
 		private function loadAvailableExperiments():void 
 		{
-			var op:IOperation = $service.getAvailableExperiments();
+			trace("loading experiments");
+			var op:IOperation = $context.service.getAvailableExperiments();
 			op.addEventListener(Event.COMPLETE, onExperimentsLoaded);
 			op.execute();
 		}
 		
 		private function invalidateExperimentSelection(value:ExperimentEntry):void 
 		{
+			
 			$selectedExperiment = value;
 		}
 		
 		private function onExperimentsLoaded(obj:Object):void 
 		{
+			trace("experiments loaded")
+			
 			var list:Array = obj as Array;
 			
 			availableExperiments = new ArrayList(list);
@@ -107,7 +125,7 @@ package org.brainfarm.flex.mvcs.view.experiments
 		
 		public function loadExperiment(experiment:String):void 
 		{
-			var op:IOperation = $service.loadExperiment(experiment);
+			var op:IOperation = $context.service.loadExperiment(experiment);
 			op.addEventListener(Event.COMPLETE, onExperimentLoaded);
 			op.execute();
 		}

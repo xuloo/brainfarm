@@ -2,6 +2,7 @@ package org.brainfarm.mvcs.service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
@@ -11,6 +12,7 @@ import org.brainfarm.java.feat.EvolutionContext;
 import org.brainfarm.java.feat.EvolutionController;
 import org.brainfarm.java.feat.api.IEvolutionContext;
 import org.brainfarm.java.feat.api.IEvolutionController;
+import org.brainfarm.java.feat.api.params.IEvolutionParameter;
 import org.brainfarm.java.feat.params.EvolutionParameter;
 import org.brainfarm.mvcs.model.vo.ExperimentEntry;
 
@@ -62,7 +64,14 @@ public class BrainFarmServiceImpl implements IBrainFarmService {
 		                final Manifest manifest = jar.getManifest();
 		                final Attributes mattr = manifest.getMainAttributes();
 		                String name = mattr.getValue("Experiment-Name");
-		                ExperimentEntry experiment = new ExperimentEntry(name, experimentEntry.getName());
+		                ExperimentEntry experiment;
+		                
+		                if (name == null) {
+		                	experiment = new ExperimentEntry(experimentEntry.getName(), experimentEntry.getName());
+		                } else {
+		                	experiment = new ExperimentEntry(name, experimentEntry.getName());
+		                }
+		                
 		                experiments.add(experiment);
 		            } catch (Exception x) {
 		                System.err.println("Failed to read manifest for "+
@@ -73,15 +82,18 @@ public class BrainFarmServiceImpl implements IBrainFarmService {
 		}
 	}
 	
-	public List<EvolutionParameter> loadNeatParameters() {
+	public Collection<IEvolutionParameter> getEvolutionParameters() {
+		
 		System.out.println("loading neat parameters");
+		
 		controller.loadDefaultParameters();
 		
-		//return context.getNeat().getParameters();
-		return null;
+		return context.getEvolutionParameters().getParameterCollection();
 	}
 	
-	public List<ExperimentEntry> getAvailableExperiments() {
+	public List<ExperimentEntry> getExperimentList() {
+		
+		System.out.println("returning experiment list - " + experiments.size() + " experiments");
 		return experiments;
 	}
 	

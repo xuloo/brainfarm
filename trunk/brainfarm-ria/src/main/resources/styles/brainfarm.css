@@ -288,7 +288,10 @@ Panel
 	padding-bottom: 3;
 }
 
-
+DataGrid {
+	color: #000000;	
+	roll-over-color: #8fd400;
+}
 
 .panelControlBar
 {

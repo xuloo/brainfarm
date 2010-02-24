@@ -74,6 +74,8 @@ package org.brainfarm.flex.mvcs.view.connection
 		
 		private function onConnectionComplete(evt:Event):void 
 		{
+			trace("Connected");
+			
 			$context.model.connected = true;
 			
 			PopUpManager.removePopUp(this);
