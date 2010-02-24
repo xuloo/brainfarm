@@ -2,8 +2,10 @@ package org.brainfarm.flex.mvcs.view.neatparams
 {
 	import com.joeberkovitz.moccasin.service.IOperation;
 	
+	import flash.events.Event;
+	
 	import mx.binding.utils.BindingUtils;
-	import mx.collections.ArrayList;
+	import mx.collections.ArrayCollection;
 	import mx.containers.Panel;
 	import mx.events.FlexEvent;
 	
@@ -12,7 +14,7 @@ package org.brainfarm.flex.mvcs.view.neatparams
 	public class NeatParamsPanel extends Panel
 	{
 		[Bindable]
-		public var neatParams:ArrayList;
+		public var neatParams:ArrayCollection;
 		
 		private var $context:BrainFarmContext;
 		
@@ -50,19 +52,30 @@ package org.brainfarm.flex.mvcs.view.neatparams
 		{
 		}
 		
-		public function invalidateNeatParams(params:ArrayList):void 
+		public function invalidateNeatParams(params:ArrayCollection):void 
 		{
 			trace("neat params have changed \n" + params);
 			neatParams = params;
 		}
 		
 		public function invalidateConnectionState(connected:Boolean):void 
-		{
+		{			
 			if (connected)
 			{
 				trace("loading parameters");
-				$context.service.loadEvolutionParameters().execute();
+				var op:IOperation = $context.service.loadEvolutionParameters();
+				op.addEventListener(Event.COMPLETE, onEvolutionParametersLoaded);
+				op.execute();
 			}
+		}
+		
+		private function onEvolutionParametersLoaded(evt:Event):void 
+		{
+			trace("params loaded");
+			
+			var params:Array = IOperation(evt.target).result as Array;
+			
+			$context.model.neatParams = new ArrayCollection(params);
 		}
 	}
 }

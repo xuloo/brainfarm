@@ -25,7 +25,7 @@ package org.brainfarm.flex.mvcs.service.remote
 				
 		public function loadEvolutionParameters():IOperation
 		{
-			return new RemoteServiceOperation(client.connection, "loadNeatParameters", "brainfarm");
+			return new RemoteServiceOperation(client.connection, "getEvolutionParameters", "brainfarm");
 		}
 		
 		public function saveNeatParameters():IOperation
@@ -35,7 +35,7 @@ package org.brainfarm.flex.mvcs.service.remote
 		
 		public function getAvailableExperiments():IOperation
 		{
-			return new RemoteServiceOperation(client.connection, "getAvailableExperiments", "brainfarm");
+			return new RemoteServiceOperation(client.connection, "getExperimentList", "brainfarm");
 		}
 		
 		public function loadExperiment(experiment:String):IOperation

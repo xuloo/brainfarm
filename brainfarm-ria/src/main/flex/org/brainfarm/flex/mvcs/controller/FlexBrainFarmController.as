@@ -40,19 +40,9 @@ package org.brainfarm.flex.mvcs.controller
 		
 		private function onConnectionComplete(evt:Event):void 
 		{
-			trace("Connected");
+			trace("")
 		}
-		
-		private function onNeatParametersLoadComplete(obj:Object):void 
-		{
-			trace("neat parameters loaded");
-			var params:Array = obj as Array;
 			
-			trace("params: " + (params is Array));
-			
-			$context.model.neatParams = new ArrayList(params);
-		}
-		
 		public function saveNeatParameters():void
 		{
 			var op:IOperation = $context.service.saveNeatParameters();

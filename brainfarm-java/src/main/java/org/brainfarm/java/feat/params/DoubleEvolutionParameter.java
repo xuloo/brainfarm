@@ -1,13 +1,27 @@
 package org.brainfarm.java.feat.params;
 
-public class DoubleEvolutionParameter extends EvolutionParameter {
+import org.red5.io.amf3.IDataInput;
+import org.red5.io.amf3.IDataOutput;
+import org.red5.io.amf3.IExternalizable;
 
-	@Override 
-	public void setValue(Object value) {
-		if (value instanceof String) {
-			this.value = Double.parseDouble((String)value);
-		} else {
-			super.setValue(value);
-		}
+public class DoubleEvolutionParameter extends EvolutionParameter implements IExternalizable {
+ 
+	public void setDoubleValue(Double value) {
+		System.out.println("setting double value " + value);
+		this.value = value;
+	}
+	
+	@Override
+	public void readExternal(IDataInput input) {
+		super.readExternal(input);
+		
+		value = input.readDouble();
+	}
+
+	@Override
+	public void writeExternal(IDataOutput output) {
+		super.writeExternal(output);
+		
+		output.writeDouble((Double)value);
 	}
 }
