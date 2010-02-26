@@ -9,7 +9,7 @@ import org.brainfarm.java.feat.api.INode;
 /** 
  * A genetic codification of gene. 
  * 
- * @author Trevor Burton [trevor@flashmonkey.org]
+ * @author dtuohy
  */
 public class Gene implements IGene
 {
@@ -139,5 +139,15 @@ public class Gene implements IGene
 
 	public boolean isEnabled() {
 		return enabled;
+	}
+
+	@Override
+	public boolean sameAs(IGene other) {
+		if (other.getLink().getInputNode().getId() == getLink().getInputNode().getId()
+				&& other.getLink().getOutputNode().getId() == getLink().getOutputNode().getId()
+				&& other.getLink().isRecurrent() == getLink().isRecurrent()) {
+			return true;
+		}
+		return false;
 	}
 }

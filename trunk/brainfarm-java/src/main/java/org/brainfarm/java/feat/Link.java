@@ -7,8 +7,6 @@ import org.brainfarm.java.feat.api.INode;
 /**
  * Link is a connection from one node to another with an associated weight; It
  * can be marked as recurrent; Its parameters are made public for efficiency.
- * 
- * @author Trevor Burton [trevor@flashmonkey.org]
  */
 public class Link implements ILink {
 
@@ -65,8 +63,8 @@ public class Link implements ILink {
 	 */
 	public Link(double weight, INode inputNode, INode outputNode, boolean recurrent) {
 		setWeight(weight);
-		setInputNode(inputNode);
-		setOutputNode(outputNode);
+		setInputNode(inputNode,true);
+		setOutputNode(outputNode,true);
 		setRecurrent(recurrent);
 		setAddedWeight(0.0);
 		setTimeDelayed(false);
@@ -101,10 +99,11 @@ public class Link implements ILink {
 	 * TODO: if setting to null, should we remove from outgoing list
 	 *       of existing inputNode?
 	 */
-	public void setInputNode(INode inputNode) {
+	public void setInputNode(INode inputNode,boolean enforceInverseRef) {
 		this.inputNode = inputNode;
-		if(inputNode!=null)
-			inputNode.getOutgoing().add(this);
+		if(enforceInverseRef)
+			if(inputNode!=null)
+				inputNode.getOutgoing().add(this);
 	}
 
 	public INode getInputNode() {
@@ -116,10 +115,11 @@ public class Link implements ILink {
 	 * TODO: if setting to null, should we remove from incoming list
 	 *       of existing inputNode?
 	 */
-	public void setOutputNode(INode outputNode) {
+	public void setOutputNode(INode outputNode,boolean enforceInverseRef) {
 		this.outputNode = outputNode;
-		if(outputNode!=null)
-			outputNode.getIncoming().add(this);
+		if(enforceInverseRef)
+			if(outputNode!=null)
+				outputNode.getIncoming().add(this);
 	}
 
 	public INode getOutputNode() {
