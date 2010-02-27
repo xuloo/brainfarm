@@ -25,19 +25,24 @@ public interface IEvolutionStrategy {
 
 	public abstract ICrossoverStrategy getCrossoverStrategy();
 	public abstract void setCrossoverStrategy(ICrossoverStrategy crossoverStrategy);
-
+	public abstract void setCrossoverClassName(String crossoverClassName);
+	
 	public abstract IMutationStrategy getMutationStrategy();
 	public abstract void setMutationStrategy(IMutationStrategy mutationStrategy);
+	public abstract void setMutationClassName(String mutationClassName);
 
 	public abstract IReproductionStrategy getReproductionStrategy();
 	public abstract void setReproductionStrategy(IReproductionStrategy reproductionStrategy);
+	public abstract void setReproductionClassName(String reproductionClassName);
 
 	public abstract ISpeciationStrategy getSpeciationStrategy();
 	public abstract void setSpeciationStrategy(ISpeciationStrategy speciationStrategy);
+	public abstract void setSpeciationClassName(String speciationClassName);
 
 	public abstract IPopulationInitializationStrategy getPopulationInitializationStrategy();
 	public abstract void setPopulationInitializationStrategy(IPopulationInitializationStrategy populationInitializationStrategy);
-
+	public abstract void setPopulationInitializationClassName(String populationInitializationClassName);
+	
 	public abstract Class<?> getNodeClass();
 	public abstract void setNodeClassName(String nodeClassName);
 
@@ -61,4 +66,6 @@ public interface IEvolutionStrategy {
 	
 	public abstract Class<?> getInnovationClass();
 	public abstract void setInnovationClassName(String innovationClassName);
+
+	
 }
