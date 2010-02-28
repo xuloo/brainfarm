@@ -19,5 +19,7 @@ package org.brainfarm.flex.mvcs.service
 		function runExperiment(experiment:ExperimentEntry):IOperation;
 		
 		function getEvolutionProgress():IOperation;
+		
+		function evolutionComplete(result:String):void;
 	}
 }

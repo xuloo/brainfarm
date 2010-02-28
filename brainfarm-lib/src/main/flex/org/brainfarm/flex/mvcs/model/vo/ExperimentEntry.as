@@ -15,6 +15,9 @@ package org.brainfarm.flex.mvcs.model.vo
 		[Bindable]
 		public var complete:Boolean = false;
 		
+		[Bindable]
+		public var result:XMLList;
+		
 		private var _name:String = "";
 		
 		[Bindable]

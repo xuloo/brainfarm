@@ -7,7 +7,6 @@ package org.brainfarm.flex.mvcs.controller
 	import mx.core.UIComponent;
 	import mx.managers.PopUpManager;
 	
-	import org.brainfarm.flex.connection.RemoteSharedObject;
 	import org.brainfarm.flex.mvcs.model.vo.ExperimentEntry;
 	import org.brainfarm.flex.mvcs.view.connection.ConnectionPanelView;
 	import org.brainfarm.flex.mvcs.view.experimentbuilder.ExperimentBuilderView;
@@ -42,7 +41,7 @@ package org.brainfarm.flex.mvcs.controller
 		
 		private function onConnectionComplete(evt:Event):void 
 		{
-			trace("")
+			
 		}
 			
 		public function saveNeatParameters():void
@@ -75,6 +74,13 @@ package org.brainfarm.flex.mvcs.controller
 		private function onRunExperimentComplete(evt:Event):void 
 		{
 			trace("experiment run complete");
+			
+			var result:XML = IOperation(evt.target).result as XML;
+			trace("result \n" + result);
+			trace("selected experiment: " + $context.model.selectedExperiment);
+			$context.model.selectedExperiment.result = result.Run;
+			
+			PopUpManager.removePopUp($experimentProgressPanel);
 		}
 		
 		public function showExperimentBuilder():void 

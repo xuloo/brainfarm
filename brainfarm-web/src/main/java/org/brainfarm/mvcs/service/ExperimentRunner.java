@@ -8,12 +8,14 @@ import org.brainfarm.java.feat.api.IEvolutionListener;
 import org.brainfarm.java.util.XMLUtils;
 import org.brainfarm.java.util.writers.EvolutionResultWriter;
 import org.brainfarm.java.util.writers.IEvolutionWriter;
+import org.red5.server.api.IConnection;
+import org.red5.server.api.service.ServiceUtils;
 import org.red5.server.api.so.ISharedObject;
 import org.w3c.dom.Document;
 
 public class ExperimentRunner implements IEvolutionListener, IExperimentRunner {
 
-	private ISharedObject so;
+	private IConnection connection;
 	
 	private IEvolution evolution;
 	
@@ -23,8 +25,8 @@ public class ExperimentRunner implements IEvolutionListener, IExperimentRunner {
 	
 	private List<IExperimentRunnerListener> listeners = new ArrayList<IExperimentRunnerListener>();
 	
-	public ExperimentRunner(ISharedObject so, IEvolution evolution) {
-		this.so = so;
+	public ExperimentRunner(IConnection connection, IEvolution evolution) {
+		this.connection = connection;
 		this.evolution = evolution;
 	}
 
@@ -50,13 +52,11 @@ public class ExperimentRunner implements IEvolutionListener, IExperimentRunner {
 	@Override
 	public void onEpochStart(IEvolution evolution) {
 		System.out.println("Epoch Started");
-		so.setAttribute("epoch", evolution.getEpoch());
 	}
 
 	@Override
 	public void onEvolutionComplete(IEvolution evolution) {
 		System.out.println("Evolution Complete");
-		so.setAttribute("complete", true);
 		
 		for (IExperimentRunnerListener listener : listeners) {
 			listener.experimentRunComplete(this);
@@ -66,11 +66,6 @@ public class ExperimentRunner implements IEvolutionListener, IExperimentRunner {
 	@Override
 	public void onEvolutionStart(IEvolution evolution) {
 		System.out.println("Evolution Started");
-		so.beginUpdate();
-		so.setAttribute("complete", false);
-		so.setAttribute("run", 0);
-		so.setAttribute("epoch", 0);
-		so.endUpdate();
 	}
 	
 	protected void invalidateProgress() {
@@ -90,7 +85,6 @@ public class ExperimentRunner implements IEvolutionListener, IExperimentRunner {
 	@Override
 	public void onRunStart(IEvolution evolution) {
 		System.out.println("Run Start");
-		so.setAttribute("run", evolution.getRun());
 	}
 	
 	/* (non-Javadoc)
@@ -118,5 +112,9 @@ public class ExperimentRunner implements IEvolutionListener, IExperimentRunner {
 		if (listeners.contains(listener)) {
 			listeners.remove(listener);
 		}
+	}
+	
+	public IConnection getConnection() {
+		return connection;
 	}
 }

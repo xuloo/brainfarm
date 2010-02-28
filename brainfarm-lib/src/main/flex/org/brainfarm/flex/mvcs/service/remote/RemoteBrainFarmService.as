@@ -2,6 +2,8 @@ package org.brainfarm.flex.mvcs.service.remote
 {	
 	import com.joeberkovitz.moccasin.service.IOperation;
 	
+	import flash.events.Event;
+	
 	import org.brainfarm.flex.api.connection.IClient;
 	import org.brainfarm.flex.mvcs.model.vo.ExperimentEntry;
 	import org.brainfarm.flex.mvcs.service.IBrainFarmService;
@@ -10,6 +12,8 @@ package org.brainfarm.flex.mvcs.service.remote
 	{		
 		private var client:IClient;
 		
+		private var runExperimentOperation:RunExperimentOperation;
+		
 		public function RemoteBrainFarmService(client:IClient) 
 		{
 			this.client = client;
@@ -17,7 +21,9 @@ package org.brainfarm.flex.mvcs.service.remote
 				
 		public function connect(uri:String):IOperation
 		{
-			return client.connect(uri, ["username", "password"]);	
+			var operation:IOperation = client.connect(uri, ["username", "password"]);
+			operation.addEventListener(Event.COMPLETE, onClientConnected);
+			return operation;	
 		}
 				
 		public function loadEvolutionParameters():IOperation
@@ -42,12 +48,24 @@ package org.brainfarm.flex.mvcs.service.remote
 		
 		public function runExperiment(experiment:ExperimentEntry):IOperation
 		{
-			return new RemoteServiceOperation(client.connection, "runExperiment", "brainfarm");
+			return runExperimentOperation = new RunExperimentOperation(client.connection, "runExperiment", "brainfarm");
 		}
 		
 		public function getEvolutionProgress():IOperation
 		{
 			return new RemoteServiceOperation(client.connection, "getEvolutionProgress", "brainfarm");
+		}
+		
+		public function evolutionComplete(result:String):void
+		{
+			runExperimentOperation.result = new XML(result);
+			runExperimentOperation.complete();
+		}
+		
+		private function onClientConnected(evt:Event):void 
+		{
+			trace("client connected - setting service as client on connection");
+			client.connection.client = this;
 		}
 	}
 }
