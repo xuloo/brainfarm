@@ -2,7 +2,6 @@ package org.brainfarm.java.feat;
 
 import java.io.File;
 
-import org.apache.log4j.Logger;
 import org.brainfarm.java.feat.api.IEvolutionContext;
 import org.brainfarm.java.feat.api.IEvolutionController;
 import org.brainfarm.java.feat.api.IExperiment;
@@ -13,7 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class EvolutionController implements IEvolutionController, Constants {
 	
-	private static Logger logger = Logger.getLogger(EvolutionController.class);
+	//private static Logger logger = Logger.getLogger(EvolutionController.class);
 	
 	protected IEvolutionContext context;
 	

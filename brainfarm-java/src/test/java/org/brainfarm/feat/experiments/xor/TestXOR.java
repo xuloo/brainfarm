@@ -93,6 +93,18 @@ public class TestXOR {
 		public void onEvolutionStart(IEvolution evolution) {
 			evolutionStarted++;
 		}
+
+		@Override
+		public void onRunComplete(IEvolution evolution) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onRunStart(IEvolution evolution) {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 
 }

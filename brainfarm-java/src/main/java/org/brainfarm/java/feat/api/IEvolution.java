@@ -15,7 +15,11 @@ public interface IEvolution extends Runnable {
 
 	int getRun();
 	
+	int getTotalRuns();
+	
 	int getEpoch();
+	
+	int getTotalEpochs();
 	
 	IPopulation getPopulation();
 	

@@ -50,4 +50,16 @@ public class CommandAwareEvolutionListener implements IEvolutionListener {
 
 	}
 
+	@Override
+	public void onRunComplete(IEvolution evolution) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onRunStart(IEvolution evolution) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

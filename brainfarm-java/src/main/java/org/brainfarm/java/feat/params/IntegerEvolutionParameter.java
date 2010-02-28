@@ -7,7 +7,6 @@ import org.red5.io.amf3.IExternalizable;
 public class IntegerEvolutionParameter extends EvolutionParameter implements IExternalizable {
 
 	public void setIntegerValue(Integer value) {
-		System.out.println("Setting integer value" + value);
 		this.value = value;
 	}
 	
