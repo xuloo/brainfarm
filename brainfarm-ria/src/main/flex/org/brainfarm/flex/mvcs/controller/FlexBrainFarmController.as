@@ -4,14 +4,14 @@ package org.brainfarm.flex.mvcs.controller
 	
 	import flash.events.Event;
 	
-	import mx.collections.ArrayList;
 	import mx.core.UIComponent;
 	import mx.managers.PopUpManager;
 	
-	import org.brainfarm.flex.mvcs.service.IBrainFarmService;
+	import org.brainfarm.flex.connection.RemoteSharedObject;
+	import org.brainfarm.flex.mvcs.model.vo.ExperimentEntry;
 	import org.brainfarm.flex.mvcs.view.connection.ConnectionPanelView;
 	import org.brainfarm.flex.mvcs.view.experimentbuilder.ExperimentBuilderView;
-	import org.brainfarm.flex.mvcs.view.experiments.ExperimentSelectionPanelView;
+	import org.brainfarm.flex.mvcs.view.experimentprogress.ExperimentProgressPanelView;
 
 	public class FlexBrainFarmController implements IBrainFarmController
 	{		
@@ -20,15 +20,17 @@ package org.brainfarm.flex.mvcs.controller
 		private var $viewLayer:UIComponent;
 		
 		private var $connectionPanel:ConnectionPanelView;
-				
-		private var $experimentsSelectionPanel:ExperimentSelectionPanelView;
 		
 		private var $experimentBuilderPanel:ExperimentBuilderView;
+		
+		private var $experimentProgressPanel:ExperimentProgressPanelView;
 		
 		public function FlexBrainFarmController(viewLayer:UIComponent, context:BrainFarmContext)
 		{
 			$viewLayer = viewLayer;
 			$context = context;
+			
+			$context.model.selectedExperiment
 		}
 		
 		public function showConnectionPanel():void 
@@ -45,6 +47,8 @@ package org.brainfarm.flex.mvcs.controller
 			
 		public function saveNeatParameters():void
 		{
+			trace("saving neat parameters");
+			
 			var op:IOperation = $context.service.saveNeatParameters();
 			op.addEventListener(Event.COMPLETE, onNeatParametersSaveComplete);
 			op.execute();
@@ -55,12 +59,22 @@ package org.brainfarm.flex.mvcs.controller
 			
 		}
 		
-		public function showAvailableExperiments():void
+		public function runExperiment(experiment:ExperimentEntry):void 
 		{
-			$experimentsSelectionPanel = PopUpManager.createPopUp($viewLayer, ExperimentSelectionPanelView, true) as ExperimentSelectionPanelView;
-			PopUpManager.centerPopUp($experimentsSelectionPanel);
-			//$experimentsSelectionPanel.service = $service;
-			$experimentsSelectionPanel.controller = this;
+			trace("running experiment: " + experiment.name);
+			
+			$experimentProgressPanel = PopUpManager.createPopUp($viewLayer, ExperimentProgressPanelView, true) as ExperimentProgressPanelView;
+			PopUpManager.centerPopUp($experimentProgressPanel);
+			$experimentProgressPanel.context = $context;
+			
+			var op:IOperation = $context.service.runExperiment(experiment);
+			op.addEventListener(Event.COMPLETE, onRunExperimentComplete);
+			op.execute();
+		}
+		
+		private function onRunExperimentComplete(evt:Event):void 
+		{
+			trace("experiment run complete");
 		}
 		
 		public function showExperimentBuilder():void 
@@ -68,11 +82,6 @@ package org.brainfarm.flex.mvcs.controller
 			$experimentBuilderPanel = PopUpManager.createPopUp($viewLayer, ExperimentBuilderView, true) as ExperimentBuilderView;
 			PopUpManager.centerPopUp($experimentBuilderPanel);
 			
-		}
-		
-		public function runExperiment():void 
-		{
-			$context.service.runExperiment().execute();
 		}
 		
 		private function fault(obj:Object):void 

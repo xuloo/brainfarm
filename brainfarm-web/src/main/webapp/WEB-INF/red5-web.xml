@@ -42,6 +42,7 @@
 	 	class="org.brainfarm.mvcs.service.BrainFarmServiceImpl"
 	 	init-method="init">
 	 	<property name="webappPath" value="/webapps${webapp.contextPath}"/>
+	 	<property name="application" ref="web.handler"/>
 	 </bean>
 
 </beans>

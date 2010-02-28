@@ -6,25 +6,30 @@ package org.brainfarm.flex.mvcs.view.experiments
 	import flash.events.MouseEvent;
 	
 	import mx.binding.utils.BindingUtils;
-	import mx.collections.ArrayList;
-	import mx.containers.Panel;
-	import mx.controls.Button;
-	import mx.controls.List;
+	import mx.collections.ArrayCollection;
+	import mx.controls.Image;
 	import mx.events.FlexEvent;
-	import mx.managers.PopUpManager;
 	
 	import org.brainfarm.flex.mvcs.controller.BrainFarmContext;
 	import org.brainfarm.flex.mvcs.controller.IBrainFarmController;
 	import org.brainfarm.flex.mvcs.model.vo.ExperimentEntry;
 	
-	public class ExperimentSelectionPanel extends mx.containers.Panel
+	import spark.components.List;
+	import spark.components.Panel;
+	
+	public class ExperimentSelectionPanel extends Panel
 	{	
-		public var loadButton:Button;
-		public var cancelButton:Button;
+		[SkinPart]
+		public var loadExperimentButton:Image;
+		
+		[SkinPart]
+		public var runExperimentButton:Image;
+		
+		[SkinPart]
 		public var experimentsList:List;
 		
 		[Bindable]
-		public var availableExperiments:ArrayList;
+		public var availableExperiments:ArrayCollection;
 		
 		private var $selectedExperiment:ExperimentEntry;
 		
@@ -67,8 +72,8 @@ package org.brainfarm.flex.mvcs.view.experiments
 		
 		private function addHandlers():void 
 		{
-			//cancelButton.addEventListener(MouseEvent.CLICK, onCancelButtonClick);
-			//loadButton.addEventListener(MouseEvent.CLICK, onLoadButtonClick);
+			loadExperimentButton.addEventListener(MouseEvent.CLICK, onLoadButtonClick);
+			runExperimentButton.addEventListener(MouseEvent.CLICK, onRunButtonClick);
 		}
 		
 		private function setBindings():void 
@@ -94,19 +99,21 @@ package org.brainfarm.flex.mvcs.view.experiments
 			op.execute();
 		}
 		
-		private function invalidateExperimentSelection(value:ExperimentEntry):void 
+		private function invalidateExperimentSelection(value:*):void 
 		{
-			
+			trace("selection " + value);
 			$selectedExperiment = value;
 		}
 		
-		private function onExperimentsLoaded(obj:Object):void 
-		{
-			trace("experiments loaded")
+		private function onExperimentsLoaded(evt:Event):void 
+		{			
+			var list:Array = IOperation(evt.target).result as Array;
 			
-			var list:Array = obj as Array;
+			trace("experiments loaded " + list);
 			
-			availableExperiments = new ArrayList(list);
+			$context.model.availableExperiments = new ArrayCollection(list);
+			
+			trace($context.model.availableExperiments.length + " " + availableExperiments);
 		}
 		
 		private function onLoadButtonClick(evt:MouseEvent):void 
@@ -117,12 +124,7 @@ package org.brainfarm.flex.mvcs.view.experiments
 				loadExperiment($selectedExperiment.fileName);
 			}
 		}
-		
-		private function onCancelButtonClick(evt:MouseEvent):void 
-		{
-			PopUpManager.removePopUp(this);
-		}
-		
+			
 		public function loadExperiment(experiment:String):void 
 		{
 			var op:IOperation = $context.service.loadExperiment(experiment);
@@ -133,11 +135,14 @@ package org.brainfarm.flex.mvcs.view.experiments
 		private function onExperimentLoaded(obj:Object):void 
 		{
 			trace("Experiment Loaded");
-			
-			PopUpManager.removePopUp(this);
 		}
 		
-		private function fault(obj:Object):void 
+		private function onRunButtonClick(evt:Event):void 
+		{
+			$context.controller.runExperiment($selectedExperiment);
+		}
+		
+		private function onRunExperimentComplete(evt:Event):void
 		{
 			
 		}

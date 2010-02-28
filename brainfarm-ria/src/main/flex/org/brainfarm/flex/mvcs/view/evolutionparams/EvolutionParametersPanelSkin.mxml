@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark" 
+		xmlns:mx="library://ns.adobe.com/flex/halo"
+		xmlns:local="org.brainfarm.flex.mvcs.view.evolutionparams.*">
+	
+	<fx:Metadata>
+		[Hostcomponent("org.brainfarm.flex.mvcs.view.evolutionparams.EvolutionParametersPanel")]
+	</fx:Metadata>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+	</s:states>
+	
+	<local:DoubleClickDataGrid id="parametersDataGrid" 
+				 width="100%" height="100%" 
+				 editable="true">
+		<local:columns>
+			<mx:DataGridColumn headerText="Parameter" 
+							   dataField="name" 
+							   editable="false" 
+							   editorDataField="text" />
+			<mx:DataGridColumn headerText="Value" 
+							   dataField="value"
+							   editable="true" />
+		</local:columns>
+	</local:DoubleClickDataGrid>
+
+</s:Skin>

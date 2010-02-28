@@ -19,14 +19,6 @@ package org.brainfarm.flex.mvcs.controller
 					$controller.showExperimentBuilder();
 					break;
 				
-				case "loadExperiment":
-					$controller.showAvailableExperiments();
-					break;
-				
-				case "runExperiment":
-					$controller.runExperiment();
-					break;
-				
 				default:
 					break;
 			}

@@ -13,4 +13,8 @@ public interface IBrainFarmService {
 	public abstract List<ExperimentEntry> getExperimentList();
 	
 	public abstract void loadExperiment(String location);
+	
+	public abstract void runExperiment();
+	
+	public abstract float getEvolutionProgress();
 }

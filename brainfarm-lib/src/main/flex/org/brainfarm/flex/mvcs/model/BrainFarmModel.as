@@ -1,6 +1,8 @@
 package org.brainfarm.flex.mvcs.model
 {
 	import mx.collections.ArrayCollection;
+	
+	import org.brainfarm.flex.mvcs.model.vo.ExperimentEntry;
 
 	public class BrainFarmModel
 	{
@@ -8,10 +10,13 @@ package org.brainfarm.flex.mvcs.model
 		public var connected:Boolean = false;
 		
 		[Bindable]
-		public var neatParams:ArrayCollection;
+		public var evolutionParameters:ArrayCollection;
 		
 		[Bindable]
 		public var availableExperiments:ArrayCollection;
+		
+		[Bindable]
+		public var selectedExperiment:ExperimentEntry;
 		
 		public function BrainFarmModel() 
 		{

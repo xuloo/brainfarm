@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<experimentprogress:ExperimentProgressPanel 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:experimentprogress="org.brainfarm.flex.mvcs.view.experimentprogress.*" 
+	width="400" height="300"
+	title="Evolution in progress...">
+	
+	<mx:VBox height="100%" width="100%" 
+			 horizontalAlign="center" 
+			 verticalAlign="middle" 
+			 label="Progress">
+		<mx:ProgressBar id="evolutionProgressBar"/>
+	</mx:VBox>
+	
+</experimentprogress:ExperimentProgressPanel>

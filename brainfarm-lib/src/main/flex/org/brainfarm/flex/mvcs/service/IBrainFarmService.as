@@ -1,6 +1,8 @@
 package org.brainfarm.flex.mvcs.service
 {	
 	import com.joeberkovitz.moccasin.service.IOperation;
+	
+	import org.brainfarm.flex.mvcs.model.vo.ExperimentEntry;
 
 	public interface IBrainFarmService
 	{		
@@ -14,6 +16,8 @@ package org.brainfarm.flex.mvcs.service
 		
 		function loadExperiment(experiment:String):IOperation;
 		
-		function runExperiment():IOperation;
+		function runExperiment(experiment:ExperimentEntry):IOperation;
+		
+		function getEvolutionProgress():IOperation;
 	}
 }

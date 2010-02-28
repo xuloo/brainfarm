@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/halo"
+		width="100%" height="100%">
+	
+	<fx:Metadata>
+		[HostComponent("org.brainfarm.flex.mvcs.view.experiments.ExperimentSelectionPanel")]
+	</fx:Metadata>
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+	</s:states>
+
+	<s:VGroup>
+		<s:Label includeIn="normal" text="Experiments"/>
+		<s:HGroup height="25" width="100%">
+			<mx:Image id="loadExperimentButton" 
+					  source="@Embed(source='D:/projects/brainfarm/trunk/brainfarm-ria/src/main/resources/images/icons/16x16/down_arrow.png')"
+					  useHandCursor="true"
+					  toolTip="Load Selected Experiment"/>
+			<mx:Image id="runExperimentButton" 
+					  source="@Embed(source='D:/projects/brainfarm/trunk/brainfarm-ria/src/main/resources/images/icons/16x16/process.png')"
+					  useHandCursor="true"
+					  toolTip="Run Experiment"/>
+		</s:HGroup>
+		<s:List x="54" y="10" id="experimentsList"
+				 dataProvider="{hostComponent.availableExperiments}" 
+				 skinClass="org.brainfarm.flex.mvcs.view.experiments.ExperimentListSkin"
+				 itemRenderer="org.brainfarm.flex.mvcs.view.experiments.ExperimentListItemRenderer"
+				 width="100%" height="100%">
+		</s:List>
+	</s:VGroup>
+	
+</s:Skin>

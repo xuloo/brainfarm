@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Application 
 	xmlns:mx="http://www.adobe.com/2006/mxml" 
-	xmlns:neatparams="org.brainfarm.flex.mvcs.view.neatparams.*"
+	xmlns:neatparams="org.brainfarm.flex.mvcs.view.evolutionparams.*"
 	xmlns:experiments="org.brainfarm.flex.mvcs.view.experiments.*"
 	layout="absolute"
 	creationComplete="onCreationComplete()">
@@ -18,14 +18,16 @@
 		<![CDATA[
 			import mx.events.MenuEvent;
 			
+			import org.brainfarm.flex.api.connection.IClient;
 			import org.brainfarm.flex.connection.client.BasicClient;
 			import org.brainfarm.flex.mvcs.controller.BrainFarmContext;
 			import org.brainfarm.flex.mvcs.controller.FlexBrainFarmController;
 			import org.brainfarm.flex.mvcs.controller.MenuHelper;
 			import org.brainfarm.flex.mvcs.model.BrainFarmModel;
-			import org.brainfarm.flex.mvcs.model.vo.NeatDoubleParameter;
-			import org.brainfarm.flex.mvcs.model.vo.NeatIntParameter;
-			import org.brainfarm.flex.mvcs.model.vo.NeatParameter;
+			import org.brainfarm.flex.mvcs.model.vo.ExperimentEntry;
+			import org.brainfarm.flex.mvcs.model.vo.DoubleEvolutionParameter;
+			import org.brainfarm.flex.mvcs.model.vo.IntEvolutionParameter;
+			import org.brainfarm.flex.mvcs.model.vo.EvolutionParameter;
 			import org.brainfarm.flex.mvcs.service.IBrainFarmService;
 			import org.brainfarm.flex.mvcs.service.remote.RemoteBrainFarmService;
 			
@@ -58,25 +60,31 @@
 			[Bindable]
 			public var context:BrainFarmContext;
 			
-			private var param:NeatParameter;
-			private var param1:NeatDoubleParameter;
-			private var param2:NeatIntParameter;
+			private var param:EvolutionParameter;
+			private var param1:DoubleEvolutionParameter;
+			private var param2:IntEvolutionParameter;
 			
 			private function onCreationComplete():void 
 			{		
-				registerClassAlias("org.brainfarm.java.feat.params.EvolutionParameter", NeatParameter);	
-				registerClassAlias("org.brainfarm.java.feat.params.DoubleEvolutionParameter", NeatDoubleParameter);
-				registerClassAlias("org.brainfarm.java.feat.params.IntegerEvolutionParameter", NeatIntParameter);
-
-				context = new BrainFarmContext();
-				
-				var service:IBrainFarmService = new RemoteBrainFarmService(new BasicClient());
-				context.service = service;
+				registerClassAlias("org.brainfarm.java.feat.params.EvolutionParameter", EvolutionParameter);	
+				registerClassAlias("org.brainfarm.java.feat.params.DoubleEvolutionParameter", DoubleEvolutionParameter);
+				registerClassAlias("org.brainfarm.java.feat.params.IntegerEvolutionParameter", IntEvolutionParameter);
+				registerClassAlias("org.brainfarm.mvcs.model.vo.ExperimentEntry", ExperimentEntry);
 				
 				var model:BrainFarmModel = new BrainFarmModel();
+				var client:IClient = new BasicClient();
+				
+				context = new BrainFarmContext();
+				context.client = client;
+				
+				var service:IBrainFarmService = new RemoteBrainFarmService(client);
+				context.service = service;
+				
 				context.model = model;
 				
 				var controller:FlexBrainFarmController = new FlexBrainFarmController(editor, context);
+				
+				context.controller = controller;
 				
 				menuHelper = new MenuHelper(controller);
 				
@@ -95,18 +103,16 @@
 	<mx:VBox id="editorBody" width="100%" height="100%" 
 			 horizontalAlign="left" verticalGap="0">
 		
-		<mx:HBox width="100%" height="75"  backgroundColor="0x5c5c5c"
-				 horizontalAlign="left" 
-				 paddingTop="0" paddingBottom="0" paddingLeft="10" paddingRight="10" verticalAlign="bottom">
+		<mx:HBox width="100%" height="75" styleName="headerBox">
 			
 			<mx:Box backgroundImage="@Embed(source='../resources/images/WIP.png')" height="48" width="48" />
 			
 		</mx:HBox>
 		
-		<mx:MenuBar width="100%"
+		<!--mx:MenuBar width="100%"
 					labelField="@label" 
 					dataProvider="{menubarXML}" 
-					itemClick="menuHandler(event)"/>
+					itemClick="menuHandler(event)"/-->
 					
 		<mx:HDividedBox id="editorContainer" 
 						height="100%" width="100%" 
@@ -117,15 +123,17 @@
 							width="250" height="100%" 
 							styleName="dividedBox">
 				
-				<neatparams:NeatParamsPanelView id="neatParams" 
+				<neatparams:EvolutionParametersPanel id="neatParams" 
 										width="100%" height="50%"
 										title="NEAT PARAMETERS"
 										context="{context}"
+										skinClass="org.brainfarm.flex.mvcs.view.evolutionparams.EvolutionParametersPanelSkin"
 										/>
-				<experiments:ExperimentSelectionPanelView id="experimentList" 
+				<experiments:ExperimentSelectionPanel id="experimentList" 
 											   width="100%" height="50%"
 											   title="EXPERIMENTS"
 											   context="{context}"
+											   skinClass="org.brainfarm.flex.mvcs.view.experiments.ExperimentSelectionPanelSkin"
 											   />
 				
 			</mx:VDividedBox>
