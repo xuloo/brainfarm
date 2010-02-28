@@ -2,7 +2,9 @@ package org.brainfarm.flex.api.connection
 {
 	import com.joeberkovitz.moccasin.service.IOperation;
 	
-	public interface IClient
+	import flash.events.IEventDispatcher;
+	
+	public interface IClient extends IEventDispatcher
 	{
 		function get connection():INetConnection;
 		

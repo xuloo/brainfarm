@@ -20,6 +20,8 @@ import org.red5.server.adapter.MultiThreadedApplicationAdapter;
 import org.red5.server.api.IClient;
 import org.red5.server.api.IConnection;
 import org.red5.server.api.IScope;
+import org.red5.server.api.Red5;
+import org.red5.server.api.service.ServiceUtils;
 import org.red5.server.api.so.ISharedObject;
 
 public class BrainFarmServiceImpl implements IBrainFarmService, IApplication, IExperimentRunnerListener {
@@ -132,7 +134,7 @@ public class BrainFarmServiceImpl implements IBrainFarmService, IApplication, IE
 	public void runExperiment() {
 		System.out.println("running experiment");
 
-		experimentRunner = new ExperimentRunner(so, context.getEvolution());
+		experimentRunner = new ExperimentRunner(Red5.getConnectionLocal(), context.getEvolution());
 		experimentRunner.addListener(this);
 		experimentRunner.run();
 	}
@@ -144,6 +146,8 @@ public class BrainFarmServiceImpl implements IBrainFarmService, IApplication, IE
 		String resultString = XMLUtils.createPrintableString(runner.getResultXML());
 		
 		System.out.println("Experiment Result:\n" + resultString);
+		
+		ServiceUtils.invokeOnConnection(runner.getConnection(), "evolutionComplete", new Object[]{resultString});
 	}
 
 	public void setWebappPath(String webappPath) {

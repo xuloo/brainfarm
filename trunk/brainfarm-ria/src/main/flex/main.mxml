@@ -3,6 +3,7 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml" 
 	xmlns:neatparams="org.brainfarm.flex.mvcs.view.evolutionparams.*"
 	xmlns:experiments="org.brainfarm.flex.mvcs.view.experiments.*"
+	xmlns:evolutionresult="org.brainfarm.flex.mvcs.view.evolutionresult.*"
 	layout="absolute"
 	creationComplete="onCreationComplete()">
 	
@@ -161,37 +162,18 @@
 			</mx:VDividedBox>
 			
 			
-			<!--mx:VDividedBox maxWidth="230" width="230" height="100%" styleName="dividedBox">
+			<mx:VDividedBox maxWidth="230" width="230" height="100%" styleName="dividedBox">
 				
 				<mx:VBox width="100%" height="60%" verticalScrollPolicy="off" horizontalScrollPolicy="off">
 					
 					
-					<inspector1:InspectorPanel id="inspectorPanel" 
+					<evolutionresult:EvolutionResultPanel id="evolutionResultPanel" 
 											   width="230" height="100%"
-											   title="INSPECTOR"
-											   />
-					
-					<inspector:SiteInspectorView id="siteInspectorPanel"
-												 width="100%" height="140" 
-												 maxHeight="180"
-												 editor="{editor}"
-												 siteContext="{editor.siteContext}"
-												 />
-				</mx:VBox>
-				<mx:VBox width="100%" height="40%">
-					<media:MediaPanel id="mediaPanel" 
-									  width="100%" height="100%"
-									  title="MEDIA"
-									  selectItem="updateMediaLibrary();"
-									  addItem="editor.addMedia();"
-									  removeItem="editor.removeMedia();"
-									  refresh="editor.scanMediaDirectory();"
-									  doubleClickEnabled="true"
-									  doubleClick="editor.editMedia(mediaPanel.selectedItem)"
-									  />
+											   context="{context}"
+											   skinClass="org.brainfarm.flex.mvcs.view.evolutionresult.EvolutionResultPanelSkin"/>
 				</mx:VBox>
 				
-			</mx:VDividedBox-->
+			</mx:VDividedBox>
 			
 		</mx:HDividedBox>
 		

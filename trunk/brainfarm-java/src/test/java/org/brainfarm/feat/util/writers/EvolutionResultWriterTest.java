@@ -31,6 +31,8 @@ public class EvolutionResultWriterTest {
 		for (int i = 0; i < runNodes.getLength(); i++) {
 			Node runNode = runNodes.item(i);
 			
+			assertEquals("run label should be " + (i + 1), EvolutionResultWriter.RUN_NODE_LABEL_PREFIX + String.valueOf(i + 1), runNode.getAttributes().getNamedItem(EvolutionResultWriter.LABEL_ATTRIBUTE_NAME).getNodeValue());
+			
 			// Get the 'Epoch' nodes within this 'Run' node.
 			NodeList epochNodes = runNode.getChildNodes();
 			
@@ -41,6 +43,8 @@ public class EvolutionResultWriterTest {
 				
 				assertNotNull("Epoch node " + (i + 1) + ":" + j + " should have an " + EvolutionResultWriter.MAX_FITNESS_OF_EPOCH_ATTRIBUTE_NAME + " attribute", epochNode.getAttributes().getNamedItem(EvolutionResultWriter.MAX_FITNESS_OF_EPOCH_ATTRIBUTE_NAME));
 				
+				assertEquals("epoch label should be " + j, EvolutionResultWriter.EPOCH_NODE_LABEL_PREFIX + String.valueOf(j), epochNode.getAttributes().getNamedItem(EvolutionResultWriter.LABEL_ATTRIBUTE_NAME).getNodeValue());
+
 				Double maxFitness = 1.0 * j;
 				String fitnessAttribute = epochNode.getAttributes().getNamedItem(EvolutionResultWriter.MAX_FITNESS_OF_EPOCH_ATTRIBUTE_NAME).getNodeValue();
 

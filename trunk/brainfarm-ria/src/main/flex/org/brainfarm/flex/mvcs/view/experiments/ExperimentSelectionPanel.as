@@ -31,7 +31,7 @@ package org.brainfarm.flex.mvcs.view.experiments
 		[Bindable]
 		public var availableExperiments:ArrayCollection;
 		
-		private var $selectedExperiment:ExperimentEntry;
+		//private var $selectedExperiment:ExperimentEntry;
 		
 		private var $context:BrainFarmContext;
 		
@@ -101,8 +101,11 @@ package org.brainfarm.flex.mvcs.view.experiments
 		
 		private function invalidateExperimentSelection(value:*):void 
 		{
-			trace("selection " + value);
-			$selectedExperiment = value;
+			if (value)
+			{
+				trace("selection " + value);
+				selectedExperiment = value;
+			}
 		}
 		
 		private function onExperimentsLoaded(evt:Event):void 
@@ -118,10 +121,10 @@ package org.brainfarm.flex.mvcs.view.experiments
 		
 		private function onLoadButtonClick(evt:MouseEvent):void 
 		{
-			if ($selectedExperiment)
+			if (selectedExperiment)
 			{
-				trace("Loading experiment: " + $selectedExperiment);
-				loadExperiment($selectedExperiment.fileName);
+				trace("Loading experiment: " + selectedExperiment);
+				loadExperiment(selectedExperiment.fileName);
 			}
 		}
 			
@@ -139,12 +142,22 @@ package org.brainfarm.flex.mvcs.view.experiments
 		
 		private function onRunButtonClick(evt:Event):void 
 		{
-			$context.controller.runExperiment($selectedExperiment);
+			$context.controller.runExperiment(selectedExperiment);
 		}
 		
 		private function onRunExperimentComplete(evt:Event):void
 		{
 			
+		}
+		
+		protected function get selectedExperiment():ExperimentEntry
+		{
+			return $context.model.selectedExperiment;
+		}
+		
+		protected function set selectedExperiment(value:ExperimentEntry):void 
+		{
+			$context.model.selectedExperiment = value;
 		}
 	}
 }
