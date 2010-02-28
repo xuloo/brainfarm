@@ -7,7 +7,6 @@ import org.red5.io.amf3.IExternalizable;
 public class DoubleEvolutionParameter extends EvolutionParameter implements IExternalizable {
  
 	public void setDoubleValue(Double value) {
-		System.out.println("setting double value " + value);
 		this.value = value;
 	}
 	

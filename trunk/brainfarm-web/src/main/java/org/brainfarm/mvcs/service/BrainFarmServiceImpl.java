@@ -13,16 +13,16 @@ import org.brainfarm.java.feat.EvolutionController;
 import org.brainfarm.java.feat.api.IEvolutionContext;
 import org.brainfarm.java.feat.api.IEvolutionController;
 import org.brainfarm.java.feat.api.params.IEvolutionParameter;
+import org.brainfarm.java.util.XMLUtils;
 import org.brainfarm.mvcs.model.vo.ExperimentEntry;
 import org.red5.server.adapter.IApplication;
 import org.red5.server.adapter.MultiThreadedApplicationAdapter;
 import org.red5.server.api.IClient;
 import org.red5.server.api.IConnection;
 import org.red5.server.api.IScope;
-import org.red5.server.api.Red5;
 import org.red5.server.api.so.ISharedObject;
 
-public class BrainFarmServiceImpl implements IBrainFarmService, IApplication {
+public class BrainFarmServiceImpl implements IBrainFarmService, IApplication, IExperimentRunnerListener {
 
 	private final String ROOT_PATH = System.getProperty("red5.root");
 
@@ -32,7 +32,7 @@ public class BrainFarmServiceImpl implements IBrainFarmService, IApplication {
 
 	private String webappPath;
 
-	private ExperimentRunner experimentRunner;
+	private IExperimentRunner experimentRunner;
 
 	private List<ExperimentEntry> experiments = new ArrayList<ExperimentEntry>();
 
@@ -132,7 +132,18 @@ public class BrainFarmServiceImpl implements IBrainFarmService, IApplication {
 	public void runExperiment() {
 		System.out.println("running experiment");
 
-		new ExperimentRunner(so, context.getEvolution()).run();
+		experimentRunner = new ExperimentRunner(so, context.getEvolution());
+		experimentRunner.addListener(this);
+		experimentRunner.run();
+	}
+	
+	@Override
+	public void experimentRunComplete(IExperimentRunner runner) {
+		System.out.println("Experiment Run is complete");
+		
+		String resultString = XMLUtils.createPrintableString(runner.getResultXML());
+		
+		System.out.println("Experiment Result:\n" + resultString);
 	}
 
 	public void setWebappPath(String webappPath) {

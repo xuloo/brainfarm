@@ -1,11 +1,9 @@
 package org.brainfarm.java.feat;
 
 import java.lang.reflect.Constructor;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.brainfarm.java.feat.api.IEvolutionStrategy;
-import org.brainfarm.java.feat.api.IGenome;
 import org.brainfarm.java.feat.api.IOrganismEvaluator;
 import org.brainfarm.java.feat.api.operators.ICrossoverStrategy;
 import org.brainfarm.java.feat.api.operators.IMutationStrategy;

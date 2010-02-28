@@ -76,7 +76,7 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	/**
 	 * List containing the highest fitness values from each epoch of the last run.
 	 */
-	private List<Double> maxFitnessEachEpoch = new ArrayList<Double>();
+	protected List<Double> maxFitnessEachEpoch = new ArrayList<Double>();
 	
 	/**
 	 * Objects listening for events from this evolutionary run.
@@ -108,34 +108,13 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 		logger.debug("Executing Evolution");
 		
 		// Inform listeners we're starting a set of evolution runs.
-		/*onEvolutionStart();
-		
-		// For each run...
-		for (currentRun = 0; currentRun < runs; currentRun++) {
-			
-			// Execute an Epoch.
-			for (int currentEpoch = 0; currentEpoch < epochs; currentEpoch++) {
-				
-				// Inform listeners we're starting a new Epoch.
-				onEpochStart();
-				
-				// Execute the Epoch.
-				epoch(population, currentEpoch);
-				
-				// Inform the listeners the Epoch is complete.
-				onEpochComplete();
-			}
-		}
-		
-		// Inform the listeners the evolution runs are complete.
-		onEvolutionComplete();*/
-		
-		// Inform listeners we're starting a set of evolution runs.
 		onEvolutionStart();
 		
-		for (currentRun = 0; currentRun < runs; currentRun++) {
+		for (currentRun = 1; currentRun <= runs; currentRun++) {
 			
-			for (int currentEpoch = 0; currentEpoch < epochs; currentEpoch++) {
+			onRunStart();
+			
+			for (int currentEpoch = 1; currentEpoch <= epochs; currentEpoch++) {
 								
 				for(IOrganism org : population.getOrganisms()) {
 					org.getGenome().validate();
@@ -150,6 +129,8 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 				// Inform the listeners the Epoch is complete.
 				onEpochComplete();
 			}
+			
+			onRunComplete();
 		}
 		
 		// Inform the listeners the evolution runs are complete.
@@ -212,8 +193,6 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	
 	/**
 	 * Inform each listener that Evolution has started.
-	 * 
-	 * @param population
 	 */
 	protected void onEvolutionStart() {
 		maxFitnessEachEpoch.clear();
@@ -224,8 +203,6 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	
 	/**
 	 * Inform each listener that Evolution has completed.
-	 * 
-	 * @param population
 	 */
 	protected void onEvolutionComplete() {
 		for (IEvolutionListener listener : listeners) {
@@ -235,10 +212,6 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	
 	/**
 	 * Inform each listener that a new Epoch is about to begin.
-	 * 
-	 * @param run
-	 * @param epoch
-	 * @param population
 	 */
 	protected void onEpochStart() {
 		for (IEvolutionListener listener : listeners) {
@@ -248,14 +221,28 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	
 	/**
 	 * Inform each listener that an Epoch has just completed.
-	 * 
-	 * @param run
-	 * @param epoch
-	 * @param population
 	 */
 	protected void onEpochComplete() {
 		for (IEvolutionListener listener : listeners) {
 			listener.onEpochComplete(this);
+		}
+	}
+	
+	/**
+	 * Inform each listener that a Run has begun.
+	 */
+	protected void onRunStart() {
+		for (IEvolutionListener listener : listeners) {
+			listener.onRunStart(this);
+		}
+	}
+	
+	/**
+	 * Inform each listener that a Run has just completed.
+	 */
+	protected void onRunComplete() {
+		for (IEvolutionListener listener : listeners) {
+			listener.onRunComplete(this);
 		}
 	}
 	
@@ -280,11 +267,19 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 		return currentRun;
 	}
 	
+	public int getTotalRuns() {
+		return runs;
+	}
+	
 	/**
 	 * Returns the current Epoch this Evolution is in.
 	 */
 	public int getEpoch() {
 		return currentEpoch;
+	}
+	
+	public int getTotalEpochs() {
+		return epochs;
 	}
 	
 	/**
