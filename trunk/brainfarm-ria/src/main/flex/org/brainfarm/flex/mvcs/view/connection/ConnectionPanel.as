@@ -22,7 +22,7 @@ package org.brainfarm.flex.mvcs.view.connection
 		public var connectButton:Button;
 		
 		[Bindable]
-		public var uri:String = "rtmp://localhost/brainfarm-web";
+		public var uri:String = "rtmp://localhost/brainfarm";
 		
 		private var $connecting:Boolean = false;
 		

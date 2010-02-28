@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="50" backgroundColor="#212121">
+	<mx:Image x="0" y="0" source="@Embed(source='D:/projects/brainfarm/trunk/brainfarm-ria/src/main/resources/images/WIP.png')"/>
+	<mx:Label x="51" y="3" text="{data.name}" color="#D99503" fontWeight="bold"/>
+	<mx:Label x="50" y="19" text="{data.description}" width="100%" height="31"/>
+</mx:Canvas>

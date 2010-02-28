@@ -52,7 +52,7 @@ package org.brainfarm.flex.connection
 				
 				if( connection.connected ) 
 				{
-					connect( connection );
+					connect();
 				} 
 				else 
 				{
@@ -96,33 +96,33 @@ package org.brainfarm.flex.connection
 			this.connection = connection;
 		}
 		
-		private function connect( value:INetConnection, params:String='' ):void
+		public function connect():void
 		{
 			sharedObject = SharedObject.getRemote( name, connection.rtmpURI, persistent, secure )
-			sharedObject.connect( NetConnection(value) );
+			sharedObject.connect( NetConnection(connection) );
 			sharedObject.addEventListener(NetStatusEvent.NET_STATUS, onNetStatus);
 			sharedObject.addEventListener(SyncEvent.SYNC, onSync);
 			sharedObject.addEventListener(AsyncErrorEvent.ASYNC_ERROR, onAsyncError);
 		}
 		
-		private function onNetStatus(event:NetStatusEvent) : void 
+		protected function onNetStatus(event:NetStatusEvent) : void 
 		{
 			dispatchEvent(event);
 		}
 		
-		private function onSync(event:SyncEvent) : void 
+		protected function onSync(event:SyncEvent) : void 
 		{
 			dispatchEvent(event);
 		}
 		
-		private function onAsyncError(event:AsyncErrorEvent) : void 
+		protected function onAsyncError(event:AsyncErrorEvent) : void 
 		{
 			dispatchEvent(event);
 		}
 		
 		private function onConnectionConnected( value:Red5Event ):void
 		{
-			connect( connection );
+			connect();
 		}
 		
 		private function onConnectionDisconnected( value:Red5Event ):void

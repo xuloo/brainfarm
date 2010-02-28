@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Skin xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/halo">
+	
+	<fx:Metadata>
+		[HostComponent("spark.components.List")]
+	</fx:Metadata>
+	
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="over"/>
+	</s:states>
+	
+	<!-- background -->
+	<s:Rect top="0" right="0" bottom="0" left="0">
+		<s:stroke>
+			<s:SolidColorStroke color="0x999999" weight="2"/>
+		</s:stroke>
+		<s:fill>
+			<s:SolidColor color="0xffffff" color.over="0xf8f8f8" />
+		</s:fill>
+	</s:Rect>
+	
+	
+	<!-- scroller -->
+	<s:Scroller id="scroller"
+				left="0"
+				top="0"
+				right="0"
+				bottom="0" 
+				horizontalScrollPolicy="off"
+				minViewportInset="1"
+				focusEnabled="false">
+		
+		
+		<!-- container for data-->
+		<s:DataGroup id="dataGroup">
+			<s:layout>
+				<s:VerticalLayout gap="0" horizontalAlign="contentJustify" />
+			</s:layout>
+		</s:DataGroup>
+		
+	</s:Scroller>
+
+</s:Skin>

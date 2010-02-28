@@ -51,9 +51,13 @@
 							<includeTypes>zip</includeTypes>
 						</configuration>
 					</execution>
+					<!--
+						Copy the experiment jars into the /experiment directory - so
+						they're available in the war
+					-->
 					<execution>
 						<id>copy</id>
-						<phase>package</phase>
+						<phase>compile</phase>
 						<goals>
 							<goal>copy</goal>
 						</goals>
@@ -78,6 +82,26 @@
 									<destFileName>star.jar</destFileName>
 								</artifactItem>
 							</artifactItems>
+						</configuration>
+					</execution>
+					<!-- Copy the just built .war file into the Red5 webapps directory -->
+					<execution>
+						<id>copy-installed</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>${project.groupId}</groupId>
+									<artifactId>${project.artifactId}</artifactId>
+									<version>${project.version}</version>
+									<type>${project.packaging}</type>
+									<overWrite>true</overWrite>
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>D:/projects/red5_server/dist/webapps</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
