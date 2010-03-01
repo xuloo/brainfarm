@@ -160,7 +160,7 @@ public class NeatParametersPanel extends AbstractNeatPanel{
 
 		if (e.getActionCommand().equals(LOAD_DEFAULT_BUTTON_LABEL)) {
 			// Load the default NEAT parameters.
-			controller.loadDefaultParameters();
+			controller.loadEvolutionParameters(null);
 			
 		} else if (e.getActionCommand().equals(LOAD_FILE_BUTTON_LABEL)) {
 			// Load the NEAT parameters from an external file.

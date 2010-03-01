@@ -113,7 +113,7 @@ public class BrainFarmServiceImpl implements IBrainFarmService, IApplication, IE
 
 		System.out.println("loading neat parameters");
 
-		controller.loadDefaultParameters();
+		controller.loadEvolutionParameters(null);
 
 		return context.getEvolutionParameters().getParameterCollection();
 	}
@@ -134,7 +134,9 @@ public class BrainFarmServiceImpl implements IBrainFarmService, IApplication, IE
 	public void runExperiment() {
 		System.out.println("running experiment");
 
-		experimentRunner = new ExperimentRunner(Red5.getConnectionLocal(), context.getEvolution());
+		File workingDir = new File(webappPath + "/working");
+		
+		experimentRunner = new ExperimentRunner(Red5.getConnectionLocal(), workingDir, context.getEvolution());
 		experimentRunner.addListener(this);
 		experimentRunner.run();
 	}

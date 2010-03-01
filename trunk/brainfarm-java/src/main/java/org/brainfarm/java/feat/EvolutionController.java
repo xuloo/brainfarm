@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import org.brainfarm.java.feat.api.IEvolutionContext;
 import org.brainfarm.java.feat.api.IEvolutionController;
 import org.brainfarm.java.feat.api.IExperiment;
+import org.brainfarm.java.feat.api.params.IEvolutionParameter;
 import org.brainfarm.java.feat.api.params.IEvolutionParameters;
 import org.brainfarm.java.feat.params.EvolutionParameters;
 import org.springframework.context.ApplicationContext;
@@ -61,7 +62,13 @@ public class EvolutionController implements IEvolutionController, Constants {
 					String key = (String)entry.getKey();
 					String value = (String)entry.getValue();
 		
-					evolutionParameters.getParameter(key).setValue(value);
+					IEvolutionParameter parameter = evolutionParameters.getParameter(key);
+					
+					if (parameter == null) {
+						System.out.println("There's a problem customising the evolution parameters - it seems there's no parameter with the name " + key + " are you sure there isn't just a spelling error?");
+					} else {
+						parameter.setValue(value);
+					}
 				}
 			} catch (IOException e) {
 				System.out.println("Problem loading custom properties file: " + e.getMessage());

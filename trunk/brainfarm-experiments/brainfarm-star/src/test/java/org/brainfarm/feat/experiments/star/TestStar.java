@@ -47,7 +47,6 @@ public class TestStar {
 
 		//load experiment
 		IEvolutionController controller = new TestStarController(context);
-		controller.loadDefaultParameters();
 		controller.loadExperiment("src/main/resources");
 
 		//run experiment

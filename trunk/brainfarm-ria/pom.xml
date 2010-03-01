@@ -108,6 +108,14 @@
       <version>4.0.0.10485</version>
       <type>pom</type>
     </dependency>
+    
+    <dependency>
+      <groupId>org.un.cava.birdeye</groupId>
+      <artifactId>ravis</artifactId>
+      <version>1.0</version>
+      <type>swc</type>
+    </dependency>
+    
 
   </dependencies>
 
