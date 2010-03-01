@@ -73,10 +73,14 @@ public class XMLUtils {
 		System.out.println("Saving XML file... " + fileName);
 		// open output stream where XML Document will be saved
 		File xmlOutputFile = new File(fileName);
+		return saveDocument(doc, xmlOutputFile);
+	}
+	
+	public static boolean saveDocument(Document xml, File file) {
 		FileOutputStream fos;
 		Transformer transformer;
 		try {
-			fos = new FileOutputStream(xmlOutputFile);
+			fos = new FileOutputStream(file);
 		} catch (FileNotFoundException e) {
 			System.out.println("Error occured: " + e.getMessage());
 			return false;
@@ -91,7 +95,7 @@ public class XMLUtils {
 					+ e.getMessage());
 			return false;
 		}
-		DOMSource source = new DOMSource(doc);
+		DOMSource source = new DOMSource(xml);
 		StreamResult result = new StreamResult(fos);
 		// transform source into result will do save
 		try {

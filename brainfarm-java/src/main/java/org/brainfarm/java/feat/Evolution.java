@@ -114,7 +114,7 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 			
 			onRunStart();
 			
-			for (int currentEpoch = 1; currentEpoch <= epochs; currentEpoch++) {
+			for (currentEpoch = 1; currentEpoch <= epochs; currentEpoch++) {
 								
 				for(IOrganism org : population.getOrganisms()) {
 					org.getGenome().validate();

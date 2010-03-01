@@ -6,8 +6,16 @@ import org.red5.io.amf3.IExternalizable;
 
 public class DoubleEvolutionParameter extends EvolutionParameter implements IExternalizable {
  
-	public void setDoubleValue(Double value) {
-		this.value = value;
+	/*public void setDoubleValue(Double value) {
+		//this.value = value;
+		setValue(value);
+	}*/
+	
+	@Override
+	public void setValue(Object value) {
+		if (value instanceof String) {
+			this.value = Double.parseDouble((String)value);
+		}
 	}
 	
 	@Override
