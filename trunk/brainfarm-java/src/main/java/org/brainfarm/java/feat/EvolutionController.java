@@ -1,6 +1,11 @@
 package org.brainfarm.java.feat;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.Map.Entry;
 
 import org.brainfarm.java.feat.api.IEvolutionContext;
 import org.brainfarm.java.feat.api.IEvolutionController;
@@ -23,18 +28,59 @@ public class EvolutionController implements IEvolutionController, Constants {
 		this.context = context;
 	}
 	
-	@Override
+	public void loadEvolutionParameters(String location) {
+		
+		ApplicationContext appContext = loadParameterContext(location);
+			
+		IEvolutionParameters evolutionParameters = (EvolutionParameters)appContext.getBean(DEFAULT_EVOLUTION_PARAMETERS_BEAN_NAME);
+
+		loadCustomParameters(location, evolutionParameters);
+		
+		context.setEvolutionParameters(evolutionParameters);
+	}
+	
+	protected ApplicationContext loadParameterContext(String location) {
+			
+		if (location != null && location.length() > 4 && location.endsWith(".xml")) {
+			return new FileSystemXmlApplicationContext(new String[]{location});
+		} else {
+			return new ClassPathXmlApplicationContext(new String[]{NEAT_CONTEXT_FILENAME});
+		}
+	}
+	
+	protected void loadCustomParameters(String location, IEvolutionParameters evolutionParameters) {
+		System.out.println("loading custom parameters from  " + location);
+		if (location != null && location.length() > 4 && location.endsWith(".properties")) {
+			Properties customProperties = new Properties();
+			
+			try {
+				InputStream is = new FileInputStream(new File(location));
+				customProperties.load(is);
+				
+				for (Entry<Object, Object> entry : customProperties.entrySet()) {
+					String key = (String)entry.getKey();
+					String value = (String)entry.getValue();
+		
+					evolutionParameters.getParameter(key).setValue(value);
+				}
+			} catch (IOException e) {
+				System.out.println("Problem loading custom properties file: " + e.getMessage());
+			}
+		}
+	}
+	
+	/*@Override
 	public void loadCustomParameters(String contextfile) {
 		ApplicationContext appContext = new FileSystemXmlApplicationContext(new String[]{contextfile});
 		IEvolutionParameters evolutionParameters = (EvolutionParameters)appContext.getBean(DEFAULT_EVOLUTION_PARAMETERS_BEAN_NAME);
 		context.setEvolutionParameters(evolutionParameters);
-	}
-	
+	}*/
+	/*
 	public void loadDefaultParameters() {
 		ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{NEAT_CONTEXT_FILENAME});
 		IEvolutionParameters evolutionParameters = (EvolutionParameters)appContext.getBean(DEFAULT_EVOLUTION_PARAMETERS_BEAN_NAME);
 		context.setEvolutionParameters(evolutionParameters);
-	}
+	}*/
 
 	@Override
 	/**
@@ -49,6 +95,11 @@ public class EvolutionController implements IEvolutionController, Constants {
 	 */
 	public void loadExperiment(String location) {		
 		System.out.println("loading experiment from " + location + " " + new File(""));
+		
+		if (context.getEvolutionParameters() == null) {
+			loadEvolutionParameters(null);
+		}
+		
 		IExperiment experiment = ExperimentLoader.loadExperiment(new File(location));
 		context.setExperiment(experiment);
 	}

@@ -6,8 +6,11 @@ import org.red5.io.amf3.IExternalizable;
 
 public class IntegerEvolutionParameter extends EvolutionParameter implements IExternalizable {
 
-	public void setIntegerValue(Integer value) {
-		this.value = value;
+	@Override
+	public void setValue(Object value) {
+		if (value instanceof String) {
+			this.value = Integer.parseInt((String)value);
+		}
 	}
 	
 	@Override

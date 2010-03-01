@@ -24,168 +24,168 @@
 				<entry key-ref="weight.mut.power.name">
 					<bean id="weight.mut.power" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="weight.mut.power.name"/>
-						<property name="doubleValue" value="${weight.mut.power.value}" />
+						<property name="value" value="${weight.mut.power.value}" />
 						<property name="description" value="${weight.mut.power.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="recur.prob.name">
 					<bean id="recur.prob" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="recur.prob.name"/>
-						<property name="doubleValue" value="${recur.prob.value}" />
+						<property name="value" value="${recur.prob.value}" />
 						<property name="description" value="${recur.prob.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="disjoint.coeff.name">
 					<bean id="disjoint.coeff" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="disjoint.coeff.name"/>
-						<property name="doubleValue" value="${disjoint.coeff.value}" />
+						<property name="value" value="${disjoint.coeff.value}" />
 						<property name="description" value="${disjoint.coeff.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="excess.coeff.name">
 					<bean id="excess.coeff" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="excess.coeff.name"/>
-						<property name="doubleValue" value="${excess.coeff.value}" />
+						<property name="value" value="${excess.coeff.value}" />
 						<property name="description" value="${excess.coeff.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="mutdiff.coeff.name">
 					<bean id="mutdiff.coeff" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="mutdiff.coeff.name"/>
-						<property name="doubleValue" value="${mutdiff.coeff.value}" />
+						<property name="value" value="${mutdiff.coeff.value}" />
 						<property name="description" value="${mutdiff.coeff.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="compat.threshold.name">
 					<bean id="compat.threshold" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="compat.threshold.name"/>
-						<property name="doubleValue" value="${compat.threshold.value}" />
+						<property name="value" value="${compat.threshold.value}" />
 						<property name="description" value="${compat.threshold.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="age.significance.name">
 					<bean id="age.significance" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="age.significance.name"/>
-						<property name="doubleValue" value="${age.significance.value}" />
+						<property name="value" value="${age.significance.value}" />
 						<property name="description" value="${age.significance.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="survival.thresh.name">
 					<bean id="survival.thresh" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="survival.thresh.name"/>
-						<property name="doubleValue" value="${survival.thresh.value}" />
+						<property name="value" value="${survival.thresh.value}" />
 						<property name="description" value="${survival.thresh.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="mutate.only.prob.name">
 					<bean id="mutate.only.prob" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="mutate.only.prob.name"/>
-						<property name="doubleValue" value="${mutate.only.prob.value}" />
+						<property name="value" value="${mutate.only.prob.value}" />
 						<property name="description" value="${mutate.only.prob.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="mutate.link.weights.prob.name">
 					<bean id="mutate.link.weights.prob" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="mutate.link.weights.prob.name"/>
-						<property name="doubleValue" value="${mutate.link.weights.prob.value}" />
+						<property name="value" value="${mutate.link.weights.prob.value}" />
 						<property name="description" value="${mutate.link.weights.prob.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="mutate.toggle.enable.prob.name">
 					<bean id="mutate.toggle.enable.prob" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="mutate.toggle.enable.prob.name"/>
-						<property name="doubleValue" value="${mutate.toggle.enable.prob.value}" />
+						<property name="value" value="${mutate.toggle.enable.prob.value}" />
 						<property name="description" value="${mutate.toggle.enable.prob.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="mutate.gene.reenable.prob.name">
 					<bean id="mutate.gene.reenable.prob" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="mutate.gene.reenable.prob.name"/>
-						<property name="doubleValue" value="${mutate.gene.reenable.prob.value}" />
+						<property name="value" value="${mutate.gene.reenable.prob.value}" />
 						<property name="description" value="${mutate.gene.reenable.prob.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="mutate.add.node.prob.name">
 					<bean id="mutate.add.node.prob" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="mutate.add.node.prob.name"/>
-						<property name="doubleValue" value="${mutate.add.node.prob.value}" />
+						<property name="value" value="${mutate.add.node.prob.value}" />
 						<property name="description" value="${mutate.add.node.prob.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="mutate.add.link.prob.name">
 					<bean id="mutate.add.link.prob" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="mutate.add.link.prob.name"/>
-						<property name="doubleValue" value="${mutate.add.link.prob.value}" />
+						<property name="value" value="${mutate.add.link.prob.value}" />
 						<property name="description" value="${mutate.add.link.prob.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="interspecies.mate.rate.name">
 					<bean id="interspecies.mate.rate" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="interspecies.mate.rate.name"/>
-						<property name="doubleValue" value="${interspecies.mate.rate.value}" />
+						<property name="value" value="${interspecies.mate.rate.value}" />
 						<property name="description" value="${interspecies.mate.rate.description}" />
 					</bean>
 				</entry>				
 				<entry key-ref="mate.multipoint.prob.name">
 					<bean id="mate.multipoint.prob" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="mate.multipoint.prob.name"/>
-						<property name="doubleValue" value="${mate.multipoint.prob.value}" />
+						<property name="value" value="${mate.multipoint.prob.value}" />
 						<property name="description" value="${mate.multipoint.prob.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="mate.multipoint.avg.prob.name">
 					<bean id="mate.multipoint.avg.prob" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="mate.multipoint.avg.prob.name"/>
-						<property name="doubleValue" value="${mate.multipoint.avg.prob.value}" />
+						<property name="value" value="${mate.multipoint.avg.prob.value}" />
 						<property name="description" value="${mate.multipoint.avg.prob.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="mate.singlepoint.prob.name">
 					<bean id="mate.singlepoint.prob" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="mate.multipoint.avg.prob.name"/>
-						<property name="doubleValue" value="${mate.singlepoint.prob.value}" />
+						<property name="value" value="${mate.singlepoint.prob.value}" />
 						<property name="description" value="${mate.singlepoint.prob.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="mate.only.prob.name">
 					<bean id="mate.only.prob" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="mate.only.prob.name"/>
-						<property name="doubleValue" value="${mate.only.prob.value}" />
+						<property name="value" value="${mate.only.prob.value}" />
 						<property name="description" value="${mate.only.prob.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="recur.only.prob.name">
 					<bean id="recur.only.prob" class="org.brainfarm.java.feat.params.DoubleEvolutionParameter">
 						<property name="name" ref="recur.only.prob.name"/>
-						<property name="doubleValue" value="${recur.only.prob.value}" />
+						<property name="value" value="${recur.only.prob.value}" />
 						<property name="description" value="${recur.only.prob.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="dropoff.age.name">
 					<bean id="dropoff.age" class="org.brainfarm.java.feat.params.IntegerEvolutionParameter">
 						<property name="name" ref="dropoff.age.name"/>
-						<property name="integerValue" value="${dropoff.age.value}" />
+						<property name="value" value="${dropoff.age.value}" />
 						<property name="description" value="${dropoff.age.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="newlink.tries.name">
 					<bean id="newlink.tries" class="org.brainfarm.java.feat.params.IntegerEvolutionParameter">
 						<property name="name" ref="newlink.tries.name"/>
-						<property name="integerValue" value="${newlink.tries.value}" />
+						<property name="value" value="${newlink.tries.value}" />
 						<property name="description" value="${newlink.tries.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="print.every.name">
 					<bean id="print.every" class="org.brainfarm.java.feat.params.IntegerEvolutionParameter">
 						<property name="name" ref="print.every.name"/>
-						<property name="integerValue" value="${print.every.value}" />
+						<property name="value" value="${print.every.value}" />
 						<property name="description" value="${print.every.description}" />
 					</bean>
 				</entry>
 				<entry key-ref="babies.stolen.name">
 					<bean id="babies.stolen" class="org.brainfarm.java.feat.params.IntegerEvolutionParameter">
 						<property name="name" ref="babies.stolen.name"/>
-						<property name="integerValue" value="${babies.stolen.value}" />
+						<property name="value" value="${babies.stolen.value}" />
 						<property name="description" value="${babies.stolen.description}" />
 					</bean>
 				</entry>

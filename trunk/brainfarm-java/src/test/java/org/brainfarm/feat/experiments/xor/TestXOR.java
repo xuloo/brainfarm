@@ -36,7 +36,6 @@ public class TestXOR {
 
 		//load experiment
 		IEvolutionController controller = new TestXorController(context);
-		controller.loadDefaultParameters();
 		controller.loadExperiment("src/test/resources/brainfarm-experiment-xor-1.0-SNAPSHOT.jar");
 
 		//run experiment

@@ -55,7 +55,6 @@ public class TestStar {
 
 		//load experiment
 		IEvolutionController controller = new TestXorController(context);
-		controller.loadDefaultParameters();
 		controller.loadExperiment("src/test/resources/brainfarm-experiment-star-1.0-SNAPSHOT.jar");
 
 		//run experiment
