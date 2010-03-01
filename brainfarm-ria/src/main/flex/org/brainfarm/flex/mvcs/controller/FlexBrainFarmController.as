@@ -46,8 +46,6 @@ package org.brainfarm.flex.mvcs.controller
 			
 		public function saveNeatParameters():void
 		{
-			trace("saving neat parameters");
-			
 			var op:IOperation = $context.service.saveNeatParameters();
 			op.addEventListener(Event.COMPLETE, onNeatParametersSaveComplete);
 			op.execute();
@@ -60,8 +58,6 @@ package org.brainfarm.flex.mvcs.controller
 		
 		public function runExperiment(experiment:ExperimentEntry):void 
 		{
-			trace("running experiment: " + experiment.name);
-			
 			$experimentProgressPanel = PopUpManager.createPopUp($viewLayer, ExperimentProgressPanelView, true) as ExperimentProgressPanelView;
 			PopUpManager.centerPopUp($experimentProgressPanel);
 			$experimentProgressPanel.context = $context;
@@ -72,12 +68,9 @@ package org.brainfarm.flex.mvcs.controller
 		}
 		
 		private function onRunExperimentComplete(evt:Event):void 
-		{
-			trace("experiment run complete");
-			
+		{			
 			var result:XML = IOperation(evt.target).result as XML;
-			trace("result \n" + result);
-			trace("selected experiment: " + $context.model.selectedExperiment);
+			
 			$context.model.selectedExperiment.result = result.Run;
 			
 			PopUpManager.removePopUp($experimentProgressPanel);

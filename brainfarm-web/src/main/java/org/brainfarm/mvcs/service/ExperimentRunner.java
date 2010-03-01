@@ -1,16 +1,18 @@
 package org.brainfarm.mvcs.service;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.brainfarm.java.feat.api.IEvolution;
 import org.brainfarm.java.feat.api.IEvolutionListener;
+import org.brainfarm.java.util.FileUtils;
 import org.brainfarm.java.util.XMLUtils;
 import org.brainfarm.java.util.writers.EvolutionResultWriter;
 import org.brainfarm.java.util.writers.IEvolutionWriter;
+import org.brainfarm.java.util.writers.INetworkWriter;
+import org.brainfarm.java.util.writers.RaVisNetworkWriter;
 import org.red5.server.api.IConnection;
-import org.red5.server.api.service.ServiceUtils;
-import org.red5.server.api.so.ISharedObject;
 import org.w3c.dom.Document;
 
 public class ExperimentRunner implements IEvolutionListener, IExperimentRunner {
@@ -23,10 +25,17 @@ public class ExperimentRunner implements IEvolutionListener, IExperimentRunner {
 	
 	private IEvolutionWriter resultWriter;
 	
+	private INetworkWriter networkWriter;
+	
+	private File workingDir;
+	
+	private EpochData[][] epochData;
+	
 	private List<IExperimentRunnerListener> listeners = new ArrayList<IExperimentRunnerListener>();
 	
-	public ExperimentRunner(IConnection connection, IEvolution evolution) {
+	public ExperimentRunner(IConnection connection, File workingDir, IEvolution evolution) {
 		this.connection = connection;
+		this.workingDir = workingDir;
 		this.evolution = evolution;
 	}
 
@@ -42,11 +51,28 @@ public class ExperimentRunner implements IEvolutionListener, IExperimentRunner {
 	@Override
 	public void onEpochComplete(IEvolution evolution) {
 		System.out.println("Epoch Complete");
+		
+		EpochData ed = new EpochData();
+		ed.hasWinner = evolution.hasWinner();
+		
 		if (evolution.hasWinner()) {
 			System.out.println("there's a winner in the epoch");
+			Document xml = XMLUtils.createNewDocument("Winner");
+			
+			if (networkWriter == null) {
+				networkWriter = new RaVisNetworkWriter();
+			}
+			
+			networkWriter.write(xml, evolution.getWinner().getPhenotype());
+			
+			ed.winnerFileName = workingDir.getAbsolutePath() + "/" + evolution.getRun() + "/" + evolution.getEpoch() + ".xml";
+			System.out.println("FILENAME " + ed.winnerFileName);
+			XMLUtils.saveDocument(xml, FileUtils.resolvePath(ed.winnerFileName));
 		} else {
 			System.out.println("there's NO winner in the epoch");
 		}
+		
+		epochData[evolution.getRun() - 1][evolution.getEpoch() - 1] = ed;
 	}
 
 	@Override
@@ -66,6 +92,8 @@ public class ExperimentRunner implements IEvolutionListener, IExperimentRunner {
 	@Override
 	public void onEvolutionStart(IEvolution evolution) {
 		System.out.println("Evolution Started");
+		
+		epochData = new EpochData[evolution.getTotalRuns()][evolution.getTotalEpochs()];
 	}
 	
 	protected void invalidateProgress() {
@@ -94,7 +122,7 @@ public class ExperimentRunner implements IEvolutionListener, IExperimentRunner {
 		Document xml = XMLUtils.createNewDocument(EvolutionResultWriter.ROOT_NODE_NAME);
 		
 		if (resultWriter == null) {
-			resultWriter = new EvolutionResultWriter();
+			resultWriter = new FileSystemEvolutionResultWriter(epochData);
 		}
 		
 		resultWriter.write(xml, evolution);
