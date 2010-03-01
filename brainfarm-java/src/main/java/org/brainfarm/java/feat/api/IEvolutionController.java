@@ -8,6 +8,11 @@ package org.brainfarm.java.feat.api;
 public interface IEvolutionController {
 
 	/**
+	 * Load parameters from a custom context file.
+	 */
+	void loadCustomParameters(String contextfile);
+	
+	/**
 	 * Load the default parameters into the Neat class.
 	 */
 	void loadDefaultParameters();

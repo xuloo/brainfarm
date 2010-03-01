@@ -9,6 +9,7 @@ import org.brainfarm.java.feat.api.params.IEvolutionParameters;
 import org.brainfarm.java.feat.params.EvolutionParameters;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class EvolutionController implements IEvolutionController, Constants {
 	
@@ -20,6 +21,13 @@ public class EvolutionController implements IEvolutionController, Constants {
 	
 	public EvolutionController(IEvolutionContext context) {
 		this.context = context;
+	}
+	
+	@Override
+	public void loadCustomParameters(String contextfile) {
+		ApplicationContext appContext = new FileSystemXmlApplicationContext(new String[]{contextfile});
+		IEvolutionParameters evolutionParameters = (EvolutionParameters)appContext.getBean(DEFAULT_EVOLUTION_PARAMETERS_BEAN_NAME);
+		context.setEvolutionParameters(evolutionParameters);
 	}
 	
 	public void loadDefaultParameters() {
