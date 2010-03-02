@@ -26,52 +26,58 @@ import org.brainfarm.java.util.ThreadedCommand;
  *
  */
 public class Evolution extends ThreadedCommand implements IEvolution {
-	
+
 	/**
 	 * Logger instance.
 	 */
 	private static Logger logger = Logger.getLogger(Evolution.class);
-	
+
 	/**
 	 * The number of times this Evolution run will be executed before it completes.
 	 */
 	private int runs;
-	
+
 	/**
 	 * The current run this Evolution instance is in.
 	 */
 	private int currentRun;
-	
+
 	/**
 	 * The number of epochs to push the population through during each run.
 	 */
 	private int epochs;
-	
+
 	/**
 	 * The current epoch this Evolution run is in.
 	 */
 	private int currentEpoch;
-	
+
 	/**
 	 * The IPopulation instance that contains the organisms evolved during the Evolution.
 	 */
 	private IPopulation population;
-	
+
 	/**
 	 * The strategy factory used to execute the evolutionary algorithm on the organisms in the population.
 	 */
 	private IEvolutionStrategy evolutionStrategy;
-	
+
+	/**
+	 * The first organism in any epoch of any run that 
+	 * performed better than the error threshold.
+	 */
+	private IOrganism firstWinner;
+
 	/**
 	 * List containing the highest fitness values from each epoch of the last run.
 	 */
 	protected List<Double> maxFitnessEachEpoch = new ArrayList<Double>();
-	
+
 	/**
 	 * Objects listening for events from this evolutionary run.
 	 */
 	protected List<IEvolutionListener> listeners = Collections.synchronizedList(new CopyOnWriteArrayList<IEvolutionListener>());
-	
+
 	/**
 	 * Constructor. Creates a new Evolution instance that contains all the properties required for a complete
 	 * Evolution run. A 'snapshot' of the Experiment settings at the point Experiment#evolution() is called.
@@ -87,47 +93,47 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 		this.runs = runs;
 		this.epochs = epochs;
 	}
-	
+
 	/**
 	 * Starts the Evolution running.
 	 */
 	@Override
 	protected void execute() {
-		
+
 		logger.debug("Executing Evolution");
-		
+
 		// Inform listeners we're starting a set of evolution runs.
 		onEvolutionStart();
-		
+
 		for (currentRun = 1; currentRun <= runs; currentRun++) {
-			
+
 			onRunStart();
-			
-			//evaluate the initial population of organisms
+
+			//evaluate the initial population
 			for (IOrganism organism : population.getOrganisms())
 				evolutionStrategy.getOrganismEvaluator().evaluate(organism);
-			
+
 			for (int currentEpoch = 1; currentEpoch <= epochs; currentEpoch++) {
-				
+
 				// Inform listeners we're starting a new Epoch.
 				onEpochStart();
-				
+
 				// Execute the Epoch.
 				epoch(population, currentEpoch);
-				
+
 				// Inform the listeners the Epoch is complete.
 				onEpochComplete();
 			}
-			
+
 			onRunComplete();
 		}
-		
+
 		// Inform the listeners the evolution runs are complete.
 		onEvolutionComplete();
-		
+
 		logger.debug("Evolution Complete");
 	}
-	
+
 	/**
 	 * Represents a single cycle of 'evolution'.
 	 * Evaluates each organism in the population and records any 'winners'.
@@ -141,29 +147,32 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	 */
 	public void epoch(IPopulation population, int generation) {
 
-		// Keep track of the maximum fitness of the epoch.
 		double maxFitnessOfEpoch = 0.0;
+
+		// Keep track of the maximum fitness of the epoch.
 		for (IOrganism organism : population.getOrganisms())
 			if (organism.getFitness() > maxFitnessOfEpoch) 
 				maxFitnessOfEpoch = organism.getFitness();
 
 		// Record the highest fitness value for this epoch.
 		maxFitnessEachEpoch.add(maxFitnessOfEpoch);
-		
+
 		// Compute average and max fitness for each species
 		for (ISpecies specie : population.getSpecies()) {
 			specie.computeAverageFitness();
 			specie.computeMaxFitness();
 		}
 
-		//evolve the population
+		// Evolve the population.
 		population.epoch(generation);
-		
-		//evaluate the population
-		for (IOrganism organism : population.getOrganisms()) 
-			evolutionStrategy.getOrganismEvaluator().evaluate(organism);
+
+		//evaluate the population & record the first winner
+		for (IOrganism organism : population.getOrganisms())
+			if (evolutionStrategy.getOrganismEvaluator().evaluate(organism))
+				if (!hasWinner())
+					firstWinner = organism;
 	}
-	
+
 	/**
 	 * Inform each listener that Evolution has started.
 	 */
@@ -173,7 +182,7 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 			listener.onEvolutionStart(this);
 		}
 	}
-	
+
 	/**
 	 * Inform each listener that Evolution has completed.
 	 */
@@ -182,7 +191,7 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 			listener.onEvolutionComplete(this);
 		}
 	}
-	
+
 	/**
 	 * Inform each listener that a new Epoch is about to begin.
 	 */
@@ -191,7 +200,7 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 			listener.onEpochStart(this);
 		}
 	}
-	
+
 	/**
 	 * Inform each listener that an Epoch has just completed.
 	 */
@@ -200,7 +209,7 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 			listener.onEpochComplete(this);
 		}
 	}
-	
+
 	/**
 	 * Inform each listener that a Run has begun.
 	 */
@@ -209,7 +218,7 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 			listener.onRunStart(this);
 		}
 	}
-	
+
 	/**
 	 * Inform each listener that a Run has just completed.
 	 */
@@ -218,54 +227,70 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 			listener.onRunComplete(this);
 		}
 	}
-	
+
 	/**
 	 * Add a listener for events from this Evolution.
 	 */
 	public void addListener(IEvolutionListener listener) {
 		listeners.add(listener);
 	}
-	
+
 	/**
 	 * Remove a listener for events from this Evolution.
 	 */
 	public void removeListener(IEvolutionListener listener) {
 		listeners.remove(listener);
 	}
-	
+
 	/**
 	 * Returns the current 'run' this Evolution is in.
 	 */
 	public int getRun() {
 		return currentRun;
 	}
-	
+
 	public int getTotalRuns() {
 		return runs;
 	}
-	
+
 	/**
 	 * Returns the current Epoch this Evolution is in.
 	 */
 	public int getEpoch() {
 		return currentEpoch;
 	}
-	
+
 	public int getTotalEpochs() {
 		return epochs;
 	}
-	
+
 	/**
 	 * Returns the population that is being evolved.
 	 */
 	public IPopulation getPopulation() {
 		return population;
 	}
-	
+
 	/**
 	 * Returns the list of fitnesses from each epoch of the last run.
 	 */
 	public List<Double> getMaxFitnessEachEpoch(){
 		return maxFitnessEachEpoch;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public IOrganism getWinner() {
+		return firstWinner;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean hasWinner() {
+		return firstWinner != null;
 	}
 }

@@ -23,6 +23,10 @@ public interface IEvolution extends Runnable {
 	
 	IPopulation getPopulation();
 	
+	boolean hasWinner();
+	
+	IOrganism getWinner();
+	
 	List<Double> getMaxFitnessEachEpoch();
 	
 	void addListener(IEvolutionListener listener);
