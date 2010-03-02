@@ -103,15 +103,11 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 			
 			onRunStart();
 			
-<<<<<<< .mine
 			//evaluate the initial population of organisms
 			for (IOrganism organism : population.getOrganisms())
 				evolutionStrategy.getOrganismEvaluator().evaluate(organism);
 			
 			for (int currentEpoch = 1; currentEpoch <= epochs; currentEpoch++) {
-=======
-			for (currentEpoch = 1; currentEpoch <= epochs; currentEpoch++) {
->>>>>>> .r189
 				
 				// Inform listeners we're starting a new Epoch.
 				onEpochStart();
@@ -272,28 +268,4 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	public List<Double> getMaxFitnessEachEpoch(){
 		return maxFitnessEachEpoch;
 	}
-
-//	/**
-//	 * {@inheritDoc}
-//	 */
-//	@Override
-//	public IOrganism getWinner() {
-//		return firstWinner;
-//	}
-//
-//	/**
-//	 * {@inheritDoc}
-//	 */
-//	@Override
-//	public boolean hasWinner() {
-//		return firstWinner != null;
-//	}
-//
-//	/**
-//	 * {@inheritDoc}
-//	 */
-//	@Override
-//	public IOrganism getSuperWinner() {
-//		return superWinner;
-//	}
 }
