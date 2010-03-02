@@ -63,17 +63,6 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	private IEvolutionStrategy evolutionStrategy;
 	
 	/**
-	 * The first organism in any epoch of any run that 
-	 * performed better than the error threshold.
-	 */
-	private IOrganism firstWinner;
-	
-	/**
-	 * The fittest organism from any epoch of any run.
-	 */
-	private IOrganism superWinner;
-	
-	/**
 	 * List containing the highest fitness values from each epoch of the last run.
 	 */
 	protected List<Double> maxFitnessEachEpoch = new ArrayList<Double>();
@@ -114,11 +103,15 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 			
 			onRunStart();
 			
+<<<<<<< .mine
+			//evaluate the initial population of organisms
+			for (IOrganism organism : population.getOrganisms())
+				evolutionStrategy.getOrganismEvaluator().evaluate(organism);
+			
+			for (int currentEpoch = 1; currentEpoch <= epochs; currentEpoch++) {
+=======
 			for (currentEpoch = 1; currentEpoch <= epochs; currentEpoch++) {
-								
-				for(IOrganism org : population.getOrganisms()) {
-					org.getGenome().validate();
-				}
+>>>>>>> .r189
 				
 				// Inform listeners we're starting a new Epoch.
 				onEpochStart();
@@ -152,31 +145,11 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 	 */
 	public void epoch(IPopulation population, int generation) {
 
+		// Keep track of the maximum fitness of the epoch.
 		double maxFitnessOfEpoch = 0.0;
-
-		// Evaluate each organism and check for first/super winners.
-		for (IOrganism organism : population.getOrganisms()) {
-
-			// Evaluate each organism. 
-			if (evolutionStrategy.getOrganismEvaluator().evaluate(organism)) {
-				
-				// If it's the first winner, store the organism.
-				if (!hasWinner()) {
-					
-					// If there's no firstWinner then there's no superWinner either.
-					firstWinner = superWinner = organism;
-				
-				// Otherwise, check if it's more fit than the previous superwinner.
-				} else if (organism.getFitness() > superWinner.getFitness()) {
-					superWinner = organism;
-				}
-			}
-
-			// Keep track of the maximum fitness of the epoch.
-			if (organism.getFitness() > maxFitnessOfEpoch) {
+		for (IOrganism organism : population.getOrganisms())
+			if (organism.getFitness() > maxFitnessOfEpoch) 
 				maxFitnessOfEpoch = organism.getFitness();
-			}
-		}
 
 		// Record the highest fitness value for this epoch.
 		maxFitnessEachEpoch.add(maxFitnessOfEpoch);
@@ -187,8 +160,12 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 			specie.computeMaxFitness();
 		}
 
-		// Evolve the population.
+		//evolve the population
 		population.epoch(generation);
+		
+		//evaluate the population
+		for (IOrganism organism : population.getOrganisms()) 
+			evolutionStrategy.getOrganismEvaluator().evaluate(organism);
 	}
 	
 	/**
@@ -296,27 +273,27 @@ public class Evolution extends ThreadedCommand implements IEvolution {
 		return maxFitnessEachEpoch;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public IOrganism getWinner() {
-		return firstWinner;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean hasWinner() {
-		return firstWinner != null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public IOrganism getSuperWinner() {
-		return superWinner;
-	}
+//	/**
+//	 * {@inheritDoc}
+//	 */
+//	@Override
+//	public IOrganism getWinner() {
+//		return firstWinner;
+//	}
+//
+//	/**
+//	 * {@inheritDoc}
+//	 */
+//	@Override
+//	public boolean hasWinner() {
+//		return firstWinner != null;
+//	}
+//
+//	/**
+//	 * {@inheritDoc}
+//	 */
+//	@Override
+//	public IOrganism getSuperWinner() {
+//		return superWinner;
+//	}
 }
