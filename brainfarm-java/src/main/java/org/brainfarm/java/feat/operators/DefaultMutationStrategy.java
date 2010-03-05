@@ -225,7 +225,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 		}
 	}
 
-	public boolean mutateAddNode(IGenome genome, IPopulation population) {
+	public INode mutateAddNode(IGenome genome, IPopulation population) {
 
 		List<IGene> genes = genome.getGenes();
 
@@ -284,7 +284,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 		}
 
 		if (!found)
-			return false;
+			return null;
 
 		_gene.setEnabled(false);
 
@@ -335,7 +335,7 @@ public class DefaultMutationStrategy implements IMutationStrategy {
 		genes.add(newgene2);
 		EvolutionUtils.nodeInsert(genome.getNodes(), new_node);
 
-		return true;
+		return new_node;
 
 	}
 
