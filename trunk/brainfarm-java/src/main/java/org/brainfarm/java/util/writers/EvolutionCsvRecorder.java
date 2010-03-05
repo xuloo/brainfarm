@@ -35,7 +35,7 @@ public class EvolutionCsvRecorder implements IEvolutionListener{
 			// Create file 
 			FileWriter fstream = new FileWriter(fileName);
 			csv_out = new BufferedWriter(fstream);
-			csv_out.write("epoch, best_fit, worst_fit, avg_fit, #species, min size, max size, avg.size\n");
+			csv_out.write("epoch, avg #nodes, best fit, worst fit, avg fit, #species, min size, max size, avg size\n");
 		}catch (Exception e){//Catch exception if any
 			System.err.println("Error: " + e.getMessage());
 		}
@@ -46,6 +46,7 @@ public class EvolutionCsvRecorder implements IEvolutionListener{
 	@Override
 	public void onEpochComplete(IEvolution evolution) {
 		epochsCompleted++;
+		double avgNumNodes = getAvgNumNodes(evolution.getPopulation());
 		IOrganism best = getBestOrganism(evolution.getPopulation());
 		IOrganism worst = getWorstOrganism(evolution.getPopulation());
 		double avgFit = getAvgFitness(evolution.getPopulation());
@@ -64,7 +65,7 @@ public class EvolutionCsvRecorder implements IEvolutionListener{
 
 
 		try {
-			csv_out.write(epochsCompleted + "," + best.getFitness() + ", " + worst.getFitness() + ", " + avgFit + ", " + species.size() + ", " + minSize + ", " + maxSize + ", " + avgSize + "\n");
+			csv_out.write(epochsCompleted + "," + avgNumNodes + ", " + best.getFitness() + ", " + worst.getFitness() + ", " + avgFit + ", " + species.size() + ", " + minSize + ", " + maxSize + ", " + avgSize + "\n");
 			csv_out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -122,4 +123,12 @@ public class EvolutionCsvRecorder implements IEvolutionListener{
 				min = o;
 		return min;
 	}
+	
+	private double getAvgNumNodes(IPopulation population) {
+		double total = 0.0;
+		for(IOrganism o : population.getOrganisms())
+			total += o.getGenome().getNodes().size();
+		return total/population.getOrganisms().size();
+	}
+
 }

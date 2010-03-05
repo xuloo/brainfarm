@@ -34,7 +34,7 @@ import org.brainfarm.java.util.RandomUtils;
 public class NeatMutationStrategy implements IMutationStrategy, IEvolutionConstants {
 
 	protected IEvolutionParameters evolutionParameters;
-	
+
 	@Override
 	public void mutate(IGenome genome, IPopulation pop, int generation) {
 		if (RandomUtils.randomDouble() < evolutionParameters.getDoubleParameter(MUTATE_ADD_NODE_PROB)) {
@@ -207,55 +207,45 @@ public class NeatMutationStrategy implements IMutationStrategy, IEvolutionConsta
 		if (found) {
 
 			// Check to see if this innovation already occured in the population
-			Iterator<IInnovation> innovationsIterator = population.getInnovations().iterator();
+			IInnovation existingInnov = population.getExistingLinkInnovation(thenode1.getId(), thenode2.getId(), do_recur);
 
-			done = false;
-			while (!done) {
+			if (existingInnov==null) {
 
-				if (!innovationsIterator.hasNext()) {
-
-					// If the phenotype does not exist, exit on false,print
-					// error
-					// Note: This should never happen- if it does there is a bug
-					if (phenotype == null) {
-						System.out
-						.print("ERROR: Attempt to add link to genome with no phenotype");
-						return false;
-					}
-
-					// TODO: delete this invocation, it's only here to preserve 
-					// consistent interaction with Random
-					RandomUtils.randomInt(0, 0);
-
-					// Choose the new weight
-					new_weight = RandomUtils.randomBinomial() * RandomUtils.randomDouble() * 10.0;
-
-					// read from population current innovation value
-
-					// read curr innovation with postincrement
-					double curr_innov = population.getCurrentInnovationNumberAndIncrement();
-					// Create the new gene
-					new_gene = new Gene(new_weight, thenode1, thenode2, do_recur,
-							curr_innov, new_weight);
-					// Add the innovation
-					population.getInnovations().add(new Innovation(thenode1.getId(), thenode2.getId(), curr_innov, new_weight));
-					done = true;
-
+				// If the phenotype does not exist, exit on false,print
+				// error
+				// Note: This should never happen- if it does there is a bug
+				if (phenotype == null) {
+					System.out
+					.print("ERROR: Attempt to add link to genome with no phenotype");
+					return false;
 				}
 
-				// OTHERWISE, match the innovation in the innovs list
-				else {
-					IInnovation _innov = innovationsIterator.next();
-					if ((_innov.getInnovationType() == InnovationType.NEW_LINK)
-							&& (_innov.getInputNodeId() == thenode1.getId())
-							&& (_innov.getOutputNodeId() == thenode2.getId())
-							&& (_innov.isRecurrent() == do_recur)) {
+				// TODO: delete this invocation, it's only here to preserve 
+				// consistent interaction with Random
+				RandomUtils.randomInt(0, 0);
 
-						new_gene = new Gene(_innov.getNewWeight(), thenode1, thenode2, do_recur, _innov.getInnovationNumber1(), 0);
-						done = true;
-					}
-				}
+				// Choose the new weight
+				new_weight = RandomUtils.randomBinomial() * RandomUtils.randomDouble() * 10.0;
+
+				// read from population current innovation value
+
+				// read curr innovation with postincrement
+				double curr_innov = population.getCurrentInnovationNumberAndIncrement();
+				// Create the new gene
+				new_gene = new Gene(new_weight, thenode1, thenode2, do_recur,
+						curr_innov, new_weight);
+				// Add the innovation
+				population.getInnovations().add(new Innovation(thenode1.getId(), thenode2.getId(), curr_innov, new_weight));
+				done = true;
+
 			}
+
+			// OTHERWISE, match the innovation in the innovs list
+			else {
+				new_gene = new Gene(existingInnov.getNewWeight(), thenode1, thenode2, do_recur, existingInnov.getInnovationNumber1(), 0);
+				done = true;
+			}
+
 
 			genes.add(new_gene);
 			return true;
@@ -416,62 +406,44 @@ public class NeatMutationStrategy implements IMutationStrategy, IEvolutionConsta
 		in_node = thelink.getInputNode();
 		out_node = thelink.getOutputNode();
 
-		boolean done = false;
-		Iterator<IInnovation> innovationIterator = population.getInnovations().iterator();
+		IInnovation existingInnov = population.getExistingNodeInnovation(in_node.getId(),out_node.getId(),_gene.getInnovationNumber());
 
-		while (!done) {
-			// Check to see if this innovation already occured in the population
-			if (!innovationIterator.hasNext()) {
+		// If the innovation is totally novel
+		if (existingInnov==null) {
 
-				// The innovation is totally novel
-				// Create the new Genes
-				// Create the new NNode
-				// get the current node id with postincrement
+			// Create the new Genes
+			// Create the new NNode
+			// get the current node id with postincrement
 
-				int curnode_id = population.getCurrentNodeIdAndIncrement();
+			int curnode_id = population.getCurrentNodeIdAndIncrement();
 
-				// pass this current nodeid to newnode and create the new node
-				new_node = new NeatNode(NodeType.NEURON, curnode_id, NodeLabel.HIDDEN);
+			// pass this current nodeid to newnode and create the new node
+			new_node = new NeatNode(NodeType.NEURON, curnode_id, NodeLabel.HIDDEN);
 
-				// get the current gene inovation with post increment
-				gene_innov1 = population.getCurrentInnovationNumberAndIncrement();
+			// get the current gene inovation with post increment
+			gene_innov1 = population.getCurrentInnovationNumberAndIncrement();
 
-				// create gene with the current gene inovation
-				newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), gene_innov1, 0);
+			// create gene with the current gene inovation
+			newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), gene_innov1, 0);
 
-				// re-read the current innovation with increment
-				gene_innov2 = population.getCurrentInnovationNumberAndIncrement();
+			// re-read the current innovation with increment
+			gene_innov2 = population.getCurrentInnovationNumberAndIncrement();
 
-				// create the second gene with this innovation incremented
-				newgene2 = new Gene(oldweight, new_node, out_node, false, gene_innov2, 0);
+			// create the second gene with this innovation incremented
+			newgene2 = new Gene(oldweight, new_node, out_node, false, gene_innov2, 0);
 
-				population.getInnovations().add(new Innovation(in_node.getId(), out_node .getId(), gene_innov1, gene_innov2, new_node.getId(), _gene.getInnovationNumber()));
+			population.getInnovations().add(new Innovation(in_node.getId(), out_node .getId(), gene_innov1, gene_innov2, new_node.getId(), _gene.getInnovationNumber()));
 
-				done = true;
-			}
-			// end for new innovation case
-			else {
-				IInnovation _innov = innovationIterator.next();
-
-				if ((_innov.getInnovationType() == InnovationType.NEW_NODE)
-						&& (_innov.getInputNodeId() == in_node.getId())
-						&& (_innov.getOutputNodeId() == out_node.getId())
-						&& (_innov.getOldInnovationNumber() == _gene.getInnovationNumber())) {
-					// Create the new Genes
-					// pass this current nodeid to newnode
-					new_node = new NeatNode(NodeType.NEURON, _innov.getNewNodeId(), NodeLabel.HIDDEN);
-
-					newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), _innov.getInnovationNumber1(), 0);
-					newgene2 = new Gene(oldweight, new_node, out_node, false, _innov.getInnovationNumber2(), 0);
-					done = true;
-
-				}
-			}
-
+		}
+		// use existing innovation
+		else {
+			// Create the new Genes, user current nodeid
+			new_node = new NeatNode(NodeType.NEURON, existingInnov.getNewNodeId(), NodeLabel.HIDDEN);
+			newgene1 = new Gene(1.0, in_node, new_node, thelink.isRecurrent(), existingInnov.getInnovationNumber1(), 0);
+			newgene2 = new Gene(oldweight, new_node, out_node, false, existingInnov.getInnovationNumber2(), 0);
 		}
 
 		// Now add the new NNode and new Genes to the Genome
-
 		genes.add(newgene1);
 		genes.add(newgene2);
 		EvolutionUtils.nodeInsert(genome.getNodes(), new_node);
