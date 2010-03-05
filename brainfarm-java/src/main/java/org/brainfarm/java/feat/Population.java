@@ -12,6 +12,7 @@ import org.brainfarm.java.feat.api.IInnovation;
 import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
+import org.brainfarm.java.feat.api.enums.InnovationType;
 import org.brainfarm.java.feat.api.params.IEvolutionConstants;
 import org.brainfarm.java.feat.api.params.IEvolutionParameters;
 import org.brainfarm.java.feat.comparators.CompareSpeciesByOriginalFitness;
@@ -496,6 +497,23 @@ public class Population implements IPopulation, IEvolutionConstants {
 	public Population() {
 	}
 
+	@Override
+	public IInnovation getExistingNodeInnovation(int inNodeId, int outNodeId, double innovationNumber) {
+		for(IInnovation _innov : getInnovations())
+			if ((_innov.getInnovationType() == InnovationType.NEW_NODE) && (_innov.getInputNodeId() == inNodeId)
+					&& (_innov.getOutputNodeId() == outNodeId) && (_innov.getOldInnovationNumber() == innovationNumber)) 
+				return _innov;
+		return null;
+	}
+	@Override
+	public IInnovation getExistingLinkInnovation(int inNodeId, int outNodeId, boolean isRecurrent) {
+		for(IInnovation _innov : getInnovations())
+			if ((_innov.getInnovationType() == InnovationType.NEW_LINK) && (_innov.getInputNodeId() == inNodeId)
+					&& (_innov.getOutputNodeId() == outNodeId) && (_innov.isRecurrent() == isRecurrent)) 
+				return _innov;
+		return null;
+	}
+
 	/**
 	 * Debug Population Note: This checks each genome by verifying each one Only
 	 * useful for debugging
@@ -619,4 +637,5 @@ public class Population implements IPopulation, IEvolutionConstants {
 	public void setEvolutionParameters(IEvolutionParameters evolutionParameters) {
 		this.evolutionParameters = evolutionParameters;
 	}
+
 }

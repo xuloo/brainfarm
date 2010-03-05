@@ -2,6 +2,7 @@ package org.brainfarm.java.feat.api;
 
 import java.util.List;
 
+import org.brainfarm.java.feat.api.enums.InnovationType;
 import org.brainfarm.java.feat.api.params.IEvolutionParametersAware;
 
 public interface IPopulation extends IEvolutionParametersAware {
@@ -33,5 +34,9 @@ public interface IPopulation extends IEvolutionParametersAware {
 	public void setCur_node_id(int cur_node_id);
 
 	public void setCur_innov_num(double cur_innov_num);
+
+	IInnovation getExistingNodeInnovation(int inNodeId, int outNodeId, double innovationNumber);
+
+	IInnovation getExistingLinkInnovation(int inNodeId, int outNodeId, boolean isRecurrent);
 
 }
