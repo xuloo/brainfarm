@@ -30,6 +30,8 @@ public interface IMutationStrategy extends IEvolutionConstants {
 	 * Adds a link somewhere in the genome, the population must be passed
 	 * in so that it can be consulted for a new innovation number.
 	 * 
+	 * TODO: pull up the rest of the required methods.
+	 * 
 	 * @param genome
 	 * @param population
 	 * @return true if a link was added

@@ -18,11 +18,11 @@ import org.brainfarm.java.feat.comparators.CompareOrganismsByFitness;
  *
  */
 public class Species implements ISpecies {
-	
+
 	private static Logger logger = Logger.getLogger(Species.class);
-	
+
 	protected IEvolutionParameters evolutionParameters;
-	
+
 	/**
 	 * id(-entification) of this species
 	 */
@@ -62,7 +62,7 @@ public class Species implements ISpecies {
 	 * has tested ?
 	 */
 	private boolean checked;
-	
+
 	/**
 	 * how many time from last updt? If this is too long ago, the Species will
 	 * goes extinct.
@@ -87,7 +87,7 @@ public class Species implements ISpecies {
 		max_fitness = 0;
 		max_fitness_ever = 0;
 	}
-	
+
 	/**
 	 * 
 	 * costructor with identification and flag for signaling if its a new specie
@@ -119,22 +119,15 @@ public class Species implements ISpecies {
 	 * organisms can be eliminated from this specie
 	 */
 	public void adjustFitness() {
-
-		//Iterator itr_organism;
-		IOrganism _organism = null;
-		int num_parents = 0;
-		int count = 0;
-		int age_debt = 0;
-		int j;
-				
-		age_debt = (age - ageOfLastImprovement + 1) - evolutionParameters.getIntParameter(DROPOFF_AGE);
+		
+		int age_debt = (age - ageOfLastImprovement + 1) - evolutionParameters.getIntParameter(DROPOFF_AGE);
 		if (age_debt == 0)
 			age_debt = 1;
 
 		int size1 = organisms.size();
 
-		for (j = 0; j < size1; j++) {
-			_organism = organisms.get(j);
+		for (int j = 0; j < size1; j++) {
+			IOrganism _organism = organisms.get(j);
 
 			// Remember the original fitness before it gets modified
 			_organism.setOriginalFitness(_organism.getFitness());
@@ -158,9 +151,7 @@ public class Species implements ISpecies {
 
 		}
 
-		// Sort the population and mark for death those after survival_thresh *
-		// pop_size
-
+		// Sort the population and mark for death those after survival_thresh * pop_size
 		Comparator<IOrganism> cmp = new CompareOrganismsByFitness();
 		Collections.sort(organisms, cmp);
 
@@ -173,27 +164,21 @@ public class Species implements ISpecies {
 
 		// Decide how many get to reproduce based on survival_thresh*pop_size
 		// Adding 1.0 ensures that at least one will survive
-		// floor is the largest (closest to positive infinity) double value that
-		// is not greater
-		// than the argument and is equal to a mathematical integer
-
-		num_parents = (int) Math.floor((evolutionParameters.getDoubleParameter(SURVIVAL_THRESH) * ((double) size1)) + 1.0);
+		int num_parents = (int) Math.floor((evolutionParameters.getDoubleParameter(SURVIVAL_THRESH) * ((double) size1)) + 1.0);
 
 		// Mark for death those who are ranked too low to be parents
 		Iterator<IOrganism> itr_organism = organisms.iterator();
-		count = 1;
-		
+		int count = 1;
+
 		while (itr_organism.hasNext() && count <= num_parents) {
-			_organism = ((Organism) itr_organism.next());
+			itr_organism.next();
 			count++;
 		}
 
 		// found organism can be eliminated !
-		while (itr_organism.hasNext()) {
-			_organism = itr_organism.next();
-			// Mark for elimination
-			_organism.setEliminated(true);
-		}
+		while (itr_organism.hasNext()) 
+			((IOrganism)itr_organism.next()).setEliminated(true);
+
 	}
 
 	/**
@@ -218,7 +203,7 @@ public class Species implements ISpecies {
 	 * organisms.
 	 */
 	public void computeMaxFitness() {
-		
+
 		double max = 0.0;
 
 		for (IOrganism organism : organisms) {
@@ -226,7 +211,7 @@ public class Species implements ISpecies {
 				max = organism.getFitness();
 			}
 		}
-		
+
 		max_fitness = max;
 	}
 
@@ -248,7 +233,7 @@ public class Species implements ISpecies {
 		int n2 = 0;
 
 		for (IOrganism organism : organisms) {
-			
+
 			x1 = organism.getExpectedOffspring();
 
 			n1 = (int) (x1 / y1);
@@ -266,28 +251,6 @@ public class Species implements ISpecies {
 		return r2;
 	}
 
-	/*public String toString() {
-
-		StringBuilder s = new StringBuilder();
-		
-		s.append("SPECIES : ");
-		s.append("  id < " + id + " >");
-		s.append(" age=" + age);
-		s.append(", ave_fitness=" + averageFitness);
-		s.append(", max_fitness=" + max_fitness);
-		s.append(", max_fitness_ever =" + max_fitness_ever);
-		s.append(", expected_offspring=" + expectedOffspring);
-		s.append(", age_of_last_improvement=" + ageOfLastImprovement);
-		s.append("\n  This Species has " + organisms.size() + " organisms :");
-		s.append("\n ---------------------------------------");
-
-		for (IOrganism organism : organisms) {
-			s.append(organism.toString());
-		}
-		
-		return s.toString();
-	}*/
-
 	/**
 	 * Compute generations since last improvement
 	 */
@@ -302,12 +265,12 @@ public class Species implements ISpecies {
 	public void removeOrganism(IOrganism organism) {
 
 		boolean rc = organisms.remove(organism);
-		
+
 		if (!rc) {
 			logger.error("\n ALERT: Attempt to remove nonexistent Organism from Species");
 		}
 	}
-	
+
 	public int getId() {
 		return id;
 	}
@@ -323,7 +286,7 @@ public class Species implements ISpecies {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	
+
 	public void incrementAge() {
 		age++;
 	}
@@ -359,15 +322,15 @@ public class Species implements ISpecies {
 	public void setExpectedOffspring(int expectedOffspring) {
 		this.expectedOffspring = expectedOffspring;
 	}
-	
+
 	public void incrementExpectedOffspring() {
 		expectedOffspring++;
 	}
-	
+
 	public void incrementExpectedOffspring(double value) {
 		expectedOffspring += value;
 	}
-	
+
 	public void decrementExpectedOffspring(double value) {
 		expectedOffspring -= value;
 	}

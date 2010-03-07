@@ -41,7 +41,7 @@ public class EvolutionCsvRecorder implements IEvolutionListener{
 		}
 	}
 
-	int epochsCompleted = 0;
+	protected int epochsCompleted = 0;
 
 	@Override
 	public void onEpochComplete(IEvolution evolution) {

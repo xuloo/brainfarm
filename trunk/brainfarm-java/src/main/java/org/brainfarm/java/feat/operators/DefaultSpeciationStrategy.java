@@ -28,9 +28,8 @@ public class DefaultSpeciationStrategy implements ISpeciationStrategy {
 	@Override
 	public void speciate(IPopulation pop) {
 		
-		//get fields from population
-		List<ISpecies> species = new ArrayList<ISpecies>();
-		pop.setSpecies(species);
+		//clear the population species
+		pop.getSpecies().clear();
 		
 		IOrganism compare_org = null; // Organism for comparison
 		ISpecies newspecies = null;
@@ -41,18 +40,18 @@ public class DefaultSpeciationStrategy implements ISpeciationStrategy {
 		for (IOrganism organism : pop.getOrganisms()) {
 
 			// if list species is empty , create the first species!
-			if (species.isEmpty()) {
+			if (pop.getSpecies().isEmpty()) {
 				newspecies = FeatFactory.newSpecies(++counter); // create a new specie
 				newspecies.setEvolutionParameters(evolutionParameters);
 				
-				species.add(newspecies); // add this species to list of species
+				pop.getSpecies().add(newspecies); // add this species to list of species
 				newspecies.addOrganism(organism);
 				// Add to new spoecies the current organism
 				organism.setSpecies(newspecies); // Point organism to its species
 			} else {
 				// looop in all species.... (each species is a Vector of
 				// organism...)
-				Iterator<ISpecies> itr_specie = species.iterator();
+				Iterator<ISpecies> itr_specie = pop.getSpecies().iterator();
 				boolean done = false;
 
 				while (!done && itr_specie.hasNext()) {
@@ -80,7 +79,7 @@ public class DefaultSpeciationStrategy implements ISpeciationStrategy {
 					newspecies = FeatFactory.newSpecies(++counter); // create a new specie
 					newspecies.setEvolutionParameters(evolutionParameters);
 					
-					species.add(newspecies); // add this species to list of
+					pop.getSpecies().add(newspecies); // add this species to list of
 												// species
 					newspecies.addOrganism(organism);
 					// Add to new species the current organism
