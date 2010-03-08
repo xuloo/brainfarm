@@ -6,7 +6,7 @@
  * or http://jung.sourceforge.net/license.txt for a description.
  * 
  */
-package omit.org.gatech.feat.jung;
+package org.gatech.feat.experiments.star.visualization;
 
 import java.awt.BorderLayout;
 import java.awt.Color;

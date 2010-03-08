@@ -7,7 +7,6 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-import omit.org.gatech.feat.jung.MyHmmVisualizer;
 
 import org.brainfarm.java.feat.EvolutionContext;
 import org.brainfarm.java.feat.EvolutionController;
@@ -20,6 +19,7 @@ import org.brainfarm.java.feat.api.IOrganism;
 import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.util.RandomUtils;
 import org.gatech.feat.experiments.star.StarOrganismEvaluator;
+import org.gatech.feat.experiments.star.visualization.MyHmmVisualizer;
 import org.junit.Test;
 
 /**
@@ -41,7 +41,7 @@ public class TestStar {
 	 */
 	@Test
 	public void validateDeterministicMatchExperiment(){
-		RandomUtils.seedRandom(290761);
+		RandomUtils.seedRandom(29761);
 
 		IEvolutionContext context = new EvolutionContext();
 
@@ -67,7 +67,7 @@ public class TestStar {
 		for(double d : maxFitnesses)
 			System.out.print(d + ", ");
 		assertEquals(1.0, maxFitnesses.get(0),.000001);
-		assertEquals(12.0, maxFitnesses.get(7),.000001);
+		assertEquals(9.0, maxFitnesses.get(7),.000001);
 		assertEquals(14.0, maxFitnesses.get(17),.000001);
 		assertEquals(14.0, maxFitnesses.get(21),.000001);
 	}

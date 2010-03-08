@@ -1,4 +1,4 @@
-package omit.org.gatech.feat.jung;
+package org.gatech.feat.experiments.star.visualization;
 
 import java.awt.Color;
 import java.awt.Shape;
