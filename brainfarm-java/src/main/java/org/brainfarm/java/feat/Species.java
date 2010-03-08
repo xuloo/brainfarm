@@ -59,11 +59,6 @@ public class Species implements ISpecies {
 	private boolean novel;
 
 	/**
-	 * has tested ?
-	 */
-	private boolean checked;
-
-	/**
 	 * how many time from last updt? If this is too long ago, the Species will
 	 * goes extinct.
 	 */
@@ -75,30 +70,16 @@ public class Species implements ISpecies {
 	public List<IOrganism> organisms = new ArrayList<IOrganism>();
 
 	/**
-	 * costructor with inly ID of specie
+	 * 
+	 * costructor with identification and flag for signaling if its a new specie
+	 * 
 	 */
 	public Species(int i) {
 		id = i;
 		age = 1;
 		averageFitness = 0.0;
 		expectedOffspring = 0;
-		novel = false;
-		ageOfLastImprovement = 0;
-		max_fitness = 0;
-		max_fitness_ever = 0;
-	}
-
-	/**
-	 * 
-	 * costructor with identification and flag for signaling if its a new specie
-	 * 
-	 */
-	public Species(int i, boolean n) {
-		id = i;
-		age = 1;
-		averageFitness = 0.0;
-		expectedOffspring = 0;
-		novel = n;
+		novel = true;
 		ageOfLastImprovement = 0;
 		max_fitness = 0;
 		max_fitness_ever = 0;
@@ -116,7 +97,7 @@ public class Species implements ISpecies {
 	 * Can change the fitness of the organisms in the Species to be higher for
 	 * very new species (to protect them); Divides the fitness by the size of
 	 * the Species, so that fitness is "shared" by the species At end mark the
-	 * organisms can be eliminated from this specie
+	 * organisms can be eliminated from this species.
 	 */
 	public void adjustFitness() {
 		
@@ -125,7 +106,6 @@ public class Species implements ISpecies {
 			age_debt = 1;
 
 		int size1 = organisms.size();
-
 		for (int j = 0; j < size1; j++) {
 			IOrganism _organism = organisms.get(j);
 
@@ -134,10 +114,9 @@ public class Species implements ISpecies {
 
 			// Make fitness decrease after a stagnation point dropoff_age
 			// Added an if to keep species pristine until the dropoff point
-			if (age_debt >= 1) {
+			if (age_debt >= 1)
 				_organism.setFitness(_organism.getFitness() * 0.01);
-				logger.debug("Dropped fitness to " + _organism.getFitness());
-			}
+			
 			// Give a fitness boost up to some young age (niching)
 			// The age_significance parameter is a system parameter
 			// if it is 1, then young species get no fitness boost
@@ -341,14 +320,6 @@ public class Species implements ISpecies {
 
 	public void setNovel(boolean novel) {
 		this.novel = novel;
-	}
-
-	public boolean getChecked() {
-		return checked;
-	}
-
-	public void setChecked(boolean checked) {
-		this.checked = checked;
 	}
 
 	public List<IOrganism> getOrganisms() {
