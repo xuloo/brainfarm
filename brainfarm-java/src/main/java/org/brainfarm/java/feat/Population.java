@@ -22,9 +22,9 @@ import org.brainfarm.java.feat.comparators.CompareSpeciesByOriginalFitness;
  * @author Trevor Burton [trevor@flashmonkey.org]
  */
 public class Population implements IPopulation, IEvolutionConstants {
-	
+
 	protected IEvolutionParameters evolutionParameters;
-	
+
 	/** The organisms in the Population */
 	private List<IOrganism> organisms;
 
@@ -45,7 +45,7 @@ public class Population implements IPopulation, IEvolutionConstants {
 
 	/** The last generation played */
 	private int final_gen;
-	
+
 	// Fitness Statistics
 	/** the mean of fitness in current epoch */
 	private double mean_fitness;
@@ -64,12 +64,12 @@ public class Population implements IPopulation, IEvolutionConstants {
 
 	/** If too high, leads to delta coding process. */
 	private int highest_last_changed;
-	
+
 	/** the (usually minimal) genome from which the population is initialized */
 	private IGenome genome;
-	
+
 	private IEvolutionStrategy evolutionStrategy;
-	
+
 	private int size;
 
 	public Population(IEvolutionStrategy evolutionStrategy, IGenome g, int size) {
@@ -80,9 +80,9 @@ public class Population implements IPopulation, IEvolutionConstants {
 		this.genome = g;
 		this.size = size;
 	}
-	
+
 	public Population() {}
-	
+
 	public void init() {
 		evolutionStrategy.getPopulationInitializationStrategy().initialize(this, genome, size);
 	}
@@ -152,7 +152,7 @@ public class Population implements IPopulation, IEvolutionConstants {
 		}
 
 		List<ISpecies> sorted_species = new ArrayList<ISpecies>(species.size());
-		
+
 		// copy the Species pointers into a new Species list for sorting
 		for (ISpecies specie : species)
 			sorted_species.add(specie);
@@ -175,7 +175,7 @@ public class Population implements IPopulation, IEvolutionConstants {
 
 		// ---------- phase of elimination of organism with flag eliminate ------------
 		List<IOrganism> vdel = new ArrayList<IOrganism>(organisms.size());
-		
+
 		for (IOrganism organism : organisms)
 			if (organism.isEliminated()) {
 				// Remove the organism from its Species
@@ -183,15 +183,14 @@ public class Population implements IPopulation, IEvolutionConstants {
 				// store the organism can be eliminated;
 				vdel.add(organism);
 			}
-		
+
 		// eliminate organism from master list
 		for (IOrganism organism : vdel)
 			organisms.remove(organism);
 		vdel.clear();
-		
+
 		// ---------- phase of reproduction -----------
-		for (ISpecies specie : sorted_species)
-			evolutionStrategy.getReproductionStrategy().reproduce(specie,generation, this, sorted_species);
+		evolutionStrategy.getReproductionStrategy().reproduce(generation, this, sorted_species);
 
 		// Destroy and remove the old generation from the organisms and species
 		// (because we have pointer to organisms , the new organisms created
@@ -322,7 +321,7 @@ public class Population implements IPopulation, IEvolutionConstants {
 			organism.getGenome().verify();
 		}
 	}
-	
+
 	public List<IOrganism> getOrganisms() {
 		return organisms;
 	}
@@ -370,7 +369,7 @@ public class Population implements IPopulation, IEvolutionConstants {
 	public void setLastSpecies(int lastSpecies) {
 		this.lastSpecies = lastSpecies;
 	}
-	
+
 	public void incrementLastSpecies() {
 		lastSpecies++;
 	}
@@ -430,7 +429,7 @@ public class Population implements IPopulation, IEvolutionConstants {
 	public void setHighest_last_changed(int highest_last_changed) {
 		this.highest_last_changed = highest_last_changed;
 	}
-	
+
 	@Override
 	public void setEvolutionParameters(IEvolutionParameters evolutionParameters) {
 		this.evolutionParameters = evolutionParameters;

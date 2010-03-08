@@ -8,6 +8,6 @@ import org.brainfarm.java.feat.api.params.IEvolutionConstants;
 
 public interface IReproductionStrategy extends IEvolutionConstants {
 
-	public boolean reproduce(ISpecies species, int generation, IPopulation pop, List<ISpecies> sorted_species);
+	public void reproduce(int generation, IPopulation pop, List<ISpecies> sorted_species);
 
 }
