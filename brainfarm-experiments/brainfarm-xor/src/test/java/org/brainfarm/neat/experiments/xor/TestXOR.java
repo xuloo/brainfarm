@@ -5,11 +5,10 @@ import java.util.List;
 import org.junit.Assert;
 import org.brainfarm.java.feat.EvolutionContext;
 import org.brainfarm.java.feat.EvolutionController;
-import org.brainfarm.java.feat.api.IEvolution;
 import org.brainfarm.java.feat.api.IEvolutionContext;
 import org.brainfarm.java.feat.api.IEvolutionController;
-import org.brainfarm.java.feat.api.IEvolutionListener;
 import org.brainfarm.java.util.RandomUtils;
+import org.brainfarm.java.util.writers.EvolutionCsvRecorder;
 import org.junit.Test;
 
 /**
@@ -38,15 +37,9 @@ public class TestXOR {
 		controller.loadExperiment("src/main/resources");
 
 		//run experiment
-		TestEvolutionListener listener = new TestEvolutionListener();
+		EvolutionCsvRecorder listener = new EvolutionCsvRecorder("most_recent_evolution.csv");
 		context.getEvolution().addListener(listener);
 		controller.startEvolution();
-
-		//verify that appropriate events were received
-		Assert.assertEquals(1,listener.evolutionStarted);
-		Assert.assertEquals(1,listener.evolutionCompleted);
-		Assert.assertEquals(40,listener.epochsStarted);
-		Assert.assertEquals(40,listener.epochsCompleted);
 		
 		//sample and validate results of evolution
 		List<Double> maxFitnesses = context.getEvolution().getMaxFitnessEachEpoch();
@@ -61,46 +54,6 @@ public class TestXOR {
 	public class TestXorController extends EvolutionController{
 		public TestXorController(IEvolutionContext context) {
 			super(context);
-		}
-	}
-
-	public class TestEvolutionListener implements IEvolutionListener{
-
-		int epochsStarted = 0;
-		int epochsCompleted = 0;
-		int evolutionStarted = 0;
-		int evolutionCompleted = 0;
-		
-		@Override
-		public void onEpochComplete(IEvolution evolution) {
-			epochsCompleted++;
-		}
-
-		@Override
-		public void onEpochStart(IEvolution evolution) {
-			epochsStarted++;
-		}
-
-		@Override
-		public void onEvolutionComplete(IEvolution evolution) {
-			evolutionCompleted++;
-		}
-
-		@Override
-		public void onEvolutionStart(IEvolution evolution) {
-			evolutionStarted++;
-		}
-
-		@Override
-		public void onRunComplete(IEvolution arg0) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void onRunStart(IEvolution arg0) {
-			// TODO Auto-generated method stub
-			
 		}
 	}
 

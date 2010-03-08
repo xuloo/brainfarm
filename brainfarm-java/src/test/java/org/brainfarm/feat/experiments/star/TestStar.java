@@ -44,7 +44,7 @@ public class TestStar {
 		
 		
 		
-		RandomUtils.seedRandom(290761);
+		RandomUtils.seedRandom(29761);
 
 		IEvolutionContext context = new EvolutionContext();
 
@@ -73,7 +73,7 @@ public class TestStar {
 		for(double d : maxFitnesses)
 			System.out.print(d + ", ");
 		assertEquals(1.0, maxFitnesses.get(0),.000001);
-		assertEquals(12.0, maxFitnesses.get(7),.000001);
+		assertEquals(9.0, maxFitnesses.get(7),.000001);
 		assertEquals(14.0, maxFitnesses.get(17),.000001);
 		assertEquals(14.0, maxFitnesses.get(21),.000001);
 	}

@@ -9,9 +9,8 @@ public class Fitness implements IEvolutionFitness {
 		double errorsum = 0.0;
 		double fitness;
 		
-		for (int j = 0; j < sample; j++) {
+		for (int j = 0; j < sample; j++)
 			errorsum += Math.abs(target[j][0] - output[j][0]);
-		}
 		
 		fitness = Math.pow(4.0 - errorsum, 2);
 
