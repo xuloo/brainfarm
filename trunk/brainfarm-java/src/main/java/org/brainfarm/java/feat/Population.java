@@ -234,14 +234,12 @@ public class Population implements IPopulation, IEvolutionConstants {
 	}
 
 	private void performDeltaCoding(List<ISpecies> sorted_species) {
-		int half_pop;
-		int tmpi;
-		// ------------------ block delta coding
-		// ----------------------------
+
+		// ------------------ block delta coding ----------------------------
 		System.out.print("\n+  <PERFORMING DELTA CODING>");
 		highest_last_changed = 0;
-		half_pop = organisms.size() / 2;
-		tmpi = organisms.size() - half_pop;
+		int half_pop = organisms.size() / 2;
+		int tmpi = organisms.size() - half_pop;
 		System.out.print("\n  Pop size is " + organisms.size());
 		System.out.print(", half_pop=" + half_pop + ",   pop_size - halfpop=" + tmpi);
 

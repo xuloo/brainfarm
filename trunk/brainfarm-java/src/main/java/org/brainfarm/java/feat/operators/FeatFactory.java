@@ -10,6 +10,7 @@ import org.brainfarm.java.feat.api.IInnovation;
 import org.brainfarm.java.feat.api.INetwork;
 import org.brainfarm.java.feat.api.INode;
 import org.brainfarm.java.feat.api.IOrganism;
+import org.brainfarm.java.feat.api.IPopulation;
 import org.brainfarm.java.feat.api.ISpecies;
 
 /**
@@ -85,23 +86,14 @@ public class FeatFactory {
 		}
 		return null;	
 	}
-	
-	public static ISpecies newSpecies(int id) {
+
+	public static ISpecies newSpecies(IPopulation pop) {
 		try{
 			Class<?> oClass = evolutionStrategy.getSpeciesClass();
 			Constructor<?> c = oClass.getConstructor(int.class);
-			return (ISpecies)c.newInstance(id);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return null;	
-	}
-	
-	public static ISpecies newSpeciesNovel(int id, boolean novel) {
-		try{
-			Class<?> oClass = evolutionStrategy.getSpeciesClass();
-			Constructor<?> c = oClass.getConstructor(int.class, boolean.class);
-			return (ISpecies)c.newInstance(id, novel);
+			ISpecies species = (ISpecies)c.newInstance(pop.getLastSpecies());
+			pop.setLastSpecies(pop.getLastSpecies()+1);
+			return species;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
