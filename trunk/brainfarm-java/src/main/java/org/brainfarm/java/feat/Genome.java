@@ -22,7 +22,7 @@ import org.brainfarm.java.feat.operators.FeatFactory;
  */
 public class Genome implements IGenome {
 
-	protected static Logger logger = Logger.getLogger(Genome.class);
+	private static Logger logger = Logger.getLogger(Genome.class);
 	
 	public IEvolutionParameters evolutionParameters;
 	
@@ -95,69 +95,44 @@ public class Genome implements IGenome {
 	 * disjoint_coeff*pdg+excess_coeff*peg+mutdiff_coeff*mdmg. The 3
 	 * coefficients are global system parameters
 	 */
-	public double compatibility(IGenome g) {
-
-		// Innovation numbers
-		double p1innov;
-		double p2innov;
-
-		// Intermediate value
-		double mut_diff;
+	public double compatibility(IGenome other) {
 
 		// Set up the counters
-		double num_disjoint = 0.0;
-		double num_excess = 0.0;
+		int num_disjoint = 0;
+		int num_excess = 0;
 		double mut_diff_total = 0.0;
-		double num_matching = 0.0; // Used to normalize mutation_num differences
-
-		IGene _gene1 = null;
-		IGene _gene2 = null;
-
-		double max_genome_size; // Size of larger Genome
-
-		// Get the length of the longest Genome for percentage computations
-		int size1 = genes.size();
-		int size2 = g.getGenes().size();
-		max_genome_size = Math.max(size1, size2);
-		// Now move through the Genes of each potential parent
-		// until both Genomes end
-		int j = 0;
+		int num_matching = 0; // Used to normalize mutation_num differences
 		int j1 = 0;
 		int j2 = 0;
-
-		for (j = 0; j < max_genome_size; j++) {
-
-			if (j1 >= size1) {
-				num_excess += 1.0;
+		
+		for (int j = 0; j < Math.max(genes.size(), other.getGenes().size()); j++) {
+			if (j1 >= genes.size()) {
+				num_excess++;
 				j2++;
-			} else if (j2 >= size2) {
-				num_excess += 1.0;
+			} else if (j2 >= other.getGenes().size()) {
+				num_excess++;
 				j1++;
 			} else {
-				_gene1 = genes.get(j1);
-				_gene2 = g.getGenes().get(j2);
+				IGene gene1 = genes.get(j1);
+				IGene gene2 = other.getGenes().get(j2);
 
 				// Extract current innovation numbers
-				p1innov = _gene1.getInnovationNumber();
-				p2innov = _gene2.getInnovationNumber();
+				double p1innov = gene1.getInnovationNumber();
+				double p2innov = gene2.getInnovationNumber();
 
 				if (p1innov == p2innov) {
-					num_matching += 1.0;
-					mut_diff = Math.abs(_gene1.getMutationNumber()
-							- _gene2.getMutationNumber());
-					mut_diff_total += mut_diff;
+					num_matching++;
+					mut_diff_total += Math.abs(gene1.getMutationNumber() - gene2.getMutationNumber());
 					j1++;
 					j2++;
 				} else if (p1innov < p2innov) {
 					j1++;
-					num_disjoint += 1.0;
+					num_disjoint++;
 				} else if (p2innov < p1innov) {
 					j2++;
-					num_disjoint += 1.0;
+					num_disjoint++;
 				}
-
 			}
-
 		}
 
 		// Return the compatibility number using compatibility formula
@@ -181,28 +156,25 @@ public class Genome implements IGenome {
 	}
 
 	@Override
-	public IGenome duplicate(int new_id) {
-		ArrayList<INode> nodes_dup = new ArrayList<INode>(getNodes().size());
-		ArrayList<IGene> genes_dup = new ArrayList<IGene>(getGenes().size());
+	public IGenome duplicate(int id) {
+		ArrayList<INode> duplicateNodes = new ArrayList<INode>(getNodes().size());
+		ArrayList<IGene> duplicateGenes = new ArrayList<IGene>(getGenes().size());
 
 		// Duplicate Nodes.
-		for (INode _node : getNodes()) {
-			INode newnode = _node.generateDuplicate();
-			nodes_dup.add(newnode);
+		for (INode node : getNodes()) {
+			duplicateNodes.add(node.generateDuplicate());
 		}
 
 		// Duplicate Genes.
 		for (IGene gene : getGenes()) {
-			// point to news nodes created at precedent step
-			INode inode = gene.getLink().getInputNode().getCachedDuplicate();
-			INode onode = gene.getLink().getOutputNode().getCachedDuplicate();
-
 			// creation of new gene with a pointer to new node
-			genes_dup.add(new Gene(gene, inode, onode));
+			duplicateGenes.add(new Gene(gene, 
+										gene.getLink().getInputNode().getCachedDuplicate(), 
+										gene.getLink().getOutputNode().getCachedDuplicate()));
 		}
 
 		// okay all nodes created, the new genome can be generate
-		return FeatFactory.newOffspringGenome(new_id, nodes_dup, genes_dup);
+		return FeatFactory.newOffspringGenome(id, duplicateNodes, duplicateGenes);
 	}
 
 	@Override
@@ -214,51 +186,41 @@ public class Genome implements IGenome {
 	 */
 	public INetwork generatePhenotype(int id) {
 
-		INetwork newnet = null;
-		INode newnode = null;
-		List<INode> all_list = new ArrayList<INode>(getNodes().size());
-
-		ILink curlink = null;
-		ILink newlink = null;
-		INode inode = null;
-		INode onode = null;
+		List<INode> nodes = new ArrayList<INode>(getNodes().size());
 		
-		for (INode _node : getNodes()) {
+		for (INode n : getNodes()) {
 			
 			// create a copy of gene node for phenotype.
-			newnode = FeatFactory.newOffspringNodeFrom(_node);
+			INode node = FeatFactory.newOffspringNodeFrom(n);
 
 			// add to genotype the pointer to phenotype node
-			all_list.add(newnode);
-			_node.setAnalogue(newnode);
+			nodes.add(node);
+			n.setAnalogue(node);
 		}
 
-		for (IGene _gene : getGenes()) {
+		for (IGene gene : getGenes()) {
 			
 			// Only create the link if the gene is enabled
-			if (_gene.isEnabled()) {
+			if (gene.isEnabled()) {
 
-				curlink = _gene.getLink();
-
-				inode = curlink.getInputNode().getAnalogue();
-				onode = curlink.getOutputNode().getAnalogue();
+				ILink link = gene.getLink();
+				
 				// NOTE: This line could be run through a recurrency check if desired
 				// (no need to in the current implementation of NEAT)
-				newlink = new Link(curlink.getWeight(), inode, onode, curlink.isRecurrent());
+				new Link(link.getWeight(), 
+						 link.getInputNode().getAnalogue(), 
+						 link.getOutputNode().getAnalogue(), 
+						 link.isRecurrent());
 			}
-
 		}
 		
 		// Create the new network
-		newnet = FeatFactory.newNetwork(all_list, id);
-		// Attach genotype and phenotype together:
-		// newnet point to owner genotype (this)
-		newnet.setGenotype(this);
+		INetwork network = FeatFactory.newNetwork(nodes, id);
+	
+		network.setGenotype(this);
+		setPhenotype(network);
 		
-		// genotype point to owner phenotype (newnet)
-		setPhenotype(newnet);
-		
-		return newnet;
+		return network;
 	}
 	
 	public boolean verify() {
