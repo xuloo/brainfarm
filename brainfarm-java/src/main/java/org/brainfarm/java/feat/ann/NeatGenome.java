@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.brainfarm.java.feat.Gene;
 import org.brainfarm.java.feat.Genome;
 import org.brainfarm.java.feat.Link;
@@ -26,6 +27,8 @@ import org.brainfarm.java.util.RandomUtils;
  */
 public class NeatGenome extends Genome {
 
+	private static Logger logger = Logger.getLogger(NeatGenome.class);
+	
 	public NeatGenome(){}
 	
 	public NeatGenome(int newId, List<INode> nodes,

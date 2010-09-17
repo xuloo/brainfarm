@@ -69,17 +69,21 @@ public class Innovation implements IInnovation {
 	 * Insert the method's description here. Creation date: (24/01/2002 8.09.28)
 	 */
 	public Innovation() {
+		innovationNumber2 = 0;
+		newNodeId = 0;
+		newWeight = 0;
+		recurrent = false;
 	}
 
 	/**
 	 * Insert the method's description here. Creation date: (23/01/2002 9.04.02)
 	 */
-	public Innovation(int nin, int nout, double num1, double w) {
+	public Innovation(int inputNodeId, int outputNodeId, double innovationNumber1, double newWeight) {
 		innovationType = InnovationType.NEW_LINK;
-		inputNodeId = nin;
-		outputNodeId = nout;
-		innovationNumber1 = num1;
-		newWeight = w;
+		this.inputNodeId = inputNodeId;
+		this.outputNodeId = outputNodeId;
+		this.innovationNumber1 = innovationNumber1;
+		this.newWeight = newWeight;
 
 		// Unused parameters set to zero
 		innovationNumber2 = 0;
@@ -90,14 +94,14 @@ public class Innovation implements IInnovation {
 	/**
 	 * Insert the method's description here. Creation date: (24/01/2002 8.09.28)
 	 */
-	public Innovation(int nin, int nout, double num1, double num2, int newid, double oldinnov) {
+	public Innovation(int inputNodeId, int outputNodeId, double innovationNumber1, double innovationNumber2, int newNodeId, double oldInnovationNumber) {
 		innovationType = InnovationType.NEW_NODE;
-		inputNodeId = nin;
-		outputNodeId = nout;
-		innovationNumber1 = num1;
-		innovationNumber2 = num2;
-		newNodeId = newid;
-		oldInnovationNumber = oldinnov;
+		this.inputNodeId = inputNodeId;
+		this.outputNodeId = outputNodeId;
+		this.innovationNumber1 = innovationNumber1;
+		this.innovationNumber2 = innovationNumber2;
+		this.newNodeId = newNodeId;
+		this.oldInnovationNumber = oldInnovationNumber;
 
 		// Unused parameters set to zero
 		newWeight = 0;
